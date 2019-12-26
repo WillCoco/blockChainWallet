@@ -1,0 +1,25 @@
+const colors = {
+  theme: '#236dff',
+  success: '#4EC059',
+  warn: '#ff0000',
+  pageBackground: '#dddddd',
+  disable: '#cccccc',
+  forbid: '#cccccc',
+  divider: '#cccccc',
+  textTitle: 'rgba(0,0,0,0.85)',
+  textPrimary: 'rgba(0,0,0,0.65)',
+  textSecondary: 'rgba(0,0,0,0.45)',
+  textDark1: 'rgba(0,0,0,0.25)',
+  textDark2: 'rgba(0,0,0,0.15)',
+  textDark3: 'rgba(0,0,0,0.09)',
+  textWhite: 'rgb(0,0,0)',
+  textGrey1: 'rgba(255,255,255,0.85)',
+  textGrey2: 'rgba(255,255,255,0.65)',
+  textGrey3: 'rgba(255,255,255,0.45)',
+  textGrey4: 'rgba(255,255,255,0.25)',
+  textGrey5: 'rgba(255,255,255,0.15)',
+  textGrey6: 'rgba(255,255,255,0.09)',
+  textError: '#ff190c',
+};
+
+module.exports = colors;
