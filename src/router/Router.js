@@ -18,6 +18,7 @@ import {
   WalletBackUpStep2,
   WalletBackUpStep3,
 } from '../pages/WalletBackUp';
+import ImportWallet from '../pages/ImportWallet';
 import Scan from '../pages/Scan';
 import AssetDetail from '../pages/AssetDetail';
 import Transfer from '../pages/Transfer';
@@ -57,6 +58,9 @@ const AppNavigator = createStackNavigator(
     },
     WalletBackUpStep3: {
       screen: WalletBackUpStep3,
+    },
+    ImportWallet: {
+      screen: ImportWallet,
     },
     Scan: {
       screen: Scan,
