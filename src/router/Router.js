@@ -24,6 +24,12 @@ import Transfer from '../pages/Transfer';
 import SelectToken from '../pages/SelectToken';
 import SelectBlock from '../pages/SelectToken';
 import Collect from '../pages/Collect';
+import TransactionHistory from '../pages/TransactionHistory';
+import WalletManagement from '../pages/WalletManagement';
+import Languages from '../pages/Languages';
+import HelpCenter from '../pages/HelpCenter';
+import About from '../pages/About';
+import WalletDetails from '../pages/WalletManagement/WalletDetails';
 
 const AppNavigator = createStackNavigator(
   {
@@ -69,6 +75,54 @@ const AppNavigator = createStackNavigator(
     },
     SelectBlock: {
       screen: SelectBlock,
+    },
+    WalletManagement: {
+      screen: WalletManagement,
+      navigationOptions: ({navigation}) => ({
+        headerShown: true,
+        title: '管理钱包',
+        headerStyle: {
+          backgroundColor: '#2890fe',
+        },
+        headerTitleStyle: {
+          color: '#ffffff',
+          textAlign: 'center',
+        },
+        headerBackTitleStyle: {
+          color: '#ffffff',
+        }
+      }),
+    },
+    TransactionHistory: {
+      screen: TransactionHistory,
+      navigationOptions: ({navigation}) => ({
+        headerShown: true,
+        title: '交易记录',
+      }),
+    },
+    Languages: {
+      screen: Languages,
+      navigationOptions: ({navigation}) => ({
+        headerShown: true,
+        title: '语言设置',
+      }),
+    },
+    HelpCenter: {
+      screen: HelpCenter,
+      avigationOptions: ({navigation}) => ({
+        headerShown: true,
+        title: '帮助中心',
+      }),
+    },
+    About: {
+      screen: About,
+      avigationOptions: ({navigation}) => ({
+        headerShown: true,
+        title: '关于我们',
+      }),
+    },
+    WalletDetails: {
+      screen: WalletDetails,
     },
     Main: {
       screen: TabsRouter,

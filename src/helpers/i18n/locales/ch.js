@@ -4,6 +4,7 @@ export default {
   collect: '接收',
   walletManagement: '钱包管理',
   createWallet: '创建钱包',
+  importWallet: '导入钱包',
   walletHistory: '交易历史',
   settingAbout: '关于',
   asset: '资产',
@@ -30,4 +31,9 @@ export default {
   backupWallet: '备份钱包',
   complete: '完成',
   transactionTableTitle: '交易',
+  transactionHistory: '交易记录',
+  languages: '语言设置',
+  helpCenter: '帮助中心',
+  about: '关于我们',
+  auto: '自动',
 };

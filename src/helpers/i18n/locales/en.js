@@ -16,4 +16,9 @@ export default {
   transferNotePlaceholder: 'Note',
   transferAmountPlaceholder: 'Amount',
   transferAddressPlaceholder: 'Address',
+  transactionHistory: 'Transaction History',
+  languages: 'Languages',
+  helpCenter: 'Help Center',
+  about: 'About',
+  auto: 'Auto',
 };
