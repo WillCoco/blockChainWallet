@@ -12,6 +12,7 @@ import {WebView} from 'react-native-webview';
 import {wallet} from '../../redux/actions';
 import {WVEvent, eventTypes} from '../../helpers/eventEmmiter';
 import {safeStringify, safeParse} from '../../utils/safetyFn';
+import {Toast} from '../../components/Toast';
 
 let callId = 0;
 // 回调池
@@ -32,7 +33,7 @@ const WalletWebView = props => {
   React.useEffect(() => {
     function callback(data) {
       // 保存回调
-      console.log('Post WebView:', {...data.payload, callId})
+      console.log('Post WebView:', {...data.payload, callId});
       handlers[++callId] = data.callback;
 
       // 转发事件
@@ -50,16 +51,20 @@ const WalletWebView = props => {
   const onWebViewMessage = e => {
     // 收到webView返回值后提交store数据更改
     console.log(e.nativeEvent.data, 'onWebViewMessage');
-    const data = safeParse(e.nativeEvent.data);
-    const callbackId = _get(data, ['callId']);
-    const result = _get(data, ['result']);
+    const data = safeParse(e.nativeEvent.data) || {};
+    const {callId: callbackId, result, error} = data;
 
     // console.log(handlers[callbackId], 'handlers[callbackId]');
     // console.log(result, 'result');
     // console.log(callbackId, 'callbackId');
 
     if (handlers[callbackId]) {
-      handlers[callbackId](result);
+      console.log(result, 'result');
+      if (result) {
+        handlers[callbackId](result);
+      } else {
+        Toast.show({data: '调用错误' + error});
+      }
       delete handlers[callbackId];
     }
     // console.log(handlers, 'handlers');

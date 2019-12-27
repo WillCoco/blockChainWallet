@@ -21,7 +21,7 @@ const SelectBlock = props => {
       tokensList={props.tokensList}
       onBlockSelected={onBlockSelected}
     />
-  )
+  );
 };
 
 function mapStateToProps(state) {

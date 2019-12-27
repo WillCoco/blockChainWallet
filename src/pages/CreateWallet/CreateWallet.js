@@ -4,20 +4,22 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import _get from 'lodash/get';
 import {Button, ListItem} from 'react-native-elements';
 import {PrimaryText} from 'react-native-normalization-text';
 import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import {metrics, vw} from '../../helpers/metric';
-import {useEventListener, eventTypes, WVEvent} from '../../helpers/eventEmmiter';
+import {eventTypes, WVEvent} from '../../helpers/eventEmmiter';
 import FormRow from '../../components/FormRow';
+import {Toast} from '../../components/Toast';
 import {wallet} from '../../redux/actions';
 
 const CreateWallet = props => {
   const {navigate} = useNavigation();
+  const dispatch = useDispatch();
+  const blocksList = useDispatch(state => [{name: 'UTC'}]);
 
   // 钱包名
   const [name, setName] = React.useState();
@@ -37,21 +39,28 @@ const CreateWallet = props => {
   const {selectedBlock, setSelectedBlock} = React.useState();
 
   const goSelectBlock = () => {
-    navigate('SelectBlock', {onSelectToken: token => setSelectedBlock(token)});
+    navigate('SelectBlock', {onSelectToken: node => setSelectedBlock(node)});
   };
 
   // 点击下一步
   const onNextClick = () => {
-    const pass = true;
-    if (pass) {
-      submit();
+    if (!name) {
+      Toast.show({data: '请填写有效钱包名称'});
+      return;
     }
-  };
 
-  // const wallet = useEventListener(
-  //   eventTypes.CREATE_WALLET,
-  //   props.addOrUpdateAWallet,
-  // );
+    if (
+      !password ||
+      !confirmPassword ||
+      confirmPassword !== password ||
+      password < 2
+    ) {
+      Toast.show({data: '请填写有效密码'});
+      return;
+    }
+
+    submit();
+  };
 
   // 提交
   const submit = () => {
@@ -64,11 +73,15 @@ const CreateWallet = props => {
           password,
           prompt,
         },
-        callback: props.addOrUpdateAWallet,
+        callback: v => {
+          if (v) {
+            alert(v)
+            dispatch(wallet.addOrUpdateAWallet(v));
+            navigate('WalletBackUpStep1');
+          }
+        },
       },
     ]);
-
-    // navigate('WalletBackUpStep1');
   };
 
   return (
@@ -135,24 +148,4 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps(state) {
-  return {
-    tokensList: [{name: 'asd'}, {name: 'ddd'}],
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      createWallet: wallet.createWallet,
-      webViewPost: wallet.webViewPost,
-      addOrUpdateAWallet: wallet.addOrUpdateAWallet,
-    },
-    dispatch,
-  );
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreateWallet);
+export default CreateWallet;

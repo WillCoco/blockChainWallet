@@ -1,5 +1,4 @@
 export default {
-  languages: '语言',
   transfer: '发送',
   collect: '接收',
   walletManagement: '钱包管理',

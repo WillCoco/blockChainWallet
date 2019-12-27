@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src = "./lib/bitcoin.js"></script>
-    <script src = "./lib/chain33wallet.js"></script>
-    <script src = "./lib/chain33Rpc.js"></script>
-    <script src = "./lib/bip39.js"></script>
+    <script src="./lib/bitcoin.js"></script>
+    <script src="./lib/chain33wallet.js"></script>
+    <script src="./lib/chain33Rpc.js"></script>
+    <script src="./lib/bip39.js"></script>
     <script src="./lib/crypto.js"></script>
     <script src="./walletBase.js"></script>
 </head>
@@ -14,6 +14,7 @@
     body {
         border: 1px solid #3e8eff
     }
+
     p {
         font-size: 60px
     }
@@ -22,20 +23,22 @@
   /**
    * 监听RN webview 发送到 html5 的消息
    */
-//  window.onload = function() {
-  document.addEventListener("message", function (msg) {
-    var data = safeParse(msg && msg.data) || {};
-    var payloadAction = data.action;
+  window.onload = function () {
+    document.addEventListener("message", function (msg) {
+      var data = safeParse(msg && msg.data) || {};
+      var payloadAction = data.action;
 
-    var action = pickerActions(payloadAction);
+      var action = pickerActions(payloadAction);
 
-    var response = action(data);
-
-    alert(data)
-
-    window.ReactNativeWebView && window.ReactNativeWebView.postMessage(safeStringify(response));
-  });
-  //  };
+      var response;
+      try {
+        response = action(data);
+        window.ReactNativeWebView.postMessage(safeStringify(response));
+      } catch (error) {
+        window.ReactNativeWebView.postMessage(safeStringify({error}));
+      }
+    });
+  };
 
   function pickerActions(action) {
     switch (action) {
@@ -43,7 +46,8 @@
         return window.walletBase.createWallet;
       case 'CREATE_WALLET1':
         return window.walletBase.createWallet;
-      default: alert('UNDEFINED ACTION:'+ action);
+      default:
+        alert('UNDEFINED ACTION:' + action);
     }
   }
 

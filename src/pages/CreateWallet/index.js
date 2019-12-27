@@ -8,27 +8,7 @@
  */
 import React from 'react';
 import CreateWalletPage from './CreateWallet';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import _get from 'lodash/get';
 
 const CreateWallet = () => <CreateWalletPage />;
 
-function mapStateToProps(state) {
-  return {
-    language: _get(state.appSetting, ['language']),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-    },
-    dispatch,
-  );
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreateWallet);
+export default CreateWallet;

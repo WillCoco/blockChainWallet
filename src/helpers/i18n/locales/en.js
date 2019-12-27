@@ -1,5 +1,4 @@
 export default {
-  languages: 'languages',
   transfer: 'transfer',
   collect: 'collect',
   walletManagement: 'wallet management',

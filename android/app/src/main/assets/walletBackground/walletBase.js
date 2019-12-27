@@ -27,6 +27,7 @@ var chain33Wallet = window.chain33Wallet;
  * @param: {string} params.[prompt] - 备注
  * @returns: {object} accountInfo - 新钱包
  * @return: {string} accountInfo.encryptedPrivateKey - 私钥
+ * @return: {string} accountInfo.encryptedMnemonic - 助记词sha256
  * @return: {string} accountInfo.passwordKey - 密码sha256
  * @return: {string} accountInfo.address - 钱包地址
  * @return: {string} accountInfo.name - 钱包名称
@@ -45,15 +46,25 @@ function createWallet(params) {
 
   const accountInfo = {};
   accountInfo.name = wallet.name;
+
   // 第一个账户的地址
   accountInfo.address = wallet.address;
-  // 助记词（备份验证用，不存储）
-  accountInfo.mnemonic = mnemonic;
+
+  // 助记词（临时内存备份验证）
+  accountInfo.tempMnemonic = mnemonic;
+
+  // 助记词（持久化加密备份验证）
+  accountInfo.encryptedMnemonic = cryptoJs.AES.encrypt(
+    walletObj.mnemonic,
+    params.password,
+  ).toString();
+
   // 加密后的私钥
   accountInfo.encryptedPrivateKey = cryptoJs.AES.encrypt(
     wallet.hexPrivateKey,
     params.password,
   ).toString();
+
   // 加密后的钱包管理密码
   accountInfo.passwordKey = cryptoJs.SHA256(params.password).toString();
   // console.log(accountInfo, '新创建账户');

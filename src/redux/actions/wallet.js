@@ -9,6 +9,7 @@
 import {
   UPDATE_WALLETS,
   UPDATE_CURRENT_WALLET,
+  UPDATE_TEMP_MNEMONIC,
 } from './actionTypes';
 import _get from 'lodash/get';
 import _findIndex from 'lodash/findIndex';
@@ -128,5 +129,15 @@ function findWalletByAddress(address) {
       walletIndex,
       wallet: walletsList[walletIndex],
     };
+  };
+}
+
+/**
+ * 根据地址从钱包列表中找钱包
+ * @param: {string} address - 寻找的钱包地址
+ */
+export function updateTempMnemonic(tempMnemonic) {
+  return (dispatch, getState) => {
+    return {type: UPDATE_TEMP_MNEMONIC, payload: {tempMnemonic}};
   };
 }
