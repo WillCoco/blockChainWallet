@@ -9,22 +9,42 @@ import {
 import {Toast} from '../../components/Toast/index';
 import {H1, H2, H3, H4, PrimaryText} from 'react-native-normalization-text';
 import {Overlay} from 'react-native-elements';
+import {useSelector, useDispatch} from 'react-redux';
+import _get from 'lodash/get';
 import {useNavigation} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
 import {vh, vw} from '../../helpers/metric';
+import {wallet} from '../../redux/actions';
 import i18n from '../../helpers/i18n';
+import HomeContext from './HomeContext';
 
 const WalletQuickManager = props => {
+  const dispatch = useDispatch();
+
+  // 当前钱包
+  const currentWallet = useSelector(
+    state => _get(state.wallets, ['currentWallet']) || [],
+  );
+
+  // 钱包列表
+  const walletsList = useSelector(
+    state => _get(state.wallets, ['walletsList']) || [],
+  );
+
+  // 打开overlay
   const openOverlay = () => {
     props.setOverlayVisible(true);
   };
 
+  // 关闭overlay
   const closeOverlay = () => {
     props.setOverlayVisible(false);
   };
 
-  const checkWallet = () => {
+  // 切换钱包
+  const checkWallet = address => {
     // checkWallet
+    dispatch(wallet.updateCurrentWallet(address));
     closeOverlay();
   };
 
@@ -44,21 +64,18 @@ const WalletQuickManager = props => {
   const {navigate} = useNavigation();
 
   return (
-    <View>
+    <>
       <View style={styles.headerWrapper}>
         <TouchableOpacity
           onPress={openOverlay}
           onLayout={event => setTop(event.nativeEvent.layout.height)}
           style={styles.checkedWallet}>
           <PrimaryText color="white">
-            {props.walletFormat(props.currentWallet) || props.defaultCheckedText}
+            {props.walletFormat(currentWallet) || props.defaultCheckedText}
           </PrimaryText>
         </TouchableOpacity>
         <TouchableOpacity>
-          <PrimaryText
-            color="white"
-            onPress={goScanPage}
-          >
+          <PrimaryText color="white" onPress={goScanPage}>
             scan
           </PrimaryText>
         </TouchableOpacity>
@@ -85,11 +102,11 @@ const WalletQuickManager = props => {
             <ScrollView contentContainerStyle={{backgroundColor: '#fff'}}>
               <TouchableWithoutFeedback>
                 <View>
-                  {props.walletsList.map((wallet, index) => {
+                  {walletsList.map((wallet, index) => {
                     return (
                       <TouchableWithoutFeedback
                         key={`wallet_${index}`}
-                        onPress={checkWallet}>
+                        onPress={() => checkWallet(_get(wallet, 'address'))}>
                         <View style={styles.walletRow}>
                           <PrimaryText>
                             {props.walletFormat(wallet)}
@@ -109,7 +126,7 @@ const WalletQuickManager = props => {
           </View>
         </TouchableWithoutFeedback>
       </Overlay>
-    </View>
+    </>
   );
 };
 
@@ -118,7 +135,6 @@ WalletQuickManager.defaultProps = {
   setOverlayVisible: () => undefined,
   defaultCheckedText: '未选择钱包',
   currentWallet: undefined,
-  walletsList: [],
   walletFormat: v => v && v.name,
 };
 
@@ -132,6 +148,7 @@ const styles = StyleSheet.create({
   checkedWallet: {
     // height: vh(5),
     paddingVertical: 10,
+    width: '24%',
   },
   walletRow: {
     height: vh(8),

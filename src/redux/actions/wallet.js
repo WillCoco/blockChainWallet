@@ -8,7 +8,7 @@
  */
 import {
   UPDATE_WALLETS,
-  UPDATE_WALLET_POST_MESSAGE,
+  UPDATE_CURRENT_WALLET,
 } from './actionTypes';
 import _get from 'lodash/get';
 import _findIndex from 'lodash/findIndex';
@@ -35,34 +35,15 @@ import {safeStringify} from '../../utils/safetyFn';
 // }
 
 /**
- * 创建钱包
- */
-// export function createWallet(walletInfo) {
-//   return (dispatch, getState) => {
-//     return new Promise((resolve, reject) => {
-//       // 发送事件
-//       const postWallet = _get(getState().wallets, ['walletPostMessage']);
-//       postWallet(JSON.stringify({...walletInfo, action: 'CREATE_WALLET'}));
-//
-//       // const wallet = createWalletHelper();
-//       // addOrUpdateAWallet(wallet);
-//     });
-//   };
-// }
-
-/**
  * 更新或增加单个钱包
  */
 export function addOrUpdateAWallet(wallet) {
   return (dispatch, getState) => {
     const walletsList = _get(getState(), ['wallets', 'walletsList']) || [];
 
-    let newWalletsList = [...walletsList];
+    const {walletIndex} = dispatch(findWalletByAddress(wallet.address));
 
-    const walletIndex = _findIndex(
-      newWalletsList,
-      o => o.address === wallet.address,
-    );
+    let newWalletsList = [...walletsList];
 
     if (walletIndex === -1) {
       // 列表中不存在该钱包 => 新增
@@ -76,6 +57,9 @@ export function addOrUpdateAWallet(wallet) {
 
     // 更新钱包列表
     dispatch(updateWalletsList(newWalletsList));
+
+    // 更新当前钱包
+    dispatch(updateCurrentWallet(wallet.address));
   };
 }
 
@@ -88,10 +72,7 @@ export function removeAWallet(wallet) {
 
     let newWalletsList = [...walletsList];
 
-    const walletIndex = _findIndex(
-      newWalletsList,
-      o => o.address === wallet.address,
-    );
+    const {walletIndex} = dispatch(findWalletByAddress(wallet.address));
 
     if (walletIndex === -1) {
       // 列表中不存在该钱包 => 终止
@@ -112,5 +93,40 @@ export function removeAWallet(wallet) {
 export function updateWalletsList(walletsList) {
   return (dispatch, getState) => {
     dispatch({type: UPDATE_WALLETS, payload: {walletsList}});
+
+    // todo: 请求新钱包数据
+  };
+}
+
+/**
+ * 切换当前钱包
+ * @param: {string|number} currentWallet - 当前钱包序号
+ */
+export function updateCurrentWallet(address) {
+  return (dispatch, getState) => {
+    const {wallet} = dispatch(findWalletByAddress(address));
+    dispatch({
+      type: UPDATE_CURRENT_WALLET,
+      payload: {currentWallet: wallet},
+    });
+  };
+}
+
+/**
+ * 根据地址从钱包列表中找钱包
+ * @param: {string} address - 寻找的钱包地址
+ */
+function findWalletByAddress(address) {
+  return (dispatch, getState) => {
+    const walletsList = _get(getState(), ['wallets', 'walletsList']) || [];
+
+    let newWalletsList = [...walletsList];
+
+    const walletIndex = _findIndex(newWalletsList, o => o.address === address);
+
+    return {
+      walletIndex,
+      wallet: walletsList[walletIndex],
+    };
   };
 }
