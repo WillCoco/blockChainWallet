@@ -20,4 +20,9 @@ export default {
   helpCenter: 'Help Center',
   about: 'About',
   auto: 'Auto',
+  deleteWallet: 'Delete Wallet',
+  walletName: 'Wallet Name',
+  changePassword: 'Change Password',
+  exportPrivateKey: 'Export Private Key',
+  enterYourPassword: 'Enter Your Password',
 };

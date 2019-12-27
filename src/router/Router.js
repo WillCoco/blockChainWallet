@@ -32,6 +32,20 @@ import HelpCenter from '../pages/HelpCenter';
 import About from '../pages/About';
 import WalletDetails from '../pages/WalletManagement/WalletDetails';
 
+import colors from '../helpers/colors';
+
+const setNavigation = ({navigation}, title) => ({
+    headerShown: true,
+    title,
+    headerTintColor: '#fff',
+    headerStyle: {
+      backgroundColor: colors.theme,
+    },
+    headerTitleStyle: {
+      flex: 1,
+    }
+  });
+
 const AppNavigator = createStackNavigator(
   {
     Login: {
@@ -82,51 +96,27 @@ const AppNavigator = createStackNavigator(
     },
     WalletManagement: {
       screen: WalletManagement,
-      navigationOptions: ({navigation}) => ({
-        headerShown: true,
-        title: '管理钱包',
-        headerStyle: {
-          backgroundColor: '#2890fe',
-        },
-        headerTitleStyle: {
-          color: '#ffffff',
-          textAlign: 'center',
-        },
-        headerBackTitleStyle: {
-          color: '#ffffff',
-        }
-      }),
+      navigationOptions: setNavigation({}, '钱包管理'),
     },
     TransactionHistory: {
       screen: TransactionHistory,
-      navigationOptions: ({navigation}) => ({
-        headerShown: true,
-        title: '交易记录',
-      }),
+      navigationOptions: setNavigation({}, '交易记录'),
     },
     Languages: {
       screen: Languages,
-      navigationOptions: ({navigation}) => ({
-        headerShown: true,
-        title: '语言设置',
-      }),
+      navigationOptions: setNavigation({}, '语言设置'),
     },
     HelpCenter: {
       screen: HelpCenter,
-      avigationOptions: ({navigation}) => ({
-        headerShown: true,
-        title: '帮助中心',
-      }),
+      navigationOptions: setNavigation({}, '帮助中心'),
     },
     About: {
-      screen: About,
-      avigationOptions: ({navigation}) => ({
-        headerShown: true,
-        title: '关于我们',
-      }),
+      screen: About,  
+      navigationOptions: setNavigation({}, '关于我们'),
     },
     WalletDetails: {
       screen: WalletDetails,
+      navigationOptions: setNavigation({}, '钱包详情'),
     },
     Main: {
       screen: TabsRouter,
@@ -145,6 +135,8 @@ const AppNavigator = createStackNavigator(
     // },
   },
 );
+
+
 
 const App = createAppContainer(AppNavigator);
 
