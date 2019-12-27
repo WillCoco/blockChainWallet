@@ -5,26 +5,35 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {useSelector} from 'react-redux';
+import {useNavigation} from 'react-navigation-hooks';
+import _get from 'lodash/get';
 import {Icon, Button} from 'react-native-elements';
 import i18n from '../../helpers/i18n';
 import {PrimaryText} from 'react-native-normalization-text';
 import WalletCard from './WalletCard';
 import colors from '../../helpers/colors';
-import {useNavigation} from 'react-navigation-hooks';
 import {metrics, vw, vh} from '../../helpers/metric';
-import _get from 'lodash/get';
 
-const WalletManagement =  (props) => {
-
+export default (props) => {
   const {navigate} = useNavigation();
+
+  // 当前钱包
+  const currentWallet = useSelector(
+    state => _get(state.wallets, ['currentWallet']) || [],
+  );
+
+  // 钱包列表
+  const walletsList = useSelector(
+    state => _get(state.wallets, ['walletsList']) || [],
+  );
+
   return (
     <View style={styles.wrapper}>
       {/* 钱包列表 */}
       <View style={styles.content}>
         {
-          props.walletsList.map(item => {
+          walletsList.map(item => {
             return (
               <WalletCard 
                 walletName={item.name}
@@ -72,26 +81,26 @@ const styles = StyleSheet.create({
     borderRadius: 0,
   },
   buttonText: {
-    color: "#fff",
+    color: '#fff',
     lineHeight: 50,
     textAlign: 'center',
   }
 });
 
-function mapStateToProps(state) {
-  return {
-    walletsList: _get(state, ['wallets', 'walletsList']) || [],
-  };
-}
+// function mapStateToProps(state) {
+//   return {
+//     walletsList: _get(state, ['wallets', 'walletsList']) || [],
+//   };
+// }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {},
-    dispatch,
-  );
-}
+// function mapDispatchToProps(dispatch) {
+//   return bindActionCreators(
+//     {},
+//     dispatch,
+//   );
+// }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(WalletManagement);
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps,
+// )(WalletManagement);
