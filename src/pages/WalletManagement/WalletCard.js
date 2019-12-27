@@ -5,8 +5,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import {Icon, ListItem} from 'react-native-elements';
-import i18n from '../../helpers/i18n';
-import {PrimaryText} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
 
 export default (props) => {

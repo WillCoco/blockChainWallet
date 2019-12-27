@@ -36,4 +36,9 @@ export default {
   helpCenter: '帮助中心',
   about: '关于我们',
   auto: '自动',
+  deleteWallet: '删除钱包',
+  walletName: '钱包名称',
+  changePassword: '修改密码',
+  exportPrivateKey: '导出私钥',
+  enterYourPassword: '请输入密码',
 };

@@ -7,7 +7,7 @@ import {
 export default () => {
   return (
     <>
-      <Text>Me</Text>
+      <Text>哎呀，页面跑丢了~</Text>
     </>
   );
 };

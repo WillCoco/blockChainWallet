@@ -3,24 +3,33 @@ import {
   Text,
   View,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
-import {Icon} from 'react-native-elements';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {Icon, Button} from 'react-native-elements';
 import i18n from '../../helpers/i18n';
 import {PrimaryText} from 'react-native-normalization-text';
 import WalletCard from './WalletCard';
 import colors from '../../helpers/colors';
+import {useNavigation} from 'react-navigation-hooks';
+import {metrics, vw, vh} from '../../helpers/metric';
+import _get from 'lodash/get';
 
-export default () => {
+const WalletManagement =  (props) => {
+
+  const {navigate} = useNavigation();
   return (
     <View style={styles.wrapper}>
       {/* 钱包列表 */}
       <View style={styles.content}>
         {
-          [1,2].map(item => {
+          props.walletsList.map(item => {
             return (
               <WalletCard 
-                walletName='123'
-                walletAddress='12312'
+                walletName={item.name}
+                walletAddress={item.address}
+                onPress={() => navigate('WalletDetails')}
               />
             )
           })
@@ -28,12 +37,15 @@ export default () => {
       </View>
       {/* 按钮 */}
       <View style={styles.btns}>
-        <View style={styles.button}>
-          <PrimaryText style={styles.buttonText}>{i18n.t('createWallet')}</PrimaryText>
-        </View>
-        <View style={StyleSheet.flatten([styles.button, {backgroundColor: '#2890fe'}])}>
-          <PrimaryText style={styles.buttonText}>{i18n.t('importWallet')}</PrimaryText>
-        </View>
+        <Button 
+          buttonStyle={StyleSheet.flatten([styles.button, {backgroundColor: colors.success}])}
+          title={i18n.t('createWallet')}
+          onPress={() => navigate('CreateWallet')}
+        />
+        <Button 
+          buttonStyle={styles.button}
+          title={i18n.t('importWallet')}
+        />
       </View>
     </View>
   );
@@ -55,8 +67,9 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    backgroundColor: '#4ed8b5',
-    width: '50%',
+    backgroundColor: colors.theme,
+    width: vw(50),
+    borderRadius: 0,
   },
   buttonText: {
     color: "#fff",
@@ -64,3 +77,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   }
 });
+
+function mapStateToProps(state) {
+  return {
+    walletsList: _get(state, ['wallets', 'walletsList']) || [],
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {},
+    dispatch,
+  );
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(WalletManagement);
