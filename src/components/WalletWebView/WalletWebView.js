@@ -68,7 +68,7 @@ const WalletWebView = props => {
   };
 
   return (
-    <View style={{height: 100}}>
+    <View style={{height: 0}}>
       <WebView
         originWhitelist={[
           'https://*',
