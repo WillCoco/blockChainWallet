@@ -12,12 +12,6 @@ import {metrics, vw} from '../helpers/metric/index';
 const FormRow = props => {
   const [value, setValue] = useControllableValue(props);
 
-  const onChange = v => {
-    if (props.isValid && props.isValid(v)) {
-      setValue(v);
-    }
-  };
-
   return (
     <View style={styles.wrapper}>
       <ListItem
@@ -28,8 +22,9 @@ const FormRow = props => {
         placeholder={props.placeholder}
         style={StyleSheet.flatten([styles.input, props.inputStyle])}
         value={value}
-        onChange={onChange}
+        onChangeText={setValue}
         editable={props.editable}
+        maxLength={props.maxLength}
       />
     </View>
   );

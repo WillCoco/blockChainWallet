@@ -16,13 +16,12 @@ import {wallet} from '../../redux/actions';
 const WalletBackUpStep1 = props => {
   const {navigate} = useNavigation();
 
-  const {} = useNavigationParam();
+  const name = useNavigationParam('name');
+  const password = useNavigationParam('password');
+  const confirmPassword = useNavigationParam('confirmPassword');
+  const prompt = useNavigationParam('prompt');
 
   const createWallet = () => {
-    // 创建
-
-    props.createWallet();
-
     // 下一步
     navigate('WalletBackUpStep2');
   };
@@ -47,7 +46,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
 function mapStateToProps(state) {
   return {
     // language: _get(state.appSetting, ['language']),
@@ -63,7 +61,8 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(WalletBackUpStep1);
+export default WalletBackUpStep1;
+// connect(
+//   mapStateToProps,
+//   mapDispatchToProps,
+// )(WalletBackUpStep1);

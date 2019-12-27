@@ -7,7 +7,11 @@
  * @lastModificationDate:
  */
 import appSetting from './appSetting';
+import wallets from './wallets';
+import tokens from './tokens';
 
 export default {
   appSetting,
+  wallets,
+  tokens,
 };

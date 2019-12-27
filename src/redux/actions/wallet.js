@@ -6,27 +6,56 @@
  * @lastModification:
  * @lastModificationDate:
  */
-import {UPDATE_WALLETS} from './actionTypes';
+import {
+  UPDATE_WALLETS,
+  UPDATE_WALLET_POST_MESSAGE,
+} from './actionTypes';
 import _get from 'lodash/get';
 import _findIndex from 'lodash/findIndex';
-import {createWallet as createWalletHelper} from '../../helpers/chain33';
+import {safeStringify} from '../../utils/safetyFn';
+
+// /**
+//  * 更新wallet webview实例post
+//  */
+// export function updateWebViewPost(walletPostMessage) {
+//   return (dispatch, getState) => {
+//     dispatch({type: UPDATE_WALLET_POST_MESSAGE, payload: {walletPostMessage}});
+//   };
+// }
+
+// /**
+//  * 调用webview实例post
+//  * @param: {object} msg - 消息体
+//  */
+// export function webViewPost(msg) {
+//   return (dispatch, getState) => {
+//     const postWallet = _get(getState().wallets, ['walletPostMessage']);
+//     postWallet(safeStringify(msg));
+//   };
+// }
 
 /**
  * 创建钱包
  */
-export function createWallet(wallet) {
-  return (dispatch, getState) => {
-    const wallet = createWalletHelper();
-    addOrUpdateAWallet(wallet);
-  };
-}
+// export function createWallet(walletInfo) {
+//   return (dispatch, getState) => {
+//     return new Promise((resolve, reject) => {
+//       // 发送事件
+//       const postWallet = _get(getState().wallets, ['walletPostMessage']);
+//       postWallet(JSON.stringify({...walletInfo, action: 'CREATE_WALLET'}));
+//
+//       // const wallet = createWalletHelper();
+//       // addOrUpdateAWallet(wallet);
+//     });
+//   };
+// }
 
 /**
  * 更新或增加单个钱包
  */
 export function addOrUpdateAWallet(wallet) {
   return (dispatch, getState) => {
-    const walletsList = _get(getState(), ['wallet', 'walletsList']) || [];
+    const walletsList = _get(getState(), ['wallets', 'walletsList']) || [];
 
     let newWalletsList = [...walletsList];
 
@@ -37,14 +66,16 @@ export function addOrUpdateAWallet(wallet) {
 
     if (walletIndex === -1) {
       // 列表中不存在该钱包 => 新增
-      newWalletsList = newWalletsList.push(wallet);
+      newWalletsList.push(wallet);
     } else {
       // 列表中存在该钱包 => 更新
-      newWalletsList[0] = wallet;
+      newWalletsList[walletIndex] = wallet;
     }
 
-    // 更新
-    updateWalletsList(newWalletsList);
+    console.log(newWalletsList, 'newWalletsList');
+
+    // 更新钱包列表
+    dispatch(updateWalletsList(newWalletsList));
   };
 }
 
@@ -53,7 +84,7 @@ export function addOrUpdateAWallet(wallet) {
  */
 export function removeAWallet(wallet) {
   return (dispatch, getState) => {
-    const walletsList = _get(getState(), ['wallet', 'walletsList']) || [];
+    const walletsList = _get(getState(), ['wallets', 'walletsList']) || [];
 
     let newWalletsList = [...walletsList];
 
@@ -71,7 +102,7 @@ export function removeAWallet(wallet) {
     newWalletsList.splice(walletIndex);
 
     // 更新
-    updateWalletsList(newWalletsList);
+    dispatch(updateWalletsList(newWalletsList));
   };
 }
 

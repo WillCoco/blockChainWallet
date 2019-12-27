@@ -38,6 +38,7 @@ target 'basicApp' do
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
+
   target 'basicAppTests' do
     inherit! :search_paths
     # Pods for testing
