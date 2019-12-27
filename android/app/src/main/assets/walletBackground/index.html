@@ -18,25 +18,24 @@
         font-size: 60px
     }
 </style>
-<body>
-<p>WebView Wallet Helper</p>
-</body>
 <script>
   /**
    * 监听RN webview 发送到 html5 的消息
    */
-  window.onload = function() {
-    document.addEventListener("message", function (msg) {
-      var data = safeParse(msg && msg.data) || {};
-      var payloadAction = data.action;
+//  window.onload = function() {
+  document.addEventListener("message", function (msg) {
+    var data = safeParse(msg && msg.data) || {};
+    var payloadAction = data.action;
 
-      var action = pickerActions(payloadAction);
+    var action = pickerActions(payloadAction);
 
-      var response = action(data);
+    var response = action(data);
 
-      window.ReactNativeWebView && window.ReactNativeWebView.postMessage(safeStringify(response));
-    });
-  };
+    alert(data)
+
+    window.ReactNativeWebView && window.ReactNativeWebView.postMessage(safeStringify(response));
+  });
+  //  };
 
   function pickerActions(action) {
     switch (action) {
@@ -70,4 +69,7 @@
     return json;
   }
 </script>
+<body>
+<p>WebView Wallet Helper</p>
+</body>
 </html>

@@ -32,6 +32,7 @@ const WalletWebView = props => {
   React.useEffect(() => {
     function callback(data) {
       // 保存回调
+      console.log('Post WebView:', {...data.payload, callId})
       handlers[++callId] = data.callback;
 
       // 转发事件

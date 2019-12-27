@@ -11,6 +11,8 @@ import React from 'react';
 const home = {
   overlayVisible: false,
   setOverlayVisible: () => void 0,
+  walletsList: [], // 钱包列表
+  currentWallet: undefined, // 当前钱包
 };
 
 export default React.createContext(home);

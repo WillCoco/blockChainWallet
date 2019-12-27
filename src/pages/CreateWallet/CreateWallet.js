@@ -67,17 +67,6 @@ const CreateWallet = props => {
         callback: props.addOrUpdateAWallet,
       },
     ]);
-    // props.webViewPost(
-    //   {
-    //     action: eventTypes.CREATE_WALLET,
-    //     payload: {
-    //       name,
-    //       password,
-    //       prompt,
-    //     },
-    //   },
-    //   props.addOrUpdateAWallet,
-    // );
 
     // navigate('WalletBackUpStep1');
   };
