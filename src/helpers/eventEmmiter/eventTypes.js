@@ -8,5 +8,7 @@
  */
 module.exports = {
   POST_WEB_VIEW: 'POST-POST_WEB_VIEW', // 向webView转发
-  CREATE_WALLET: 'CREATE_WALLET',
+  CREATE_WALLET: 'CREATE_WALLET', // 创建钱包
+  AES_DECRYPT: 'AES_DECRYPT', // AES解密
+  AES_ENCRYPT: 'AES_ENCRYPT', // AES加密
 };

@@ -44,8 +44,10 @@
     switch (action) {
       case 'CREATE_WALLET':
         return window.walletBase.createWallet;
-      case 'CREATE_WALLET1':
-        return window.walletBase.createWallet;
+      case 'AES_DECRYPT':
+        return window.walletBase.decrypt;
+      case 'AES_ENCRYPT':
+        return window.walletBase.encrypt;
       default:
         alert('UNDEFINED ACTION:' + action);
     }

@@ -38,7 +38,7 @@ import {safeStringify} from '../../utils/safetyFn';
 /**
  * 更新或增加单个钱包
  */
-export function addOrUpdateAWallet(wallet) {
+export function addOrUpdateAWallet(wallet, shouldFocus = true) {
   return (dispatch, getState) => {
     const walletsList = _get(getState(), ['wallets', 'walletsList']) || [];
 
@@ -60,7 +60,9 @@ export function addOrUpdateAWallet(wallet) {
     dispatch(updateWalletsList(newWalletsList));
 
     // 更新当前钱包
-    dispatch(updateCurrentWallet(wallet.address));
+    if (shouldFocus) {
+      dispatch(updateCurrentWallet(wallet.address));
+    }
   };
 }
 
@@ -133,11 +135,36 @@ function findWalletByAddress(address) {
 }
 
 /**
- * 根据地址从钱包列表中找钱包
- * @param: {string} address - 寻找的钱包地址
+ * 更新临时验证助记词
+ * @param: {string} tempMnemonic - 临时验证助记词
  */
 export function updateTempMnemonic(tempMnemonic) {
   return (dispatch, getState) => {
     return {type: UPDATE_TEMP_MNEMONIC, payload: {tempMnemonic}};
+  };
+}
+
+/**
+ * 验证临时验证助记词
+ * @param: {string} mnemonicInput - 输入的助记词
+ */
+export function validTempMnemonic(mnemonicInput) {
+  return (dispatch, getState) => {
+    const currentWallet = _get(getState(), ['wallets', 'currentWallet']) || {};
+
+    if (currentWallet.tempMnemonic === mnemonicInput) {
+      // 验证成功
+      // 清空临时助记词
+      const newCurrentWallet = {
+        ...currentWallet,
+        tempMnemonic: undefined,
+        backupCompleted: true,
+      };
+
+      // 更新钱包列表
+      dispatch(addOrUpdateAWallet(newCurrentWallet));
+      return true;
+    }
+    return false;
   };
 }

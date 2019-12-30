@@ -1,24 +1,50 @@
 import React from 'react';
-import {bindActionCreators} from 'redux';
-import {connect, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import _get from 'lodash/get';
-import {H4, PrimaryText} from 'react-native-normalization-text';
+import {useNavigation, useIsFocused} from 'react-navigation-hooks';
 import {
-  View,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import {Toast} from '../../components/Toast/index';
-import {appSettingAction} from '../../redux/actions';
-import {wallet} from '../../redux/actions';
 import AssetsList from './AssetsList';
-import colors from '../../helpers/colors';
 import Dashboard from './Dashboard';
-// import HomeContext from './HomeContext';
 
 const Home = props => {
+  const currentWallet = useSelector(
+    state => _get(state, ['wallets', 'currentWallet']) || {},
+  );
+
+  const isFocused = useIsFocused();
+
+  const {navigate} = useNavigation();
+  // React.useEffect(() => {
+  //   查询是否有未备份的
+  // }, []);
+
+  React.useEffect(() => {
+    if (isFocused && currentWallet && !currentWallet.backupCompleted) {
+      Alert.alert(
+        '提示',
+        '您当前账户尚未备份，请立即前往备份',
+        [
+          {
+            text: '前往备份',
+            onPress: () => {
+              navigate({
+                routeName: 'WalletBackUpStep1',
+                key: 'HOME_PAGE',
+              });
+            },
+          },
+        ],
+        {cancelable: false},
+      );
+    }
+  }, [isFocused, navigate, currentWallet, currentWallet.backupCompleted]);
+
   return (
     <>
-      {/*<H1 onPress={() => props.updateLanguage(props.language === 'ch' ? 'en' : 'ch')}>{i18n.t('languages')}</H1>*/}
       <Dashboard />
       <AssetsList />
     </>
@@ -32,29 +58,8 @@ Home.navigationOptions = nav => {
   };
 };
 
-function mapStateToProps(state) {
-  return {
-    // language: _get(state.appSetting, ['language']),
-    // walletsList: _get(state.wallets, ['walletsList']) || [],
-    // currentWallet: _get(state.wallets, ['currentWallet']),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      // updateLanguage: appSettingAction.updateLanguage,
-      // updateCurrentWalletIndex: wallet.updateCurrentWalletIndex,
-    },
-    dispatch,
-  );
-}
-
 const styles = StyleSheet.create({
 });
 
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Home);
+export default Home;

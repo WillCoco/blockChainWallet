@@ -31,8 +31,6 @@
 
     var response = action(data);
 
-    alert(data)
-
     window.ReactNativeWebView && window.ReactNativeWebView.postMessage(safeStringify(response));
   });
   //  };

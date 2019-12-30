@@ -110,6 +110,46 @@ function recoverWalletFromMnemonic(params) {
   };
 }
 
+/**
+ * AES加密
+ * @params: {json} params 参数
+ * @parma: {string} data - 待密数据
+ * @returns: {object}
+ * @return: {string} object.result - 加密结果
+ */
+function decrypt(params) {
+  const result = cryptoJs.AES.decrypt(params.data, params.password).toString(
+    cryptoJs.enc.Utf8,
+  );
+
+  return {
+    callId: params.callId,
+    result,
+  };
+}
+
+/**
+ * 密码AES解密
+ * @params: {json} params 参数
+ * @parma: {string} params.data - 加密数据
+ * @parma: {string} params.password - 加密密码
+ * @returns: {object}
+ * @return: {string} object.result - 解密结果
+ */
+function encrypt(params) {
+  const result = cryptoJs.AES.encrypt(params.data, params.password).toString();
+
+  return {
+    callId: params.callId,
+    result,
+  };
+}
+
+const e = encrypt({data: 'a12345', password: '123'});
+const d = decrypt({data: e.result, password: '123'});
+console.log(e, 111111);
+console.log(d, 222222);
+
 window.walletBase = {
   createWallet,
   recoverWalletFromMnemonic,

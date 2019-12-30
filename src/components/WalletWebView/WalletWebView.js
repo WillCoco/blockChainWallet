@@ -26,9 +26,9 @@ const WalletWebView = props => {
 
   let webView = React.useRef();
 
-  React.useEffect(() => {
+  // React.useEffect(() => {
     // props.updateWebViewPost(webView.postMessage);
-  }, [webView, props]);
+  // }, [webView, props]);
 
   React.useEffect(() => {
     function callback(data) {
@@ -37,7 +37,7 @@ const WalletWebView = props => {
       handlers[++callId] = data.callback;
 
       // 转发事件
-      webView.postMessage(safeStringify({...data.payload, callId}));
+      webView.current.postMessage(safeStringify({...data.payload, callId}));
     }
 
     // 转发至webView
@@ -83,7 +83,7 @@ const WalletWebView = props => {
           'tel://*',
         ]}
         source={urlPath}
-        ref={c => (webView = c)}
+        ref={c => (webView.current = c)}
         onMessage={onWebViewMessage}
       />
     </View>

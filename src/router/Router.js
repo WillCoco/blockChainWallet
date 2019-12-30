@@ -111,7 +111,7 @@ const AppNavigator = createStackNavigator(
       navigationOptions: setNavigation({}, '帮助中心'),
     },
     About: {
-      screen: About,  
+      screen: About,
       navigationOptions: setNavigation({}, '关于我们'),
     },
     WalletDetails: {
