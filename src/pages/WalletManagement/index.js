@@ -43,6 +43,7 @@ export default (props) => {
           walletsList.map(item => {
             return (
               <WalletCard 
+                key={item.address}
                 walletName={item.name}
                 walletAddress={item.address}
                 onPress={() => navigate('WalletDetails')}
@@ -94,21 +95,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   }
 });
-
-// function mapStateToProps(state) {
-//   return {
-//     walletsList: _get(state, ['wallets', 'walletsList']) || [],
-//   };
-// }
-
-// function mapDispatchToProps(dispatch) {
-//   return bindActionCreators(
-//     {},
-//     dispatch,
-//   );
-// }
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps,
-// )(WalletManagement);

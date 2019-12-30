@@ -25,4 +25,11 @@ export default {
   changePassword: 'Change Password',
   exportPrivateKey: 'Export Private Key',
   enterYourPassword: 'Enter Your Password',
+  prompt: 'Prompttest',
+  copyPrivateKey: 'Copy',
+  cancelt: 'Cancel',
+  done: 'Done',
+  exportPrivateKeyWarning: 'Warning,please keep it safe after exporting the private key,do not disclose it, and if it leaks,it may lead to asset loss.',
+  copyPrivateKeySuccess: 'The private key has been copied to the clipboard',
+  save: 'Done',
 };

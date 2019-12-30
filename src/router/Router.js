@@ -31,7 +31,7 @@ import WalletManagement from '../pages/WalletManagement';
 import Languages from '../pages/Languages';
 import HelpCenter from '../pages/HelpCenter';
 import About from '../pages/About';
-import WalletDetails from '../pages/WalletManagement/WalletDetails';
+import WalletDetails from '../pages/WalletDetails';
 
 import colors from '../helpers/colors';
 
