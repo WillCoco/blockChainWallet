@@ -64,7 +64,7 @@ const ImportWallet = () => {
   };
 
   const submit = () => {
-    // 恢复
+    // 恢复 todo：中文英文助记词
     WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
       {
         payload: {
