@@ -40,4 +40,11 @@ export default {
   changePassword: '修改密码',
   exportPrivateKey: '导出私钥',
   enterYourPassword: '请输入密码',
+  prompt: '提示信息',
+  copyPrivateKey: '复制私钥',
+  cancel: '取消',
+  done: '确认',
+  exportPrivateKeyWarning: '安全警告，私钥导出后请妥善保管，不要泄露，一旦泄露，可能导致资产损失',
+  copyPrivateKeySuccess: '私钥已经复制到剪贴板',
+  save: '保存',
 };
