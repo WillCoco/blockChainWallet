@@ -41,4 +41,5 @@ export default {
   changePassword: '修改密码',
   exportPrivateKey: '导出私钥',
   enterYourPassword: '请输入密码',
+  mnemonicInputPlaceholder: '请填写助记词，以空格分隔每个单词',
 };

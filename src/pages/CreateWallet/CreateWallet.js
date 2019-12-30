@@ -75,7 +75,6 @@ const CreateWallet = props => {
         },
         callback: v => {
           if (v) {
-            alert(v)
             dispatch(wallet.addOrUpdateAWallet(v));
             navigate('WalletBackUpStep1');
           }
