@@ -73,6 +73,7 @@ export function removeAWallet(wallet) {
   console.log(wallet)
   return (dispatch, getState) => {
     const walletsList = _get(getState(), ['wallets', 'walletsList']) || [];
+    const currentWallet = _get(getState(), ['wallets', 'currentWallet']) || {};
 
     let newWalletsList = [...walletsList];
     console.log(newWalletsList)
@@ -86,8 +87,20 @@ export function removeAWallet(wallet) {
     // 列表中存在该钱包 => 删除
     newWalletsList.splice(walletIndex);
 
-    // 更新
+    // 更新列表
     dispatch(updateWalletsList(newWalletsList));
+
+    // 更新当前钱包
+    if (newWalletsList.length > 0) {
+      // 删除后还有钱包，切换到列表中第一个
+      if (wallet.address === currentWallet.address) {
+        // 删除的是当前钱包，切换到列表中第一个
+        dispatch(updateCurrentWallet(newWalletsList[0].address));
+      }
+    } else {
+      // 清空当前钱包
+      dispatch(updateCurrentWallet());
+    }
   };
 }
 

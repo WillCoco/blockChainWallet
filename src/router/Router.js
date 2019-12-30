@@ -51,7 +51,9 @@ const AppNavigator = createStackNavigator(
   {
     Guide: {
       screen: Guide,
-      navigationOptions: ({navigation}) => ({}),
+      navigationOptions: ({navigation}) => ({
+        headerShown: false,
+      }),
     },
     Login: {
       screen: () => <Text>Login</Text>,
@@ -131,7 +133,7 @@ const AppNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'Main',
+    initialRouteName: 'Guide',
     // navigationOptions: {
     //   headerTintColor: '#000',
     //   headerShown: true,

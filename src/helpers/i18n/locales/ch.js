@@ -1,4 +1,5 @@
 export default {
+  appName: 'tp wallet',
   transfer: '发送',
   collect: '接收',
   walletManagement: '钱包管理',
