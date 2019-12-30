@@ -1,26 +1,17 @@
 import React from 'react';
+import {Text} from 'react-native';
 import TransferPage from './Transfer';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
 import _get from 'lodash/get';
 
 const Transfer = () => <TransferPage />;
 
-function mapStateToProps(state) {
-  return {
-    language: _get(state.appSetting, ['language']),
-  };
-}
+Transfer.navigationOptions = {
+  headerTitle: '页面内',
+  headerRight: options => {
+    console.log(options, 'options');
+    return <Text onPress={() => alert(1111)}>3333</Text>;
+  },
+  // headerLeft: () => {}
+};
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-    },
-    dispatch,
-  );
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Transfer);
+export default Transfer;
