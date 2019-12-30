@@ -145,10 +145,10 @@ function encrypt(params) {
   };
 }
 
-const e = encrypt({data: 'a12345', password: '123'});
-const d = decrypt({data: e.result, password: '123'});
-console.log(e, 111111);
-console.log(d, 222222);
+// const e = encrypt({data: 'a12345', password: '123'});
+// const d = decrypt({data: e.result, password: '123'});
+// console.log(e, 111111);
+// console.log(d, 222222);
 
 window.walletBase = {
   createWallet,

@@ -23,7 +23,7 @@ const Home = props => {
   // }, []);
 
   React.useEffect(() => {
-    if (isFocused && currentWallet && !currentWallet.backupCompleted) {
+    if (isFocused && currentWallet.address && !currentWallet.backupCompleted) {
       Alert.alert(
         '提示',
         '您当前账户尚未备份，请立即前往备份',
