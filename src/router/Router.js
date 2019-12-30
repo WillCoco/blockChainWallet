@@ -35,7 +35,7 @@ import WalletDetails from '../pages/WalletDetails';
 import colors from '../helpers/colors';
 
 const setNavigation = ({navigation}, title) => ({
-    headerShown: true,
+    headerShown: false,
     title,
     headerTintColor: '#fff',
     headerStyle: {
@@ -96,7 +96,10 @@ const AppNavigator = createStackNavigator(
     },
     WalletManagement: {
       screen: WalletManagement,
-      navigationOptions: setNavigation({}, '钱包管理'),
+      // navigationOptions: setNavigation({}, '钱包管理'),
+      navigationOptions: ({navigation}) => ({
+        headerShown: false,
+      }),
     },
     TransactionHistory: {
       screen: TransactionHistory,

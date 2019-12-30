@@ -14,6 +14,24 @@ import {PrimaryText} from 'react-native-normalization-text';
 import WalletCard from './WalletCard';
 import colors from '../../helpers/colors';
 import {metrics, vw, vh} from '../../helpers/metric';
+import NavBar from 'react-native-pure-navigation-bar';
+import {InnerNaviBar} from 'react-native-pure-navigation-bar';
+
+InnerNaviBar.defaultProps.style = {
+  safeView: {
+    backgroundColor: colors.theme,
+  },
+  title: {
+    color: colors.textWhite,
+    fontWeight: '700',
+  },
+  gobackImage: {
+    width: 10,
+  },
+  buttonView: {
+    color: colors.textWhite,
+  },
+}
 
 export default (props) => {
   const {navigate} = useNavigation();
@@ -37,6 +55,7 @@ export default (props) => {
 
   return (
     <View style={styles.wrapper}>
+      <NavBar title={i18n.t('walletManagement')}/>
       {/* 钱包列表 */}
       <View style={styles.content}>
         {
@@ -75,6 +94,9 @@ const styles = StyleSheet.create({
     height: '100%',
     flexDirection: 'column',
   },
+  // navbar: {
+
+  // },
   content: {
     flex: 1,
     padding: 15,

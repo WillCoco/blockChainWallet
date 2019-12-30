@@ -5396,6 +5396,11 @@ react-native-normalization-text@^0.1.3:
     chalk "^2.4.2"
     jest "^24.8.0"
 
+react-native-pure-navigation-bar@^1.4.9:
+  version "1.4.9"
+  resolved "https://registry.npm.taobao.org/react-native-pure-navigation-bar/download/react-native-pure-navigation-bar-1.4.9.tgz#990d4da090300b57bf643f5e702c5181b62e7ffd"
+  integrity sha1-mQ1NoJAwC1e/ZD9ecCxRgbYuf/0=
+
 react-native-qrcode-svg@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/react-native-qrcode-svg/-/react-native-qrcode-svg-6.0.1.tgz#e5609069532d5f0c22a673a74c0eda2d04ce46ec"

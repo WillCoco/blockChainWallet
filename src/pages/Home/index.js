@@ -23,26 +23,26 @@ const Home = props => {
   // }, []);
 
   //FIXME:
-  React.useEffect(() => {
-    if (isFocused && currentWallet.address && !currentWallet.backupCompleted) {
-      Alert.alert(
-        '提示',
-        '您当前账户尚未备份，请立即前往备份',
-        [
-          {
-            text: '前往备份',
-            onPress: () => {
-              navigate({
-                routeName: 'WalletBackUpStep1',
-                key: 'HOME_PAGE',
-              });
-            },
-          },
-        ],
-        {cancelable: false},
-      );
-    }
-  }, [isFocused, navigate, currentWallet, currentWallet.backupCompleted]);
+  // React.useEffect(() => {
+  //   if (isFocused && currentWallet.address && !currentWallet.backupCompleted) {
+  //     Alert.alert(
+  //       '提示',
+  //       '您当前账户尚未备份，请立即前往备份',
+  //       [
+  //         {
+  //           text: '前往备份',
+  //           onPress: () => {
+  //             navigate({
+  //               routeName: 'WalletBackUpStep1',
+  //               key: 'HOME_PAGE',
+  //             });
+  //           },
+  //         },
+  //       ],
+  //       {cancelable: false},
+  //     );
+  //   }
+  // }, [isFocused, navigate, currentWallet, currentWallet.backupCompleted]);
 
   return (
     <>

@@ -3,6 +3,7 @@ import {
   View,
   StyleSheet,
   Clipboard,
+  Text,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {Icon, ListItem, Overlay, Input} from 'react-native-elements';
@@ -16,7 +17,7 @@ import {useNavigationParam} from 'react-navigation-hooks';
 import {eventTypes, WVEvent} from '../../helpers/eventEmmiter';
 import _get from 'lodash/get';
 import {wallet} from '../../redux/actions';
-
+import NavBar from 'react-native-pure-navigation-bar';
 
 export default (props) => {
   const [enterPasswordVisible, setEnterPasswordVisible] = React.useState(false);
@@ -67,6 +68,7 @@ export default (props) => {
 
   return (
     <>
+      <NavBar title={currentWallet.name} hasSeperatorLine={false} rightElement={<Text style={{color: colors.textWhite,}}>{i18n.t('save')}</Text>}/>
       <PrimaryText style={styles.addressCard}>{currentWallet.address}</PrimaryText>
       <View>
         {/* 钱包名称 */}
