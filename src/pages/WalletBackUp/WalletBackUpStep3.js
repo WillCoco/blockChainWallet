@@ -14,7 +14,7 @@ import mnemonicTypes from '../../components/mnemonic/mnemonicTypes';
 import {wallet} from '../../redux/actions/';
 
 export default () => {
-  const {goBack} = useNavigation();
+  const {goBack, replace} = useNavigation();
   const dispatch = useDispatch();
   const [wordsInput, setWordsInput] = React.useState([]);
 
@@ -23,7 +23,8 @@ export default () => {
   );
 
   // 乱序助记词
-  const unorderedMnemonic = React.useRef(_shuffle(mnemonic));
+  // const unorderedMnemonic = React.useRef(_shuffle(mnemonic));
+  const unorderedMnemonic = React.useRef(mnemonic);
 
   // 助记词重置次数
   let [restTimes, setRestTimes] = React.useState(0);
@@ -35,7 +36,7 @@ export default () => {
 
     console.log(pass, 'pass');
     if (pass) {
-      goBack('HOME_PAGE');
+      replace('Main');
       // alert('备份成功');
     } else {
       // 提示

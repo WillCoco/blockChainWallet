@@ -19,9 +19,20 @@ const appSettingPersistConfig = {
   },
 };
 
+const walletsPersistConfig = {
+  key: 'wallets',
+  storage: AsyncStorage,
+  version: localStorageVersion,
+  whitelist: ['currentWallet', 'walletsList'],
+  migrate: state => {
+    return Promise.resolve(state);
+  },
+};
+
 const rootReducer = combineReducers({
   ...reducers,
   appSetting: persistReducer(appSettingPersistConfig, reducers.appSetting),
+  wallets: persistReducer(walletsPersistConfig, reducers.wallets),
 });
 
 const enhancer = composeEnhancers(applyMiddleware(thunk));
