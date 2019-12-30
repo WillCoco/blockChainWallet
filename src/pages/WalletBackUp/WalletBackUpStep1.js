@@ -3,37 +3,26 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 import _get from 'lodash/get';
 import {Button} from 'react-native-elements';
 import {H1, H2, H3, H4, PrimaryText} from 'react-native-normalization-text';
-import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
+import {useNavigation} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
+import {vw} from '../../helpers/metric';
 import i18n from '../../helpers/i18n';
-import {wallet} from '../../redux/actions';
 
 const WalletBackUpStep1 = props => {
   const {navigate} = useNavigation();
 
-  const name = useNavigationParam('name');
-  const password = useNavigationParam('password');
-  const confirmPassword = useNavigationParam('confirmPassword');
-  const prompt = useNavigationParam('prompt');
-
-  const createWallet = () => {
-    // 下一步
-    navigate('WalletBackUpStep2');
-  };
-
   return (
     <>
-      <Text>安全保存私钥</Text>
+      <PrimaryText style={styles.textLine1}>钱包创建成功</PrimaryText>
+      <PrimaryText style={styles.textLine2}>请备份钱包</PrimaryText>
       <Button
-        iconRight
         containerStyle={styles.btnContainerStyle}
         title={i18n.t('backupWallet')}
-        onPress={createWallet}
+        onPress={() => navigate('WalletBackUpStep2')}
       />
     </>
   );
@@ -44,25 +33,22 @@ const styles = StyleSheet.create({
     backgroundColor: colors.theme,
     height: '24%',
   },
+  textLine1: {
+    textAlign: 'center',
+    marginTop: '10%',
+  },
+  textLine2: {
+    textAlign: 'center',
+  },
+  mnemonicWrapper: {
+    marginHorizontal: '2%',
+    marginTop: '10%',
+  },
+  btnContainerStyle: {
+    width: '80%',
+    alignSelf: 'center',
+    marginTop: '15%',
+  },
 });
 
-function mapStateToProps(state) {
-  return {
-    // language: _get(state.appSetting, ['language']),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      createWallet: wallet.createWallet,
-    },
-    dispatch,
-  );
-}
-
 export default WalletBackUpStep1;
-// connect(
-//   mapStateToProps,
-//   mapDispatchToProps,
-// )(WalletBackUpStep1);

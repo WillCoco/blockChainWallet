@@ -29,6 +29,7 @@ export default {
   createWalletPromptPlaceholder: '填写备注',
   backupWallet: '备份钱包',
   complete: '完成',
+  reset: '重置',
   transactionTableTitle: '交易',
   transactionHistory: '交易记录',
   languages: '语言设置',

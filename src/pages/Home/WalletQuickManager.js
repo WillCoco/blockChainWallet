@@ -56,7 +56,7 @@ const WalletQuickManager = props => {
   // 前往创建钱包
   const goCreateWallet = () => {
     closeOverlay();
-    navigate({routeName: 'CreateWallet', key: 'CREATE_WALLET'});
+    navigate({routeName: 'CreateWallet', key: 'HOME_PAGE'});
   };
 
   const [top, setTop] = React.useState();
@@ -91,7 +91,8 @@ const WalletQuickManager = props => {
           top,
         }}
         overlayStyle={{
-          top,
+          marginTop: top,
+          borderColor: 'red',
           flex: 1,
           backgroundColor: 'transparent',
           alignSelf: 'stretch',

@@ -9,7 +9,7 @@
 import MnemonicInput from './MnemonicInput';
 import MnemonicPrint from './MnemonicPrint';
 
-export default {
+module.exports = {
   MnemonicInput,
   MnemonicPrint,
 };
