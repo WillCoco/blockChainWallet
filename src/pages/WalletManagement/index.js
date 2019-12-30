@@ -28,6 +28,13 @@ export default (props) => {
     state => _get(state.wallets, ['walletsList']) || [],
   );
 
+  // 恢复钱包
+  const recoverWallet = () => {
+    if (true) {
+      navigate('ImportWallet');
+    }
+  };
+
   return (
     <View style={styles.wrapper}>
       {/* 钱包列表 */}
@@ -47,14 +54,15 @@ export default (props) => {
       </View>
       {/* 按钮 */}
       <View style={styles.btns}>
-        <Button 
+        <Button
           buttonStyle={StyleSheet.flatten([styles.button, {backgroundColor: colors.success}])}
           title={i18n.t('createWallet')}
           onPress={() => navigate('CreateWallet')}
         />
-        <Button 
+        <Button
           buttonStyle={styles.button}
           title={i18n.t('importWallet')}
+          onPress={recoverWallet}
         />
       </View>
     </View>

@@ -22,6 +22,7 @@ const Home = props => {
   //   查询是否有未备份的
   // }, []);
 
+  //FIXME:
   React.useEffect(() => {
     if (isFocused && currentWallet.address && !currentWallet.backupCompleted) {
       Alert.alert(

@@ -48,6 +48,8 @@
         return window.walletBase.decrypt;
       case 'AES_ENCRYPT':
         return window.walletBase.encrypt;
+      case 'RECOVER_WALLET_FROM_MNEMONIC':
+        return window.walletBase.recoverWalletFromMnemonic;
       default:
         alert('UNDEFINED ACTION:' + action);
     }

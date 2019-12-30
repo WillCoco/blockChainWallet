@@ -48,4 +48,5 @@ export default {
   exportPrivateKeyWarning: '安全警告，私钥导出后请妥善保管，不要泄露，一旦泄露，可能导致资产损失',
   copyPrivateKeySuccess: '私钥已经复制到剪贴板',
   save: '保存',
+  mnemonicInputPlaceholder: '请填写助记词，以空格分隔每个单词',
 };

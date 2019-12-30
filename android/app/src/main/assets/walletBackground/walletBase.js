@@ -77,7 +77,8 @@ function createWallet(params) {
 /**
  * 助记词恢复钱包
  * @params: {json} params 参数
- * @parma: {string} mnemonic - 助记词
+ * @parma: {string} params.mnemonic - 助记词
+ * @parma: {string} params.mnemonic - 助记词
  * @returns: {object} accountInfo - 新钱包
  * @return: {string} accountInfo.encryptedPrivateKey - 私钥
  * @return: {string} accountInfo.passwordKey - 密码sha256
@@ -85,6 +86,14 @@ function createWallet(params) {
  * @return: {string} accountInfo.name - 钱包名称
  * @return: {string} accountInfo.[prompt] - 备注
  */
+// const w = recoverWalletFromMnemonic({
+//   mnemonic: '代 牧 的 谈 佛 古 祸 克 彼 喊 腿 劝 册 抵 遂',
+//   name: '123',
+//   password: '123',
+// });
+//
+// console.log(w, 'w')
+
 function recoverWalletFromMnemonic(params) {
   const walletObj = seed.newWalletFromMnemonic(params.mnemonic);
   // todo: 是否recover遍历底下n个, 目前只使用第一个账户
@@ -95,7 +104,14 @@ function recoverWalletFromMnemonic(params) {
   const accountInfo = {};
   accountInfo.name = wallet.name;
   accountInfo.address = wallet.address;
-  // accountInfo.mnemonic = params.mnemonic;
+  accountInfo.backupCompleted = true; // 导入的不需要备份
+
+  // 助记词（持久化加密备份验证）
+  accountInfo.encryptedMnemonic = cryptoJs.AES.encrypt(
+    walletObj.mnemonic,
+    params.password,
+  ).toString();
+
   // 加密后的私钥
   accountInfo.encryptedPrivateKey = cryptoJs.AES.encrypt(
     wallet.hexPrivateKey,

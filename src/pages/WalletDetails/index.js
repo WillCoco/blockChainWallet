@@ -13,6 +13,7 @@ import colors from '../../helpers/colors';
 import {Button} from 'react-native-elements';
 import FormRow from '../../components/FormRow';
 import {useNavigationParam} from 'react-navigation-hooks';
+import {eventTypes, WVEvent} from '../../helpers/eventEmmiter';
 import _get from 'lodash/get';
 import {wallet} from '../../redux/actions';
 
@@ -20,11 +21,14 @@ import {wallet} from '../../redux/actions';
 export default (props) => {
   const [enterPasswordVisible, setEnterPasswordVisible] = React.useState(false);
   const [exportPrivateKeyVisible, setExportPrivateKeyVisible] = React.useState(false);
+  const [privateKey, setPrivateKey] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
   // 当前钱包
   const currentWallet = useSelector(
     state => _get(state.wallets, ['currentWallet']) || [],
   );
+
   const dispatch = useDispatch();
 
   /**
@@ -32,6 +36,26 @@ export default (props) => {
    */
   const deleteWalletHandle = () => {
     dispatch(wallet.removeAWallet(currentWallet));
+  };
+
+  /**
+   * 导出私钥输入密码，解密
+   */
+  const exportPrivateKeyConfirm = () => {
+    console.log(password)
+    // 创建
+    WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
+      {
+        payload: {
+          action: eventTypes.AES_DECRYPT,
+          data: currentWallet.encryptedPrivateKey,
+          password,
+        },
+        callback: v => {
+          setPrivateKey(v);
+        },
+      },
+    ]);
   };
 
   /**
@@ -86,6 +110,8 @@ export default (props) => {
         <Input
           secureTextEntry={true}
           autoFocus={true}
+          onChangeText={setPassword}
+          value={password}
         />
         <View style={styles.enterPasswordBtns}>
           <PrimaryText 
@@ -93,7 +119,8 @@ export default (props) => {
             style={{marginTop: vw(3),color: colors.theme}}
           >{i18n.t('cancel')}</PrimaryText>
           <PrimaryText 
-            onPress={() => {setExportPrivateKeyVisible(true); setEnterPasswordVisible(false)}} 
+            // onPress={() => {setExportPrivateKeyVisible(true); setEnterPasswordVisible(false)}} 
+            onPress={exportPrivateKeyConfirm}
             style={{marginLeft: vw(10), marginTop: vw(3), color: colors.theme}}
           >{i18n.t('done')}</PrimaryText>
         </View>
@@ -106,7 +133,7 @@ export default (props) => {
       >
         <PrimaryText style={styles.copyTitle}>{i18n.t('prompt')}</PrimaryText>
         <SmallText style={styles.copyWaringText}>{i18n.t('exportPrivateKeyWarning')}</SmallText>
-        <SmallText style={styles.privateKeyText}>{currentWallet.encryptedPrivateKey}</SmallText>
+        <SmallText style={styles.privateKeyText}>{privateKey}</SmallText>
         <Button 
           // buttonStyle={styles.button}
           title={i18n.t('copyPrivateKey')}
