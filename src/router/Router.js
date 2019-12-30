@@ -12,6 +12,7 @@ import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import TabsRouter from './Tabs/index';
 import NormalizationText from '../pages/NormalizationText';
+import Guide from '../pages/Guide';
 import CreateWallet from '../pages/CreateWallet';
 import {
   WalletBackUpStep1,
@@ -48,6 +49,10 @@ const setNavigation = ({navigation}, title) => ({
 
 const AppNavigator = createStackNavigator(
   {
+    Guide: {
+      screen: Guide,
+      navigationOptions: ({navigation}) => ({}),
+    },
     Login: {
       screen: () => <Text>Login</Text>,
       navigationOptions: ({navigation}) => ({}),
