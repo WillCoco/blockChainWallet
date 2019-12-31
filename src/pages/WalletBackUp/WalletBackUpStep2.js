@@ -16,7 +16,7 @@ export default () => {
   const {navigate} = useNavigation();
 
   const tempMnemonic = useSelector(state =>
-    _get(state.wallets, ['currentWallet', 'tempMnemonic']),
+    _get(state.wallets, ['tempMnemonic']),
   );
 
   return (

@@ -11,6 +11,7 @@ import tools from './tools';
 const {vw, vh} = tools;
 
 module.exports = {
+  spaceSX: vw(2),
   spaceS: vw(3.2),
   spaceN: vw(6.4),
   spaceL: vw(9.6),

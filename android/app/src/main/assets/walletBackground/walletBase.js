@@ -54,16 +54,19 @@ function createWallet(params) {
   accountInfo.tempMnemonic = mnemonic;
 
   // 助记词（持久化加密备份验证）
-  accountInfo.encryptedMnemonic = cryptoJs.AES.encrypt(
-    walletObj.mnemonic,
-    params.password,
-  ).toString();
+  console.log(mnemonic, 'mnemonic')
+  const encryptedMnemonicObj = encrypt({
+    data: mnemonic,
+    password: params.password,
+  });
+  accountInfo.encryptedMnemonic = encryptedMnemonicObj.result;
 
   // 加密后的私钥
-  accountInfo.encryptedPrivateKey = cryptoJs.AES.encrypt(
-    wallet.hexPrivateKey,
-    params.password,
-  ).toString();
+  const encryptedPrivateKeyObj = encrypt({
+    data: wallet.hexPrivateKey,
+    password: params.password,
+  });
+  accountInfo.encryptedPrivateKey = encryptedPrivateKeyObj.result;
 
   // 加密后的钱包管理密码
   accountInfo.passwordKey = cryptoJs.SHA256(params.password).toString();
@@ -107,40 +110,24 @@ function recoverWalletFromMnemonic(params) {
   accountInfo.backupCompleted = true; // 导入的不需要备份
 
   // 助记词（持久化加密备份验证）
-  accountInfo.encryptedMnemonic = cryptoJs.AES.encrypt(
-    walletObj.mnemonic,
-    params.password,
-  ).toString();
+  const encryptedMnemonicObj = encrypt({
+    data: params.mnemonic,
+    password: params.password,
+  });
+  accountInfo.encryptedMnemonic = encryptedMnemonicObj.result;
 
   // 加密后的私钥
-  accountInfo.encryptedPrivateKey = cryptoJs.AES.encrypt(
-    wallet.hexPrivateKey,
-    params.password,
-  ).toString();
+  const encryptedPrivateKeyObj = encrypt({
+    data: wallet.hexPrivateKey,
+    password: params.password,
+  });
+  accountInfo.encryptedPrivateKey = encryptedPrivateKeyObj.result;
   // console.log(accountInfo.encryptedPrivateKey, 'accountInfo.encryptedPrivateKey')
   accountInfo.passwordKey = cryptoJs.SHA256(params.password).toString(); // 加密后的钱包管理密码
 
   return {
     callId: params.callId,
     result: accountInfo,
-  };
-}
-
-/**
- * AES加密
- * @params: {json} params 参数
- * @parma: {string} data - 待密数据
- * @returns: {object}
- * @return: {string} object.result - 加密结果
- */
-function decrypt(params) {
-  const result = cryptoJs.AES.decrypt(params.data, params.password).toString(
-    cryptoJs.enc.Utf8,
-  );
-
-  return {
-    callId: params.callId,
-    result,
   };
 }
 
@@ -152,9 +139,65 @@ function decrypt(params) {
  * @returns: {object}
  * @return: {string} object.result - 解密结果
  */
-function encrypt(params) {
-  const result = cryptoJs.AES.encrypt(params.data, params.password).toString();
+// const de = decrypt({data: wallet.result.encryptedMnemonic, password: "12333", callId: 17})
+// const de = decrypt({
+//   data: 'VTJGc2RHVmtYMTlUZXpyT3BWcXJyOU1sa3oxTkd6aWlmS09MU2hQWDBwd0MxS2NscU1QbjFTWlp1UW5tQXhVRDhGdXVZeEQwRDVmdW1PZmRYaXExYVFQMGluOVRhbCtlKyt2R2k3K3RvSnM9',
+//   password: '11',
+//   callId: 17
+// })
+// console.log(de, 'de111')
 
+function decrypt(params) {
+  // 加密数据不是8的整数倍 报错：malformed utf-8 data
+  // console.log(params.data, 'bsq')
+
+  const dataUtf8 = cryptoJs.enc.Base64.parse(params.data).toString(
+    cryptoJs.enc.Utf8,
+  );
+
+  const result = cryptoJs.AES.decrypt(dataUtf8, params.password).toString(
+    cryptoJs.enc.Utf8,
+  );
+
+  return {
+    callId: params.callId,
+    result: result,
+  };
+}
+
+/**
+ * AES加密
+ * @params: {json} params 参数
+ * @parma: {string} data - 待密数据
+ * @returns: {object}
+ * @return: {string} object.result - 加密结果
+ */
+function encrypt(params) {
+  // 加密数据不是8的整数倍 报错：malformed utf-8 data
+
+  // 先加密
+  let encrypted = cryptoJs.AES.encrypt(params.data, params.password).toString();
+
+  // 再转bs64
+  const result = cryptoJs.enc.Base64.stringify(
+    cryptoJs.enc.Utf8.parse(encrypted),
+  );
+
+  return {
+    callId: params.callId,
+    result,
+  };
+}
+
+/**
+ * SHA256加密
+ * @params: {object} params 参数
+ * @parma: {string} params.data - 加密数据
+ * @returns: {object}
+ * @return: {string} object.result - 加密结果
+ */
+function sha256(params) {
+  const result = cryptoJs.SHA256(params.data).toString();
   return {
     callId: params.callId,
     result,
@@ -169,4 +212,22 @@ function encrypt(params) {
 window.walletBase = {
   createWallet,
   recoverWalletFromMnemonic,
+  sha256,
+  encrypt,
+  decrypt,
 };
+
+//
+// let newUserInfo = seed.newMnemonicInCN();
+// //加密数据
+// let encJson = cryptoJs.AES.encrypt(newUserInfo, '12333').toString();
+// //对加密数据进行base64处理, 原理：就是先将字符串转换为utf8字符数组，再转换为base64数据
+// let encData = cryptoJs.enc.Base64.stringify(cryptoJs.enc.Utf8.parse(encJson));
+//
+// //将数据先base64还原，再转为utf8数据
+// let decData = cryptoJs.enc.Base64.parse(encData).toString(cryptoJs.enc.Utf8);
+// //解密数据
+// let decJson = cryptoJs.AES.decrypt(decData, '12333').toString(cryptoJs.enc.Utf8);
+//
+// console.log(decData, 'decData')
+// console.log(decJson, 'decJson')

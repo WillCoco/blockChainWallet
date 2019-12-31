@@ -46,12 +46,21 @@ export function addOrUpdateAWallet(wallet, shouldFocus = true) {
 
     let newWalletsList = [...walletsList];
 
+    const walletPure = {
+      name: wallet.name,
+      address: wallet.address,
+      encryptedMnemonic: wallet.encryptedMnemonic,
+      encryptedPrivateKey: wallet.encryptedPrivateKey,
+      passwordKey: wallet.passwordKey,
+      backupCompleted: wallet.backupCompleted, // 是否已备份
+    };
+
     if (walletIndex === -1) {
       // 列表中不存在该钱包 => 新增
-      newWalletsList.push(wallet);
+      newWalletsList.push(walletPure);
     } else {
-      // 列表中存在该钱包 => 更新
-      newWalletsList[walletIndex] = wallet;
+      // 列表中存在该钱包 => 更新, 只接受需要的属性
+      newWalletsList[walletIndex] = walletPure;
     }
 
     console.log(newWalletsList, 'newWalletsList');
@@ -154,19 +163,21 @@ function findWalletByAddress(address) {
  */
 export function updateTempMnemonic(tempMnemonic) {
   return (dispatch, getState) => {
-    return {type: UPDATE_TEMP_MNEMONIC, payload: {tempMnemonic}};
+    dispatch({type: UPDATE_TEMP_MNEMONIC, payload: {tempMnemonic}});
   };
 }
 
 /**
- * 验证临时验证助记词
+ * 备份验证临时验证助记词
  * @param: {string} mnemonicInput - 输入的助记词
  */
 export function validTempMnemonic(mnemonicInput) {
   return (dispatch, getState) => {
     const currentWallet = _get(getState(), ['wallets', 'currentWallet']) || {};
+    const tempMnemonic = _get(getState(), ['wallets', 'tempMnemonic']);
+    console.log(tempMnemonic, mnemonicInput, 123123);
 
-    if (currentWallet.tempMnemonic === mnemonicInput) {
+    if (tempMnemonic === mnemonicInput) {
       // 验证成功
       // 清空临时助记词
       const newCurrentWallet = {
@@ -177,6 +188,9 @@ export function validTempMnemonic(mnemonicInput) {
 
       // 更新钱包列表
       dispatch(addOrUpdateAWallet(newCurrentWallet));
+
+      // 删除临时助记词
+      dispatch(updateTempMnemonic());
       return true;
     }
     return false;

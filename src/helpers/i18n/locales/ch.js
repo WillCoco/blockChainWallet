@@ -52,4 +52,5 @@ export default {
   mnemonicInputPlaceholder: '请填写助记词，以空格分隔每个单词',
   userAgreement: '使用协议',
   privacy: '隐私条款',
+  passwordValidDesc: '请输入钱包密码',
 };
