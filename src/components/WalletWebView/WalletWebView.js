@@ -52,18 +52,18 @@ const WalletWebView = props => {
     // 收到webView返回值后提交store数据更改
     console.log(e.nativeEvent.data, 'onWebViewMessage');
     const data = safeParse(e.nativeEvent.data) || {};
-    const {callId: callbackId, result, error} = data;
+    const {callId: callbackId, result} = data;
 
     // console.log(handlers[callbackId], 'handlers[callbackId]');
     // console.log(result, 'result');
     // console.log(callbackId, 'callbackId');
 
     if (handlers[callbackId]) {
-      console.log(result, 'result');
       if (result) {
         handlers[callbackId](result);
       } else {
-        Toast.show({data: '调用错误' + error});
+        Toast.show({data: '调用错误'});
+        console.warn('调用错误:', data);
       }
       delete handlers[callbackId];
     }

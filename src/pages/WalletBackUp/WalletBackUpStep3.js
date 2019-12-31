@@ -19,7 +19,7 @@ export default () => {
   const [wordsInput, setWordsInput] = React.useState([]);
 
   const mnemonic = useSelector(state =>
-    _get(state.wallets, ['currentWallet', 'tempMnemonic']),
+    _get(state.wallets, ['tempMnemonic']),
   );
 
   // 乱序助记词

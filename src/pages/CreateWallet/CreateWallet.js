@@ -76,6 +76,7 @@ const CreateWallet = props => {
         callback: v => {
           if (v) {
             dispatch(wallet.addOrUpdateAWallet(v));
+            dispatch(wallet.updateTempMnemonic(v.tempMnemonic));
             navigate('WalletBackUpStep1');
           }
         },

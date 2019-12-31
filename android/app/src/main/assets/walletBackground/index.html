@@ -35,7 +35,7 @@
         response = action(data);
         window.ReactNativeWebView.postMessage(safeStringify(response));
       } catch (error) {
-        window.ReactNativeWebView.postMessage(safeStringify({error}));
+        window.ReactNativeWebView.postMessage(safeStringify({actionType: payloadAction, error, callId: data.callId}));
       }
     });
   };
@@ -48,6 +48,8 @@
         return window.walletBase.decrypt;
       case 'AES_ENCRYPT':
         return window.walletBase.encrypt;
+      case 'SHA_256':
+        return window.walletBase.sha256;
       case 'RECOVER_WALLET_FROM_MNEMONIC':
         return window.walletBase.recoverWalletFromMnemonic;
       default:
