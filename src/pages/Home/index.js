@@ -5,8 +5,9 @@ import {useNavigation, useIsFocused} from 'react-navigation-hooks';
 import {
   StyleSheet,
   Alert,
+  Text,
+  View
 } from 'react-native';
-import {Toast} from '../../components/Toast/index';
 import AssetsList from './AssetsList';
 import Dashboard from './Dashboard';
 
@@ -18,9 +19,6 @@ const Home = props => {
   const isFocused = useIsFocused();
 
   const {navigate} = useNavigation();
-  // React.useEffect(() => {
-  //   查询是否有未备份的
-  // }, []);
 
   //FIXME:
   // React.useEffect(() => {

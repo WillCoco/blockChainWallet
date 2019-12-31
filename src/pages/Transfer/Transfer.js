@@ -14,6 +14,9 @@ import FormRow from '../../components/FormRow';
 export default () => {
   const [txConfirmVisible, setTxConfirmVisible] = React.useState(false);
   const {navigate, state} = useNavigation();
+  const aaa = useNavigation();
+
+  console.log(aaa.getParam('a'), 'bbbb')
   const {selectedToken, setSelectedToken} = React.useState();
 
   const goSelectToken = () => {
@@ -59,7 +62,11 @@ export default () => {
         iconRight
         containerStyle={styles.btnContainerStyle}
         title={i18n.t('next')}
-        onPress={() => setTxConfirmVisible(true)}
+        onPress={() => {
+          // aaa.setParams({a: '123'});
+          // return;
+          setTxConfirmVisible(true);
+        }}
       />
     </View>
   );
