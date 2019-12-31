@@ -17,21 +17,21 @@ import {metrics, vw, vh} from '../../helpers/metric';
 import NavBar from 'react-native-pure-navigation-bar';
 import {InnerNaviBar} from 'react-native-pure-navigation-bar';
 
-InnerNaviBar.defaultProps.style = {
-  safeView: {
-    backgroundColor: colors.theme,
-  },
-  title: {
-    color: colors.textWhite,
-    fontWeight: '700',
-  },
-  gobackImage: {
-    width: 10,
-  },
-  buttonView: {
-    color: colors.textWhite,
-  },
-}
+// InnerNaviBar.defaultProps.style = {
+//   safeView: {
+//     backgroundColor: colors.theme,
+//   },
+//   title: {
+//     color: colors.textWhite,
+//     fontWeight: '700',
+//   },
+//   gobackImage: {
+//     width: 10,
+//   },
+//   buttonView: {
+//     color: colors.textWhite,
+//   },
+// }
 
 export default (props) => {
   const {navigate} = useNavigation();
@@ -55,7 +55,7 @@ export default (props) => {
 
   return (
     <View style={styles.wrapper}>
-      <NavBar title={i18n.t('walletManagement')}/>
+      {/* <NavBar title={i18n.t('walletManagement')}/> */}
       {/* 钱包列表 */}
       <View style={styles.content}>
         {

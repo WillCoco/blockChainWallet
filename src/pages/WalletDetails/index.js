@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Clipboard,
   Text,
+  Alert,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {Icon, ListItem, Overlay, Input} from 'react-native-elements';
@@ -13,17 +14,19 @@ import {metrics, vw, vh} from '../../helpers/metric';
 import colors from '../../helpers/colors';
 import {Button} from 'react-native-elements';
 import FormRow from '../../components/FormRow';
-import {useNavigationParam} from 'react-navigation-hooks';
+import {useNavigationParam, useNavigation} from 'react-navigation-hooks';
 import {eventTypes, WVEvent} from '../../helpers/eventEmmiter';
 import _get from 'lodash/get';
 import {wallet} from '../../redux/actions';
 import NavBar from 'react-native-pure-navigation-bar';
+import {Toast} from '../../components/Toast';
 
 export default (props) => {
   const [enterPasswordVisible, setEnterPasswordVisible] = React.useState(false);
   const [exportPrivateKeyVisible, setExportPrivateKeyVisible] = React.useState(false);
   const [privateKey, setPrivateKey] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const {navigate} = useNavigation();
 
   // 当前钱包
   const currentWallet = useSelector(
@@ -43,8 +46,7 @@ export default (props) => {
    * 导出私钥输入密码，解密
    */
   const exportPrivateKeyConfirm = () => {
-    console.log(password)
-    // 创建
+    // 解密
     WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
       {
         payload: {
@@ -54,6 +56,9 @@ export default (props) => {
         },
         callback: v => {
           setPrivateKey(v);
+          setEnterPasswordVisible(false);
+          setExportPrivateKeyVisible(true); 
+          setPassword('');
         },
       },
     ]);
@@ -64,11 +69,12 @@ export default (props) => {
    */
   const copy =() => {
     Clipboard.setString(currentWallet.encryptedPrivateKey);   
+    Toast.show({data: '复制私钥成功'});
   }
 
   return (
     <>
-      <NavBar title={currentWallet.name} hasSeperatorLine={false} rightElement={<Text style={{color: colors.textWhite,}}>{i18n.t('save')}</Text>}/>
+      {/* <NavBar title={currentWallet.name} hasSeperatorLine={false} rightElement={<Text style={{color: colors.textWhite,}}>{i18n.t('save')}</Text>}/> */}
       <PrimaryText style={styles.addressCard}>{currentWallet.address}</PrimaryText>
       <View>
         {/* 钱包名称 */}
@@ -78,14 +84,14 @@ export default (props) => {
           bottomDivider
         />
         {/* 修改密码 */}
-        <FormRow
+        {/* <FormRow
           title={i18n.t('changePassword')}
           chevron={{size: 24}}
           bottomDivider
           containerStyle={{}}
-          // onPress={goSelectToken}
+          onPress={navigate('ChangePassword')}
           editable={false}
-        />
+        /> */}
         {/* 导出私钥 */}
         <FormRow
           title={i18n.t('exportPrivateKey')}
@@ -108,24 +114,25 @@ export default (props) => {
         height={vh(20)}
         onBackdropPress={() => setEnterPasswordVisible(false)}
       >
-        <PrimaryText>{i18n.t('enterYourPassword')}</PrimaryText>
-        <Input
-          secureTextEntry={true}
-          autoFocus={true}
-          onChangeText={setPassword}
-          value={password}
-        />
-        <View style={styles.enterPasswordBtns}>
-          <PrimaryText 
-            onPress={() => setEnterPasswordVisible(false)}
-            style={{marginTop: vw(3),color: colors.theme}}
-          >{i18n.t('cancel')}</PrimaryText>
-          <PrimaryText 
-            // onPress={() => {setExportPrivateKeyVisible(true); setEnterPasswordVisible(false)}} 
-            onPress={exportPrivateKeyConfirm}
-            style={{marginLeft: vw(10), marginTop: vw(3), color: colors.theme}}
-          >{i18n.t('done')}</PrimaryText>
-        </View>
+        <>
+          <PrimaryText>{i18n.t('enterYourPassword')}</PrimaryText>
+          <Input
+            secureTextEntry={true}
+            autoFocus={true}
+            onChangeText={setPassword}
+            value={password}
+          />
+          <View style={styles.enterPasswordBtns}>
+            <PrimaryText 
+              onPress={() => {setEnterPasswordVisible(false); setPassword('')}}
+              style={{marginTop: vw(3),color: colors.theme}}
+            >{i18n.t('cancel')}</PrimaryText>
+            <PrimaryText 
+              onPress={exportPrivateKeyConfirm}
+              style={{marginLeft: vw(10), marginTop: vw(3), color: colors.theme}}
+            >{i18n.t('done')}</PrimaryText>
+          </View>
+        </>
       </Overlay>
       <Overlay
         overlayStyle={styles.copyOverlay}
@@ -133,14 +140,16 @@ export default (props) => {
         height={'auto'}
         onBackdropPress={() => setExportPrivateKeyVisible(false)}
       >
-        <PrimaryText style={styles.copyTitle}>{i18n.t('prompt')}</PrimaryText>
-        <SmallText style={styles.copyWaringText}>{i18n.t('exportPrivateKeyWarning')}</SmallText>
-        <SmallText style={styles.privateKeyText}>{privateKey}</SmallText>
-        <Button 
-          // buttonStyle={styles.button}
-          title={i18n.t('copyPrivateKey')}
-          onPress={copy}
-        />
+        <>
+          <PrimaryText style={styles.copyTitle}>{i18n.t('prompt')}</PrimaryText>
+          <SmallText style={styles.copyWaringText}>{i18n.t('exportPrivateKeyWarning')}</SmallText>
+          <SmallText style={styles.privateKeyText}>{privateKey}</SmallText>
+          <Button 
+            // buttonStyle={styles.button}
+            title={i18n.t('copyPrivateKey')}
+            onPress={copy}
+          />
+        </>
       </Overlay>
     </>
   );
