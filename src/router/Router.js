@@ -7,7 +7,7 @@
  * @lastModificationDate: ,
  */
 import React from 'react';
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import TabsRouter from './Tabs/index';
@@ -32,6 +32,7 @@ import Languages from '../pages/Languages';
 import HelpCenter from '../pages/HelpCenter';
 import About from '../pages/About';
 import WalletDetails from '../pages/WalletDetails';
+import NavBar from 'react-native-pure-navigation-bar';
 
 import colors from '../helpers/colors';
 
@@ -91,6 +92,10 @@ const AppNavigator = createStackNavigator(
     },
     Transfer: {
       screen: Transfer,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: `转账`,
+        // headerRight: <Text>123123</Text>,
+      }),
     },
     Collect: {
       screen: Collect,
@@ -133,16 +138,44 @@ const AppNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'Guide',
+    initialRouteName: 'Main',
+    defaultNavigationOptions: ({navigation}) => {
+      return {
+        headerTitle: `默认标题`,
+        header: nav => {
+          // navigationOptions优先级：
+          // createStackNavigator.RouteConfigs.navigationOptions >
+          // Component.navigationOptions >
+          // StackNavigatorConfig.defaultNavigationOptions >
+          const {
+            title,
+            headerTitle,
+            headerRight,
+            headerLeft,
+          } = nav.scene.descriptor.options;
+          console.log(nav.scene.descriptor.options, 'options');
+          return (
+            <NavBar
+              title={headerTitle || title}
+              hasSeperatorLine={false}
+              rightElement={headerRight && headerRight(nav)}
+              leftElement={headerLeft ? headerLeft(nav) : <Text>back</Text>}
+            />
+          );
+        },
+      };
+    },
     // navigationOptions: {
     //   headerTintColor: '#000',
     //   headerShown: true,
     //   headerTitle: '3',
     //   title: '4',
     // },
+    // navigationOptions: {
+    //   headerTitle: '222',
+    // }
   },
 );
-
 
 
 const App = createAppContainer(AppNavigator);
