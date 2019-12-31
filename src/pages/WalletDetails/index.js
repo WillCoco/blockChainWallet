@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
   Clipboard,
   Text,
-  Alert,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {Icon, ListItem, Overlay, Input} from 'react-native-elements';
@@ -18,27 +17,25 @@ import {useNavigationParam, useNavigation} from 'react-navigation-hooks';
 import {eventTypes, WVEvent} from '../../helpers/eventEmmiter';
 import _get from 'lodash/get';
 import {wallet} from '../../redux/actions';
-import NavBar from 'react-native-pure-navigation-bar';
 import {Toast} from '../../components/Toast';
+import NavBar from '../../components/NavBar';
 
-export default (props) => {
-  const [enterPasswordVisible, setEnterPasswordVisible] = React.useState(false);
-  const [exportPrivateKeyVisible, setExportPrivateKeyVisible] = React.useState(false);
-  const [privateKey, setPrivateKey] = React.useState('');
-  const [password, setPassword] = React.useState('');
+const WalletDetails = (props) => {
+  const [enterPasswordVisible, setEnterPasswordVisible] = useState(false);
+  const [exportPrivateKeyVisible, setExportPrivateKeyVisible] = useState(false);
+  const [privateKey, setPrivateKey] = useState('');
+  const [password, setPassword] = useState('');
+  const [currentWallet, setCurrentWallet] = useState(_get(props, ['navigation', 'state', 'params']) || {});
   const {navigate} = useNavigation();
 
-  // 当前钱包
-  const currentWallet = useSelector(
-    state => _get(state.wallets, ['currentWallet']) || [],
-  );
-
+  // 当前钱包名字，显示在标题栏，不跟随输入框改变
+  const currentWalletName = _get(props, ['navigation', 'state', 'params', 'name']) || '';
   const dispatch = useDispatch();
 
   /**
    * 删除钱包
    */
-  const deleteWalletHandle = () => {
+  const deleteWallet = () => {
     dispatch(wallet.removeAWallet(currentWallet));
   };
 
@@ -65,6 +62,14 @@ export default (props) => {
   };
 
   /**
+   * 保存按钮，即更新钱包
+   */
+  const saveWallet = () => {
+    dispatch(wallet.addOrUpdateAWallet(currentWallet));
+    navigate('WalletManagement');
+  };
+
+  /**
    * 复制私钥
    */
   const copy =() => {
@@ -74,14 +79,21 @@ export default (props) => {
 
   return (
     <>
-      {/* <NavBar title={currentWallet.name} hasSeperatorLine={false} rightElement={<Text style={{color: colors.textWhite,}}>{i18n.t('save')}</Text>}/> */}
-      <PrimaryText style={styles.addressCard}>{currentWallet.address}</PrimaryText>
+      <NavBar 
+        title={currentWalletName} 
+        rightElement={<Text style={{color: colors.textWhite,}}>{i18n.t('save')}</Text>}
+        onRight={saveWallet}
+      />
+      <SmallText style={styles.addressCard}>{currentWallet && currentWallet.address}</SmallText>
       <View>
         {/* 钱包名称 */}
         <FormRow
           title={i18n.t('walletName')}
-          placeholder={currentWallet.name || i18n.t('createWalletNamePlaceholder')}
+          placeholder={currentWallet && currentWallet.name || i18n.t('createWalletNamePlaceholder')}
           bottomDivider
+          onChange={v => setCurrentWallet({...currentWallet, name: v})}
+          maxLength={12}
+          inputStyle={{paddingHorizontal: '30%'}}
         />
         {/* 修改密码 */}
         {/* <FormRow
@@ -107,7 +119,7 @@ export default (props) => {
         iconRight
         buttonStyle={styles.btnContainer}
         title={i18n.t('deleteWallet')}
-        onPress={deleteWalletHandle}
+        onPress={deleteWallet}
       />
       <Overlay
         isVisible={enterPasswordVisible}
@@ -199,3 +211,13 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
   },
 });
+
+// WalletDetails.navigationOptions = {
+//   headerTitle: `${123}`,
+//   headerRight: options => {
+//     console.log(options, 'options');
+//     return <Text onPress={() => alert(1111)} style={{color: colors.textWhite}}>{i18n.t('save')}</Text>;
+//   },
+//   // headerLeft: () => {}
+// };
+export default WalletDetails;

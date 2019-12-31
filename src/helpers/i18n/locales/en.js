@@ -3,6 +3,7 @@ export default {
   collect: 'collect',
   walletManagement: 'wallet management',
   createWallet: 'create wallet',
+  importWallet: 'import wallet',
   walletHistory: 'wallet history',
   settingAbout: 'about',
   asset: 'Asset',
@@ -32,4 +33,6 @@ export default {
   exportPrivateKeyWarning: 'Warning,please keep it safe after exporting the private key,do not disclose it, and if it leaks,it may lead to asset loss.',
   copyPrivateKeySuccess: 'The private key has been copied to the clipboard',
   save: 'Done',
+  userAgreement: 'User Agreement',
+  privacy: 'Privacy',
 };

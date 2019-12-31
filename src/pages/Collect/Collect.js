@@ -7,24 +7,39 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import {PrimaryText} from 'react-native-normalization-text';
+import {PrimaryText, SmallText} from 'react-native-normalization-text';
+import {useSelector, useDispatch} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {vh, vw, metrics} from '../../helpers/metric/index';
 import colors from '../../helpers/colors/index';
 import i18n from '../../helpers/i18n/index';
+import _get from 'lodash/get';
 
 const Collect = props => {
+
+  const [amount, setAmount] = React.useState('');
+
+  
+
   // 获取当前token
   const currentToken = () => {
 
   };
 
+  // 获取当前钱包地址
+  const currentWalletAddress = useSelector(
+    state => _get(state, ['wallets', 'currentWallet', 'address']) || '',
+  );
+
+  let qrcodeValue = `jingtun:${currentWalletAddress}?amount=${amount}&token=${'SWT'}`;
+
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.qrCodeWrapper}>
         <QRCode
-          value={'123123123123123'}
+          value={`${qrcodeValue}`}
           size={vw(46)}
           logoBackgroundColor="transparent"
         />
@@ -34,11 +49,14 @@ const Collect = props => {
         <TextInput
           placeholder={i18n.t('transferAmountPlaceholder')}
           style={styles.input}
+          value={amount}
+          onChangeText={setAmount}
+          keyboardType='numeric'
         />
         <PrimaryText>{'SWT'}</PrimaryText>
       </View>
       <View style={styles.addressWrapper}>
-        <PrimaryText style={styles.address}>asdkjhakjsdajshdajkshd</PrimaryText>
+        <PrimaryText style={styles.address}>{currentWalletAddress}</PrimaryText>
         <TouchableOpacity onPress={() => alert('copy')}>
           <PrimaryText>复制</PrimaryText>
         </TouchableOpacity>

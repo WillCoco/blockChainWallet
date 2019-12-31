@@ -22,9 +22,6 @@ export default () => {
 
 const styles = StyleSheet.create({
   empty: {
-    height: vh(100),
-    width: vw(100),
-    lineHeight: vh(100),
     textAlign: 'center',
   },
 });
