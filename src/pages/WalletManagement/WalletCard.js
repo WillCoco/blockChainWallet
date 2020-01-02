@@ -1,10 +1,8 @@
 import React from 'react';
 import {
-  Text,
-  View,
   StyleSheet,
 } from 'react-native';
-import {Icon, ListItem} from 'react-native-elements';
+import {ListItem} from 'react-native-elements';
 import {useNavigation} from 'react-navigation-hooks';
 
 export default (props) => {
@@ -15,7 +13,9 @@ export default (props) => {
       style={styles.walletCard}
       title={props.walletName || ''}
       subtitle={props.walletAddress || ''}
-      onPress={() => {navigate('WalletDetails')}}
+      onPress={() => {navigate('WalletDetails', props.wallet)}}
+      titleProps={{ellipsizeMode: 'middle', numberOfLines: 1}}
+      subtitleProps={{ellipsizeMode: 'middle', numberOfLines: 1}}
       bottomDivider
       chevron
     />

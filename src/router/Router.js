@@ -19,6 +19,11 @@ import {
   WalletBackUpStep2,
   WalletBackUpStep3,
 } from '../pages/WalletBackUp';
+import NavBar from 'react-native-pure-navigation-bar';
+import colors from '../helpers/colors';
+import {InnerNaviBar} from 'react-native-pure-navigation-bar';
+import i18n from '../helpers/i18n';
+
 import ImportWallet from '../pages/ImportWallet';
 import Scan from '../pages/Scan';
 import AssetDetail from '../pages/AssetDetail';
@@ -32,21 +37,30 @@ import Languages from '../pages/Languages';
 import HelpCenter from '../pages/HelpCenter';
 import About from '../pages/About';
 import WalletDetails from '../pages/WalletDetails';
-import NavBar from 'react-native-pure-navigation-bar';
 
-import colors from '../helpers/colors';
 
-const setNavigation = ({navigation}, title) => ({
-    headerShown: false,
-    title,
-    headerTintColor: '#fff',
-    headerStyle: {
-      backgroundColor: colors.theme,
-    },
-    headerTitleStyle: {
-      flex: 1,
-    }
-  });
+// 导航栏默认样式
+InnerNaviBar.defaultProps.style = {
+  safeView: {
+    backgroundColor: colors.theme,
+    height: 50,
+    alignItems:'center',
+    justifyContent: 'center',
+  },
+  title: {
+    color: colors.textWhite,
+    fontWeight: '600',
+  },
+  gobackImage: {
+    width: 10,
+  },
+  buttonView: {
+    color: colors.textWhite,
+  },
+  gobackView: {
+    color: colors.textWhite,
+  }
+}
 
 const AppNavigator = createStackNavigator(
   {
@@ -93,8 +107,7 @@ const AppNavigator = createStackNavigator(
     Transfer: {
       screen: Transfer,
       navigationOptions: ({navigation}) => ({
-        headerTitle: `转账`,
-        // headerRight: <Text>123123</Text>,
+        headerTitle: `${i18n.t('transfer')}`,
       }),
     },
     Collect: {
@@ -108,30 +121,40 @@ const AppNavigator = createStackNavigator(
     },
     WalletManagement: {
       screen: WalletManagement,
-      // navigationOptions: setNavigation({}, '钱包管理'),
       navigationOptions: ({navigation}) => ({
-        headerShown: false,
+        headerTitle: `${i18n.t('walletManagement')}`,
       }),
     },
     TransactionHistory: {
       screen: TransactionHistory,
-      navigationOptions: setNavigation({}, '交易记录'),
+      navigationOptions: ({navigation}) => ({
+        headerTitle: `${i18n.t('transactionHistory')}`,
+      }),
     },
     Languages: {
       screen: Languages,
-      navigationOptions: setNavigation({}, '语言设置'),
+      navigationOptions: ({navigation}) => ({
+        headerTitle: `${i18n.t('languages')}`,
+      }),
     },
     HelpCenter: {
       screen: HelpCenter,
-      navigationOptions: setNavigation({}, '帮助中心'),
+      navigationOptions: ({navigation}) => ({
+        headerTitle: `${i18n.t('helpCenter')}`,
+      }),
     },
     About: {
       screen: About,
-      navigationOptions: setNavigation({}, '关于我们'),
+      navigationOptions: ({navigation}) => ({
+        headerTitle: `${i18n.t('about')}`,
+      }),
     },
     WalletDetails: {
       screen: WalletDetails,
-      navigationOptions: setNavigation({}, '钱包详情'),
+      navigationOptions: ({navigation}) => ({
+        // headerTitle: `${i18n.t('about')}`,
+        headerShown: false,
+      }),
     },
     Main: {
       screen: TabsRouter,
@@ -156,13 +179,13 @@ const AppNavigator = createStackNavigator(
             headerRight,
             headerLeft,
           } = nav.scene.descriptor.options;
-          console.log(nav.scene.descriptor.options, 'options');
+          // console.log(nav.scene.descriptor.options, 'options');
           return (
             <NavBar
               title={headerTitle || title}
               hasSeperatorLine={false}
               rightElement={headerRight && headerRight(nav)}
-              leftElement={headerLeft ? headerLeft(nav) : <Text>back</Text>}
+              // leftElement={headerLeft ? headerLeft(nav) : <Text style={{color: colors.textWhite}}>back</Text>}
             />
           );
         },

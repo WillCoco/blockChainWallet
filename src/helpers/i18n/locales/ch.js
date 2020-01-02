@@ -50,5 +50,7 @@ export default {
   copyPrivateKeySuccess: '私钥已经复制到剪贴板',
   save: '保存',
   mnemonicInputPlaceholder: '请填写助记词，以空格分隔每个单词',
+  userAgreement: '使用协议',
+  privacy: '隐私条款',
   passwordValidDesc: '请输入钱包密码',
 };

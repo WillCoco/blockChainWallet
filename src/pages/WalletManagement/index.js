@@ -14,24 +14,6 @@ import {PrimaryText} from 'react-native-normalization-text';
 import WalletCard from './WalletCard';
 import colors from '../../helpers/colors';
 import {metrics, vw, vh} from '../../helpers/metric';
-import NavBar from 'react-native-pure-navigation-bar';
-import {InnerNaviBar} from 'react-native-pure-navigation-bar';
-
-InnerNaviBar.defaultProps.style = {
-  safeView: {
-    backgroundColor: colors.theme,
-  },
-  title: {
-    color: colors.textWhite,
-    fontWeight: '700',
-  },
-  gobackImage: {
-    width: 10,
-  },
-  buttonView: {
-    color: colors.textWhite,
-  },
-}
 
 export default (props) => {
   const {navigate} = useNavigation();
@@ -55,7 +37,6 @@ export default (props) => {
 
   return (
     <View style={styles.wrapper}>
-      <NavBar title={i18n.t('walletManagement')}/>
       {/* 钱包列表 */}
       <View style={styles.content}>
         {
@@ -63,9 +44,9 @@ export default (props) => {
             return (
               <WalletCard 
                 key={item.address}
+                wallet={item}
                 walletName={item.name}
                 walletAddress={item.address}
-                onPress={() => navigate('WalletDetails')}
               />
             )
           })
@@ -74,11 +55,13 @@ export default (props) => {
       {/* 按钮 */}
       <View style={styles.btns}>
         <Button
+          containerStyle={{flex: 1}}
           buttonStyle={StyleSheet.flatten([styles.button, {backgroundColor: colors.success}])}
           title={i18n.t('createWallet')}
           onPress={() => navigate('CreateWallet')}
         />
         <Button
+          containerStyle={{flex: 1}}
           buttonStyle={styles.button}
           title={i18n.t('importWallet')}
           onPress={recoverWallet}
@@ -94,21 +77,18 @@ const styles = StyleSheet.create({
     height: '100%',
     flexDirection: 'column',
   },
-  // navbar: {
-
-  // },
   content: {
     flex: 1,
     padding: 15,
   },
   btns: {
+    width: '100%',
     height: 50,
     flexDirection: 'row',
   },
   button: {
     flex: 1,
     backgroundColor: colors.theme,
-    width: vw(50),
     borderRadius: 0,
   },
   buttonText: {
