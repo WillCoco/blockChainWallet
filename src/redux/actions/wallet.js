@@ -14,6 +14,8 @@ import {
 import _get from 'lodash/get';
 import _findIndex from 'lodash/findIndex';
 import {safeStringify} from '../../utils/safetyFn';
+import {getAssetByAddress} from './asset';
+// import {getAddressAsset} from '../../helpers/chain33/';
 
 // /**
 //  * 更新wallet webview实例post
@@ -71,6 +73,9 @@ export function addOrUpdateAWallet(wallet, shouldFocus = true) {
     // 更新当前钱包
     if (shouldFocus) {
       dispatch(updateCurrentWallet(wallet.address));
+
+      // 更新钱包数据
+
     }
   };
 }
@@ -119,8 +124,6 @@ export function removeAWallet(wallet) {
 export function updateWalletsList(walletsList) {
   return (dispatch, getState) => {
     dispatch({type: UPDATE_WALLETS, payload: {walletsList}});
-
-    // todo: 请求新钱包数据
   };
 }
 
@@ -135,6 +138,13 @@ export function updateCurrentWallet(address) {
       type: UPDATE_CURRENT_WALLET,
       payload: {currentWallet: wallet},
     });
+
+    // todo: 请求新钱包数据
+    getAssetByAddress({address: wallet.address})
+      .then(res=> {
+        console.log(res, 'getAddressTokens')
+      });
+
   };
 }
 

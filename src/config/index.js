@@ -6,10 +6,13 @@
  * @lastModification:
  * @lastModificationDate:
  */
-const urlsConfig = require('./urls');
+import chainInfo from './chainInfo';
+const urls = require('./urls');
 const env = require('./env');
 
 module.exports = {
+  chainInfo,
   env: env.serverEnv, // 当前服务环境
-  urls: urlsConfig[env.serverEnv], // urls
+  url: urls[env.serverEnv], // urls
+  urls: chainInfo.networks, // urls
 };

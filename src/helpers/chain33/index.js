@@ -1,74 +1,111 @@
-// /**
-//  * @author: Xu Ke
-//  * @date: 2019/12/25 11:26 PM
-//  * @Description: chain33
-//  * @lastModificationBy:
-//  * @lastModification:
-//  * @lastModificationDate:
-//  */
-// import {seed, sign} from '@33cn/wallet-base';
-// // import CryptoJS, {SHA256} from 'crypto-js';
-// import Rpc from '@33cn/chain33-rpc-api';
-//
-// /**
-//  * 创建新钱包
-//  * @params: {object} params - 创建参数
-//  * @param: {number} params.[blockType] - 区块类型
-//  * @param: {string} params.name - 钱包名
-//  * @param: {string} params.password - 密码
-//  * @param: {string} params.[prompt] - 备注
-//  * @returns: {object} accountInfo - 新钱包
-//  * @return: {string} accountInfo.encryptedPrivateKey - 私钥
-//  * @return: {string} accountInfo.passwordKey - 密码sha256
-//  * @return: {string} accountInfo.address - 钱包地址
-//  * @return: {string} accountInfo.name - 钱包名称
-//  * @return: {string} accountInfo.[prompt] - 备注
-//  */
-// export function createWallet(params) {
-//   const mnemonic = seed.newMnemonicInCN();
-//   const walletObj = seed.newWalletFromMnemonic(mnemonic);
-//
-//   const wallet = walletObj.newAccount(params.name);
-//
-//   const accountInfo = {};
-//   accountInfo.name = wallet.name;
-//   accountInfo.address = wallet.address; // 第一个账户的地址
-//   // accountInfo.mnemonic = mnemonic;
-//   // 加密后的私钥
-//   // accountInfo.encryptedPrivateKey = CryptoJS.AES.encrypt(
-//   //   walletObj.masterKey,
-//   //   params.password,
-//   // );
-//   // accountInfo.passwordKey = SHA256(params.password).toString(); // 加密后的钱包管理密码
-//
-//   return accountInfo;
-// }
-//
-// /**
-//  * 助记词恢复钱包
-//  * @params: {json} params 参数
-//  * @parma: {string} mnemonic - 助记词
-//  * @returns: {object} accountInfo - 新钱包
-//  * @return: {string} accountInfo.encryptedPrivateKey - 私钥
-//  * @return: {string} accountInfo.passwordKey - 密码sha256
-//  * @return: {string} accountInfo.address - 钱包地址
-//  * @return: {string} accountInfo.name - 钱包名称
-//  * @return: {string} accountInfo.[prompt] - 备注
-//  */
-// export function recoverWalletFromMnemonic(params) {
-//   const walletObj = seed.newWalletFromMnemonic(params.mnemonic);
-//   // todo: 是否recover遍历底下n个
-//   const wallet = walletObj.genAccount(0, params.name);
-//   const accountInfo = {};
-//   accountInfo.name = wallet.name;
-//   accountInfo.address = wallet.address;
-//   // accountInfo.mnemonic = params.mnemonic;
-//   // 加密后的私钥
-//   // accountInfo.encryptedPrivateKey = CryptoJS.AES.encrypt(
-//   //   walletObj.masterKey,
-//   //   params.password,
-//   // );
-//   // accountInfo.passwordKey = SHA256(params.password).toString(); // 加密后的钱包管理密码
-//
-//   return accountInfo;
-// }
+/**
+ * @author: Xu Ke
+ * @date: 2019/12/31 6:39 PM
+ * @Description:
+ * @lastModificationBy:
+ * @lastModification:
+ * @lastModificationDate:
+ */
+import {url} from '../../config';
+import {server} from '../axios';
+import * as format from './format';
+
+let jsonrpc = '2.0';
+let callId = 0;
+
+/**
+ * 获取服务时间
+ */
+export function getServerTime() {
+  return server.post(url.basicUrl, {
+    jsonrpc,
+    method: 'Chain33.GetTimeStatus',
+    params: [],
+    id: ++callId,
+  });
+}
+
+/**
+ * 获取地址主币资产
+ */
+export function getAddressOverview(param) {
+  return server
+    .post(url.basicUrl, {
+      jsonrpc,
+      method: 'Chain33.GetAddrOverview',
+      params: [{addr: param.address}],
+      id: ++callId,
+    })
+    .then(r => {
+      console.log(r, '1')
+      const response = format.getAddressOverview(r);
+      return Promise.resolve(response);
+    });
+}
+
+/**
+ * 获取地址下token资产
+ */
+export function getAddressTokens(param) {
+  return server
+    .post(url.basicUrl, {
+      jsonrpc,
+      method: 'Chain33.Query',
+      params: [
+        {
+          execer: 'token',
+          funcName: 'GetAccountTokenAssets',
+          payload: {
+            address: param.address,
+            execer: 'token',
+          },
+        },
+      ],
+      id: ++callId,
+    })
+    .then(r => {
+      const response = format.getAddressTokens(r);
+      return Promise.resolve(response);
+    });
+}
+
+/**
+ * 获取地址下主币+token资产
+ */
+export function getAddressAsset(params) {
+  return Promise.all([
+    getAddressOverview(params),
+    getAddressTokens(params),
+  ]).then(r => {
+    const response = format.getAddressAsset(r);
+    return Promise.resolve(response);
+  });
+}
+
+/**
+ * 构造未签名交易
+ */
+export function createTx(params) {
+  return server
+    .post(url.basicUrl, {
+      jsonrpc,
+      method: 'Chain33.CreateRawTransaction',
+      id: ++callId,
+      params: [
+        {
+          to: params.to,
+          amount: params.amount,
+          fee: params.fee,
+          note: params.note,
+          isToken: params.isToken,
+          isWithdraw: params.isWithdraw,
+          tokenSymbol: params.tokenSymbol,
+          execName: params.execName,
+        },
+      ],
+    })
+    .then(r => {
+      console.log(r, '====');
+      return Promise.resolve(r);
+    });
+}

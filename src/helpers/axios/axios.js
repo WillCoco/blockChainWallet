@@ -1,4 +1,11 @@
-
+/**
+ * @author: Xu Ke
+ * @date: 2019/12/31 7:05 PM
+ * @Description: axios 基础
+ * @lastModificationBy:
+ * @lastModification:
+ * @lastModificationDate:
+ */
 import axios from 'axios';
 import _get from 'lodash/get';
 // import _filter from 'lodash/filter';
@@ -34,20 +41,29 @@ server.interceptors.response.use(
     // }
 
     // 使用拦截器统一状态码处理
-    const {code, message} = _get(res, 'data') || {};
+    const {message, result, error} = _get(res, 'data') || {};
 
     // 1.token过期 退出
-    if (code === '13000') {
-      server.resInterceptorsCallback['13000'] &&
-      server.resInterceptorsCallback['13000']();
-    }
+    // if (code === '13000') {
+    //   server.resInterceptorsCallback['13000'] &&
+    //     server.resInterceptorsCallback['13000']();
+    // }
 
     // 非200的显示服务器返回错误码
-    if (code !== 200 && message) {
+    if (error) {
       // todo toast
     }
 
-    return responseHandlers(res);
+    // console.log(_get(res, 'data'), '_get(res, \'data\')')
+
+    const resultFormatted = {};
+    resultFormatted.result = result;
+
+    if (error) {
+      resultFormatted.error = error;
+    }
+
+    return responseHandlers(resultFormatted);
   },
   err => {
     return Promise.resolve(err);
@@ -60,3 +76,7 @@ server.interceptors.response.use(
 function responseHandlers(response) {
   return response;
 }
+
+module.exports = {
+  server,
+};
