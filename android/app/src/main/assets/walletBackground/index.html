@@ -52,6 +52,8 @@
         return window.walletBase.sha256;
       case 'RECOVER_WALLET_FROM_MNEMONIC':
         return window.walletBase.recoverWalletFromMnemonic;
+      case 'SIGN_TX':
+        return window.walletBase.signTx;
       default:
         alert('UNDEFINED ACTION:' + action);
     }

@@ -15,6 +15,8 @@ import _get from 'lodash/get';
 import _findIndex from 'lodash/findIndex';
 import {safeStringify} from '../../utils/safetyFn';
 import {getAssetByAddress} from './asset';
+import {WVEvent, eventTypes} from '../../helpers/eventEmmiter';
+
 // import {getAddressAsset} from '../../helpers/chain33/';
 
 // /**
@@ -140,11 +142,7 @@ export function updateCurrentWallet(address) {
     });
 
     // todo: 请求新钱包数据
-    getAssetByAddress({address: wallet.address})
-      .then(res=> {
-        console.log(res, 'getAddressTokens')
-      });
-
+    dispatch(getAssetByAddress(wallet.address));
   };
 }
 
@@ -204,5 +202,60 @@ export function validTempMnemonic(mnemonicInput) {
       return true;
     }
     return false;
+  };
+}
+
+/**
+ * 验证当前钱包密码正确性
+ * @param: {string} mnemonicInput - 输入的助记词
+ */
+export function validPassword(passwordInput) {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      const currentWallet =
+        _get(getState(), ['wallets', 'currentWallet']) || {};
+
+      WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
+        {
+          payload: {
+            action: eventTypes.SHA_256,
+            data: passwordInput,
+          },
+          callback: v => {
+            resolve(v === currentWallet.passwordKey);
+          },
+        },
+      ]);
+    }).catch(err => {
+      console.log('isValidPwd', err);
+    });
+  };
+}
+
+/**
+ * webview签名调用
+ * @param: {string} mnemonicInput - 输入的助记词
+ */
+export function signTx(params) {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      const currentWallet =
+        _get(getState(), ['wallets', 'currentWallet']) || {};
+
+      WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
+        {
+          payload: {
+            action: eventTypes.SIGN_TX,
+            data: params.tx,
+            privateKey: params.privateKey,
+          },
+          callback: v => {
+            resolve(v === currentWallet.passwordKey);
+          },
+        },
+      ]);
+    }).catch(err => {
+      console.log('isValidPwd', err);
+    });
   };
 }

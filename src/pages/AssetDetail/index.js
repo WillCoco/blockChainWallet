@@ -4,9 +4,12 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+import _findIndex from 'lodash/findIndex';
+import _get from 'lodash/get';
 import {Button} from 'react-native-elements';
 import {H1, H2, H3, H4, PrimaryText} from 'react-native-normalization-text';
-import {useNavigation} from 'react-navigation-hooks';
+import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
 import {metrics, vw} from '../../helpers/metric';
 import i18n from '../../helpers/i18n';
@@ -14,11 +17,26 @@ import TxsList from '../../components/TxsList';
 
 const AssetDetail = props => {
   const {navigate} = useNavigation();
+  const assetsList = useSelector(state =>
+    _get(state, ['assets', 'assetsList']),
+  );
+
+  const tokenSymbol = useNavigationParam('tokenSymbol');
+  const findTokenBySymbol = symbol => {
+    const tokenIndex = _findIndex(assetsList, o => symbol === o.symbol);
+    return assetsList[tokenIndex];
+  };
+
+  // 当前币种
+  const currentToken = findTokenBySymbol(tokenSymbol);
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.headerWrapper}>
-        <H2>{props.token.amount}</H2>
-        <PrimaryText>¥ {props.token.amount}</PrimaryText>
+        <H2>
+          {currentToken.balance} {currentToken.symbol}
+        </H2>
+        <PrimaryText>¥ {currentToken.balance}</PrimaryText>
       </View>
       <TxsList wrapperStyle={{marginTop: metrics.spaceS}} />
       <View style={styles.buttonsWrapper}>
@@ -26,7 +44,9 @@ const AssetDetail = props => {
           title={i18n.t('transfer')}
           containerStyle={styles.leftBtnContainerStyle}
           buttonStyle={styles.leftButtonStyle}
-          onPress={() => navigate('Transfer')}
+          onPress={() =>
+            navigate({routeName: 'Transfer', params: {tokenSymbol}})
+          }
         />
         <Button
           title={i18n.t('collect')}

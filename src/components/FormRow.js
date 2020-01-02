@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
     bottom: 0,
-    paddingHorizontal: '24%',
+    paddingLeft: '24%',
+    paddingRight: '4%',
     height: '100%',
   },
 });

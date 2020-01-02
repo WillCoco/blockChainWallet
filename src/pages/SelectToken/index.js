@@ -20,7 +20,7 @@ const SelectToken = props => {
   return (
     <TokensList
       tokensList={props.tokensList}
-      onTokenSelected={onSelectToken}
+      onSelectToken={onSelectToken}
     />
   )
 };

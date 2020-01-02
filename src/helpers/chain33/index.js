@@ -85,7 +85,7 @@ export function getAddressAsset(params) {
 /**
  * 构造未签名交易
  */
-export function createTx(params) {
+export function createTransaction(params) {
   return server
     .post(url.basicUrl, {
       jsonrpc,
@@ -101,6 +101,27 @@ export function createTx(params) {
           isWithdraw: params.isWithdraw,
           tokenSymbol: params.tokenSymbol,
           execName: params.execName,
+        },
+      ],
+    })
+    .then(r => {
+      console.log(r, '====');
+      return Promise.resolve(r);
+    });
+}
+
+/**
+ * 发送交易
+ */
+export function sendTransaction(params) {
+  return server
+    .post(url.basicUrl, {
+      jsonrpc,
+      method: 'Chain33.SendTransaction',
+      id: ++callId,
+      params: [
+        {
+          data: params.tx,
         },
       ],
     })

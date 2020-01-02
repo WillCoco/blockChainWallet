@@ -16,6 +16,8 @@ import {
   getAddressTokens,
   getAddressOverview,
   getAddressAsset,
+  createTransaction,
+  sendTransaction,
 } from '../../helpers/chain33';
 import stores from '../../redux/store';
 
@@ -27,12 +29,14 @@ const {store} = stores;
  */
 export function getAssetByAddress(address) {
   return async (dispatch, getState) => {
+    console.log(address, '1-1--1-1-1-')
     const r = (await getAddressAsset({address})) || {};
-    console.log(r, 123123)
 
     if (r.result) {
       dispatch({type: UPDATE_CURRENT_ASSET, payload: {assetsList: r.result}});
     }
+
+    return r;
   };
 }
 
@@ -51,4 +55,49 @@ export function getTxHistory(address) {
   };
 }
 
-store.dispatch(getAssetByAddress('14KEKbYtKKQm4wMthSK9J4La4nAiidGozt'));
+/**
+ * 构造交易
+ * @param:
+ */
+export function createTx(params) {
+  return async (dispatch, getState) => {
+    const finallyParams = {
+      to: params.to,
+      amount: params.amount,
+      fee: params.fee,
+      note: params.note,
+      isToken: params.isToken,
+      isWithdraw: params.isWithdraw,
+      tokenSymbol: params.tokenSymbol,
+      execName: params.execName,
+    };
+
+    const r = (await createTransaction(finallyParams)) || {};
+    console.log(r, 22222);
+
+    if (r.result) {
+      dispatch({type: UPDATE_CURRENT_ASSET, payload: {assetsList: r.result}});
+    }
+  };
+}
+
+/**
+ * 根据symbol从tokens中找token
+ * @param: {string} address - 寻找的钱包地址
+ */
+function findAssetBySymbol(tokenSymbol) {
+  return async (dispatch, getState) => {
+    const assetsList = _get(getState(), ['assets', 'assetsList']) || [];
+
+    let newAssetsList = [...assetsList];
+
+    const assetIndex = _findIndex(newAssetsList, o => o.symbol === tokenSymbol);
+
+    return {
+      assetIndex,
+      asset: newAssetsList[assetIndex],
+    };
+  };
+}
+
+// store.dispatch(getAssetByAddress('14KEKbYtKKQm4wMthSK9J4La4nAiidGozt'));

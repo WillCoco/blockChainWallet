@@ -13,4 +13,5 @@ module.exports = {
   AES_DECRYPT: 'AES_DECRYPT', // AES解密
   AES_ENCRYPT: 'AES_ENCRYPT', // AES加密
   SHA_256: 'SHA_256', // sha256加密
+  SIGN_TX: 'SIGN_TX', // 签名交易
 };

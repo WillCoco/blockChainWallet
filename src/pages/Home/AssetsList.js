@@ -10,32 +10,36 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 import {H1, H2, PrimaryText} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
 import {Toast} from '../../components/Toast/index';
-import useI18n from '../../hooks/useI18n';
 import {vh, vw, metrics} from '../../helpers/metric';
 import colors from '../../helpers/colors';
 
 const AssetsList = props => {
   const {navigate} = useNavigation();
 
-  const goAssetDetail = () => {
-    navigate('AssetDetail');
+  const goAssetDetail = symbol => {
+    navigate({routeName: 'AssetDetail', params: {tokenSymbol: symbol}});
   };
+
+  const assetsList = useSelector(
+    state => _get(state, ['assets', 'assetsList']) || [],
+  );
 
   return (
     <>
       <ScrollView>
-        {props.assetsList.map((asset, index) => {
+        {assetsList.map((asset, index) => {
           const borderTopWidth = index !== 0 ? StyleSheet.hairlineWidth : 0;
           return (
             <TouchableOpacity
               key={`asset_${index}`}
               style={StyleSheet.flatten([styles.assetRow, {borderTopWidth}])}
-              onPress={goAssetDetail}>
-              <PrimaryText>{asset.name}</PrimaryText>
-              <PrimaryText>{asset.value}</PrimaryText>
+              onPress={() => goAssetDetail(asset.symbol)}>
+              <PrimaryText>{asset.symbol}</PrimaryText>
+              <PrimaryText>{asset.balance}</PrimaryText>
             </TouchableOpacity>
           );
         })}
@@ -45,7 +49,7 @@ const AssetsList = props => {
 };
 
 AssetsList.defaultProps = {
-  assetsList: [{name: 'ASK', value: '1.23123'}, {name: 'USDT', value: '333'}],
+  assetsList: [],
 };
 
 const styles = StyleSheet.create({

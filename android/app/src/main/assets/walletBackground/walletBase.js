@@ -90,7 +90,7 @@ function createWallet(params) {
  * @return: {string} accountInfo.[prompt] - 备注
  */
 // const w = recoverWalletFromMnemonic({
-//   mnemonic: '代 牧 的 谈 佛 古 祸 克 彼 喊 腿 劝 册 抵 遂',
+//   mnemonic: 'enjoy juice vicious join animal joke bean basic tongue child acid learn silly outdoor stereo',
 //   name: '123',
 //   password: '123',
 // });
@@ -204,6 +204,23 @@ function sha256(params) {
   };
 }
 
+/**
+ * 签名交易
+ * @params: {object} params 参数
+ * @parma: {string} params.callId - 调用序号
+ * @parma: {string} params.data - 未签名交易
+ * @parma: {string} params.privateKey - 私钥
+ * @returns: {object}
+ * @return: {string} object.result - 加密结果
+ */
+function signTx(params) {
+  const signed = signTx(params.data, params.privateKey);
+  return {
+    callId: params.callId,
+    result: signed,
+  };
+}
+
 // const e = encrypt({data: 'a12345', password: '123'});
 // const d = decrypt({data: e.result, password: '123'});
 // console.log(e, 111111);
@@ -215,6 +232,7 @@ window.walletBase = {
   sha256,
   encrypt,
   decrypt,
+  signTx,
 };
 
 //
