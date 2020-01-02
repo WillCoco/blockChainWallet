@@ -19,14 +19,16 @@ import _get from 'lodash/get';
 import {wallet} from '../../redux/actions';
 import {Toast} from '../../components/Toast';
 import NavBar from '../../components/NavBar';
+import Dialog from '../../components/Dialog';
 
 const WalletDetails = (props) => {
-  const [enterPasswordVisible, setEnterPasswordVisible] = useState(false);
+  const [passwordValidVisible, setPasswordValidVisible] = useState(false);
   const [exportPrivateKeyVisible, setExportPrivateKeyVisible] = useState(false);
   const [privateKey, setPrivateKey] = useState('');
   const [password, setPassword] = useState('');
   const [currentWallet, setCurrentWallet] = useState(_get(props, ['navigation', 'state', 'params']) || {});
   const {navigate} = useNavigation();
+
 
   // 当前钱包名字，显示在标题栏，不跟随输入框改变
   const currentWalletName = _get(props, ['navigation', 'state', 'params', 'name']) || '';
@@ -53,7 +55,7 @@ const WalletDetails = (props) => {
         },
         callback: v => {
           setPrivateKey(v);
-          setEnterPasswordVisible(false);
+          setPasswordValidVisible(false);
           setExportPrivateKeyVisible(true); 
           setPassword('');
         },
@@ -73,8 +75,9 @@ const WalletDetails = (props) => {
    * 复制私钥
    */
   const copy =() => {
-    Clipboard.setString(currentWallet.encryptedPrivateKey);   
+    Clipboard.setString(privateKey);   
     Toast.show({data: '复制私钥成功'});
+    setExportPrivateKeyVisible(false); 
   }
 
   return (
@@ -110,7 +113,7 @@ const WalletDetails = (props) => {
           chevron={{size: 24}}
           bottomDivider
           containerStyle={{marginTop: 10}}
-          onPress={() => setEnterPasswordVisible(true)}
+          onPress={() => setPasswordValidVisible(true)}
           editable={false}
         />
       </View>
@@ -121,31 +124,14 @@ const WalletDetails = (props) => {
         title={i18n.t('deleteWallet')}
         onPress={deleteWallet}
       />
-      <Overlay
-        isVisible={enterPasswordVisible}
-        height={vh(20)}
-        onBackdropPress={() => setEnterPasswordVisible(false)}
-      >
-        <>
-          <PrimaryText>{i18n.t('enterYourPassword')}</PrimaryText>
-          <Input
-            secureTextEntry={true}
-            autoFocus={true}
-            onChangeText={setPassword}
-            value={password}
-          />
-          <View style={styles.enterPasswordBtns}>
-            <PrimaryText 
-              onPress={() => {setEnterPasswordVisible(false); setPassword('')}}
-              style={{marginTop: vw(3),color: colors.theme}}
-            >{i18n.t('cancel')}</PrimaryText>
-            <PrimaryText 
-              onPress={exportPrivateKeyConfirm}
-              style={{marginLeft: vw(10), marginTop: vw(3), color: colors.theme}}
-            >{i18n.t('done')}</PrimaryText>
-          </View>
-        </>
-      </Overlay>
+      <Dialog
+        showInput
+        description={i18n.t('passwordValidDesc')}
+        visible={passwordValidVisible}
+        onChangeText={setPassword}
+        onCancelPress={() => setPasswordValidVisible(false)}
+        onOKPress={exportPrivateKeyConfirm}
+      />
       <Overlay
         overlayStyle={styles.copyOverlay}
         isVisible={exportPrivateKeyVisible}
@@ -212,12 +198,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// WalletDetails.navigationOptions = {
-//   headerTitle: `${123}`,
-//   headerRight: options => {
-//     console.log(options, 'options');
-//     return <Text onPress={() => alert(1111)} style={{color: colors.textWhite}}>{i18n.t('save')}</Text>;
-//   },
-//   // headerLeft: () => {}
-// };
 export default WalletDetails;

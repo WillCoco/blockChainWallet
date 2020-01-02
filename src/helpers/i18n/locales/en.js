@@ -35,4 +35,6 @@ export default {
   save: 'Done',
   userAgreement: 'User Agreement',
   privacy: 'Privacy',
+  orderDetail: 'OrderDetail',
+  confirm: 'Confirm',
 };

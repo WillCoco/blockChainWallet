@@ -53,4 +53,6 @@ export default {
   userAgreement: '使用协议',
   privacy: '隐私条款',
   passwordValidDesc: '请输入钱包密码',
+  orderDetail: '订单详情',
+  confirm: '确认转账',
 };

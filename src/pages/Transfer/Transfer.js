@@ -4,29 +4,34 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
-import {Button, ListItem} from 'react-native-elements';
+import {Button, ListItem, Overlay} from 'react-native-elements';
 import {PrimaryText} from 'react-native-normalization-text';
 import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
-import {metrics, vw} from '../../helpers/metric';
+import {metrics, vw, vh} from '../../helpers/metric';
 import FormRow from '../../components/FormRow';
+import TxConfirmOverlay from './TxConfirmOverlay';
 import _get from 'lodash/get';
 
 export default (props) => {
   const [txConfirmVisible, setTxConfirmVisible] = React.useState(false);
   const {navigate, state} = useNavigation();
-  const [transferForm, setTransferForm] = React.useState(_get(props, ['navigation', 'state', 'params', 'transferData']) || {});
+  const [transferForm, setTransferForm] = React.useState(_get(props, ['props', 'navigation', 'state', 'params']) || {});
   const aaa = useNavigation();
-  // const transferData = _get(props, ['navigation', 'state', 'params', 'transferData']) || {};
 
   console.log(aaa.getParam('a'), 'bbbb');
   const {selectedToken, setSelectedToken} = React.useState();
+  console.log(aaa)
 
   const goSelectToken = () => {
     navigate(
       'SelectToken',
       {onSelectToken: token => setSelectedToken(token)}
      );
+  };
+
+  const nextPress = () => {
+
   };
 
   const a = useNavigationParam('aaa');
@@ -64,7 +69,6 @@ export default (props) => {
         bottomDivider
         placeholder={i18n.t('transferNotePlaceholder')}
       />
-
       <Button
         iconRight
         containerStyle={styles.btnContainerStyle}
@@ -75,6 +79,16 @@ export default (props) => {
           setTxConfirmVisible(true);
         }}
       />
+      <Overlay 
+        isVisible={txConfirmVisible} 
+        overlayStyle={styles.overlayStyle}
+        onBackdropPress={() => setTxConfirmVisible(false)}
+        animationType='slide'
+      >
+        <TxConfirmOverlay 
+          closePress={() => setTxConfirmVisible(false)}
+        />
+      </Overlay>
     </View>
   );
 };
@@ -87,5 +101,10 @@ const styles = StyleSheet.create({
     width: '80%',
     marginTop: vw(10),
     alignSelf: 'center',
+  },
+  overlayStyle: {
+    height: 500,
+    width: '100%',
+    top: vh(100) - 550,
   },
 });
