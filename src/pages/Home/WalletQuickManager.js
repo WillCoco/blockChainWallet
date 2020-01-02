@@ -5,10 +5,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Image,
 } from 'react-native';
 import {Toast} from '../../components/Toast/index';
 import {H1, H2, H3, H4, PrimaryText} from 'react-native-normalization-text';
-import {Overlay} from 'react-native-elements';
+import {Overlay, Icon} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import _get from 'lodash/get';
 import {useNavigation} from 'react-navigation-hooks';
@@ -17,6 +18,9 @@ import {vh, vw} from '../../helpers/metric';
 import {wallet} from '../../redux/actions';
 import i18n from '../../helpers/i18n';
 import HomeContext from './HomeContext';
+
+const upArrow = require('../../images/upArrow.png');
+const downArrow = require('../../images/downArrow.png');
 
 const WalletQuickManager = props => {
   const dispatch = useDispatch();
@@ -72,6 +76,11 @@ const WalletQuickManager = props => {
           style={styles.checkedWallet}>
           <PrimaryText color="white">
             {props.walletFormat(currentWallet) || props.defaultCheckedText}
+            {
+              props.overlayVisible 
+              && <Image source={upArrow}/>
+              || <Image source={downArrow}/>
+            }
           </PrimaryText>
         </TouchableOpacity>
         <TouchableOpacity>

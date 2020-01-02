@@ -9,6 +9,7 @@ import {useNavigation} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
 import i18n from '../../helpers/i18n';
 import WalletQuickManager from './WalletQuickManager';
+import {vh, vw, metrics} from '../../helpers/metric';
 
 export default () => {
   const [overlayVisible, setOverlayVisible] = React.useState(false);

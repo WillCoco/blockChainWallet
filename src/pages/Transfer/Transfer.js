@@ -5,23 +5,23 @@ import {
   StyleSheet,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {Button, ListItem} from 'react-native-elements';
+import {Button, ListItem, Overlay} from 'react-native-elements';
 import {PrimaryText} from 'react-native-normalization-text';
 import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
-import i18n from '../../helpers/i18n';
-import {metrics, vw} from '../../helpers/metric';
+import {metrics, vw, vh} from '../../helpers/metric';
 import {createTransaction, sendTransaction} from '../../helpers/chain33';
-import FormRow from '../../components/FormRow';
 import {Toast} from '../../components/Toast';
 import {wallet} from '../../redux/actions';
 import {chainInfo} from '../../config/';
+import i18n from '../../helpers/i18n';
+import FormRow from '../../components/FormRow';
+import TxConfirmOverlay from './TxConfirmOverlay';
 import _get from 'lodash/get';
 
 const defaultFee = 10;
 
 export default props => {
   const [txConfirmVisible, setTxConfirmVisible] = React.useState(false);
-
   const dispatch = useDispatch();
 
   // tx构造
@@ -40,6 +40,7 @@ export default props => {
 
   // 是否token转账
   const isToken = tokenSymbol === chainInfo.symbol;
+
 
   const [transferForm, setTransferForm] = React.useState(defaultTransferForm);
 
@@ -117,6 +118,10 @@ export default props => {
     sendTransaction({tx: unsignedTx.current});
   };
 
+  const nextPress = () => {
+
+  };
+
   return (
     <View style={styles.wrapper}>
       <FormRow
@@ -153,13 +158,19 @@ export default props => {
         bottomDivider
         placeholder={i18n.t('transferNotePlaceholder')}
       />
-
       <Button
         iconRight
         containerStyle={styles.btnContainerStyle}
         title={i18n.t('next')}
         onPress={onPressNext}
       />
+      <Overlay
+        isVisible={txConfirmVisible}
+        overlayStyle={styles.overlayStyle}
+        onBackdropPress={() => setTxConfirmVisible(false)}
+        animationType="slide">
+        <TxConfirmOverlay closePress={() => setTxConfirmVisible(false)} />
+      </Overlay>
     </View>
   );
 };
@@ -172,5 +183,10 @@ const styles = StyleSheet.create({
     width: '80%',
     marginTop: vw(10),
     alignSelf: 'center',
+  },
+  overlayStyle: {
+    height: 500,
+    width: '100%',
+    top: vh(100) - 550,
   },
 });

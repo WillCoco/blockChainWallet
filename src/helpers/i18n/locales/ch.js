@@ -55,4 +55,6 @@ export default {
   passwordValidDesc: '请输入钱包密码',
   transferAddressInvalid: '请输入合法地址',
   transferInvalidAmount: '请输入合法数量',
+  orderDetail: '订单详情',
+  confirm: '确认转账',
 };

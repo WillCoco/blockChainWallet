@@ -7,7 +7,7 @@
  * @lastModificationDate: ,
  */
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, Image} from 'react-native';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import TabsRouter from './Tabs/index';
@@ -60,7 +60,7 @@ InnerNaviBar.defaultProps.style = {
   gobackView: {
     color: colors.textWhite,
   }
-}
+};
 
 const AppNavigator = createStackNavigator(
   {
@@ -186,6 +186,7 @@ const AppNavigator = createStackNavigator(
               hasSeperatorLine={false}
               rightElement={headerRight && headerRight(nav)}
               // leftElement={headerLeft ? headerLeft(nav) : <Text style={{color: colors.textWhite}}>back</Text>}
+              gobackImage={require('../images/backBtn.png')}
             />
           );
         },

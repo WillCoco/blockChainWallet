@@ -30,7 +30,7 @@ const AssetsList = props => {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView style={{backgroundColor: '#fff'}}>
         {assetsList.map((asset, index) => {
           const borderTopWidth = index !== 0 ? StyleSheet.hairlineWidth : 0;
           return (

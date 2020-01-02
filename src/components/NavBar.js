@@ -11,6 +11,7 @@ const Navbar = props => {
       leftElement={props.leftElement}
       onRight={props.onRight}
       rightElement={props.rightElement}
+      gobackImage={require('../images/backBtn.png')}
     />
   )
 };

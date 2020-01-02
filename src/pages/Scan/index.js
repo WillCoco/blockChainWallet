@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {useNavigation} from 'react-navigation-hooks';
+import _split from 'lodash/split';
 
 // export default class ScannerScreen extends React.Component {
   
@@ -199,8 +200,6 @@ const ScannerScreen = props => {
     }
   });
 
-  
-
   const barcodeReceived = (e) => {
     if (show) {
       setShow(false);
@@ -208,23 +207,10 @@ const ScannerScreen = props => {
         Vibration.vibrate([0, 500], false);
         let result = e.data;
         let transferData = {};
-        transferData.address = result.split('?')[0].split(':')[1];
-        transferData.amount = result.split('?')[1].split('&')[0].split('=')[1];
-        transferData.token = result.split('?')[1].split('&')[1].split('=')[1];
+        transferData.address = _split(_split(result, '?')[0], ':')[1];
+        transferData.amount = _split(_split(_split(result, '?')[1], '&')[0], '=')[1];
+        transferData.token = _split(_split(_split(result, '?')[1], '&')[1], '=')[1];
         navigate('Transfer', transferData);
-
-        // Alert.alert(
-        //   '扫描成功',
-        //   '扫描结果：' + result,
-        //   [
-        //     {
-        //       text: '确定', onPress: () => {
-        //         setShow(true);
-        //       }
-        //     }
-        //   ],
-        //   {cancelable: false}
-        // )
       } else {
         Alert.alert(
           '提示',
