@@ -7,18 +7,20 @@
  * @lastModificationDate:
  */
 import {
-  UPDATE_LANGUAGE,
+  UPDATE_CURRENT_ASSET,
 } from '../actions/actionTypes';
-import i18n from '../../helpers/i18n';
 
 /**
- * [walletAddress]: [tokensList]
+ * [assetsList]
  */
 const initialState = {
+  assetsList: [],
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case UPDATE_CURRENT_ASSET:
+      return {...state, assetsList: action.payload.assetsList};
     default:
       return state;
   }

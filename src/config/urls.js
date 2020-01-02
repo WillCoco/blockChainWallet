@@ -8,14 +8,14 @@
  * @lastModification:
  * @lastModificationDate:
  */
-const environments = {
+const urls = {
   development: {
     basicUrl: 'http://27.102.128.133:8801',
     serverUrl: 'http://27.102.128.133:3333/api/v1', // 额外服务
   },
   test: {
-    basicUrl: 'http://27.102.128.133:8801',
-    serverUrl: 'http://27.102.128.133:3333/api/v1', // 额外服务
+    basicUrl: 'http://114.67.92.85:8801', //正式
+    serverUrl: 'http://114.67.92.85:3333/api/v1', // 额外服务
   },
   pre: {
     basicUrl: 'http://27.102.128.133:8801',
@@ -27,4 +27,4 @@ const environments = {
   },
 };
 
-module.exports = environments;
+module.exports = urls;

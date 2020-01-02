@@ -8,10 +8,10 @@
  */
 import appSetting from './appSetting';
 import wallets from './wallets';
-import tokens from './tokens';
+import assets from './assets';
 
 export default {
   appSetting,
   wallets,
-  tokens,
+  assets,
 };

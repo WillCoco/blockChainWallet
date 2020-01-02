@@ -18,7 +18,6 @@ const Home = props => {
 Home.navigationOptions = nav => {
   return {
     headerShown: false,
-    title: '123',
   };
 };
 

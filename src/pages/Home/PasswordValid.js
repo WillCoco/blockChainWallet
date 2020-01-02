@@ -34,7 +34,7 @@ const PasswordValid = props => {
     // 校验密码
     const isValid = await isValidPwd();
 
-    console.log(isValid, 'isValid');
+    // console.log(isValid, 'isValid');
 
     // 密码错误
     if (!isValid) {
@@ -46,7 +46,7 @@ const PasswordValid = props => {
 
     // 正确,生成tempMnemonic进行备份操作
     const tempMnemonic = await updateTempMnemonic();
-    console.log(tempMnemonic, 'tempMnemonic');
+    // console.log(tempMnemonic, 'tempMnemonic');
     if (!tempMnemonic) {
       Toast.show({data: '操作失败'});
     }
