@@ -59,4 +59,5 @@ export default {
   orderDetail: '订单详情',
   confirm: '确认转账',
   networkErr: '网络错误',
+  removeWalletSuccess: '删除钱包成功',
 };

@@ -27,7 +27,7 @@ const WalletDetails = (props) => {
   const [privateKey, setPrivateKey] = useState('');
   const [password, setPassword] = useState('');
   const [currentWallet, setCurrentWallet] = useState(_get(props, ['navigation', 'state', 'params']) || {});
-  const {navigate} = useNavigation();
+  const {navigate, goBack} = useNavigation();
 
 
   // 当前钱包名字，显示在标题栏，不跟随输入框改变
@@ -37,8 +37,10 @@ const WalletDetails = (props) => {
   /**
    * 删除钱包
    */
-  const deleteWallet = () => {
-    dispatch(wallet.removeAWallet(currentWallet));
+  const deleteWallet = async () => {
+    await dispatch(wallet.removeAWallet(currentWallet));
+    Toast.show({data: i18n.t('removeWalletSuccess')});
+    goBack();
   };
 
   /**
@@ -64,6 +66,7 @@ const WalletDetails = (props) => {
         callback: v => {
           setPrivateKey(v);
           setExportPrivateKeyVisible(true); 
+          setPasswordValidVisible(false);
           setPassword('');
         },
       },
@@ -81,17 +84,19 @@ const WalletDetails = (props) => {
   /**
    * 复制私钥
    */
-  const copy =() => {
-    Clipboard.setString(privateKey);   
+  const copy = () => {
+    Clipboard.setString(privateKey);
     Toast.show({data: '复制私钥成功'});
-    setExportPrivateKeyVisible(false); 
-  }
+    setExportPrivateKeyVisible(false);
+  };
 
   return (
     <>
-      <NavBar 
-        title={currentWalletName} 
-        rightElement={<Text style={{color: colors.textWhite,}}>{i18n.t('save')}</Text>}
+      <NavBar
+        title={currentWalletName}
+        rightElement={
+          <Text style={{color: colors.textWhite}}>{i18n.t('save')}</Text>
+        }
         onRight={saveWallet}
       />
       <SmallText style={styles.addressCard}>{currentWallet && currentWallet.address}</SmallText>
@@ -143,13 +148,12 @@ const WalletDetails = (props) => {
         overlayStyle={styles.copyOverlay}
         isVisible={exportPrivateKeyVisible}
         height={'auto'}
-        onBackdropPress={() => setExportPrivateKeyVisible(false)}
-      >
+        onBackdropPress={() => setExportPrivateKeyVisible(false)}>
         <>
           <PrimaryText style={styles.copyTitle}>{i18n.t('prompt')}</PrimaryText>
           <SmallText style={styles.copyWaringText}>{i18n.t('exportPrivateKeyWarning')}</SmallText>
           <SmallText style={styles.privateKeyText}>{privateKey}</SmallText>
-          <Button 
+          <Button
             // buttonStyle={styles.button}
             title={i18n.t('copyPrivateKey')}
             onPress={copy}
@@ -162,7 +166,7 @@ const WalletDetails = (props) => {
 
 const styles = StyleSheet.create({
   walletCard: {
-    marginBottom: 15
+    marginBottom: 15,
   },
   addressCard: {
     height: vh(20),
