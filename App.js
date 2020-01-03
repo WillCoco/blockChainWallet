@@ -10,7 +10,7 @@ import WalletWebView from './src/components/WalletWebView';
 
 const {store, persistor} = stores;
 
-export default () => (
+const App = () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <Router store={store} />
@@ -18,3 +18,11 @@ export default () => (
     </PersistGate>
   </Provider>
 );
+
+export default () => {
+  try {
+    return App();
+  } catch (err) {
+    console.log(err);
+  }
+};

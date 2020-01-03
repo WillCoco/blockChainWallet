@@ -30,7 +30,8 @@ const AssetsList = props => {
 
   return (
     <>
-      <ScrollView style={{backgroundColor: '#fff'}}>
+      <View
+        style={{backgroundColor: '#fff'}}>
         {assetsList.map((asset, index) => {
           const borderTopWidth = index !== 0 ? StyleSheet.hairlineWidth : 0;
           return (
@@ -43,7 +44,7 @@ const AssetsList = props => {
             </TouchableOpacity>
           );
         })}
-      </ScrollView>
+      </View>
     </>
   );
 };

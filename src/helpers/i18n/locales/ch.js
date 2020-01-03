@@ -53,6 +53,7 @@ export default {
   userAgreement: '使用协议',
   privacy: '隐私条款',
   passwordValidDesc: '请输入钱包密码',
+  backupWalletAlertDesc: '请输入钱包密码备份钱包',
   transferAddressInvalid: '请输入合法地址',
   transferInvalidAmount: '请输入合法数量',
   orderDetail: '订单详情',
