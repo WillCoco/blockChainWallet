@@ -11,7 +11,7 @@ import {
 } from './actionTypes';
 import _get from 'lodash/get';
 import _findIndex from 'lodash/findIndex';
-import {safeStringify} from '../../utils/safetyFn';
+import {safeStringify} from '../../helpers/utils/safetyFn';
 import {
   getAddressTokens,
   getAddressOverview,
@@ -25,16 +25,19 @@ const {store} = stores;
 
 /**
  * 获取钱包主币和tokens资产
- * @param: {string} mnemonicInput - 输入的助记词
+ * @param: {string} [address] - 查询地址，默认当前钱包
  */
 export function getAssetByAddress(address) {
   return async (dispatch, getState) => {
-    console.log(address, '1-1--1-1-1-')
-    const r = (await getAddressAsset({address})) || {};
+    const finallyAddress =
+      address || _get(getState(), ['wallets', 'currentWallet', 'address']);
 
-    if (r.result) {
-      dispatch({type: UPDATE_CURRENT_ASSET, payload: {assetsList: r.result}});
-    }
+    const r = (await getAddressAsset({address: finallyAddress})) || {};
+
+    dispatch({
+      type: UPDATE_CURRENT_ASSET,
+      payload: {assetsList: r.result || []}
+    });
 
     return r;
   };

@@ -37,4 +37,5 @@ export default {
   privacy: 'Privacy',
   orderDetail: 'OrderDetail',
   confirm: 'Confirm',
+  networkErr: 'network error',
 };

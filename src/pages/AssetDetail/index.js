@@ -34,9 +34,9 @@ const AssetDetail = props => {
     <View style={styles.wrapper}>
       <View style={styles.headerWrapper}>
         <H2>
-          {currentToken.balance} {currentToken.symbol}
+          {currentToken.balanceFmt} {currentToken.symbol}
         </H2>
-        <PrimaryText>¥ {currentToken.balance}</PrimaryText>
+        <PrimaryText>¥ {currentToken.balanceFmt}</PrimaryText>
       </View>
       <TxsList wrapperStyle={{marginTop: metrics.spaceS}} />
       <View style={styles.buttonsWrapper}>

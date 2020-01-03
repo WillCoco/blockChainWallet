@@ -1,6 +1,6 @@
 import React from 'react';
 import WVEvent from './WVEvent';
-import {safeParse} from '../../utils/safetyFn';
+import {safeParse} from '../utils/safetyFn';
 
 const useEventListener = (eventType, callback) => {
   const [data, setData] = React.useState(null);

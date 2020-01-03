@@ -6,20 +6,32 @@
  * @lastModification:
  * @lastModificationDate:
  */
+import _get from 'lodash/get';
 import {chainInfo} from '../../config';
+import {upperUnit} from '../utils/numbers';
 
 export function getAddressOverview(response) {
-  return response;
+  // console.log(response, 'response');
+  const result = _get(response, 'result') || {};
+  return {
+    ...response,
+    result: {
+      ...result,
+      balanceFmt: upperUnit(result.balance),
+      reciverFmt: upperUnit(result.reciver),
+    },
+  };
 }
 
 export function getAddressTokens(response) {
   const {result} = response || {};
-  let {tokenAssets} = result || [];
-  console.log(result, 'rrrrr')
-  tokenAssets = tokenAssets.map(token => ({
-    ...token.account,
+  let {tokenAssets} = result || {};
+  tokenAssets = (tokenAssets || []).map(token => ({
+    reciverFmt: upperUnit(_get(token, ['account', 'reciver'])),
+    balanceFmt: upperUnit(_get(token, ['account', 'balance'])),
     symbol: token.symbol,
   }));
+  // console.log(tokenAssets, 'format_getAddressTokens');
 
   return {
     ...response,
@@ -42,6 +54,10 @@ export function getAddressAsset(response) {
 
   // 主币种symbol
   accountResult.symbol = chainInfo.coinName;
+  // console.log(
+  //   {result: [accountResult, ...tokensArray]},
+  //   'format_getAddressAsset',
+  // );
 
   return {
     result: [accountResult, ...tokensArray],

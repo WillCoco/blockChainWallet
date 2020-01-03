@@ -8,6 +8,8 @@
  */
 import axios from 'axios';
 import _get from 'lodash/get';
+import {Toast} from '../../components/Toast';
+import i18n from '../i18n';
 // import _filter from 'lodash/filter';
 
 const server = axios.create({
@@ -66,6 +68,9 @@ server.interceptors.response.use(
     return responseHandlers(resultFormatted);
   },
   err => {
+    if (String(err).match('Network Error')) {
+      Toast.show({data: i18n.t('networkErr')});
+    }
     return Promise.resolve(err);
   },
 );
