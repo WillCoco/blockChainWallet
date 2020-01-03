@@ -51,7 +51,8 @@ export default () => {
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.theme,
-    height: '24%',
+    height: vh(24),
+    minHeight: vh(24),
   },
   contentWrapper: {
     flexDirection: 'row',

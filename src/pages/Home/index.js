@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, RefreshControl} from 'react-native';
+import {StyleSheet, RefreshControl, ScrollView} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {useFocusEffect} from 'react-navigation-hooks';
 import AssetsList from './AssetsList';
@@ -27,14 +27,19 @@ const Home = props => {
   };
 
   return (
-    <RefreshControl
-      refreshing={refreshing}
-      onRefresh={getCurrentWalletAssets}
-      style={styles.refreshWrapper}>
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={getCurrentWalletAssets}
+        />
+      }
+      keyboardShouldPersistTaps="handled"
+      stickyHeaderIndices={[0]}>
       <Dashboard />
       <AssetsList />
       <PasswordValid />
-    </RefreshControl>
+    </ScrollView>
   );
 };
 
@@ -44,11 +49,6 @@ Home.navigationOptions = nav => {
   };
 };
 
-const styles = StyleSheet.create({
-  refreshWrapper: {
-    // flexDirection: 'column',
-    height: '100%',
-  },
-});
+const styles = StyleSheet.create({});
 
 export default Home;

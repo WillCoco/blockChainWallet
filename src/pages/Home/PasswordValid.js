@@ -20,7 +20,7 @@ const PasswordValid = props => {
 
   const dispatch = useDispatch();
 
-  const [pwd, setPwd] = React.useState('');
+  const [pwd, setPwd] = React.useState(null);
 
   const [pwdDialogVisible, setPwdDialogVisible] = React.useState(false);
 
@@ -34,6 +34,8 @@ const PasswordValid = props => {
     // 校验密码
     const isValid = await isValidPwd();
 
+    setPwdDialogVisible(false);
+
     // console.log(isValid, 'isValid');
 
     // 密码错误
@@ -41,6 +43,7 @@ const PasswordValid = props => {
       Toast.show({data: '验证失败'});
       console.log(currentWallet.encryptedPrivateKey, 'encryptedPrivateKey');
       console.log(currentWallet.passwordKey, 'passwordKey');
+      setPwdDialogVisible(true);
       return;
     }
 
@@ -99,9 +102,11 @@ const PasswordValid = props => {
   return (
     <Dialog
       showInput
+      autoFocus
       description={i18n.t('passwordValidDesc')}
       visible={pwdDialogVisible}
       onChangeText={setPwd}
+      value={pwd}
       onCancelPress={() => setPwdDialogVisible(false)}
       onOKPress={onOKPress}
     />
