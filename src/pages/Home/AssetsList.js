@@ -39,7 +39,7 @@ const AssetsList = props => {
               style={StyleSheet.flatten([styles.assetRow, {borderTopWidth}])}
               onPress={() => goAssetDetail(asset.symbol)}>
               <PrimaryText>{asset.symbol}</PrimaryText>
-              <PrimaryText>{asset.balance}</PrimaryText>
+              <PrimaryText>{asset.balanceFmt}</PrimaryText>
             </TouchableOpacity>
           );
         })}

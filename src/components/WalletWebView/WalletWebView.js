@@ -11,7 +11,7 @@ import {H1, H2, PrimaryText} from 'react-native-normalization-text';
 import {WebView} from 'react-native-webview';
 import {wallet} from '../../redux/actions';
 import {WVEvent, eventTypes} from '../../helpers/eventEmmiter';
-import {safeStringify, safeParse} from '../../utils/safetyFn';
+import {safeStringify, safeParse} from '../../helpers/utils/safetyFn';
 import {Toast} from '../../components/Toast';
 
 let callId = 0;

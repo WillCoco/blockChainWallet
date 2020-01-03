@@ -13,7 +13,7 @@ import {
 } from './actionTypes';
 import _get from 'lodash/get';
 import _findIndex from 'lodash/findIndex';
-import {safeStringify} from '../../utils/safetyFn';
+import {safeStringify} from '../../helpers/utils/safetyFn';
 import {getAssetByAddress} from './asset';
 import {WVEvent, eventTypes} from '../../helpers/eventEmmiter';
 
@@ -233,24 +233,23 @@ export function validPassword(passwordInput) {
 }
 
 /**
- * webview签名调用
- * @param: {string} mnemonicInput - 输入的助记词
+ * AES解密
+ * @param: {string} password - 输入的助记词
+ * @param: {string} params.data - 待解密
+ * @param: {string} params.password - 密码
  */
-export function signTx(params) {
+export function aesDecrypt(params) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-      const currentWallet =
-        _get(getState(), ['wallets', 'currentWallet']) || {};
-
       WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
         {
           payload: {
-            action: eventTypes.SIGN_TX,
-            data: params.tx,
-            privateKey: params.privateKey,
+            action: eventTypes.AES_DECRYPT,
+            data: params.data,
+            password: params.password,
           },
           callback: v => {
-            resolve(v === currentWallet.passwordKey);
+            resolve(v);
           },
         },
       ]);
@@ -259,3 +258,30 @@ export function signTx(params) {
     });
   };
 }
+
+/**
+ * webview签名调用
+ * @param: {string} params.data - 未签交易
+ * @param: {string} params.privateKey - 私钥
+ */
+export function signTx(params) {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
+        {
+          payload: {
+            action: eventTypes.SIGN_TX,
+            data: params.data,
+            privateKey: params.privateKey,
+          },
+          callback: v => {
+            resolve(v);
+          },
+        },
+      ]);
+    }).catch(err => {
+      console.log('isValidPwd', err);
+    });
+  };
+}
+// '0a05636f696e73122a18010a261001222231344b454b6259744b4b516d34774d7468534b394a344c61346e41696964476f7a7420a08d0630b498ce95a9b3e7f6733a2231344b454b6259744b4b516d34774d7468534b394a344c61346e41696964476f7a74'

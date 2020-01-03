@@ -19,9 +19,6 @@ import {wallet} from '../../redux/actions';
 import i18n from '../../helpers/i18n';
 import HomeContext from './HomeContext';
 
-const upArrow = require('../../images/upArrow.png');
-const downArrow = require('../../images/downArrow.png');
-
 const WalletQuickManager = props => {
   const dispatch = useDispatch();
 
@@ -76,12 +73,12 @@ const WalletQuickManager = props => {
           style={styles.checkedWallet}>
           <PrimaryText color="white">
             {props.walletFormat(currentWallet) || props.defaultCheckedText}
-            {
-              props.overlayVisible 
-              && <Image source={upArrow}/>
-              || <Image source={downArrow}/>
-            }
           </PrimaryText>
+          {
+            props.overlayVisible 
+            && <Icon name='arrow-drop-up'  color={colors.textWhite}/>
+            || <Icon name='arrow-drop-down' color={colors.textWhite}/>
+          }
         </TouchableOpacity>
         <TouchableOpacity>
           <PrimaryText color="white" onPress={goScanPage}>
@@ -158,7 +155,8 @@ const styles = StyleSheet.create({
   checkedWallet: {
     // height: vh(5),
     paddingVertical: 10,
-    width: '24%',
+    width: '30%',
+    flexDirection: 'row',
   },
   walletRow: {
     height: vh(8),

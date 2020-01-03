@@ -19,9 +19,17 @@ import TxConfirmOverlay from './TxConfirmOverlay';
 import Dialog from '../../components/Dialog';
 import _get from 'lodash/get';
 
-const defaultFee = 10;
+const defaultFee = 0.001;
 
 export default props => {
+  // 当前钱包
+  const currentWallet = useSelector(
+    state => _get(state, ['wallets', 'currentWallet']) || {},
+  );
+
+  // 签名后交易
+  const signedTx = React.useRef();
+
   const [txConfirmVisible, setTxConfirmVisible] = React.useState(false);
   const [pwdDialogVisible, setPwdDialogVisible] = React.useState(false);
   const [pwd, setPwd] = React.useState('');
@@ -61,7 +69,10 @@ export default props => {
 
   const onPressNext = () => {
     const safeTransferForm = transferForm || {};
-    if (!safeTransferForm.address) {
+    if (
+      !safeTransferForm.address ||
+      safeTransferForm.address === currentWallet.address // 相同地址
+    ) {
       Toast.show({data: i18n.t('transferAddressInvalid')});
       return;
     }
@@ -71,11 +82,6 @@ export default props => {
       return;
     }
 
-    // if (!safeTransferForm.token) {
-    //   Toast.show({data: i18n.t('transferInvalidAmount')});
-    //   return;
-    // }
-
     createTx();
   };
 
@@ -83,8 +89,8 @@ export default props => {
   const createTx = async () => {
     const params = {
       to: _get(transferForm, 'address'),
-      amount: +_get(transferForm, 'amount'),
-      fee: +defaultFee,
+      amount: +_get(transferForm, 'amount') * 100000000,
+      fee: +defaultFee * 100000000,
       note: _get(transferForm, 'note'),
       isToken: isToken,
       isWithdraw: false,
@@ -106,18 +112,43 @@ export default props => {
   const signTx = async () => {
     // 验证密码
     const isValidPassword = await dispatch(wallet.validPassword(pwd));
+    setPwdDialogVisible(false);
     console.log(isValidPassword, 'isValidPassword');
     if (!isValidPassword) {
-      Toast.show(i18n.t('密码验证失败'));
+      Toast.show({data: '密码验证失败'});
       return;
     }
-    setPwdDialogVisible(false);
     sendTransaction({tx: unsignedTx.current});
+  
+    // 拿私钥
+    const privateKey = await dispatch(
+      wallet.aesDecrypt({
+        data: currentWallet.encryptedPrivateKey,
+        // password: '11',
+        password: pwd,
+      }),
+    );
+
+    console.log(privateKey, 'privateKey');
+
+    // 签名交易
+    signedTx.current = await dispatch(
+      wallet.signTx({data: unsignedTx.current, privateKey}),
+    );
+
+    if (!signedTx.current) {
+      Toast.show(i18n.t('签名失败'));
+      return;
+    }
+
+    sendTx({tx: signedTx.current});
   };
 
   // 发送交易
-  const sendTx = () => {
-    sendTransaction({tx: unsignedTx.current});
+  const sendTx = async param => {
+    const result = await sendTransaction(param);
+
+    console.log(result, '发送交易');
   };
 
   return (

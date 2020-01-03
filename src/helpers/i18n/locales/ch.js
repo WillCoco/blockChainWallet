@@ -57,4 +57,5 @@ export default {
   transferInvalidAmount: '请输入合法数量',
   orderDetail: '订单详情',
   confirm: '确认转账',
+  networkErr: '网络错误',
 };

@@ -44,7 +44,15 @@ const WalletDetails = (props) => {
   /**
    * 导出私钥输入密码，解密
    */
-  const exportPrivateKeyConfirm = () => {
+  const exportPrivateKeyConfirm = async () => {
+    // 验证密码
+    const isValidPassword = await dispatch(wallet.validPassword(password));
+    setPasswordValidVisible(false);
+    console.log(isValidPassword, 'isValidPassword');
+    if (!isValidPassword) {
+      Toast.show({data: '密码验证失败'});
+      return;
+    }
     // 解密
     WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
       {
@@ -55,7 +63,6 @@ const WalletDetails = (props) => {
         },
         callback: v => {
           setPrivateKey(v);
-          setPasswordValidVisible(false);
           setExportPrivateKeyVisible(true); 
           setPassword('');
         },

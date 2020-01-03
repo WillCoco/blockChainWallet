@@ -214,7 +214,7 @@ function sha256(params) {
  * @return: {string} object.result - 加密结果
  */
 function signTx(params) {
-  const signed = signTx(params.data, params.privateKey);
+  const signed = sign.signRawTransaction(params.data, params.privateKey);
   return {
     callId: params.callId,
     result: signed,

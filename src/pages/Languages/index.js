@@ -16,7 +16,7 @@ import { updateLanguage } from '../../redux/actions/appSetting';
 import _get from 'lodash/get';
 
 let languageList = [
-  {name: 'auto', lang: 'auto'},
+  {name: 'auto', lang: null},
   {name: '简体中文', lang: 'ch'},
   {name: 'English', lang: 'en'},
 ];
@@ -41,7 +41,7 @@ const Languages = props => {
             >
               <PrimaryText>{i18n.t(item.name)}</PrimaryText>
               {
-                props.language === item.lang && <Icon name='rowing' color='#00aced' />
+                props.language === item.lang && <Icon name='check' color='#00aced' />
               }
             </TouchableOpacity>
           )

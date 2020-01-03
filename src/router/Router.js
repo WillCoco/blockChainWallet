@@ -164,7 +164,7 @@ const AppNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'Main',
+    initialRouteName: 'TransactionHistory',
     defaultNavigationOptions: ({navigation}) => {
       return {
         headerTitle: `默认标题`,
