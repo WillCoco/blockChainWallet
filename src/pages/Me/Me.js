@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import {ListItem, Icon} from 'react-native-elements';
 import {useNavigation} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import {bindActionCreators} from 'redux';
@@ -16,28 +16,33 @@ import colors from '../../helpers/colors';
 const menuList = [
   {
     title: 'walletManagement',
-    icon: 'flight-takeoff',
-    route: 'WalletManagement'
+    icon: 'account-balance-wallet',
+    route: 'WalletManagement',
+    color: colors.theme,
   },
   {
     title: 'transactionHistory',
-    icon: 'flight-takeoff',
+    icon: 'assignment',
     route: 'TransactionHistory',
+    color: colors.theme,
   },
   {
     title: 'languages',
-    icon: 'flight-takeoff',
+    icon: 'language',
     route: 'Languages',
+    color: colors.theme,
   },
   {
     title: 'helpCenter',
     icon: 'help',
     route: 'HelpCenter',
+    color: colors.success,
   },
   {
     title: 'about',
-    icon: 'flight-takeoff',
+    icon: 'report',
     route: 'About',
+    color: colors.success,
   },
 ];
 
@@ -51,7 +56,7 @@ const Me = () => {
           <ListItem
             key={i}
             title={i18n.t(item.title)}
-            leftIcon={{ name: item.icon }}
+            leftIcon={{ name: item.icon, color: item.color}}
             bottomDivider
             chevron
             style={(i === 2 || i === 0) && {marginTop: 10}}

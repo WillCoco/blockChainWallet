@@ -8,9 +8,13 @@ import {Button, ListItem, Overlay, Icon} from 'react-native-elements';
 import {PrimaryText} from 'react-native-normalization-text';
 import i18n from '../../helpers/i18n';
 import {metrics, vw} from '../../helpers/metric';
+import FormRow from '../../components/FormRow';
+import {chainInfo} from '../../config/';
+import _get from 'lodash/get';
 
 const TxConfirmOverlay = props => {
-  // const [txConfirmVisible, setTxConfirmVisible] = React.useState(false);
+  const {transferForm} = props;
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.titleContainer}>
@@ -18,32 +22,37 @@ const TxConfirmOverlay = props => {
         <PrimaryText style={{textAlign: 'center', flex: 1}}>{i18n.t('orderDetail')}</PrimaryText>
         <View style={{width: 20}}></View>
       </View>
-      <ListItem
-        // Component={() => <PrimaryText style={styles.titleStyles}>{i18n.t('orderDetail')}</PrimaryText>}
+      <FormRow
         title={i18n.t('transferToken')}
-        bottomDivider
+        containerStyle={{}}
+        value={_get(transferForm, ['token', 'symbol']) || chainInfo.symbol}
+        editable={false}
       />
-      <ListItem
+      <FormRow
         title={i18n.t('transferAddress')}
-        bottomDivider
+        value={transferForm && transferForm.address || ''}
+        editable={false}
       />
-      <ListItem
+      <FormRow
         title={i18n.t('transferAmount')}
-        bottomDivider
+        value={transferForm && transferForm.amount || ''}
+        editable={false}
       />
-      <ListItem
+      <FormRow
         title={i18n.t('transferFee')}
-        bottomDivider
+        value={props.defaultFee + ' ' + chainInfo.symbol}
+        editable={false}
       />
-      <ListItem
+      <FormRow
         title={i18n.t('transferNote')}
-        bottomDivider
+        value={transferForm && transferForm.note || ''}
+        editable={false}
       />
       <Button
         iconRight
         containerStyle={styles.btnContainerStyle}
         title={i18n.t('confirm')}
-        onPress={() => setTxConfirmVisible(false)}
+        onPress={props.confirmPress}
       />
     </View>
   );

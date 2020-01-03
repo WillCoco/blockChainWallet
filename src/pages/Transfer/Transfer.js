@@ -16,12 +16,15 @@ import {chainInfo} from '../../config/';
 import i18n from '../../helpers/i18n';
 import FormRow from '../../components/FormRow';
 import TxConfirmOverlay from './TxConfirmOverlay';
+import Dialog from '../../components/Dialog';
 import _get from 'lodash/get';
 
 const defaultFee = 10;
 
 export default props => {
   const [txConfirmVisible, setTxConfirmVisible] = React.useState(false);
+  const [pwdDialogVisible, setPwdDialogVisible] = React.useState(false);
+  const [pwd, setPwd] = React.useState('');
   const dispatch = useDispatch();
 
   // tx构造
@@ -29,8 +32,7 @@ export default props => {
   const {navigate} = useNavigation();
 
   // 扫地址，token详情进入带入参数
-  const defaultTransferForm =
-    _get(props, ['navigation', 'state', 'params', 'transferData']) || {};
+  const defaultTransferForm = _get(props, ['props', 'navigation', 'state', 'params']) || {};
 
   // token symbol
   const tokenSymbol = useNavigationParam('tokenSymbol');
@@ -96,30 +98,26 @@ export default props => {
     if (tx.result) {
       unsignedTx.current = tx.result;
       setTxConfirmVisible(true);
-
       signTx();
     }
   };
 
   // 签名交易
-  const signTx = async password => {
+  const signTx = async () => {
     // 验证密码
-    const isValidPassword = await dispatch(wallet.validPassword('11'||password));
+    const isValidPassword = await dispatch(wallet.validPassword(pwd));
     console.log(isValidPassword, 'isValidPassword');
     if (!isValidPassword) {
       Toast.show(i18n.t('密码验证失败'));
       return;
     }
+    setPwdDialogVisible(false);
     sendTransaction({tx: unsignedTx.current});
   };
 
   // 发送交易
   const sendTx = () => {
     sendTransaction({tx: unsignedTx.current});
-  };
-
-  const nextPress = () => {
-
   };
 
   return (
@@ -157,6 +155,8 @@ export default props => {
         title={i18n.t('transferNote')}
         bottomDivider
         placeholder={i18n.t('transferNotePlaceholder')}
+        value={transferForm && transferForm.note || ''}
+        onChange={v => setTransferForm({...transferForm, note: v})}
       />
       <Button
         iconRight
@@ -169,8 +169,21 @@ export default props => {
         overlayStyle={styles.overlayStyle}
         onBackdropPress={() => setTxConfirmVisible(false)}
         animationType="slide">
-        <TxConfirmOverlay closePress={() => setTxConfirmVisible(false)} />
+        <TxConfirmOverlay 
+          closePress={() => setTxConfirmVisible(false)} 
+          transferForm={transferForm}
+          defaultFee={defaultFee}
+          confirmPress={() => {setPwdDialogVisible(true); setTxConfirmVisible(false)}}
+        />
       </Overlay>
+      <Dialog
+        showInput
+        description={i18n.t('passwordValidDesc')}
+        visible={pwdDialogVisible}
+        onChangeText={setPwd}
+        onCancelPress={() => setPwdDialogVisible(false)}
+        onOKPress={signTx}
+      />
     </View>
   );
 };
