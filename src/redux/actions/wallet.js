@@ -86,22 +86,19 @@ export function addOrUpdateAWallet(wallet, shouldFocus = true) {
  * 移除单个钱包
  */
 export function removeAWallet(wallet) {
-  console.log(wallet)
   return (dispatch, getState) => {
     const walletsList = _get(getState(), ['wallets', 'walletsList']) || [];
     const currentWallet = _get(getState(), ['wallets', 'currentWallet']) || {};
 
     let newWalletsList = [...walletsList];
-    console.log(newWalletsList)
     const {walletIndex} = dispatch(findWalletByAddress(wallet.address));
-    alert(walletIndex)
 
     if (walletIndex === -1) {
       // 列表中不存在该钱包 => 终止
       return;
     }
     // 列表中存在该钱包 => 删除
-    newWalletsList.splice(walletIndex);
+    newWalletsList.splice(walletIndex, 1);
 
     // 更新列表
     dispatch(updateWalletsList(newWalletsList));
