@@ -10,13 +10,24 @@
 // window.chain33Rpc
 // window.bip39
 // window.chain33Wallet
+var isBrowser = this.toString() === '[object Window]';
+var globalObj = isBrowser ? window : global;
 
-var seed = window.chain33Wallet.seed;
-var sign = window.chain33Wallet.sign;
-var bip39 = window.bip39;
-var cryptoJs = window.cryptoJs;
-var chain33Wallet = window.chain33Wallet;
+var seed = isBrowser
+  ? globalObj.chain33Wallet.seed
+  : require('./lib/chain33wallet').seed;
+var sign = isBrowser
+  ? globalObj.chain33Wallet.sign
+  : require('./lib/chain33wallet').sign;
+var bip39 = isBrowser ? globalObj.bip39 : require('./lib/bip39');
+var cryptoJs = isBrowser ? globalObj.cryptoJs : require('./lib/crypto');
+var chain33Wallet = isBrowser
+  ? globalObj.chain33Wallet
+  : require('./lib/chain33wallet');
 
+
+// console.log(seed.newWalletFromMnemonic('代 牧 的 谈 佛 古 祸 克 彼 喊 腿 劝 册 抵 遂'), 'sedddd')
+// console.log(bip39.generateMnemonic(null, ), 'bip39')
 /**
  * 创建新钱包
  * @params: {object} params - 创建参数
@@ -38,8 +49,9 @@ var chain33Wallet = window.chain33Wallet;
 //
 // console.log(wallet.result.address, 'wallet')
 // console.log(recover.result.address, 'recover')
+
 function createWallet(params) {
-  var mnemonic = seed.newMnemonicInCN();
+  var mnemonic = seed.newMnemonicInEN();
   const walletObj = seed.newWalletFromMnemonic(mnemonic);
 
   const wallet = walletObj.newAccount(params.name);
@@ -71,6 +83,7 @@ function createWallet(params) {
   // 加密后的钱包管理密码
   accountInfo.passwordKey = cryptoJs.SHA256(params.password).toString();
   // console.log(accountInfo, '新创建账户');
+
   return {
     callId: params.callId,
     result: accountInfo,
@@ -226,13 +239,34 @@ function signTx(params) {
 // console.log(e, 111111);
 // console.log(d, 222222);
 
-window.walletBase = {
+/**
+ * 助记词有效性验证
+ * @params: {object} params 参数
+ * @parma: {string} params.callId - 调用序号
+ * @parma: {string} params.mnemonic - 助记词
+ * @parma: {string} params.privateKey - 私钥
+ * @returns: {object}
+ * @return: {string} object.result - 加密结果
+ */
+// console.log(validateMnemonicInCN({mnemonic: '代 牧 的 谈 佛 古 祸 克 彼 喊 腿 劝 册 抵 遂'}));
+function validateMnemonic(params) {
+  const isEn = /^[A-Za-z]+$/.test(params.mnemonic);
+  var validateFn = isEn ? seed.validateMnemonicInEN : seed.validateMnemonicInCN;
+
+  return {
+    callId: params.callId,
+    result: validateFn(params.mnemonic),
+  };
+}
+
+globalObj.walletBase = {
   createWallet,
   recoverWalletFromMnemonic,
   sha256,
   encrypt,
   decrypt,
   signTx,
+  validateMnemonic,
 };
 
 //

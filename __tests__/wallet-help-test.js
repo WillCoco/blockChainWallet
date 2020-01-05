@@ -1,7 +1,8 @@
 /**
  * @format
  */
-import {createWallet, recoverWalletFromMnemonic} from '../src/helpers/chain33';
+import '../android/app/src/main/assets/walletBackground/walletBase';
+console.log(window, 123123)
 
 it('create wallet', () => {
 });

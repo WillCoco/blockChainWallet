@@ -38,13 +38,12 @@ import HelpCenter from '../pages/HelpCenter';
 import About from '../pages/About';
 import WalletDetails from '../pages/WalletDetails';
 
-
 // 导航栏默认样式
 InnerNaviBar.defaultProps.style = {
   safeView: {
     backgroundColor: colors.theme,
     height: 50,
-    alignItems:'center',
+    alignItems: 'center',
     justifyContent: 'center',
   },
   title: {
@@ -164,7 +163,7 @@ const AppNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'TransactionHistory',
+    initialRouteName: 'Guide',
     defaultNavigationOptions: ({navigation}) => {
       return {
         headerTitle: `默认标题`,

@@ -13,7 +13,7 @@ import colors from '../../helpers/colors';
 import {metrics, vw} from '../../helpers/metric';
 
 const Guide = () => {
-  const {navigate} = useNavigation();
+  const {navigate, replace} = useNavigation();
   const walletsList =
     useSelector(state => _get(state, ['wallets', 'walletsList'])) || [];
 
@@ -21,9 +21,10 @@ const Guide = () => {
 
   React.useEffect(() => {
     // console.log(walletsList.length, 1212);
+    console.log(walletsList, '123123123')
     if (isFocused && walletsList.length > 0) {
       // 有钱包，进入首页
-      navigate('Main');
+      replace('Main');
     }
   });
 

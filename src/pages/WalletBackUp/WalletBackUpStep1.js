@@ -17,8 +17,10 @@ const WalletBackUpStep1 = props => {
 
   return (
     <>
-      <PrimaryText style={styles.textLine1}>钱包创建成功</PrimaryText>
-      <PrimaryText style={styles.textLine2}>请备份钱包</PrimaryText>
+      <PrimaryText style={styles.textLine1}>备份提示</PrimaryText>
+      <PrimaryText style={styles.textLine2}>获取助记词等于拥有钱包资产所有权</PrimaryText>
+      <PrimaryText style={styles.textLine2}>备份助记词</PrimaryText>
+      <PrimaryText style={styles.textLine2}>离线保管</PrimaryText>
       <Button
         containerStyle={styles.btnContainerStyle}
         title={i18n.t('backupWallet')}

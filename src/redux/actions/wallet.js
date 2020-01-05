@@ -87,6 +87,7 @@ export function addOrUpdateAWallet(wallet, shouldFocus = true) {
  */
 export function removeAWallet(wallet) {
   return (dispatch, getState) => {
+    console.log(wallet, 1111)
     const walletsList = _get(getState(), ['wallets', 'walletsList']) || [];
     const currentWallet = _get(getState(), ['wallets', 'currentWallet']) || {};
 
@@ -95,7 +96,7 @@ export function removeAWallet(wallet) {
 
     if (walletIndex === -1) {
       // 列表中不存在该钱包 => 终止
-      return;
+      return newWalletsList;
     }
     // 列表中存在该钱包 => 删除
     newWalletsList.splice(walletIndex, 1);
@@ -114,6 +115,8 @@ export function removeAWallet(wallet) {
       // 清空当前钱包
       dispatch(updateCurrentWallet());
     }
+    console.log(newWalletsList, 'newWalletsListnewWalletsListnewWalletsList')
+    return newWalletsList;
   };
 }
 
@@ -139,7 +142,9 @@ export function updateCurrentWallet(address) {
     });
 
     // todo: 请求新钱包数据
-    dispatch(getAssetByAddress(wallet.address));
+    if (wallet && wallet.address) {
+      dispatch(getAssetByAddress(wallet.address));
+    }
   };
 }
 

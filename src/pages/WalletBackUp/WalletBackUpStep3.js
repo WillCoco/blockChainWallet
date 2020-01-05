@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: metrics.spaceS,
   },
   mnemonicPrintWrapper: {
-    height: vw(36),
+    minHeight: 80,
     marginHorizontal: '2%',
     marginTop: metrics.spaceN,
     backgroundColor: colors.pageBackground,

@@ -41,12 +41,15 @@ export default {
   walletName: '钱包名称',
   changePassword: '修改密码',
   exportPrivateKey: '导出私钥',
+  exportMnemonic: '导出助记词',
   enterYourPassword: '请输入密码',
   prompt: '提示信息',
   copyPrivateKey: '复制私钥',
+  copyMnemonic: '复制助记词',
   cancel: '取消',
   done: '确认',
-  exportPrivateKeyWarning: '安全警告，私钥导出后请妥善保管，不要泄露，一旦泄露，可能导致资产损失',
+  exportPrivateKeyWarning:
+    '安全警告，私钥、助记词导出后请妥善保管，不要泄露，一旦泄露，可能导致资产损失',
   copyPrivateKeySuccess: '私钥已经复制到剪贴板',
   save: '保存',
   mnemonicInputPlaceholder: '请填写助记词，以空格分隔每个单词',
@@ -60,4 +63,6 @@ export default {
   confirm: '确认转账',
   networkErr: '网络错误',
   removeWalletSuccess: '删除钱包成功',
+  copySuccess: '复制成功',
+  passwordValidFailed: '密码验证失败',
 };
