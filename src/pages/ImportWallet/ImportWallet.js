@@ -63,8 +63,16 @@ const ImportWallet = () => {
     submit();
   };
 
-  const submit = () => {
-    // 恢复 todo：中文英文助记词
+  const submit = async () => {
+    // 校验助记词有效性
+    const isValidMnemonic = await dispatch(wallet.validMnemonic(mnemonicInput));
+
+    if (!isValidMnemonic) {
+      Toast.show({data: '请检查输入的助记词是否正确'});
+      return;
+    }
+
+    // 恢复钱包
     WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
       {
         payload: {

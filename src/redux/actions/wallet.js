@@ -286,4 +286,27 @@ export function signTx(params) {
     });
   };
 }
-// '0a05636f696e73122a18010a261001222231344b454b6259744b4b516d34774d7468534b394a344c61346e41696964476f7a7420a08d0630b498ce95a9b3e7f6733a2231344b454b6259744b4b516d34774d7468534b394a344c61346e41696964476f7a74'
+
+/**
+ * Mnemonic 有效性验证
+ * @param: {string} params.mnemonic - mnemonic
+ */
+export function validMnemonic(mnemonic) {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
+        {
+          payload: {
+            action: eventTypes.VALID_MNEMONIC,
+            mnemonic,
+          },
+          callback: v => {
+            resolve(v);
+          },
+        },
+      ]);
+    }).catch(err => {
+      console.log('isValidPwd', err);
+    });
+  };
+}

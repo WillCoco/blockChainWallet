@@ -244,11 +244,10 @@ function signTx(params) {
  * @params: {object} params 参数
  * @parma: {string} params.callId - 调用序号
  * @parma: {string} params.mnemonic - 助记词
- * @parma: {string} params.privateKey - 私钥
  * @returns: {object}
  * @return: {string} object.result - 加密结果
  */
-// console.log(validateMnemonicInCN({mnemonic: '代 牧 的 谈 佛 古 祸 克 彼 喊 腿 劝 册 抵 遂'}));
+// console.log(validateMnemonic({mnemonic: '代 牧 的 谈 佛 古 祸 克 彼 喊 腿 劝 册 抵 遂'}));
 function validateMnemonic(params) {
   const isEn = /^[A-Za-z]+$/.test(params.mnemonic);
   var validateFn = isEn ? seed.validateMnemonicInEN : seed.validateMnemonicInCN;

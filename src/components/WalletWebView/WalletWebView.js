@@ -59,7 +59,7 @@ const WalletWebView = props => {
     // console.log(callbackId, 'callbackId');
 
     if (handlers[callbackId]) {
-      if (result) {
+      if (result !== undefined && result !== null) {
         handlers[callbackId](result);
       } else {
         Toast.show({data: '调用错误'});

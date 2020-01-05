@@ -14,4 +14,5 @@ module.exports = {
   AES_ENCRYPT: 'AES_ENCRYPT', // AES加密
   SHA_256: 'SHA_256', // sha256加密
   SIGN_TX: 'SIGN_TX', // 签名交易
+  VALID_MNEMONIC: 'VALID_MNEMONIC', // 助记词验证
 };
