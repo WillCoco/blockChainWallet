@@ -21,3 +21,11 @@ export function updateLanguage(language) {
     });
   };
 }
+/**
+ * 资产显示/隐藏设置
+ */
+export function updateIsShowAssets(isShowAssets) {
+  return (dispatch, getStore) => {
+    dispatch({type: UPDATE_LANGUAGE, payload: {isShowAssets}});
+  };
+}

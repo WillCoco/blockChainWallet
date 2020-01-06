@@ -12,6 +12,7 @@ import i18n from '../../helpers/i18n';
 import _get from 'lodash/get';
 import colors from '../../helpers/colors';
 import {vw, metrics} from '../../helpers/metric';
+import {getMnemonicString} from '../../helpers/utils/getMnemonic';
 import FormRow from '../../components/FormRow';
 import {Toast} from '../../components/Toast';
 import {wallet} from '../../redux/actions';
@@ -65,7 +66,10 @@ const ImportWallet = () => {
 
   const submit = async () => {
     // 校验助记词有效性
-    const isValidMnemonic = await dispatch(wallet.validMnemonic(mnemonicInput));
+    const formattedMnemonicString = getMnemonicString(mnemonicInput);
+    const isValidMnemonic = await dispatch(
+      wallet.validMnemonic(formattedMnemonicString),
+    );
 
     if (!isValidMnemonic) {
       Toast.show({data: '请检查输入的助记词是否正确'});
@@ -78,7 +82,7 @@ const ImportWallet = () => {
         payload: {
           action: eventTypes.RECOVER_WALLET_FROM_MNEMONIC,
           name,
-          mnemonic: mnemonicInput,
+          mnemonic: formattedMnemonicString,
           password,
           prompt,
         },

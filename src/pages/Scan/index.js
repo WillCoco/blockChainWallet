@@ -17,12 +17,12 @@ import {useNavigation} from 'react-navigation-hooks';
 import _split from 'lodash/split';
 
 // export default class ScannerScreen extends React.Component {
-  
+
 //   static navigationOptions = {
 //     title: 'Scanner',
 //   };
 
-  
+
 //   constructor(props) {
 //     super(props);
 //     this.state = {
@@ -30,19 +30,19 @@ import _split from 'lodash/split';
 //       animation: new Animated.Value(0),
 //     };
 //   }
-  
+
 //   componentDidMount(){
 //     InteractionManager.runAfterInteractions(()=>{
 //       this.startAnimation()
 //     });
 //   }
-  
+
 //   componentWillUnmount(){
 //     this.setState({
 //       show: false
 //     })
 //   }
-  
+
 //   startAnimation(){
 //     if(this.state.show){
 //       this.state.animation.setValue(0);
@@ -53,7 +53,7 @@ import _split from 'lodash/split';
 //       }).start(()=>this.startAnimation());
 //     }
 //   }
-  
+
 //   render() {
 //     let scanView = null;
 //     if (Platform.OS === 'ios') {
@@ -133,7 +133,7 @@ import _split from 'lodash/split';
 //       </View>
 //     );
 //   }
-  
+
 //   barcodeReceived(e) {
 //     if (this.state.show) {
 //       this.state.show = false;
@@ -175,24 +175,24 @@ import _split from 'lodash/split';
 // }
 
 const ScannerScreen = props => {
-  
+
   const {navigate} = useNavigation();
   const [show, setShow] = useState(true);
   const [animation, setAnimation] = useState(new Animated.Value(0));
 
   const startAnimation = () => {
-    if(show){
+    if (show) {
       animation.setValue(0);
-      Animated.timing(animation,{
-        toValue:1,
-        duration:1500,
-        easing:Easing.linear,
-      }).start(()=>startAnimation());
+      Animated.timing(animation, {
+        toValue: 1,
+        duration: 1500,
+        easing: Easing.linear,
+      }).start(() => startAnimation());
     }
   };
-  
+
   useEffect(() => {
-    InteractionManager.runAfterInteractions(()=>{
+    InteractionManager.runAfterInteractions(() => {
       startAnimation();
     });
     return () => {
@@ -200,6 +200,7 @@ const ScannerScreen = props => {
     }
   });
 
+  // todo：参数解析根据键值
   const barcodeReceived = (e) => {
     if (show) {
       setShow(false);
@@ -218,8 +219,8 @@ const ScannerScreen = props => {
           [
             {
               text: '确定', onPress: () => {
-                setShow(true);
-              }
+              setShow(true);
+            }
             }
           ],
           {cancelable: false}
@@ -227,7 +228,7 @@ const ScannerScreen = props => {
       }
     }
   };
-  
+
   let scanView = null;
   if (Platform.OS === 'ios') {
     scanView = (
@@ -238,20 +239,20 @@ const ScannerScreen = props => {
         flashMode={RNCamera.Constants.FlashMode.auto}
         onBarCodeRead={(e) => barcodeReceived(e)}
       >
-        <View style = {{height: (height-264)/3, width:width, backgroundColor:'rgba(0,0,0,0.5)',}}>
+        <View style={{height: (height - 264) / 3, width: width, backgroundColor: 'rgba(0,0,0,0.5)',}}>
         </View>
-        <View style={{flexDirection:'row'}}>
-          <View style={styles.itemStyle}/>
+        <View style={{flexDirection: 'row'}}>
+          <View style={styles.itemStyle} />
           <View style={styles.rectangle}>
             <Image
-              style={[styles.rectangle, {position:'absolute', left: 0, top: 0}]}
+              style={[styles.rectangle, {position: 'absolute', left: 0, top: 0}]}
               // source={require('../image/icon_scan_rect.png')}
             />
             <Animated.View style={[styles.animatedStyle, {
               transform: [{
                 translateY: animation.interpolate({
-                  inputRange: [0,1],
-                  outputRange: [0,200]
+                  inputRange: [0, 1],
+                  outputRange: [0, 200]
                 })
               }]
             }]}>
@@ -259,7 +260,7 @@ const ScannerScreen = props => {
           </View>
           <View style={styles.itemStyle}/>
         </View>
-        <View style={{flex:1,backgroundColor:'rgba(0, 0, 0, 0.5)',width:width,alignItems:'center'}}>
+        <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', width: width, alignItems: 'center'}}>
           <Text style={styles.textStyle}>将二维码放入框内，即可自动扫描</Text>
         </View>
       </RNCamera>
@@ -273,20 +274,20 @@ const ScannerScreen = props => {
         flashMode={RNCamera.Constants.FlashMode.auto}
         onBarCodeRead={(e) => barcodeReceived(e)}
       >
-        <View style = {{height: (height-244)/3, width:width, backgroundColor:'rgba(0,0,0,0.5)',}}>
+        <View style={{height: (height - 244) / 3, width: width, backgroundColor: 'rgba(0,0,0,0.5)',}}>
         </View>
-        <View style={{flexDirection:'row'}}>
+        <View style={{flexDirection: 'row'}}>
           <View style={styles.itemStyle}/>
           <View style={styles.rectangle}>
             <Image
-              style={[styles.rectangle, {position:'absolute', left: 0, top: 0}]}
+              style={[styles.rectangle, {position: 'absolute', left: 0, top: 0}]}
               // source={require('../image/icon_scan_rect.png')}
             />
             <Animated.View style={[styles.animatedStyle, {
               transform: [{
                 translateY: animation.interpolate({
-                  inputRange: [0,1],
-                  outputRange: [0,200]
+                  inputRange: [0, 1],
+                  outputRange: [0, 200]
                 })
               }]
             }]}>
@@ -294,7 +295,7 @@ const ScannerScreen = props => {
           </View>
           <View style={styles.itemStyle}/>
         </View>
-        <View style={{flex:1,backgroundColor:'rgba(0, 0, 0, 0.5)',width:width,alignItems:'center'}}>
+        <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', width: width, alignItems: 'center'}}>
           <Text style={styles.textStyle}>将二维码放入框内，即可自动扫描</Text>
         </View>
       </RNCamera>
@@ -318,20 +319,20 @@ const styles = StyleSheet.create({
   preview: {
     flex: 1,
   },
-  itemStyle:{
-    backgroundColor:'rgba(0,0,0,0.5)',
-    width:(width-200)/2,
-    height:200
+  itemStyle: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    width: (width - 200) / 2,
+    height: 200
   },
-  textStyle:{
-    color:'#fff',
-    marginTop:20,
-    fontWeight:'bold',
-    fontSize:18
+  textStyle: {
+    color: '#fff',
+    marginTop: 20,
+    fontWeight: 'bold',
+    fontSize: 18
   },
-  animatedStyle:{
-    height:2,
-    backgroundColor:'#00c050'
+  animatedStyle: {
+    height: 2,
+    backgroundColor: '#00c050'
   },
   rectangle: {
     height: 200,

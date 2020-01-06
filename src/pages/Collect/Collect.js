@@ -5,35 +5,41 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  Clipboard,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import {PrimaryText, SmallText} from 'react-native-normalization-text';
 import {useSelector, useDispatch} from 'react-redux';
+import {useNavigationParam} from 'react-navigation-hooks';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {vh, vw, metrics} from '../../helpers/metric/index';
 import colors from '../../helpers/colors/index';
 import i18n from '../../helpers/i18n/index';
+import chainInfo from '../../config/chainInfo';
 import _get from 'lodash/get';
+import {Toast} from '../../components/Toast';
 
 const Collect = props => {
-
   const [amount, setAmount] = React.useState('');
-
-  
-
-  // 获取当前token
-  const currentToken = () => {
-
-  };
 
   // 获取当前钱包地址
   const currentWalletAddress = useSelector(
     state => _get(state, ['wallets', 'currentWallet', 'address']) || '',
   );
 
-  let qrcodeValue = `jingtun:${currentWalletAddress}?amount=${amount}&token=${'SWT'}`;
+  // 当前转账币种，默认主币种
+  const currentToken = useNavigationParam('currentToken') || chainInfo.symbol;
+  // console.log(currentToken, 'currentToken')
+  let qrcodeValue = `${
+    chainInfo.chainName
+  }:${currentWalletAddress}?amount=${amount}&token=${currentToken.symbol}`;
 
+  // 复制
+  const onPressCopy = () => {
+    Clipboard.setString(currentWalletAddress);
+    Toast.show({data: i18n.t('copySuccess')});
+  };
 
   return (
     <View style={styles.wrapper}>
@@ -51,14 +57,14 @@ const Collect = props => {
           style={styles.input}
           value={amount}
           onChangeText={setAmount}
-          keyboardType='numeric'
+          keyboardType="numeric"
         />
-        <PrimaryText>{'SWT'}</PrimaryText>
+        <PrimaryText>{currentToken.symbol}</PrimaryText>
       </View>
       <View style={styles.addressWrapper}>
         <PrimaryText style={styles.address}>{currentWalletAddress}</PrimaryText>
-        <TouchableOpacity onPress={() => alert('copy')}>
-          <PrimaryText>复制</PrimaryText>
+        <TouchableOpacity onPress={onPressCopy}>
+          <PrimaryText>{i18n.t('copy')}</PrimaryText>
         </TouchableOpacity>
       </View>
     </View>

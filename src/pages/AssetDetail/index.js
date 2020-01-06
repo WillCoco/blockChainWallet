@@ -54,7 +54,9 @@ const AssetDetail = props => {
           containerStyle={styles.rightBtnContainerStyle}
           buttonStyle={{borderRadius: 0, height: vw(12)}}
           icon={<Icon name="swap-horiz" color={colors.textWhite}/>}
-          onPress={() => navigate('Collect')}
+          onPress={() =>
+            navigate({routeName: 'Collect', params: {currentToken}})
+          }
         />
       </View>
     </View>

@@ -10,6 +10,7 @@
 import urls from './urls';
 
 const chainInfo = {
+  chainName: 'UTC',
   coinName: 'UTC',
   symbol: 'UTC',
   digits: 8,

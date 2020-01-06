@@ -247,9 +247,9 @@ function signTx(params) {
  * @returns: {object}
  * @return: {string} object.result - 加密结果
  */
-// console.log(validateMnemonic({mnemonic: '代 牧 的 谈 佛 古 祸 克 彼 喊 腿 劝 册 抵 遂'}));
+// console.log(validateMnemonic({mnemonic: 'enjoy juice vicious join animal joke bean basic tongue child acid learn silly outdoor stereo'}));
 function validateMnemonic(params) {
-  const isEn = /^[A-Za-z]+$/.test(params.mnemonic);
+  var isEn = /^[A-Za-z]+$/.test(params.mnemonic.trim().split(/\s+/)[0]);
   var validateFn = isEn ? seed.validateMnemonicInEN : seed.validateMnemonicInCN;
 
   return {
