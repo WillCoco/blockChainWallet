@@ -30,6 +30,8 @@ export default {
   prompt: 'Prompttest',
   copyPrivateKey: 'Copy',
   copyMnemonic: 'Copy',
+  copySuccess: 'Copied',
+  copy: 'Copy',
   cancel: 'Cancel',
   done: 'Done',
   exportPrivateKeyWarning: 'Warning,please keep it safe after exporting the private key,do not disclose it, and if it leaks,it may lead to asset loss.',
@@ -39,6 +41,5 @@ export default {
   privacy: 'Privacy',
   orderDetail: 'OrderDetail',
   confirm: 'Confirm',
-  networkErr: 'network error',
-  copySuccess: 'Copied',
+  networkErr: 'network error'
 };

@@ -111,6 +111,9 @@ const AppNavigator = createStackNavigator(
     },
     Collect: {
       screen: Collect,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: `${i18n.t('collect')}`,
+      }),
     },
     SelectToken: {
       screen: SelectToken,

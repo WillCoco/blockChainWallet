@@ -52,7 +52,9 @@ const AssetDetail = props => {
           title={i18n.t('collect')}
           containerStyle={styles.rightBtnContainerStyle}
           buttonStyle={{borderRadius: 0, height: vw(12)}}
-          onPress={() => navigate('Collect')}
+          onPress={() =>
+            navigate({routeName: 'Collect', params: {currentToken}})
+          }
         />
       </View>
     </View>

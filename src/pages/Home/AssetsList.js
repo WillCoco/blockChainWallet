@@ -30,8 +30,7 @@ const AssetsList = props => {
 
   return (
     <>
-      <View
-        style={{backgroundColor: '#fff'}}>
+      <View style={{backgroundColor: '#fff'}}>
         {assetsList.map((asset, index) => {
           const borderTopWidth = index !== 0 ? StyleSheet.hairlineWidth : 0;
           return (

@@ -46,6 +46,8 @@ export default {
   prompt: '提示信息',
   copyPrivateKey: '复制私钥',
   copyMnemonic: '复制助记词',
+  copySuccess: '复制成功',
+  copy: '复制',
   cancel: '取消',
   done: '确认',
   exportPrivateKeyWarning:
@@ -63,6 +65,5 @@ export default {
   confirm: '确认转账',
   networkErr: '网络错误',
   removeWalletSuccess: '删除钱包成功',
-  copySuccess: '复制成功',
   passwordValidFailed: '密码验证失败',
 };
