@@ -65,4 +65,5 @@ export default {
   removeWalletSuccess: '删除钱包成功',
   copySuccess: '复制成功',
   passwordValidFailed: '密码验证失败',
+  switchAccount: '切换账号',
 };

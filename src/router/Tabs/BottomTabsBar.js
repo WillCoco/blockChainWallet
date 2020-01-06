@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {Icon} from 'react-native-elements';
 import {PrimaryText, SmallText} from 'react-native-normalization-text';
 import {BottomTabBar} from 'react-navigation-tabs';
 import _get from 'lodash/get';
@@ -26,12 +27,15 @@ const TabBarComponent = props => {
 const tabs = {
   Home: {
     index: 0,
-    icon: 'ASSET',
+    // icon: 'ASSET',
+    icon: 'home-currency-usd',
+    iconType: 'material-community',
     textKey: 'asset',
   },
   Me: {
     index: 1,
-    icon: 'ME',
+    icon: 'user',
+    iconType: 'font-awesome',
     textKey: 'me',
   },
 };
@@ -46,11 +50,12 @@ function getLabelText(route, tabIndex, activeTintColor, inactiveTintColor) {
 }
 
 function renderIcon(route, tabIndex, activeTintColor, inactiveTintColor) {
-  const {index, icon} = tabs[route.key];
+  const {index, icon, iconType} = tabs[route.key];
   const isChecked = tabIndex === index;
   const color = isChecked ? activeTintColor : inactiveTintColor;
 
-  return <Text style={[style.icon, {color}]}>{icon}</Text>;
+  // return <Text style={[style.icon, {color}]}>{icon}</Text>;
+  return <Icon name={icon} type={iconType} style={style.icon} color={color}/>;
 }
 
 function mapStateToProps(state) {

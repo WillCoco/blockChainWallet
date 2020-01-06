@@ -8,6 +8,12 @@ import {
 import {Icon, RefreshControl} from 'react-native-elements';
 import {PrimaryText} from 'react-native-normalization-text';
 import {vh, vw, metrics} from '../../helpers/metric';
+import NavBar from '../../components/NavBar';
+import i18n from '../../helpers/i18n';
+import colors from '../../helpers/colors';
+import {useSelector} from 'react-redux';
+import {useNavigation} from 'react-navigation-hooks';
+import _get from 'lodash/get';
 
 const mockList = [
   {
@@ -121,6 +127,10 @@ const mockList = [
 
 export default () => {
   const [empty, setEmpty] = React.useState(true);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const currentWallet = useSelector(state => _get(state.wallets, ['currentWallet']) || []);
+
+  const {navigate} = useNavigation();
 
   const renderItem = item => {
     return (
@@ -146,32 +156,32 @@ export default () => {
   }
 
   return (
-    <FlatList
-      style={styles.flatList}
-      data={mockList}
-      //item显示的布局
-      renderItem={({item}) => renderItem(item)}
-      // 空布局
-      ListEmptyComponent={<PrimaryText style={styles.empty}>空空如也~</PrimaryText>}
-      //下拉刷新相关
-      // onRefresh={() => console.log(1)}
-      // refreshControl={
-      //   <RefreshControl
-      //     title={'Loading'}
-      //     colors={['red']}
-      //     // refreshing={this.state.isRefresh}
-      //     onRefresh={() => {
-      //         // this._onRefresh();
-      //     }}
-      //   />
-      // }
-      refreshing={true}
-      //加载更多
-      onEndReached={() => console.log(1)}
-      onEndReachedThreshold={10}
-      ItemSeparatorComponent={separator}
-      keyExtractor={(item, index) => "index" + index + item}
-    />
+    <>
+      <NavBar
+        title={currentWallet && currentWallet.name}
+        rightElement={<Icon name="wallet-outline" type='material-community' color={colors.textWhite}/>}
+        onRight={() => navigate('SwitchAccount')}
+      />
+      <FlatList
+        style={styles.flatList}
+        data={mockList}
+        //item显示的布局
+        renderItem={({item}) => renderItem(item)}
+        // 空布局
+        ListEmptyComponent={<PrimaryText style={styles.empty}>空空如也~</PrimaryText>}
+        //下拉刷新相关
+        onRefresh={() => {
+          // setRefreshing(true);
+
+        }}
+        refreshing={refreshing}
+        //上拉加载
+        onEndReached={() => console.log()}
+        onEndReachedThreshold={.1}
+        ItemSeparatorComponent={separator}
+        keyExtractor={(item, index) => "index" + index + item}
+      />
+    </>
   );
 };
 

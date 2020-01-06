@@ -41,4 +41,5 @@ export default {
   confirm: 'Confirm',
   networkErr: 'network error',
   copySuccess: 'Copied',
+  switchAccount: 'Switch Account',
 };
