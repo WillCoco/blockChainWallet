@@ -10,6 +10,8 @@ import {asset} from '../../redux/actions';
 const Home = props => {
   const dispatch = useDispatch();
 
+  const [isLoaded, setIsLoaded] = React.useState(false);
+
   // 请求状态
   const [refreshing, setRefreshingStatus] = React.useState(false);
 
@@ -22,8 +24,10 @@ const Home = props => {
 
   // 获取资产
   const getCurrentWalletAssets = async () => {
-    dispatch(asset.getAssetByAddress());
+    setIsLoaded(false);
+    await dispatch(asset.getAssetByAddress());
     setRefreshingStatus(false);
+    setIsLoaded(true);
   };
 
   return (
@@ -36,8 +40,8 @@ const Home = props => {
       }
       keyboardShouldPersistTaps="handled"
       stickyHeaderIndices={[0]}>
-      <Dashboard />
-      <AssetsList />
+      <Dashboard isLoaded={isLoaded} />
+      <AssetsList isLoaded={isLoaded} />
       <PasswordValid />
     </ScrollView>
   );

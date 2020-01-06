@@ -41,5 +41,12 @@ export default {
   privacy: 'Privacy',
   orderDetail: 'OrderDetail',
   confirm: 'Confirm',
-  networkErr: 'network error'
+  networkErr: 'network error',
+  transferSuccess: 'Transfer Success',
+  transferFailed: 'Transfer Failed',
+  signFailed: 'Sign Failed',
+  loading: 'Loading...',
+  loaded: 'Loaded',
+  noMore: 'No More Data～',
+  dataEmpty: 'No Data Found',
 };

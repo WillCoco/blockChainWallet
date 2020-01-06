@@ -7,7 +7,7 @@
  * @lastModificationDate:
  */
 import {url} from '../../config';
-import {server} from '../axios';
+import {server, extraServer} from '../axios';
 import * as format from './format';
 
 let jsonrpc = '2.0';
@@ -37,7 +37,6 @@ export function getAddressOverview(param) {
       id: ++callId,
     })
     .then(r => {
-      console.log(r, '1')
       const response = format.getAddressOverview(r);
       return Promise.resolve(response);
     });
@@ -130,3 +129,34 @@ export function sendTransaction(params) {
       return Promise.resolve(r);
     });
 }
+
+/**
+ * 获取指定token分页token
+ */
+export function getHistory(params) {
+  return extraServer
+    .get(`${url.serverUrl}/tokenTransferInfo`, {
+      params: {
+        addr: params.address,
+        symbol: params.symbol,
+        action: params.action, // transfer/collect
+        status: params.status,
+        start: params.start,
+        num: params.size,
+      },
+    })
+    .then(r => {
+      console.log(r, '111111');
+      return Promise.resolve(r);
+    });
+}
+
+// getHistory({
+//   address: '11',
+//   symbol: 'TC',
+//   start: 0,
+//   size: 10,
+//   action: 'transfer',
+//   status: 'ExecOk',
+// })
+

@@ -66,4 +66,11 @@ export default {
   networkErr: '网络错误',
   removeWalletSuccess: '删除钱包成功',
   passwordValidFailed: '密码验证失败',
+  transferSuccess: '发送成功',
+  transferFailed: '发送失败',
+  signFailed: '签名失败',
+  loading: '加载中...',
+  loaded: '加载完成',
+  noMore: '没有更多了～',
+  dataEmpty: '空空如也～',
 };

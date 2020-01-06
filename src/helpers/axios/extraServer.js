@@ -1,7 +1,7 @@
 /**
  * @author: Xu Ke
  * @date: 2019/12/31 7:05 PM
- * @Description: axios 基础
+ * @Description: 额外扩展服务：获取交易历史等
  * @lastModificationBy:
  * @lastModification:
  * @lastModificationDate:
@@ -12,7 +12,7 @@ import {Toast} from '../../components/Toast';
 import i18n from '../i18n';
 // import _filter from 'lodash/filter';
 
-const server = axios.create({
+const extraServer = axios.create({
   headers: {
     ['Content-Type']: 'application/json',
   },
@@ -24,7 +24,7 @@ const server = axios.create({
 /**
  * 请求拦截
  */
-server.interceptors.request.use(config => {
+extraServer.interceptors.request.use(config => {
   // todo: config
   // requestEncryptList
 
@@ -34,7 +34,7 @@ server.interceptors.request.use(config => {
 /**
  * 响应拦截
  */
-server.interceptors.response.use(
+extraServer.interceptors.response.use(
   (res = {}) => {
     const {url} = res.config || {};
     // const list = _filter(responseIgnoreList, (u) => url.match(u)) || [];
@@ -43,23 +43,21 @@ server.interceptors.response.use(
     // }
 
     // 使用拦截器统一状态码处理
-    const {message, result, error} = _get(res, 'data') || {};
+    const {status, data, error} = res || {};
 
-    // 1.token过期 退出
-    // if (code === '13000') {
-    //   server.resInterceptorsCallback['13000'] &&
-    //     server.resInterceptorsCallback['13000']();
-    // }
+    // console.log(res, 112222333)
+
 
     // 非200的显示服务器返回错误码
-    if (error) {
+    // if (code !== 200) {
       // todo toast
-    }
+    // }
 
     // console.log(_get(res, 'data'), '_get(res, \'data\')')
 
     const resultFormatted = {};
-    resultFormatted.result = result;
+    resultFormatted.result = data;
+    resultFormatted.code = status;
 
     if (error) {
       resultFormatted.error = error;
@@ -83,5 +81,5 @@ function responseHandlers(response) {
 }
 
 module.exports = {
-  server,
+  extraServer,
 };

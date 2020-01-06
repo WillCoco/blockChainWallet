@@ -13,7 +13,8 @@ import {
 import {useSelector} from 'react-redux';
 import {H1, H2, PrimaryText} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
-import {Toast} from '../../components/Toast/index';
+import {Toast} from '../../components/Toast';
+import Empty from '../../components/Empty';
 import {vh, vw, metrics} from '../../helpers/metric';
 import colors from '../../helpers/colors';
 
@@ -29,9 +30,11 @@ const AssetsList = props => {
   );
 
   return (
-    <>
-      <View style={{backgroundColor: '#fff'}}>
-        {assetsList.map((asset, index) => {
+    <View style={{backgroundColor: '#fff'}}>
+      {props.isLoaded && assetsList.length === 0 ? (
+        <Empty />
+      ) : (
+        assetsList.map((asset, index) => {
           const borderTopWidth = index !== 0 ? StyleSheet.hairlineWidth : 0;
           return (
             <TouchableOpacity
@@ -42,14 +45,15 @@ const AssetsList = props => {
               <PrimaryText>{asset.balanceFmt}</PrimaryText>
             </TouchableOpacity>
           );
-        })}
-      </View>
-    </>
+        })
+      )}
+    </View>
   );
 };
 
 AssetsList.defaultProps = {
   assetsList: [],
+  isLoaded: false,
 };
 
 const styles = StyleSheet.create({

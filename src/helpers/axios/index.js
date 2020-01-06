@@ -1,3 +1,7 @@
-import axios from './axios';
+import {server} from './server';
+import {extraServer} from './extraServer';
 
-module.exports = axios;
+module.exports = {
+  server,
+  extraServer,
+};

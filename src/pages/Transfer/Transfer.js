@@ -5,6 +5,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
+import Bignumber from 'bignumber.js';
 import {Button, ListItem, Overlay} from 'react-native-elements';
 import {PrimaryText} from 'react-native-normalization-text';
 import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
@@ -19,6 +20,7 @@ import TxConfirmOverlay from './TxConfirmOverlay';
 import Dialog from '../../components/Dialog';
 import _get from 'lodash/get';
 
+// console.log(chainInfo.symbol, 'chainInfochainInfochainInfo')
 const defaultFee = 0.001;
 
 export default props => {
@@ -49,10 +51,13 @@ export default props => {
   };
 
   // 是否token转账
-  const isToken = tokenSymbol === chainInfo.symbol;
-
+  // console.log(chainInfo.symbol, 'chainInfo.symbol')
+  // console.log(tokenSymbol, 'tokenSymbol')
 
   const [transferForm, setTransferForm] = React.useState(defaultTransferForm);
+  console.log(transferForm.token.symbol, 1111)
+
+  const isToken = transferForm.token.symbol !== chainInfo.symbol;
 
   // 选择token
   const goSelectToken = () => {
@@ -89,22 +94,30 @@ export default props => {
   const createTx = async () => {
     const params = {
       to: _get(transferForm, 'address'),
-      amount: +_get(transferForm, 'amount') * 100000000,
-      fee: +defaultFee * 100000000,
+      amount: Bignumber(_get(transferForm, 'amount'))
+        .times(100000000)
+        .toNumber(),
+      fee: Bignumber(defaultFee)
+        .times(100000000)
+        .toNumber(),
       note: _get(transferForm, 'note'),
       isToken: isToken,
       isWithdraw: false,
-      tokenSymbol: isToken ? tokenSymbol : undefined,
+      tokenSymbol: isToken
+        ? _get(transferForm, ['token', 'symbol'])
+        : undefined,
       // execName: params.execName,
       execer: isToken ? 'token' : 'coins',
     };
+
+    console.log(params, '构造交易params-------')
 
     // 构造交易
     const tx = await createTransaction(params);
     if (tx.result) {
       unsignedTx.current = tx.result;
       setTxConfirmVisible(true);
-      signTx();
+      // signTx();
     }
   };
 
@@ -115,11 +128,11 @@ export default props => {
     setPwdDialogVisible(false);
     console.log(isValidPassword, 'isValidPassword');
     if (!isValidPassword) {
-      Toast.show({data: '密码验证失败'});
+      Toast.show({data: i18n.t('passwordValidFailed')});
       return;
     }
     sendTransaction({tx: unsignedTx.current});
-  
+
     // 拿私钥
     const privateKey = await dispatch(
       wallet.aesDecrypt({
@@ -129,7 +142,7 @@ export default props => {
       }),
     );
 
-    console.log(privateKey, 'privateKey');
+    // console.log(privateKey, 'privateKey');
 
     // 签名交易
     signedTx.current = await dispatch(
@@ -137,7 +150,7 @@ export default props => {
     );
 
     if (!signedTx.current) {
-      Toast.show(i18n.t('签名失败'));
+      Toast.show({data: i18n.t('signFailed')});
       return;
     }
 
@@ -147,6 +160,9 @@ export default props => {
   // 发送交易
   const sendTx = async param => {
     const result = await sendTransaction(param);
+    if (result) {
+      Toast.show({data: i18n.t('transferSuccess')});
+    }
 
     console.log(result, '发送交易');
   };
