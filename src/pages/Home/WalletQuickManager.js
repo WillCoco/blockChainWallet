@@ -71,7 +71,8 @@ const WalletQuickManager = props => {
           onPress={openOverlay}
           onLayout={event => setTop(event.nativeEvent.layout.height)}
           style={styles.checkedWallet}>
-          <PrimaryText color="white">
+          <Icon name="wallet-outline" type='material-community' color={colors.textWhite}/>
+          <PrimaryText color="white"  style={{marginLeft: 8}}>
             {props.walletFormat(currentWallet) || props.defaultCheckedText}
           </PrimaryText>
           {
@@ -81,9 +82,7 @@ const WalletQuickManager = props => {
           }
         </TouchableOpacity>
         <TouchableOpacity>
-          <PrimaryText color="white" onPress={goScanPage}>
-            scan
-          </PrimaryText>
+          <Icon name="scan1" type='antdesign' color={colors.textWhite} onPress={goScanPage}/>
         </TouchableOpacity>
       </View>
       <Overlay

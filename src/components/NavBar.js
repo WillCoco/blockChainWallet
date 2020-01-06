@@ -18,6 +18,7 @@ const Navbar = props => {
 
 NavBar.defaultProps = {
   title: '默认标题',
+  headerShown: false,
   headerTitle: '',
   headerRight: void 0,
   headerLeft: void 0,

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {
@@ -13,6 +13,7 @@ import {useNavigation} from 'react-navigation-hooks';
 import useI18n from '../../hooks/useI18n';
 import i18n from '../../helpers/i18n';
 import { updateLanguage } from '../../redux/actions/appSetting';
+import colors from '../../helpers/colors';
 import _get from 'lodash/get';
 
 let languageList = [
@@ -41,7 +42,7 @@ const Languages = props => {
             >
               <PrimaryText>{i18n.t(item.name)}</PrimaryText>
               {
-                props.language === item.lang && <Icon name='check' color='#00aced' />
+                props.language === item.lang && <Icon name='check' color={colors.theme} />
               }
             </TouchableOpacity>
           )

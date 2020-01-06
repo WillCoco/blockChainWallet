@@ -32,6 +32,7 @@ import SelectToken from '../pages/SelectToken';
 import SelectBlock from '../pages/SelectToken';
 import Collect from '../pages/Collect';
 import TransactionHistory from '../pages/TransactionHistory';
+import SwitchAccount from '../pages/TransactionHistory/SwitchAccount';
 import WalletManagement from '../pages/WalletManagement';
 import Languages from '../pages/Languages';
 import HelpCenter from '../pages/HelpCenter';
@@ -130,7 +131,13 @@ const AppNavigator = createStackNavigator(
     TransactionHistory: {
       screen: TransactionHistory,
       navigationOptions: ({navigation}) => ({
-        headerTitle: `${i18n.t('transactionHistory')}`,
+        headerShown: false,
+      }),
+    },
+    SwitchAccount: {
+      screen: SwitchAccount,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: `${i18n.t('switchAccount')}`,
       }),
     },
     Languages: {
@@ -166,7 +173,7 @@ const AppNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'Guide',
+    initialRouteName: 'Main',
     defaultNavigationOptions: ({navigation}) => {
       return {
         headerTitle: `默认标题`,

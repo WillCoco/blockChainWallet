@@ -7,7 +7,7 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import _findIndex from 'lodash/findIndex';
 import _get from 'lodash/get';
-import {Button} from 'react-native-elements';
+import {Button, Icon} from 'react-native-elements';
 import {H1, H2, H3, H4, PrimaryText} from 'react-native-normalization-text';
 import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
@@ -44,6 +44,7 @@ const AssetDetail = props => {
           title={i18n.t('transfer')}
           containerStyle={styles.leftBtnContainerStyle}
           buttonStyle={styles.leftButtonStyle}
+          icon={<Icon name="exit-to-app" color={colors.textWhite}/>}
           onPress={() =>
             navigate({routeName: 'Transfer', params: {tokenSymbol}})
           }
@@ -52,6 +53,7 @@ const AssetDetail = props => {
           title={i18n.t('collect')}
           containerStyle={styles.rightBtnContainerStyle}
           buttonStyle={{borderRadius: 0, height: vw(12)}}
+          icon={<Icon name="swap-horiz" color={colors.textWhite}/>}
           onPress={() =>
             navigate({routeName: 'Collect', params: {currentToken}})
           }

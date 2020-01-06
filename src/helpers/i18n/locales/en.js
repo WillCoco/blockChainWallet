@@ -49,4 +49,5 @@ export default {
   loaded: 'Loaded',
   noMore: 'No More Data～',
   dataEmpty: 'No Data Found',
+  switchAccount: 'Switch Account',
 };

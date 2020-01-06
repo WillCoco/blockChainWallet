@@ -57,12 +57,14 @@ export default (props) => {
         <Button
           containerStyle={{flex: 1}}
           buttonStyle={StyleSheet.flatten([styles.button, {backgroundColor: colors.success}])}
+          icon={<Icon name="wallet-outline" type='material-community' color={colors.textWhite}/>}
           title={i18n.t('createWallet')}
           onPress={() => navigate('CreateWallet')}
         />
         <Button
           containerStyle={{flex: 1}}
           buttonStyle={styles.button}
+          icon={<Icon name="application-import" type='material-community' color={colors.textWhite}/>}
           title={i18n.t('importWallet')}
           onPress={recoverWallet}
         />
