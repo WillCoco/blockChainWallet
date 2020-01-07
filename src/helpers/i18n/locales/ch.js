@@ -87,4 +87,12 @@ export default {
   backupFailed: '助记词顺序错误',
   backupSuccess: '备份成功',
   backupGuideText: '请按顺序依次点击，还原助记词：',
+  createAgreement1: '我已阅读并同意',
+  createAgreement2: '该产品的使用协议',
+  emptyWalletName: '填写钱包名称',
+  emptyPassword: '请填写密码',
+  emptyVerifyPassword: '请填写确认密码',
+  illegalPassword: '密码至少8位',
+  unmatchPassword: '两次输入密码不一致',
+  disagreeAgreement: '未同意使用协议',
 };

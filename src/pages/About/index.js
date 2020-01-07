@@ -7,17 +7,19 @@ import {
 import {SmallText} from 'react-native-normalization-text';
 import {ListItem} from 'react-native-elements';
 import i18n from '../../helpers/i18n';
-import {vh, vw} from '../../helpers/metric/index';
+import {vh, vw, metrics} from '../../helpers/metric';
+import packageInfo from '../../../package.json';
 
 export default () => {
   return (
     <View style={styles.wrapper}>
       <Image
+        resizeMode="contain"
+        source={require('../../images/logo.png')}
         style={styles.logo}
-        source={{uri: 'https://facebook.github.io/react-native/img/tiny_logo.png'}}
       />
-      <SmallText>Version 1.0.0</SmallText>
-      <SmallText>简介</SmallText>
+      <SmallText>Version {packageInfo.version}</SmallText>
+      {/*<SmallText>{i18n.t('aboutInter')}</SmallText>*/}
       <ListItem
         title={i18n.t('userAgreement')}
         containerStyle={{width: vw(90)}}
@@ -39,8 +41,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 50,
-    height: 50,
-    marginTop: vh(3),
-  }
+    height: vw(12),
+    marginTop: metrics.spaceL,
+    marginBottom: 8,
+  },
 });

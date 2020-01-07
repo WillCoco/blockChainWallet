@@ -33,7 +33,7 @@ const AssetsList = props => {
    * 是否显示资产
    */
   const isShowAssets = useSelector(state =>
-    _get(state, ['appSetting', 'isShowAssets'])
+    _get(state, ['appSetting', 'isShowAssets']),
   );
 
   /**
