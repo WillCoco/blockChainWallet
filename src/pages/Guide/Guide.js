@@ -1,49 +1,76 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-} from 'react-native';
+import {View, StyleSheet, Animated, Image, StatusBar} from 'react-native';
 import {useSelector} from 'react-redux';
 import {Button} from 'react-native-elements';
-import {H1, PrimaryText} from 'react-native-normalization-text';
+import {H4} from 'react-native-normalization-text';
 import _get from 'lodash/get';
 import {useNavigation, useIsFocused} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
-import colors from '../../helpers/colors';
 import {metrics, vw} from '../../helpers/metric';
 
 const Guide = () => {
   const {navigate, replace} = useNavigation();
+
+  // 钱包列表
   const walletsList =
     useSelector(state => _get(state, ['wallets', 'walletsList'])) || [];
 
   const isFocused = useIsFocused();
 
+  // 是否显示按钮
+  const [btnsAnim] = React.useState(new Animated.Value(0));
+
   React.useEffect(() => {
-    // console.log(walletsList.length, 1212);
-    console.log(walletsList, '123123123')
     if (isFocused && walletsList.length > 0) {
       // 有钱包，进入首页
       replace('Main');
+    } else {
+      // 无钱包，显示按钮
+      Animated.timing(
+        // timing方法使动画值随时间变化
+        btnsAnim, // 要变化的动画值
+        {
+          toValue: 1, // 最终的动画值
+          duration: 500,
+        },
+      ).start();
     }
   });
 
   return (
     <View style={styles.wrapper}>
-      <View style={styles.contentWrapper}>
+      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <View style={styles.logoWrapper}>
         {/*<H1>Logo</H1>*/}
-        <PrimaryText>{i18n.t('appName')}</PrimaryText>
+        <Image
+          resizeMode="contain"
+          source={require('../../images/logo.png')}
+          style={styles.logo}
+        />
+        <H4 style={styles.appName}>{i18n.t('appName')}</H4>
       </View>
-      <Button
-        containerStyle={styles.createBtnStyle}
-        title={i18n.t('createWallet')}
-        onPress={() => navigate('CreateWallet')}
-      />
-      <Button
-        containerStyle={styles.importBtnStyle}
-        title={i18n.t('importWallet')}
-        onPress={() => navigate('ImportWallet')}
-      />
+      {
+        <Animated.View
+          style={{
+            opacity: btnsAnim,
+            top: btnsAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [vw(10), 0],
+            }),
+          }}>
+          <Button
+            containerStyle={styles.createBtnStyle}
+            title={i18n.t('createWallet')}
+            onPress={() => navigate('CreateWallet')}
+          />
+          <Button
+            type="outline"
+            containerStyle={styles.importBtnStyle}
+            title={i18n.t('importWallet')}
+            onPress={() => navigate('ImportWallet')}
+          />
+        </Animated.View>
+      }
     </View>
   );
 };
@@ -53,10 +80,17 @@ const styles = StyleSheet.create({
     // backgroundColor: colors.pageBackground,
     flex: 1,
   },
-  contentWrapper: {
+  logo: {
+    height: vw(20),
+  },
+  logoWrapper: {
     height: '64%',
     justifyContent: 'center',
     alignSelf: 'center',
+    alignItems: 'center',
+  },
+  appName: {
+    marginTop: metrics.spaceS,
   },
   createBtnStyle: {
     width: '60%',
@@ -66,6 +100,15 @@ const styles = StyleSheet.create({
     width: '60%',
     alignSelf: 'center',
     marginTop: vw(5),
+  },
+  btnsHideStyle: {
+    opacity: 0,
+    backgroundColor: 'red',
+    // top: vw(10),
+  },
+  btnsShowStyle: {
+    opacity: 1,
+    backgroundColor: 'green',
   },
   buttonsWrapper: {
     flexDirection: 'row',

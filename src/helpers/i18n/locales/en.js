@@ -43,7 +43,7 @@ export default {
   orderDetail: 'OrderDetail',
   confirm: 'Confirm',
   networkErr: 'network error',
-  transferSuccess: 'Transfer Success',
+  transferSuccess: 'Transfer Successfully',
   transferFailed: 'Transfer Failed',
   signFailed: 'Sign Failed',
   loading: 'Loading...',
@@ -63,4 +63,7 @@ export default {
     'Please save it in a secure place, isolated from the internet',
   backupOffline2:
     'Please do not share or store the Mnemonic in a network environment, such as email, albums,social apps ans others',
+  backupFailed: 'Incorrect order of Mnemonic',
+  backupSuccess: 'Backup Successfully',
+  backupGuideText: 'Please select Mnemonic Phrase in correct order:',
 };

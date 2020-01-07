@@ -1,26 +1,24 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, LayoutAnimation} from 'react-native';
 import {Button} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {PrimaryText} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
 import _get from 'lodash/get';
-import _shuffle from 'lodash/shuffle';
 import colors from '../../helpers/colors';
 import {vw, metrics} from '../../helpers/metric';
 import i18n from '../../helpers/i18n';
 import {MnemonicInput, MnemonicPrint} from '../../components/mnemonic';
 import mnemonicTypes from '../../components/mnemonic/mnemonicTypes';
+import {Toast} from '../../components/Toast';
 import {wallet} from '../../redux/actions/';
 
 export default () => {
-  const {goBack, replace} = useNavigation();
+  const {replace} = useNavigation();
   const dispatch = useDispatch();
   const [wordsInput, setWordsInput] = React.useState([]);
 
-  const mnemonic = useSelector(state =>
-    _get(state.wallets, ['tempMnemonic']),
-  );
+  const mnemonic = useSelector(state => _get(state.wallets, ['tempMnemonic']));
 
   // 乱序助记词
   // const unorderedMnemonic = React.useRef(_shuffle(mnemonic));
@@ -38,9 +36,10 @@ export default () => {
     if (pass) {
       replace('Main');
       // alert('备份成功');
+      Toast.show({data: i18n.t('backupSuccess')});
     } else {
       // 提示
-      alert('备份失败');
+      Toast.show({data: i18n.t('backupFailed')});
     }
   };
 
@@ -53,6 +52,7 @@ export default () => {
 
   // onWordPress
   const onWordPress = words => {
+    LayoutAnimation.easeInEaseOut();
     setWordsInput(words);
   };
 
@@ -62,7 +62,9 @@ export default () => {
         data={wordsInput || ''}
         wrapperStyle={styles.mnemonicPrintWrapper}
       />
-      <PrimaryText style={styles.title}>请按顺序依次点击，还原助记词：</PrimaryText>
+      <PrimaryText style={styles.title}>
+        {i18n.t('backupGuideText')}
+      </PrimaryText>
       <MnemonicInput
         data={unorderedMnemonic.current || ''}
         wrapperStyle={styles.mnemonicInputWrapper}

@@ -84,4 +84,7 @@ export default {
   backupOffline1: '妥善保管至隔离网络的安全地方',
   backupOffline2:
     '请勿将助记词在联网环境下分享和存储，比如邮件、相册、社交应用等',
+  backupFailed: '助记词顺序错误',
+  backupSuccess: '备份成功',
+  backupGuideText: '请按顺序依次点击，还原助记词：',
 };

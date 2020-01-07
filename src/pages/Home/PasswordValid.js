@@ -31,6 +31,10 @@ const PasswordValid = props => {
   }, [isFocused, navigate, currentWallet, currentWallet.backupCompleted]);
 
   const onOKPress = async () => {
+    if (!pwd) {
+      return;
+    }
+
     // 校验密码
     const isValid = await isValidPwd();
 
@@ -115,8 +119,6 @@ const PasswordValid = props => {
   );
 };
 
-const styles = StyleSheet.create({
-});
-
+const styles = StyleSheet.create({});
 
 export default PasswordValid;
