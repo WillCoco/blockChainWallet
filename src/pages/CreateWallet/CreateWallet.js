@@ -2,6 +2,8 @@ import React from 'react';
 import {
   View,
   Text,
+  ScrollView,
+  KeyboardAvoidingView,
   StyleSheet,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -12,6 +14,7 @@ import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import {metrics, vw} from '../../helpers/metric';
 import {eventTypes, WVEvent} from '../../helpers/eventEmmiter';
+import {chainInfo} from '../../config/';
 import FormRow from '../../components/FormRow';
 import {Toast} from '../../components/Toast';
 import {wallet} from '../../redux/actions';
@@ -85,61 +88,67 @@ const CreateWallet = props => {
   };
 
   return (
-    <View style={styles.wrapper}>
-      <FormRow
-        title={i18n.t('createWalletBlock')}
-        chevron={{size: 24}}
-        bottomDivider
-        containerStyle={{}}
-        onPress={goSelectBlock}
-        value={'eadad'}
-        editable={false}
-      />
-      <FormRow
-        title={i18n.t('createWalletName')}
-        placeholder={i18n.t('createWalletNamePlaceholder')}
-        bottomDivider
-        value={name}
-        onChange={setName}
-        maxLength={12}
-      />
-      <FormRow
-        title={i18n.t('createWalletPassword')}
-        placeholder={i18n.t('createWalletPasswordPlaceholder')}
-        bottomDivider
-        value={password}
-        maxLength={20}
-        onChange={setPassword}
-      />
-      <FormRow
-        title={i18n.t('createWalletConfirmPassword')}
-        placeholder={i18n.t('createWalletConfirmPasswordPlaceholder')}
-        bottomDivider
-        value={confirmPassword}
-        maxLength={20}
-        onChange={setConfirmPassword}
-      />
-      <FormRow
-        title={i18n.t('createWalletPrompt')}
-        bottomDivider
-        placeholder={i18n.t('createWalletPromptPlaceholder')}
-        value={prompt}
-        onChange={setPrompt}
-      />
-
-      <Button
-        iconRight
-        containerStyle={styles.btnContainerStyle}
-        title={i18n.t('next')}
-        onPress={onNextClick}
-      />
-    </View>
+    <ScrollView keyboardShouldPersistTaps="always" style={styles.wrapper}>
+      <KeyboardAvoidingView>
+        <FormRow
+          title={i18n.t('createWalletBlock')}
+          chevron={{size: 24}}
+          bottomDivider
+          containerStyle={{}}
+          // onPress={goSelectBlock}
+          value={chainInfo.chainName}
+          editable={false}
+        />
+        <FormRow
+          autoFocus
+          title={i18n.t('createWalletName')}
+          placeholder={i18n.t('createWalletNamePlaceholder')}
+          bottomDivider
+          value={name}
+          onChange={setName}
+          maxLength={12}
+        />
+        <FormRow
+          secureTextEntry
+          bottomDivider
+          title={i18n.t('createWalletPassword')}
+          placeholder={i18n.t('createWalletPasswordPlaceholder')}
+          value={password}
+          maxLength={20}
+          onChange={setPassword}
+        />
+        <FormRow
+          secureTextEntry
+          bottomDivider
+          title={i18n.t('createWalletConfirmPassword')}
+          placeholder={i18n.t('createWalletConfirmPasswordPlaceholder')}
+          value={confirmPassword}
+          maxLength={20}
+          onChange={setConfirmPassword}
+        />
+        {/*<FormRow*/}
+          {/*title={i18n.t('createWalletPrompt')}*/}
+          {/*bottomDivider*/}
+          {/*placeholder={i18n.t('createWalletPromptPlaceholder')}*/}
+          {/*value={prompt}*/}
+          {/*onChange={setPrompt}*/}
+        {/*/>*/}
+        <Button
+          iconRight
+          containerStyle={styles.btnContainerStyle}
+          title={i18n.t('next')}
+          onPress={onNextClick}
+        />
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
+    // flex: 1,
     paddingHorizontal: metrics.spaceS,
+    paddingTop: metrics.spaceS,
   },
   btnContainerStyle: {
     width: '80%',

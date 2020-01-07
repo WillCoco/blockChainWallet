@@ -85,15 +85,27 @@ const AppNavigator = createStackNavigator(
     },
     CreateWallet: {
       screen: CreateWallet,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: i18n.t('createWallet'),
+      }),
     },
     WalletBackUpStep1: {
       screen: WalletBackUpStep1,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: i18n.t('backupWallet'),
+      }),
     },
     WalletBackUpStep2: {
       screen: WalletBackUpStep2,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: i18n.t('backupWallet'),
+      }),
     },
     WalletBackUpStep3: {
       screen: WalletBackUpStep3,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: i18n.t('backupWallet'),
+      }),
     },
     ImportWallet: {
       screen: ImportWallet,

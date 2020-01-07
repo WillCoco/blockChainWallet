@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Text,
+  View,
   StyleSheet,
 } from 'react-native';
 import {Button} from 'react-native-elements';
@@ -9,6 +10,7 @@ import _get from 'lodash/get';
 import {H1, H2, H3, H4, PrimaryText} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
+import {vw} from '../../helpers/metric';
 import i18n from '../../helpers/i18n';
 import {MnemonicPrint} from '../../components/mnemonic';
 
@@ -20,7 +22,7 @@ export default () => {
   );
 
   return (
-    <>
+    <View style={styles.wrapper}>
       <PrimaryText style={styles.textLine1}>请抄写保存下方助记词</PrimaryText>
       <PrimaryText style={styles.textLine2}>助记词丢失不可找回，请妥善保管</PrimaryText>
       <MnemonicPrint
@@ -32,13 +34,13 @@ export default () => {
         title={i18n.t('next')}
         onPress={() => navigate('WalletBackUpStep3')}
       />
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: colors.theme,
+    flex: 1,
   },
   textLine1: {
     textAlign: 'center',
@@ -49,11 +51,11 @@ const styles = StyleSheet.create({
   },
   mnemonicWrapper: {
     marginHorizontal: '2%',
-    marginTop: '10%',
+    marginTop: vw(10),
   },
   btnContainerStyle: {
     width: '80%',
     alignSelf: 'center',
-    marginTop: '15%',
+    marginTop: vw(10),
   },
 });

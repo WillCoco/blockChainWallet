@@ -51,4 +51,15 @@ export default {
   dataEmpty: 'No Data Found',
   switchAccount: 'Switch Account',
   transaction: 'Transaction',
+  backupTipsTitle: 'Backup Tips',
+  backupTips: 'Obtaining Mnemonic equals owning all assets',
+  backupMnemonicTitle: 'Backup Mnemonic',
+  backupMnemonic1: 'Please write down the Mnemonic',
+  backupMnemonic2:
+    'If your phone is lost, stolen, damaged, the Mnemonic will be able to recover your assets',
+  backupOfflineTitle: 'Offline storage',
+  backupOffline1:
+    'Please save it in a secure place, isolated from the internet',
+  backupOffline2:
+    'Please do not share or store the Mnemonic in a network environment, such as email, albums,social apps ans others',
 };

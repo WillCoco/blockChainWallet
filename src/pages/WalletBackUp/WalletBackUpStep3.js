@@ -77,6 +77,7 @@ export default () => {
           onPress={complete}
         />
         <Button
+          type="outline"
           containerStyle={styles.btnContainerStyle}
           title={i18n.t('reset')}
           onPress={reset}
@@ -92,7 +93,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: metrics.spaceS,
   },
   mnemonicPrintWrapper: {
-    minHeight: 80,
     marginHorizontal: '2%',
     marginTop: metrics.spaceN,
     backgroundColor: colors.pageBackground,
@@ -101,12 +101,13 @@ const styles = StyleSheet.create({
     marginHorizontal: '2%',
   },
   title: {
-    marginVertical: metrics.spaceL,
+    marginTop: metrics.spaceN,
+    marginBottom: metrics.spaceS,
   },
   buttonsWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: '15%',
+    marginTop: vw(10),
     marginHorizontal: '4%',
   },
   btnContainerStyle: {

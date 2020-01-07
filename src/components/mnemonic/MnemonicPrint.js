@@ -53,8 +53,10 @@ Mnemonic.defaultProps = {
 
 const styles = StyleSheet.create({
   wrapper: {
+    flex: -1,
     flexDirection: 'row',
     flexWrap: 'wrap',
+    paddingVertical: vw(2),
   },
   wordWrapper: {
     paddingHorizontal: vw(4),

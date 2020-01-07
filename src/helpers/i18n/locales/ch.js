@@ -25,7 +25,7 @@ export default {
   createWalletPassword: '密码',
   createWalletPasswordPlaceholder: '填写密码',
   createWalletConfirmPassword: '确认密码',
-  createWalletConfirmPasswordPlaceholder: '再次填写密码',
+  createWalletConfirmPasswordPlaceholder: '确认密码',
   createWalletPrompt: '备注',
   createWalletPromptPlaceholder: '填写备注',
   backupWallet: '备份钱包',
@@ -75,4 +75,13 @@ export default {
   dataEmpty: '空空如也～',
   switchAccount: '切换钱包',
   transaction: '交易',
+  backupTipsTitle: '备份提示',
+  backupTips: '获取助记词等于拥有钱包资产所有权',
+  backupMnemonicTitle: '备份助记词',
+  backupMnemonic1: '使用笔和纸正确抄写助记词',
+  backupMnemonic2: '如果你的手机丢失、被盗、损坏，助记词可以恢复你的资产',
+  backupOfflineTitle: '离线保管',
+  backupOffline1: '妥善保管至隔离网络的安全地方',
+  backupOffline2:
+    '请勿将助记词在联网环境下分享和存储，比如邮件、相册、社交应用等',
 };

@@ -7,7 +7,7 @@
  * @lastModificationDate:
  */
 import React from 'react';
-import {StyleSheet, TouchableHighlight} from 'react-native';
+import {StyleSheet, TouchableHighlight, TouchableOpacity} from 'react-native';
 import {PrimaryText} from 'react-native-normalization-text';
 import {vw} from '../../helpers/metric/index';
 import colors from '../../helpers/colors';
@@ -15,12 +15,12 @@ import colors from '../../helpers/colors';
 const Word = props => {
   // 助记词列表
   return (
-    <TouchableHighlight
+    <TouchableOpacity
       style={StyleSheet.flatten([styles.wordWrapper, props.style])}
       disabled={props.isWordDisabled}
       onPress={props.onWordPress}>
       <PrimaryText color="white">{props.word}</PrimaryText>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 

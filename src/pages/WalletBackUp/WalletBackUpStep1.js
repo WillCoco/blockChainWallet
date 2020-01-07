@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Text,
+  View,
   StyleSheet,
 } from 'react-native';
 import {useSelector} from 'react-redux';
@@ -9,29 +10,47 @@ import {Button} from 'react-native-elements';
 import {H1, H2, H3, H4, PrimaryText} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
-import {vw} from '../../helpers/metric';
+import {vw, metrics} from '../../helpers/metric';
 import i18n from '../../helpers/i18n';
 
 const WalletBackUpStep1 = props => {
   const {navigate} = useNavigation();
 
   return (
-    <>
-      <PrimaryText style={styles.textLine1}>备份提示</PrimaryText>
-      <PrimaryText style={styles.textLine2}>获取助记词等于拥有钱包资产所有权</PrimaryText>
-      <PrimaryText style={styles.textLine2}>备份助记词</PrimaryText>
-      <PrimaryText style={styles.textLine2}>离线保管</PrimaryText>
+    <View styles={styles.wrapper}>
+      <H4 style={styles.textLine1}>{i18n.t('backupTips')}</H4>
+      <PrimaryText style={styles.textLine2}>{i18n.t('backupTips')}</PrimaryText>
+      <PrimaryText style={styles.title}>
+        {i18n.t('backupMnemonicTitle')}
+      </PrimaryText>
+      <PrimaryText style={styles.contentBackup}>
+        {i18n.t('backupMnemonic1')}
+      </PrimaryText>
+      <PrimaryText style={styles.contentBackup}>
+        {i18n.t('backupMnemonic2')}
+      </PrimaryText>
+      <PrimaryText style={styles.title}>
+        {i18n.t('backupOfflineTitle')}
+      </PrimaryText>
+      <PrimaryText style={styles.contentSave}>
+        {i18n.t('backupOffline1')}
+      </PrimaryText>
+      <PrimaryText style={styles.contentSave}>
+        {i18n.t('backupOffline2')}
+      </PrimaryText>
       <Button
-        containerStyle={styles.btnContainerStyle}
-        title={i18n.t('backupWallet')}
+        title={i18n.t('next')}
         onPress={() => navigate('WalletBackUpStep2')}
+        containerStyle={styles.btnContainerStyle}
+        buttonStyle={styles.btnStyle}
       />
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
+    flex: 1,
     backgroundColor: colors.theme,
     height: '24%',
   },
@@ -42,6 +61,19 @@ const styles = StyleSheet.create({
   textLine2: {
     textAlign: 'center',
   },
+  contentBackup: {
+    marginHorizontal: metrics.spaceL,
+    // color: colors.textSecondary,
+  },
+  title: {
+    marginHorizontal: metrics.spaceL,
+    marginTop: metrics.spaceS,
+    color: colors.textBlack,
+  },
+  contentSave: {
+    marginHorizontal: metrics.spaceL,
+    // color: colors.textSecondary,
+  },
   mnemonicWrapper: {
     marginHorizontal: '2%',
     marginTop: '10%',
@@ -49,7 +81,10 @@ const styles = StyleSheet.create({
   btnContainerStyle: {
     width: '80%',
     alignSelf: 'center',
-    marginTop: '15%',
+    marginTop: vw(10),
+  },
+  btnStyle: {
+    // backgroundColor: colors.theme,
   },
 });
 
