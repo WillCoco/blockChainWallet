@@ -1,11 +1,12 @@
 import React from 'react';
-import {StyleSheet, RefreshControl, ScrollView} from 'react-native';
+import {StyleSheet, RefreshControl, ScrollView, StatusBar} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {useFocusEffect} from 'react-navigation-hooks';
 import AssetsList from './AssetsList';
 import Dashboard from './Dashboard';
 import PasswordValid from './PasswordValid';
 import {asset} from '../../redux/actions';
+import colors from '../../helpers/colors';
 
 const Home = props => {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const Home = props => {
       }
       keyboardShouldPersistTaps="handled"
       stickyHeaderIndices={[0]}>
+      <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
       <Dashboard isLoaded={isLoaded} />
       <AssetsList isLoaded={isLoaded} />
       <PasswordValid />

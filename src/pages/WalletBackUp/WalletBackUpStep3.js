@@ -44,6 +44,8 @@ export default () => {
   };
 
   const reset = () => {
+    LayoutAnimation.easeInEaseOut();
+
     // 重置打印面板
     setWordsInput([]);
     // 重置

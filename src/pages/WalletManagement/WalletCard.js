@@ -1,19 +1,19 @@
 import React from 'react';
-import {
-  StyleSheet,
-} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useNavigation} from 'react-navigation-hooks';
 
-export default (props) => {
+export default props => {
   const {navigate} = useNavigation();
 
   return (
     <ListItem
-      style={styles.walletCard}
+      style={StyleSheet.flatten([styles.walletCard, props.style])}
       title={props.walletName || ''}
       subtitle={props.walletAddress || ''}
-      onPress={() => {navigate('WalletDetails', props.wallet)}}
+      onPress={() => {
+        navigate('WalletDetails', props.wallet);
+      }}
       titleProps={{ellipsizeMode: 'middle', numberOfLines: 1}}
       subtitleProps={{ellipsizeMode: 'middle', numberOfLines: 1}}
       chevron
@@ -23,6 +23,6 @@ export default (props) => {
 
 const styles = StyleSheet.create({
   walletCard: {
-    marginBottom: 15
+    marginBottom: 15,
   },
 });

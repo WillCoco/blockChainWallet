@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Text,
   View,
+  ScrollView,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
@@ -15,13 +16,13 @@ import WalletCard from './WalletCard';
 import colors from '../../helpers/colors';
 import {metrics, vw, vh} from '../../helpers/metric';
 
-export default (props) => {
+export default props => {
   const {navigate} = useNavigation();
 
   // 当前钱包
-  const currentWallet = useSelector(
-    state => _get(state.wallets, ['currentWallet']) || [],
-  );
+  // const currentWallet = useSelector(
+  //   state => _get(state.wallets, ['currentWallet']) || [],
+  // );
 
   // 钱包列表
   const walletsList = useSelector(
@@ -38,33 +39,46 @@ export default (props) => {
   return (
     <View style={styles.wrapper}>
       {/* 钱包列表 */}
-      <View style={styles.content}>
-        {
-          walletsList.map(item => {
-            return (
-              <WalletCard 
-                key={item.address}
-                wallet={item}
-                walletName={item.name}
-                walletAddress={item.address}
-              />
-            )
-          })
-        }
-      </View>
+      <ScrollView style={styles.content}>
+        {[...walletsList, ...walletsList].map((item, index) => {
+          return (
+            <WalletCard
+              key={`${index}_${item.address}`}
+              wallet={item}
+              walletName={item.name}
+              walletAddress={item.address}
+            />
+          );
+        })}
+      </ScrollView>
       {/* 按钮 */}
       <View style={styles.btns}>
         <Button
           containerStyle={{flex: 1}}
-          buttonStyle={StyleSheet.flatten([styles.button, {backgroundColor: colors.success}])}
-          icon={<Icon name="wallet-outline" type='material-community' color={colors.textWhite}/>}
+          buttonStyle={StyleSheet.flatten([
+            styles.button,
+            {backgroundColor: colors.success},
+          ])}
+          icon={
+            <Icon
+              name="wallet-outline"
+              type="material-community"
+              color={colors.textWhite}
+            />
+          }
           title={i18n.t('createWallet')}
           onPress={() => navigate('CreateWallet')}
         />
         <Button
           containerStyle={{flex: 1}}
           buttonStyle={styles.button}
-          icon={<Icon name="application-import" type='material-community' color={colors.textWhite}/>}
+          icon={
+            <Icon
+              name="application-import"
+              type="material-community"
+              color={colors.textWhite}
+            />
+          }
           title={i18n.t('importWallet')}
           onPress={recoverWallet}
         />
@@ -97,5 +111,5 @@ const styles = StyleSheet.create({
     color: '#fff',
     lineHeight: 50,
     textAlign: 'center',
-  }
+  },
 });
