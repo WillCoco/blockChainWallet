@@ -15,6 +15,7 @@ import NavBar from '../../components/NavBar';
 import i18n from '../../helpers/i18n';
 import colors from '../../helpers/colors';
 import {useNavigation} from 'react-navigation-hooks';
+import TxRow from '../../components/TxRow';
 
 export default () => {
   const currentWallet = useSelector(
@@ -27,18 +28,7 @@ export default () => {
    * 渲染行
    */
   const renderItem = item => {
-    return (
-      <View style={styles.historyItem}>
-        <View style={styles.left}>
-          <Icon name="subdirectory-arrow-right" />
-          <View>
-            <PrimaryText>{item.name}</PrimaryText>
-            <PrimaryText>{item.amount}</PrimaryText>
-          </View>
-        </View>
-        <PrimaryText style={styles.right}>{item.time}</PrimaryText>
-      </View>
-    );
+    return <TxRow {...item} />;
   };
 
   /**

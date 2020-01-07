@@ -51,19 +51,18 @@ const Me = () => {
 
   return (
     <View style={styles.wrapper}>
-      {
-        menuList.map((item, i) => (
-          <ListItem
-            key={i}
-            title={i18n.t(item.title)}
-            leftIcon={{ name: item.icon, color: item.color}}
-            bottomDivider
-            chevron
-            style={(i === 2 || i === 0) && {marginTop: 10}}
-            onPress={() => navigate(item.route)}
-          />
-        ))
-      }
+      {menuList.map((item, i) => (
+        <ListItem
+          key={i}
+          title={i18n.t(item.title)}
+          leftIcon={{name: item.icon, color: item.color}}
+          bottomDivider={i === 2 || i === 0 || i === 3}
+          chevron
+          style={(i === 2 || i === 0) && {marginTop: 10}}
+          onPress={() => navigate(item.route)}
+          containerStyle={{borderColor: colors.divider}}
+        />
+      ))}
     </View>
   );
 };

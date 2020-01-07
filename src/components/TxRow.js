@@ -1,0 +1,82 @@
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+} from 'react-native';
+import {H1, H2, H3, H4, PrimaryText, SmallText} from 'react-native-normalization-text';
+import {Icon} from 'react-native-elements';
+import colors from '../helpers/colors';
+import {metrics, vw} from '../helpers/metric';
+import {upperUnit} from '../helpers/utils/numbers';
+
+const TxRow = props => {
+  // 缩短txId
+  const shorten = v =>
+    typeof v === 'string' ? `${v.slice(0, 8)}...${v.slice(-8)}` : '';
+
+  // 是否支出
+  const isOut = props.direction === 'out';
+
+  // 金额符号
+  const amountSign = isOut ? '-' : '+';
+
+  // icon
+  const iconName = isOut
+    ? 'subdirectory-arrow-left'
+    : 'subdirectory-arrow-right';
+
+  const color = isOut ? colors.success : colors.theme;
+
+  return (
+    <View style={StyleSheet.flatten([styles.wrapper, props.style])}>
+      <View style={styles.left}>
+        <Icon color={color} containerStyle={styles.icon} name={iconName} />
+        <View>
+          <PrimaryText>{shorten(props.txid)}</PrimaryText>
+          <SmallText>
+            {props.day} {props.time}
+          </SmallText>
+        </View>
+      </View>
+      <View style={styles.right}>
+        <PrimaryText color="primary">
+          {amountSign} {upperUnit(props.amount)} {props.symbol}
+        </PrimaryText>
+      </View>
+    </View>
+  );
+};
+
+TxRow.defaultProps = {
+  title: 'name',
+  amount: 'amount',
+  day: 'YYYY.MM.DD',
+  time: 'hh:mm',
+};
+
+export default TxRow;
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: vw(4),
+    paddingVertical: vw(2),
+  },
+  icon: {
+    marginRight: vw(4),
+  },
+  left: {
+    flexDirection: 'row',
+  },
+  right: {
+    justifyContent: 'center',
+  },
+  transactionTitle: {
+    paddingLeft: metrics.spaceS,
+    paddingVertical: vw(1),
+    borderBottomWidth: 1,
+    borderColor: colors.divider,
+  },
+});

@@ -103,6 +103,11 @@ const AppNavigator = createStackNavigator(
     },
     AssetDetail: {
       screen: AssetDetail,
+      navigationOptions: ({navigation}) => {
+        return {
+          headerTitle: navigation.getParam('tokenSymbol'),
+        };
+      },
     },
     Transfer: {
       screen: Transfer,

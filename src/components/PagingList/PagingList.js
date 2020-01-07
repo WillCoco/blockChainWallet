@@ -10,6 +10,7 @@ import {Icon, Divider} from 'react-native-elements';
 import {PrimaryText} from 'react-native-normalization-text';
 import i18n from '../../helpers/i18n';
 import colors from '../../helpers/colors';
+import {vw} from '../../helpers/metric';
 import Empty from '../../components/Empty';
 
 const mockList = [
@@ -154,10 +155,12 @@ const PagingList = props => {
     const {result, code} = (await props.onRefresh(page, size)) || {};
     setIsRefreshing(false);
     console.log(result, '====')
+    setListData(result || []);
 
     if (result) {
       setListData(result);
     } else {
+      setListData([]);
       setEmpty(true);
     }
   };
@@ -242,7 +245,7 @@ const PagingList = props => {
         //加载更多
         onEndReached={onEndReached}
         onEndReachedThreshold={0.01}
-        ItemSeparatorComponent={() => <Divider />}
+        ItemSeparatorComponent={() => <Divider style={styles.divider} />}
         keyExtractor={(item, index) => 'index' + index + item}
       />
     </View>
@@ -269,8 +272,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderTopWidth: 1,
+    borderTopWidth: StyleSheet.hairlineWidth * 2,
     borderColor: colors.divider,
     paddingVertical: 6,
+  },
+  divider: {
+    marginHorizontal: vw(4),
+    backgroundColor: colors.divider,
   },
 });

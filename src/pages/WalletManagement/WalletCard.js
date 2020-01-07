@@ -16,7 +16,6 @@ export default (props) => {
       onPress={() => {navigate('WalletDetails', props.wallet)}}
       titleProps={{ellipsizeMode: 'middle', numberOfLines: 1}}
       subtitleProps={{ellipsizeMode: 'middle', numberOfLines: 1}}
-      bottomDivider
       chevron
     />
   );

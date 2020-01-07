@@ -3,10 +3,10 @@ import {
   View,
   StyleSheet,
   Clipboard,
-  Text,
+  TouchableOpacity,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {Icon, ListItem, Overlay, Input} from 'react-native-elements';
+import {Icon, ListItem, Overlay} from 'react-native-elements';
 import i18n from '../../helpers/i18n';
 import {PrimaryText, SmallText} from 'react-native-normalization-text';
 import {metrics, vw, vh} from '../../helpers/metric';
@@ -133,10 +133,10 @@ const WalletDetails = props => {
   };
 
   /**
-   * 复制私钥
+   * 复制
    */
-  const copy = () => {
-    Clipboard.setString(privateKey);
+  const copy = (v) => {
+    Clipboard.setString(v);
     Toast.show({data: i18n.t('copySuccess')});
     setExportVisible(false);
   };
@@ -170,11 +170,23 @@ const WalletDetails = props => {
       <NavBar
         title={currentWalletName}
         rightElement={
-          <Text style={{color: colors.textWhite}}>{i18n.t('save')}</Text>
+          <PrimaryText style={{color: colors.textWhite}}>{i18n.t('save')}</PrimaryText>
         }
         onRight={saveWallet}
       />
-      <SmallText style={styles.addressCard}>{currentWallet && currentWallet.address}</SmallText>
+      <View style={styles.addressCard}>
+        <PrimaryText mut style={styles.addressText}>
+          {_get(currentWallet, 'address')}
+        </PrimaryText>
+        <TouchableOpacity onPress={() => copy(_get(currentWallet, 'address'))}>
+          <Icon
+            type="material-community"
+            name="content-copy"
+            color="white"
+            size={vw(4)}
+          />
+        </TouchableOpacity>
+      </View>
       <View>
         {/* 钱包名称 */}
         <FormRow
@@ -241,7 +253,7 @@ const WalletDetails = props => {
           <Button
             // buttonStyle={styles.button}
             title={action.current.overlayCopyTitle}
-            onPress={copy}
+            onPress={() => copy(privateKey)}
           />
         </>
       </Overlay>
@@ -254,11 +266,20 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   addressCard: {
+    maxWidth: '100%',
     height: vh(20),
     backgroundColor: colors.theme,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 20,
+  },
+  addressText: {
+    maxWidth: '80%',
     color: '#fff',
     textAlign: 'center',
-    paddingTop: 20,
+    marginRight: metrics.spaceS,
+
   },
   btnContainer: {
     width: '90%',

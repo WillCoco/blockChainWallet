@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useSelector} from 'react-redux';
+import {Divider} from 'react-native-elements';
 import {H1, H2, PrimaryText} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
 import {Toast} from '../../components/Toast';
@@ -35,15 +36,18 @@ const AssetsList = props => {
         <Empty />
       ) : (
         assetsList.map((asset, index) => {
-          const borderTopWidth = index !== 0 ? StyleSheet.hairlineWidth : 0;
           return (
-            <TouchableOpacity
-              key={`asset_${index}`}
-              style={StyleSheet.flatten([styles.assetRow, {borderTopWidth}])}
-              onPress={() => goAssetDetail(asset.symbol)}>
-              <PrimaryText>{asset.symbol}</PrimaryText>
-              <PrimaryText>{asset.balanceFmt}</PrimaryText>
-            </TouchableOpacity>
+            <View style={styles.wrapper} key={`asset_${index}`}>
+              {index !== 0 && (
+                <Divider style={{backgroundColor: colors.divider}} />
+              )}
+              <TouchableOpacity
+                style={StyleSheet.flatten([styles.assetRow])}
+                onPress={() => goAssetDetail(asset.symbol)}>
+                <PrimaryText color="">{asset.symbol}</PrimaryText>
+                <PrimaryText color="title">{asset.balanceFmt}</PrimaryText>
+              </TouchableOpacity>
+            </View>
           );
         })
       )}
@@ -57,12 +61,15 @@ AssetsList.defaultProps = {
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    paddingHorizontal: vw(4),
+  },
   assetRow: {
     height: vw(14),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: metrics.spaceN,
+    paddingHorizontal: metrics.spaceS,
     borderColor: colors.divider,
   },
 });

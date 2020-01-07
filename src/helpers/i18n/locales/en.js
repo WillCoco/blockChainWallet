@@ -50,4 +50,5 @@ export default {
   noMore: 'No More Data～',
   dataEmpty: 'No Data Found',
   switchAccount: 'Switch Account',
+  transaction: 'Transaction',
 };

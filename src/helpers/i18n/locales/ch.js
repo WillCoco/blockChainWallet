@@ -73,5 +73,6 @@ export default {
   loaded: '加载完成',
   noMore: '没有更多了～',
   dataEmpty: '空空如也～',
-  switchAccount: '切换账号',
+  switchAccount: '切换钱包',
+  transaction: '交易',
 };
