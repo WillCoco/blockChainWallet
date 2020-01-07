@@ -1,8 +1,9 @@
 import React from 'react';
 import {
-  View,
+  ScrollView,
   TextInput,
   StyleSheet,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {Button} from 'react-native-elements';
@@ -100,53 +101,55 @@ const ImportWallet = () => {
   };
 
   return (
-    <View style={styles.wrapper}>
-      <TextInput
-        multiline
-        numberOfLines={4}
-        placeholder={i18n.t('mnemonicInputPlaceholder')}
-        value={mnemonicInput}
-        onChangeText={setMnemonicInput}
-        style={styles.mnemonicInputWrapper}
-      />
-      <FormRow
-        title={i18n.t('createWalletName')}
-        placeholder={i18n.t('createWalletNamePlaceholder')}
-        bottomDivider
-        value={name}
-        onChange={setName}
-        maxLength={12}
-      />
-      <FormRow
-        title={i18n.t('createWalletPassword')}
-        placeholder={i18n.t('createWalletPasswordPlaceholder')}
-        bottomDivider
-        value={password}
-        maxLength={20}
-        onChange={setPassword}
-      />
-      <FormRow
-        title={i18n.t('createWalletConfirmPassword')}
-        placeholder={i18n.t('createWalletConfirmPasswordPlaceholder')}
-        bottomDivider
-        value={confirmPassword}
-        maxLength={20}
-        onChange={setConfirmPassword}
-      />
-      <FormRow
-        title={i18n.t('createWalletPrompt')}
-        bottomDivider
-        placeholder={i18n.t('createWalletPromptPlaceholder')}
-        value={prompt}
-        onChange={setPrompt}
-      />
-      <Button
-        iconRight
-        containerStyle={styles.btnContainerStyle}
-        title={i18n.t('next')}
-        onPress={onButtonPress}
-      />
-    </View>
+    <ScrollView style={styles.wrapper}>
+      <KeyboardAvoidingView>
+        <TextInput
+          multiline
+          numberOfLines={4}
+          placeholder={i18n.t('mnemonicInputPlaceholder')}
+          value={mnemonicInput}
+          onChangeText={setMnemonicInput}
+          style={styles.mnemonicInputWrapper}
+        />
+        <FormRow
+          title={i18n.t('createWalletName')}
+          placeholder={i18n.t('createWalletNamePlaceholder')}
+          bottomDivider
+          value={name}
+          onChangeText={setName}
+          maxLength={12}
+        />
+        <FormRow
+          title={i18n.t('createWalletPassword')}
+          placeholder={i18n.t('createWalletPasswordPlaceholder')}
+          bottomDivider
+          value={password}
+          maxLength={20}
+          onChangeText={setPassword}
+        />
+        <FormRow
+          title={i18n.t('createWalletConfirmPassword')}
+          placeholder={i18n.t('createWalletConfirmPasswordPlaceholder')}
+          bottomDivider
+          value={confirmPassword}
+          maxLength={20}
+          onChangeText={setConfirmPassword}
+        />
+        <FormRow
+          title={i18n.t('createWalletPrompt')}
+          bottomDivider
+          placeholder={i18n.t('createWalletPromptPlaceholder')}
+          value={prompt}
+          onChangeText={setPrompt}
+        />
+        <Button
+          iconRight
+          containerStyle={styles.btnContainerStyle}
+          title={i18n.t('next')}
+          onPress={onButtonPress}
+        />
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 

@@ -31,7 +31,7 @@ const PasswordPrompt = props => {
       {props.showInput && (
         <Dialog.Input
           value={props.value}
-          autofocus={props.autoFocus}
+          autoFocus={props.autoFocus}
           onChangeText={props.onChangeText}
           placeholder={props.placeholder}
           style={StyleSheet.flatten([styles.inputStyle, props.inputStyle])}
@@ -76,7 +76,7 @@ PasswordPrompt.defaultProps = {
   onChangeText: () => undefined,
   inputStyle: undefined,
   inputWrapperStyle: undefined,
-  autoFocus: false,
+  autoFocus: true,
 };
 
 const styles = StyleSheet.create({

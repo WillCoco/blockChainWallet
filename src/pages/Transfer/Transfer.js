@@ -110,7 +110,7 @@ export default props => {
       execer: isToken ? 'token' : 'coins',
     };
 
-    console.log(params, '构造交易params-------')
+    console.log(params, '构造交易params-------');
 
     // 构造交易
     const tx = await createTransaction(params);
@@ -159,12 +159,16 @@ export default props => {
 
   // 发送交易
   const sendTx = async param => {
-    const result = await sendTransaction(param);
-    if (result) {
-      Toast.show({data: i18n.t('transferSuccess')});
-    }
+    const {result, error} = (await sendTransaction(param)) || {};
 
     console.log(result, '发送交易');
+
+    if (error) {
+      Toast.show({data: error});
+      return;
+    }
+
+    Toast.show({data: i18n.t('transferSuccess')});
   };
 
   return (
@@ -182,15 +186,15 @@ export default props => {
         title={i18n.t('transferAddress')}
         placeholder={i18n.t('transferAddressPlaceholder')}
         bottomDivider
-        value={transferForm && transferForm.address || ''}
-        onChange={v => setTransferForm({...transferForm, address: v})}
+        value={_get(transferForm, 'address')}
+        onChangeText={v => setTransferForm({...transferForm, address: v})}
       />
       <FormRow
         title={i18n.t('transferAmount')}
         placeholder={i18n.t('transferAmountPlaceholder')}
         bottomDivider
-        value={transferForm && transferForm.amount || ''}
-        onChange={v => setTransferForm({...transferForm, amount: v})}
+        value={_get(transferForm, 'amount')}
+        onChangeText={v => setTransferForm({...transferForm, amount: v})}
       />
       <FormRow
         title={i18n.t('transferFee')}
@@ -202,8 +206,8 @@ export default props => {
         title={i18n.t('transferNote')}
         bottomDivider
         placeholder={i18n.t('transferNotePlaceholder')}
-        value={transferForm && transferForm.note || ''}
-        onChange={v => setTransferForm({...transferForm, note: v})}
+        value={_get(transferForm, 'note')}
+        onChangeText={v => setTransferForm({...transferForm, note: v})}
       />
       <Button
         iconRight
@@ -216,11 +220,14 @@ export default props => {
         overlayStyle={styles.overlayStyle}
         onBackdropPress={() => setTxConfirmVisible(false)}
         animationType="slide">
-        <TxConfirmOverlay 
-          closePress={() => setTxConfirmVisible(false)} 
+        <TxConfirmOverlay
+          closePress={() => setTxConfirmVisible(false)}
           transferForm={transferForm}
           defaultFee={defaultFee}
-          confirmPress={() => {setPwdDialogVisible(true); setTxConfirmVisible(false)}}
+          confirmPress={() => {
+            setPwdDialogVisible(true);
+            setTxConfirmVisible(false);
+          }}
         />
       </Overlay>
       <Dialog

@@ -30,7 +30,6 @@ export function updateLanguage(language) {
 export function toggleIsShowAssets() {
   return (dispatch, getState) => {
     const isShowAssets = _get(getState(), ['appSetting', 'isShowAssets']);
-    console.log(isShowAssets, 'isShowAssets=======')
     dispatch(updateIsShowAssets(!isShowAssets));
   };
 }

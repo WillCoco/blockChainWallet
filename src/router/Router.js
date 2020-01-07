@@ -38,6 +38,7 @@ import Languages from '../pages/Languages';
 import HelpCenter from '../pages/HelpCenter';
 import About from '../pages/About';
 import WalletDetails from '../pages/WalletDetails';
+import UsageAgreement from '../pages/UsageAgreement';
 
 // 导航栏默认样式
 InnerNaviBar.defaultProps.style = {
@@ -180,6 +181,13 @@ const AppNavigator = createStackNavigator(
       navigationOptions: ({navigation}) => ({
         // headerTitle: `${i18n.t('about')}`,
         headerShown: false,
+      }),
+    },
+    UsageAgreement: {
+      screen: WalletDetails,
+      navigationOptions: ({navigation}) => ({
+        // headerTitle: `${i18n.t('about')}`,
+        headerShown: i18n.t('userAgreement'),
       }),
     },
     Main: {

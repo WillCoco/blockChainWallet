@@ -124,7 +124,7 @@ const CreateWallet = props => {
           placeholder={i18n.t('createWalletNamePlaceholder')}
           bottomDivider
           value={name}
-          onChange={setName}
+          onChangeText={setName}
           maxLength={12}
         />
         <FormRow
@@ -134,7 +134,7 @@ const CreateWallet = props => {
           placeholder={i18n.t('createWalletPasswordPlaceholder')}
           value={password}
           maxLength={20}
-          onChange={setPassword}
+          onChangeText={setPassword}
         />
         <FormRow
           secureTextEntry
@@ -143,7 +143,7 @@ const CreateWallet = props => {
           placeholder={i18n.t('createWalletConfirmPasswordPlaceholder')}
           value={confirmPassword}
           maxLength={20}
-          onChange={setConfirmPassword}
+          onChangeText={setConfirmPassword}
         />
         {/*<FormRow*/}
           {/*title={i18n.t('createWalletPrompt')}*/}
@@ -164,7 +164,7 @@ const CreateWallet = props => {
           <SmallText>{i18n.t('createAgreement1')}</SmallText>
           <SmallText
             style={styles.createAgreement2}
-            onPress={() => navigate('Home')}>
+            onPress={() => navigate('UsageAgreement')}>
             {i18n.t('createAgreement2')}
           </SmallText>
         </View>
