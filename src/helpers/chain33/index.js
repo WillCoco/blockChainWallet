@@ -146,7 +146,7 @@ export function getHistory(params) {
       },
     })
     .then(r => {
-      console.log(r, '111111');
+      // console.log(r, '111111');
       return Promise.resolve(r);
     });
 }

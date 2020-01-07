@@ -22,13 +22,28 @@ import colors from '../../helpers/colors';
 const AssetsList = props => {
   const {navigate} = useNavigation();
 
+  /**
+   * 前往详情
+   */
   const goAssetDetail = symbol => {
     navigate({routeName: 'AssetDetail', params: {tokenSymbol: symbol}});
   };
 
+  /**
+   * 是否显示资产
+   */
+  const isShowAssets = useSelector(state =>
+    _get(state, ['appSetting', 'isShowAssets'])
+  );
+
+  /**
+   * 资产列表
+   */
   const assetsList = useSelector(
     state => _get(state, ['assets', 'assetsList']) || [],
   );
+
+  console.log(isShowAssets, 'isShowAssets');
 
   return (
     <View style={{backgroundColor: '#fff'}}>
@@ -45,7 +60,7 @@ const AssetsList = props => {
                 style={StyleSheet.flatten([styles.assetRow])}
                 onPress={() => goAssetDetail(asset.symbol)}>
                 <PrimaryText color="">{asset.symbol}</PrimaryText>
-                <PrimaryText color="title">{asset.balanceFmt}</PrimaryText>
+                <PrimaryText color="title">{isShowAssets ? asset.balanceFmt : '****'}</PrimaryText>
               </TouchableOpacity>
             </View>
           );
