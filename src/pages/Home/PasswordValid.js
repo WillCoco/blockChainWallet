@@ -55,6 +55,7 @@ const PasswordValid = props => {
     }
 
     dispatch(wallet.updateTempMnemonic(tempMnemonic));
+    setPwd('');
     setPwdDialogVisible(false);
     navigate('WalletBackUpStep1');
   };
@@ -103,6 +104,7 @@ const PasswordValid = props => {
     <Dialog
       showInput
       autoFocus
+      canCancel={false}
       description={i18n.t('passwordValidDesc')}
       visible={pwdDialogVisible}
       onChangeText={setPwd}

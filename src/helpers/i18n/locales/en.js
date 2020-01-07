@@ -34,7 +34,8 @@ export default {
   copy: 'Copy',
   cancel: 'Cancel',
   done: 'Done',
-  exportPrivateKeyWarning: 'Warning,please keep it safe after exporting the private key,do not disclose it, and if it leaks,it may lead to asset loss.',
+  exportPrivateKeyWarning:
+    'Warning,please keep it safe after exporting the private key,do not disclose it, and if it leaks,it may lead to asset loss.',
   copyPrivateKeySuccess: 'The private key has been copied to the clipboard',
   save: 'Done',
   userAgreement: 'User Agreement',
