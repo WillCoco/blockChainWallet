@@ -7,6 +7,7 @@ import _get from 'lodash/get';
 import {useNavigation, useIsFocused} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import {metrics, vw} from '../../helpers/metric';
+import packageInfo from '../../../package.json';
 
 const Guide = () => {
   const {navigate, replace} = useNavigation();
@@ -40,7 +41,9 @@ const Guide = () => {
   React.useEffect(() => {
     if (isFocused && walletsList.length > 0) {
       // 有钱包，进入首页
-      replace('Main');
+      setTimeout(() => {
+        replace('Main');
+      }, 1000);
     } else {
       // 无钱包，显示按钮
       Animated.timing(
@@ -64,7 +67,7 @@ const Guide = () => {
           source={require('../../images/logo.png')}
           style={styles.logo}
         />
-        <H4 style={styles.appName}>{i18n.t('appName')}</H4>
+        <H4 style={styles.appName}>{packageInfo.name}</H4>
       </View>
       {
         <Animated.View
