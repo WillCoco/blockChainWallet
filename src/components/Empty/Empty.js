@@ -21,7 +21,7 @@ const Empty = props => {
         <PrimaryText
           color="secondary"
           style={StyleSheet.flatten([styles.emptyText, props.titleStyle])}>
-          {props.title}
+          {i18n.t('dataEmpty')}
         </PrimaryText>
       </ImageBackground>
     </View>
@@ -31,7 +31,6 @@ const Empty = props => {
 Empty.defaultProps = {
   style: undefined,
   titleStyle: undefined,
-  title: i18n.t('dataEmpty'),
 };
 
 const styles = StyleSheet.create({

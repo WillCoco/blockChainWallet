@@ -51,7 +51,7 @@ const CreateWallet = props => {
    */
   const onNextClick = () => {
     if (!name) {
-      Toast.show({data: '请填写有效钱包名称'});
+      Toast.show({data: i18n.t('createWalletInvalidName')});
       return;
     }
 
@@ -126,6 +126,7 @@ const CreateWallet = props => {
           value={name}
           onChangeText={setName}
           maxLength={12}
+          inputStyle={{paddingLeft: '45%'}}
         />
         <FormRow
           secureTextEntry
@@ -135,6 +136,7 @@ const CreateWallet = props => {
           value={password}
           maxLength={20}
           onChangeText={setPassword}
+          inputStyle={{paddingLeft: '45%'}}
         />
         <FormRow
           secureTextEntry
@@ -144,6 +146,7 @@ const CreateWallet = props => {
           value={confirmPassword}
           maxLength={20}
           onChangeText={setConfirmPassword}
+          inputStyle={{paddingLeft: '45%'}}
         />
         {/*<FormRow*/}
           {/*title={i18n.t('createWalletPrompt')}*/}

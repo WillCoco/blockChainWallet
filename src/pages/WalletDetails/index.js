@@ -79,7 +79,7 @@ const WalletDetails = props => {
       // requestAnimationFrame(() => {
       setTimeout(() => {
         setExportVisible(true);
-      }, 500)
+      }, 500);
       // });
       setPassword('');
     });
@@ -204,7 +204,7 @@ const WalletDetails = props => {
           value={_get(currentWallet, 'name')}
           onChangeText={v => setCurrentWallet({...currentWallet, name: v})}
           maxLength={12}
-          inputStyle={{paddingHorizontal: '30%'}}
+          inputStyle={{paddingLeft: '35%'}}
         />
         {/* 修改密码 */}
         {/* <FormRow
@@ -215,15 +215,15 @@ const WalletDetails = props => {
           onPress={navigate('ChangePassword')}
           editable={false}
         /> */}
-        {/* 导出私钥 */}
-        <FormRow
-          title={i18n.t('exportPrivateKey')}
-          chevron={{size: 24}}
-          bottomDivider
-          containerStyle={{paddingTop: metrics.spaceN}}
-          onPress={onPressExportPrivateKey}
-          editable={false}
-        />
+        {/* todo:导出私钥 */}
+        {/*<FormRow*/}
+          {/*title={i18n.t('exportPrivateKey')}*/}
+          {/*chevron={{size: 24}}*/}
+          {/*bottomDivider*/}
+          {/*containerStyle={{paddingTop: metrics.spaceN}}*/}
+          {/*onPress={onPressExportPrivateKey}*/}
+          {/*editable={false}*/}
+        {/*/>*/}
         <FormRow
           title={i18n.t('exportMnemonic')}
           chevron={{size: 24}}
@@ -247,6 +247,7 @@ const WalletDetails = props => {
         onChangeText={setPassword}
         onCancelPress={() => setPasswordValidVisible(false)}
         onOKPress={() => action.current.onPressDialogOk(password)}
+        secureTextEntry={true}
       />
       <Overlay
         overlayStyle={styles.copyOverlay}

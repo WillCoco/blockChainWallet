@@ -8,7 +8,7 @@
  */
 import React from 'react';
 import Home from '../../pages/Home/index';
-import Me from '../../pages/Me/Me';
+import Me from '../../pages/Me/index';
 import colors from '../../helpers/colors/index';
 import safePage from '../../helpers/safePage';
 import BottomTabsBar from './BottomTabsBar';
@@ -21,9 +21,9 @@ const TabsRouter = createBottomTabNavigator(
     Home: {
       screen: props => safePage(Home, props),
       path: 'main/home',
-      navigationOptions: ({navigation}) => ({
-        headerTitle: `6'`,
-      }),
+      // navigationOptions: ({navigation}) => ({
+      //   headerTitle: `6'`,
+      // }),
     },
     Me: {
       screen: props => safePage(Me, props),

@@ -13,6 +13,7 @@ const safeComponent = (componentFn, props) => {
   try {
     return componentFn(props);
   } catch (err) {
+    console.log(err, 'page_crash');
     return <ErrorPage {...props} />;
   }
 };

@@ -1,20 +1,17 @@
 import React from 'react';
 import {
-  Text,
   View,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {useNavigation} from 'react-navigation-hooks';
 import _get from 'lodash/get';
 import {Icon, Button} from 'react-native-elements';
 import i18n from '../../helpers/i18n';
-import {PrimaryText} from 'react-native-normalization-text';
+// import {PrimaryText} from 'react-native-normalization-text';
 import WalletCard from './WalletCard';
 import colors from '../../helpers/colors';
-import {metrics, vw, vh} from '../../helpers/metric';
 
 export default props => {
   const {navigate} = useNavigation();

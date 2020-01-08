@@ -10,11 +10,12 @@ import {
   Alert,
   Vibration,
   Dimensions,
-  Platform
+  Platform,
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {useNavigation} from 'react-navigation-hooks';
 import _split from 'lodash/split';
+import i18n from '../../helpers/i18n';
 
 const ScannerScreen = () => {
 
@@ -56,17 +57,18 @@ const ScannerScreen = () => {
         replace('Transfer', transferData);
       } else {
         Alert.alert(
-          '提示',
-          '扫描失败，请将手机对准二维码重新尝试',
+          '',
+          `${i18n.t('scanFailed')}`,
           [
             {
-              text: '确定', onPress: () => {
-              setShow(true);
-            }
-            }
+              text: i18n.t('done'),
+              onPress: () => {
+                setShow(true);
+              },
+            },
           ],
-          {cancelable: false}
-        )
+          {cancelable: false},
+        );
       }
     }
   };
@@ -103,7 +105,7 @@ const ScannerScreen = () => {
           <View style={styles.itemStyle}/>
         </View>
         <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', width: width, alignItems: 'center'}}>
-          <Text style={styles.textStyle}>将二维码放入框内，即可自动扫描</Text>
+          <Text style={styles.textStyle}>{i18n.t('scanText')}</Text>
         </View>
       </RNCamera>
     )
@@ -138,7 +140,7 @@ const ScannerScreen = () => {
           <View style={styles.itemStyle}/>
         </View>
         <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', width: width, alignItems: 'center'}}>
-          <Text style={styles.textStyle}>将二维码放入框内，即可自动扫描</Text>
+          <Text style={styles.textStyle}>{i18n.t('scanText')}</Text>
         </View>
       </RNCamera>
     )

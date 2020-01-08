@@ -89,9 +89,15 @@ const AppNavigator = createStackNavigator(
     },
     ImportWallet: {
       screen: props => safePage(ImportWallet, props),
+      navigationOptions: ({navigation}) => ({
+        headerTitle: i18n.t('importWallet'),
+      }),
     },
     Scan: {
       screen: props => safePage(Scan, props),
+      navigationOptions: ({navigation}) => ({
+        headerTitle: i18n.t('scan'),
+      }),
     },
     AssetDetail: {
       screen: props => safePage(AssetDetail, props),
@@ -115,9 +121,15 @@ const AppNavigator = createStackNavigator(
     },
     SelectToken: {
       screen: props => safePage(SelectToken, props),
+      navigationOptions: ({navigation}) => ({
+        headerTitle: i18n.t('selectToken'),
+      }),
     },
     SelectBlock: {
       screen: props => safePage(SelectBlock, props),
+      navigationOptions: ({navigation}) => ({
+        headerTitle: i18n.t('selectBlock'),
+      }),
     },
     WalletManagement: {
       screen: props => safePage(WalletManagement, props),

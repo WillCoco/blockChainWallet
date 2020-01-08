@@ -48,7 +48,7 @@ const ImportWallet = () => {
     // console.log(confirmPassword, 'confirmPassword');
     // console.log(prompt, 'prompt');
     if (!name) {
-      Toast.show({data: '请填写有效钱包名称'});
+      Toast.show({data: i18n.t('invalidName')});
       return;
     }
 
@@ -58,7 +58,7 @@ const ImportWallet = () => {
       confirmPassword !== password ||
       password < 2
     ) {
-      Toast.show({data: '请填写有效密码'});
+      Toast.show({data: i18n.t('invalidPassword')});
       return;
     }
 
@@ -73,7 +73,7 @@ const ImportWallet = () => {
     );
 
     if (!isValidMnemonic) {
-      Toast.show({data: '请检查输入的助记词是否正确'});
+      Toast.show({data: i18n.t('invalidMnemonic')});
       return;
     }
 
@@ -90,10 +90,10 @@ const ImportWallet = () => {
         callback: v => {
           if (v) {
             dispatch(wallet.addOrUpdateAWallet(v));
-            Toast.show({data: '导入成功'});
+            Toast.show({data: i18n.t('importSuccess')});
             goBack();
           } else {
-            Toast.show({data: '导入失败'});
+            Toast.show({data: i18n.t('importFailed')});
           }
         },
       },
@@ -110,7 +110,8 @@ const ImportWallet = () => {
           value={mnemonicInput}
           onChangeText={setMnemonicInput}
           style={styles.mnemonicInputWrapper}
-        />
+          inputStyle={{paddingLeft: '45%'}}
+         />
         <FormRow
           title={i18n.t('createWalletName')}
           placeholder={i18n.t('createWalletNamePlaceholder')}
@@ -118,7 +119,8 @@ const ImportWallet = () => {
           value={name}
           onChangeText={setName}
           maxLength={12}
-        />
+          inputStyle={{paddingLeft: '45%'}}
+         />
         <FormRow
           title={i18n.t('createWalletPassword')}
           placeholder={i18n.t('createWalletPasswordPlaceholder')}
@@ -126,7 +128,8 @@ const ImportWallet = () => {
           value={password}
           maxLength={20}
           onChangeText={setPassword}
-        />
+          inputStyle={{paddingLeft: '45%'}}
+         />
         <FormRow
           title={i18n.t('createWalletConfirmPassword')}
           placeholder={i18n.t('createWalletConfirmPasswordPlaceholder')}
@@ -134,14 +137,16 @@ const ImportWallet = () => {
           value={confirmPassword}
           maxLength={20}
           onChangeText={setConfirmPassword}
-        />
+          inputStyle={{paddingLeft: '45%'}}
+         />
         <FormRow
           title={i18n.t('createWalletPrompt')}
           bottomDivider
           placeholder={i18n.t('createWalletPromptPlaceholder')}
           value={prompt}
           onChangeText={setPrompt}
-        />
+          inputStyle={{paddingLeft: '45%'}}
+         />
         <Button
           iconRight
           containerStyle={styles.btnContainerStyle}

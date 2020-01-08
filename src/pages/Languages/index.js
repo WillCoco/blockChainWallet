@@ -1,20 +1,18 @@
 import React from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
 import {
   Text,
   View,
   StyleSheet,
   TouchableOpacity
 } from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
 import {Icon} from 'react-native-elements';
+import _get from 'lodash/get';
 import {PrimaryText} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
-import useI18n from '../../hooks/useI18n';
 import i18n from '../../helpers/i18n';
-import { updateLanguage } from '../../redux/actions/appSetting';
+import {appSettingAction} from '../../redux/actions';
 import colors from '../../helpers/colors';
-import _get from 'lodash/get';
 
 let languageList = [
   // {name: 'auto', lang: null},
@@ -24,34 +22,29 @@ let languageList = [
 
 const Languages = props => {
   const {navigate} = useNavigation();
+  const dispatch = useDispatch();
 
-  const changeLanguage = (item) => {
-    props.updateLanguage(item.lang);
+  const language = useSelector(state =>
+    _get(state, ['appSetting', 'language']),
+  );
+
+  const changeLanguage = item => {
+    dispatch(appSettingAction.updateLanguage(item.lang));
     navigate('Home');
   };
-  
-  return (
-    <>
-      {
-        languageList.map((item, index) => {
-          return (
-            <TouchableOpacity 
-              style={styles.langItem} 
-              key={item.name}
-              onPress={() => changeLanguage(item)}
-            >
-              <PrimaryText>{i18n.t(item.name)}</PrimaryText>
-              {
-                props.language === item.lang && <Icon name='check' color={colors.theme} />
-              }
-            </TouchableOpacity>
-          )
-        })
-      }
-    </>
-  );
-};
 
+  return languageList.map((item, index) => {
+    return (
+      <TouchableOpacity
+        style={styles.langItem}
+        key={item.name}
+        onPress={() => changeLanguage(item)}>
+        <PrimaryText>{i18n.t(item.name)}</PrimaryText>
+        {language === item.lang && <Icon name="check" color={colors.theme} />}
+      </TouchableOpacity>
+    );
+  });
+};
 
 const styles = StyleSheet.create({
   langItem: {
@@ -61,22 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps(state) {
-  return {
-    language: _get(state.appSetting, ['language']),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      updateLanguage,
-    },
-    dispatch,
-  );
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Languages);
+export default Languages;

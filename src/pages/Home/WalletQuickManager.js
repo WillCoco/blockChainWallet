@@ -73,7 +73,7 @@ const WalletQuickManager = props => {
           style={styles.checkedWallet}>
           <Icon name="wallet-outline" type='material-community' color={colors.textWhite}/>
           <PrimaryText color="white"  style={{marginLeft: 8}}>
-            {props.walletFormat(currentWallet) || props.defaultCheckedText}
+            {props.walletFormat(currentWallet) || i18n.t('noSelectedWallet')}
           </PrimaryText>
           {
             props.overlayVisible 
@@ -139,7 +139,6 @@ const WalletQuickManager = props => {
 WalletQuickManager.defaultProps = {
   overlayVisible: false,
   setOverlayVisible: () => undefined,
-  defaultCheckedText: '未选择钱包',
   currentWallet: undefined,
   walletFormat: v => v && v.name,
 };
