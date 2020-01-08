@@ -7,26 +7,52 @@
  * @lastModificationDate:
  */
 import React from 'react';
-import {View} from 'react-native';
+import {View, ImageBackground, StyleSheet} from 'react-native';
 import {H1, H2, PrimaryText} from 'react-native-normalization-text';
+import {useNavigation} from 'react-navigation-hooks';
+import {vw, vh} from '../helpers/metric';
+import colors from '../helpers/colors';
 
-class RootError extends React.Component {
-  back = () => {
-  };
+const RootError = () => {
+  const {goBack} = useNavigation();
 
-  render() {
-    return (
-      <View className="root-error-page-wrapper">
-        <View className="error-code">
-          <PrimaryText>404</PrimaryText>
-        </View>
-        <View className="error-text">
-          <PrimaryText>抱歉，页面走丢了</PrimaryText>
-          <PrimaryText onPress={this.back}>点击这里</PrimaryText>
-          <PrimaryText>返回</PrimaryText>
-        </View>
+  return (
+    <View style={styles.wrapper}>
+      {/*<View className="error-code">*/}
+        {/*<H2 style={styles.title}>404</H2>*/}
+      {/*</View>*/}
+      <View>
+        <ImageBackground
+          resizeMode="contain"
+          source={require('../images/error404.png')}
+          style={styles.img}
+        />
+        <PrimaryText style={styles.text}>抱歉，页面走丢了</PrimaryText>
+        <PrimaryText style={styles.link} onPress={() => goBack()}>点击这里返回</PrimaryText>
       </View>
-    )
-  }
-}
+    </View>
+  )
+};
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingBottom: vh(15),
+  },
+  title: {
+    textAlign: 'center',
+  },
+  img: {
+    height: vw(50),
+  },
+  text: {
+    textAlign: 'center',
+  },
+  link: {
+    textAlign: 'center',
+    color: colors.theme,
+  },
+});
+
 export default RootError;

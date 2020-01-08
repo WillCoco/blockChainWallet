@@ -1,7 +1,7 @@
 /**
  * @author: Xu Ke
  * @date: 2020/1/8 6:21 PM
- * @Description: 防止render闪退
+ * @Description: 防止render闪退, 不能捕获子孙组件
  * @lastModificationBy:
  * @lastModification:
  * @lastModificationDate:
