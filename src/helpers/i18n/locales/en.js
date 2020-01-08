@@ -76,4 +76,5 @@ export default {
   illegalPassword: 'Passwords must be at least 8 characters',
   mismatchingPassword: 'The passwords mismatching',
   disagreeAgreement: 'You have not read and agreed to the agreement',
+  emptyTip: 'Oops,the page is running away~',
 };

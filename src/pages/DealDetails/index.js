@@ -1,27 +1,17 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  Clipboard,
-  BVLinearGradient,
-} from 'react-native';
-import {
-  Icon,
-  ListItem,
-} from 'react-native-elements';
+import {View, StyleSheet, Clipboard} from 'react-native';
+import {Icon} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../helpers/colors';
-import {H4,PrimaryText} from 'react-native-normalization-text';
+import {H4, PrimaryText} from 'react-native-normalization-text';
 import i18n from '../../helpers/i18n';
 import {vh, vw} from '../../helpers/metric/index';
-import FormRow from '../../components/FormRow';
 import {Toast} from '../../components/Toast';
+// eslint-disable-next-line no-unused-vars
 import _get from 'lodash/get';
 
-const DealDetails = (props)  => {
-
-  const copy = (v) => {
+const DealDetails = () => {
+  const copy = v => {
     Clipboard.setString(v);
     Toast.show({data: i18n.t('copySuccess')});
   };
@@ -30,43 +20,41 @@ const DealDetails = (props)  => {
     <LinearGradient style={styles.page} colors={[colors.theme, '#fff',]}>
       <View style={styles.wrapper}>
         <View style={styles.dealType}>
-          <Icon 
-            type='antdesign' 
-            name='checkcircle' 
+          <Icon
+            type="antdesign"
+            name="checkcircle"
             color={colors.success}
-            size={40}/>
+            size={40}
+          />
           <H4>{i18n.t('collect')}</H4>
           <PrimaryText>{'2020年01月07日18:52:25'}</PrimaryText>
         </View>
         <View style={styles.middleBox}>
           <View style={styles.detailsItem}>
-            <PrimaryText 
-              style={styles.itemLeft}>
-              {i18n.t('amount')+':'}
+            <PrimaryText style={styles.itemLeft}>
+              {i18n.t('amount') + ':'}
             </PrimaryText>
-            <PrimaryText 
+            <PrimaryText
               style={styles.itemRight}
               onPress={() => copy('123152315')}>
               {'12324fdskfsdgjdslg1g'}
             </PrimaryText>
           </View>
           <View style={styles.detailsItem}>
-            <PrimaryText 
-              style={styles.itemLeft}>
-              {i18n.t('minerFee')+':'}
+            <PrimaryText style={styles.itemLeft}>
+              {i18n.t('minerFee') + ':'}
             </PrimaryText>
-            <PrimaryText 
+            <PrimaryText
               style={styles.itemRight}
               onPress={() => copy('123152315')}>
               {'12324fdskfsdgjdslg1g'}
             </PrimaryText>
           </View>
           <View style={styles.detailsItem}>
-            <PrimaryText 
-              style={styles.itemLeft}>
-              {i18n.t('To')+':'}
+            <PrimaryText style={styles.itemLeft}>
+              {i18n.t('To') + ':'}
             </PrimaryText>
-            <PrimaryText 
+            <PrimaryText
               style={styles.itemRight}
               onPress={() => copy('123152315')}>
               {'12324fdskfsdgjdslg1g'}
@@ -80,47 +68,40 @@ const DealDetails = (props)  => {
             </PrimaryText>
           </View>
           <View style={styles.detailsItem}>
-            <PrimaryText 
-              style={styles.itemLeft}>
-              {i18n.t('From')+':'}
+            <PrimaryText style={styles.itemLeft}>
+              {i18n.t('From') + ':'}
             </PrimaryText>
-            <PrimaryText 
+            <PrimaryText
               style={styles.itemRight}
               onPress={() => copy('123152315')}>
               {'12324fdskfsdgjdslg1g'}
             </PrimaryText>
           </View>
           <View style={styles.detailsItem}>
-            <PrimaryText 
-              style={styles.itemLeft}>
-              {i18n.t('transferNote')+':'}
+            <PrimaryText style={styles.itemLeft}>
+              {i18n.t('transferNote') + ':'}
             </PrimaryText>
-            <PrimaryText 
+            <PrimaryText
               style={styles.itemRight}
               onPress={() => copy('123152315')}>
               {'12324fdskfsdgjdslg1g'}
-      
             </PrimaryText>
           </View>
         </View>
         <View style={styles.bottomBox}>
           <View style={styles.detailsItem}>
-            <PrimaryText 
-              style={styles.itemLeft}>
-              {'TxID:'}
-            </PrimaryText>
-            <PrimaryText 
+            <PrimaryText style={styles.itemLeft}>{'TxID:'}</PrimaryText>
+            <PrimaryText
               style={styles.itemRight}
               onPress={() => copy('123152315')}>
               {'12324fdskfsdgjdslg1g'}
             </PrimaryText>
           </View>
           <View style={styles.detailsItem}>
-            <PrimaryText 
-              style={styles.itemLeft}>
-              {i18n.t('block')+':'}
+            <PrimaryText style={styles.itemLeft}>
+              {i18n.t('block') + ':'}
             </PrimaryText>
-            <PrimaryText 
+            <PrimaryText
               style={styles.itemRight}
               onPress={() => copy('123152315')}>
               {'12324fdskfsdgjdslg1g'}
@@ -148,8 +129,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.textWhite,
     shadowColor: 'rgba(0, 0, 0, 0.05)',
     shadowOffset: {
-        width: 0,
-        height: 2
+      width: 0,
+      height: 2,
     },
     shadowRadius: 2,
     elevation: 4,
@@ -173,11 +154,11 @@ const styles = StyleSheet.create({
   },
   itemLeft: {
     flex: 2,
-    color: colors.textSecondary
+    color: colors.textSecondary,
   },
   itemRight: {
     flex: 8,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   bottomBox: {
     width: '100%',
