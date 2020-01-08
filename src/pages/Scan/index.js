@@ -18,7 +18,7 @@ import _split from 'lodash/split';
 
 const ScannerScreen = () => {
 
-  const {navigate} = useNavigation();
+  const {navigate, replace} = useNavigation();
   const [show, setShow] = useState(true);
   const [animation, setAnimation] = useState(new Animated.Value(0));
 
@@ -53,7 +53,7 @@ const ScannerScreen = () => {
         transferData['address'] = _split(_split(result, '?')[0], ':')[1];
         transferData[_split(_split(_split(result, '?')[1], '&')[0], '=')[0]] = _split(_split(_split(result, '?')[1], '&')[0], '=')[1];
         transferData[_split(_split(_split(result, '?')[1], '&')[1], '=')[0]] = _split(_split(_split(result, '?')[1], '&')[1], '=')[1];
-        navigate('Transfer', transferData);
+        replace('Transfer', transferData);
       } else {
         Alert.alert(
           '提示',

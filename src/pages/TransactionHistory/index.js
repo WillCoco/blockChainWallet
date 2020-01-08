@@ -28,7 +28,14 @@ export default () => {
    * 渲染行
    */
   const renderItem = item => {
-    return <TxRow {...item} />;
+    return (
+      <TxRow
+        {...item}
+        onPress={() =>
+          navigate({routeName: 'DealDetails', params: {txInfo: item}})
+        }
+      />
+    );
   };
 
   /**

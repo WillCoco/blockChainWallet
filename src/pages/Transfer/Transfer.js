@@ -58,7 +58,7 @@ export default props => {
 
   const [transferForm, setTransferForm] = React.useState(defaultTransferForm);
 
-  const isToken = transferForm.token.symbol !== chainInfo.symbol;
+  const isToken = _get(transferForm, ['token', 'symbol']) !== chainInfo.symbol;
 
   // 选择token
   const goSelectToken = () => {
@@ -186,7 +186,11 @@ export default props => {
       return;
     }
 
+    // 成功提示
     Toast.show({data: i18n.t('transferSuccess')});
+
+    // 清除表单
+    setTransferForm();
   };
 
   return (
