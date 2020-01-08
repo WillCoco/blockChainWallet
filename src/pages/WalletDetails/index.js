@@ -9,9 +9,9 @@ import {useSelector, useDispatch} from 'react-redux';
 import {Icon, ListItem, Overlay} from 'react-native-elements';
 import i18n from '../../helpers/i18n';
 import {PrimaryText, SmallText} from 'react-native-normalization-text';
+import {Button} from 'react-native-elements';
 import {metrics, vw, vh} from '../../helpers/metric';
 import colors from '../../helpers/colors';
-import {Button} from 'react-native-elements';
 import FormRow from '../../components/FormRow';
 import {useNavigation} from 'react-navigation-hooks';
 import {NavigationActions} from 'react-navigation';
@@ -75,8 +75,12 @@ const WalletDetails = props => {
       wallet.aesDecrypt({data: currentWallet.encryptedPrivateKey, password}),
     ).then(v => {
       setPrivateKey(v);
-      setExportVisible(true);
       setPasswordValidVisible(false);
+      // requestAnimationFrame(() => {
+      setTimeout(() => {
+        setExportVisible(true);
+      }, 500)
+      // });
       setPassword('');
     });
   };
@@ -135,7 +139,7 @@ const WalletDetails = props => {
   /**
    * 复制
    */
-  const copy = (v) => {
+  const copy = v => {
     Clipboard.setString(v);
     Toast.show({data: i18n.t('copySuccess')});
     setExportVisible(false);
@@ -250,8 +254,12 @@ const WalletDetails = props => {
         height={'auto'}
         onBackdropPress={() => setExportVisible(false)}>
         <>
-          <PrimaryText style={styles.copyTitle}>{action.current.overlayTitle}</PrimaryText>
-          <SmallText style={styles.copyWaringText}>{i18n.t('exportPrivateKeyWarning')}</SmallText>
+          <PrimaryText style={styles.copyTitle}>
+            {action.current.overlayTitle}
+          </PrimaryText>
+          <SmallText style={styles.copyWaringText}>
+            {i18n.t('exportPrivateKeyWarning')}
+          </SmallText>
           <SmallText style={styles.privateKeyText}>{privateKey}</SmallText>
           <Button
             // buttonStyle={styles.button}

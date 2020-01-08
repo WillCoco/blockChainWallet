@@ -7,6 +7,7 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import Bignumber from 'bignumber.js';
 import {Button, ListItem, Overlay} from 'react-native-elements';
+import _get from 'lodash/get';
 import {PrimaryText} from 'react-native-normalization-text';
 import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import {metrics, vw, vh} from '../../helpers/metric';
@@ -15,10 +16,10 @@ import {Toast} from '../../components/Toast';
 import {wallet} from '../../redux/actions';
 import {chainInfo} from '../../config/';
 import i18n from '../../helpers/i18n';
+import {isValidNumeric, lowerUnit} from '../../helpers/utils/numbers';
 import FormRow from '../../components/FormRow';
 import TxConfirmOverlay from './TxConfirmOverlay';
 import Dialog from '../../components/Dialog';
-import _get from 'lodash/get';
 
 // console.log(chainInfo.symbol, 'chainInfochainInfochainInfo')
 const defaultFee = 0.001;
@@ -42,7 +43,8 @@ export default props => {
   const {navigate} = useNavigation();
 
   // 扫地址，token详情进入带入参数
-  const defaultTransferForm = _get(props, ['props', 'navigation', 'state', 'params']) || {};
+  const defaultTransferForm =
+    _get(props, ['props', 'navigation', 'state', 'params']) || {};
 
   // token symbol
   const tokenSymbol = useNavigationParam('tokenSymbol');
@@ -55,7 +57,6 @@ export default props => {
   // console.log(tokenSymbol, 'tokenSymbol')
 
   const [transferForm, setTransferForm] = React.useState(defaultTransferForm);
-  console.log(transferForm.token.symbol, 1111)
 
   const isToken = transferForm.token.symbol !== chainInfo.symbol;
 
@@ -72,6 +73,27 @@ export default props => {
     });
   };
 
+  /**
+   * 输入金额
+   */
+  const onChangeAmount = v => {
+    if (isValidNumeric(v)) {
+      return setTransferForm({...transferForm, amount: v});
+    }
+  };
+
+  /**
+   * 输入地址
+   */
+  const onChangeAddress = v => {
+    if (/^[\d\w]*$/.test(v)) {
+      return setTransferForm({...transferForm, address: v});
+    }
+  };
+
+  /**
+   * 点击下一步
+   */
   const onPressNext = () => {
     const safeTransferForm = transferForm || {};
     if (
@@ -94,12 +116,8 @@ export default props => {
   const createTx = async () => {
     const params = {
       to: _get(transferForm, 'address'),
-      amount: Bignumber(_get(transferForm, 'amount'))
-        .times(100000000)
-        .toNumber(),
-      fee: Bignumber(defaultFee)
-        .times(100000000)
-        .toNumber(),
+      amount: lowerUnit(_get(transferForm, 'amount')),
+      fee: lowerUnit(defaultFee, {needInteger: false}),
       note: _get(transferForm, 'note'),
       isToken: isToken,
       isWithdraw: false,
@@ -187,14 +205,14 @@ export default props => {
         placeholder={i18n.t('transferAddressPlaceholder')}
         bottomDivider
         value={_get(transferForm, 'address')}
-        onChangeText={v => setTransferForm({...transferForm, address: v})}
+        onChangeText={onChangeAddress}
       />
       <FormRow
         title={i18n.t('transferAmount')}
         placeholder={i18n.t('transferAmountPlaceholder')}
         bottomDivider
         value={_get(transferForm, 'amount')}
-        onChangeText={v => setTransferForm({...transferForm, amount: v})}
+        onChangeText={onChangeAmount}
       />
       <FormRow
         title={i18n.t('transferFee')}

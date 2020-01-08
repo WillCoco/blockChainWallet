@@ -17,7 +17,7 @@ import colors from '../../helpers/colors';
 import _get from 'lodash/get';
 
 let languageList = [
-  {name: 'auto', lang: null},
+  // {name: 'auto', lang: null},
   {name: '简体中文', lang: 'ch'},
   {name: 'English', lang: 'en'},
 ];
