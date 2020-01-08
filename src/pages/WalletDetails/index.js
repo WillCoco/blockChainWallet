@@ -170,12 +170,14 @@ const WalletDetails = props => {
       <NavBar
         title={currentWalletName}
         rightElement={
-          <PrimaryText style={{color: colors.textWhite}}>{i18n.t('save')}</PrimaryText>
+          <PrimaryText style={{color: colors.textWhite}}>
+            {i18n.t('save')}
+          </PrimaryText>
         }
         onRight={saveWallet}
       />
       <View style={styles.addressCard}>
-        <PrimaryText mut style={styles.addressText}>
+        <PrimaryText style={styles.addressText}>
           {_get(currentWallet, 'address')}
         </PrimaryText>
         <TouchableOpacity onPress={() => copy(_get(currentWallet, 'address'))}>
@@ -195,7 +197,8 @@ const WalletDetails = props => {
             _get(currentWallet, 'name') || i18n.t('createWalletNamePlaceholder')
           }
           bottomDivider
-          onChange={v => setCurrentWallet({...currentWallet, name: v})}
+          value={_get(currentWallet, 'name')}
+          onChangeText={v => setCurrentWallet({...currentWallet, name: v})}
           maxLength={12}
           inputStyle={{paddingHorizontal: '30%'}}
         />
@@ -279,7 +282,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     marginRight: metrics.spaceS,
-
   },
   btnContainer: {
     width: '90%',
