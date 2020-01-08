@@ -19,10 +19,14 @@ export default () => {
   const dispatch = useDispatch();
   const [wordsInput, setWordsInput] = React.useState([]);
 
-  const mnemonic = useSelector(state => _get(state.wallets, ['tempMnemonic']));
+  const mnemonic =
+    useSelector(state => _get(state.wallets, ['tempMnemonic'])) || '';
+  // console.log(mnemonic, 'unorderedMnemonic')
 
   // 乱序助记词
-  const unorderedMnemonic = React.useRef(_shuffle(mnemonic));
+  const mnemonicArray = mnemonic.trim().split(/\s+/);
+  const unorderedMnemonic = React.useRef(_shuffle(mnemonicArray));
+  // console.log(unorderedMnemonic, 'unorderedMnemonic')
   // const unorderedMnemonic = React.useRef(mnemonic);
 
   // 助记词重置次数
