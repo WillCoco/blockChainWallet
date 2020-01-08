@@ -38,6 +38,7 @@ import Languages from '../pages/Languages';
 import HelpCenter from '../pages/HelpCenter';
 import About from '../pages/About';
 import WalletDetails from '../pages/WalletDetails';
+import DealDetails from '../pages/DealDetails';
 
 // 导航栏默认样式
 InnerNaviBar.defaultProps.style = {
@@ -149,6 +150,12 @@ const AppNavigator = createStackNavigator(
       screen: TransactionHistory,
       navigationOptions: ({navigation}) => ({
         headerShown: false,
+      }),
+    },
+    DealDetails: {
+      screen: DealDetails,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: `${i18n.t('dealDetails')}`,
       }),
     },
     SwitchAccount: {

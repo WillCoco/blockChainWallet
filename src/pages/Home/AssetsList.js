@@ -31,7 +31,7 @@ const AssetsList = props => {
   );
 
   return (
-    <View style={{backgroundColor: '#fff'}}>
+    <View style={{backgroundColor: '#fff',}}>
       {props.isLoaded && assetsList.length === 0 ? (
         <Empty />
       ) : (

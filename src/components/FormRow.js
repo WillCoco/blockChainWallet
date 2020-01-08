@@ -4,7 +4,7 @@ import {
   TextInput,
   StyleSheet,
 } from 'react-native';
-import {ListItem} from 'react-native-elements';
+import {ListItem, Icon} from 'react-native-elements';
 import {PrimaryText} from 'react-native-normalization-text';
 import {useControllableValue} from '@umijs/hooks';
 import colors from '../helpers/colors';
@@ -47,12 +47,19 @@ const styles = StyleSheet.create({
     borderColor: colors.divider,
   },
   input: {
-    width: '100%',
+    width: '94%',
     position: 'absolute',
     bottom: 0,
     paddingLeft: '30%',
     paddingRight: '4%',
     height: '100%',
+    zIndex: 99,
+  },
+  icon: {
+    width: '6%',
+    position: 'absolute',
+    bottom: 18,
+    zIndex: 99,
   },
 });
 

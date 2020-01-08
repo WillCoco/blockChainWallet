@@ -7,17 +7,21 @@
  * @lastModificationDate:
  */
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Image, ImageBackground} from 'react-native';
 import {PrimaryText} from 'react-native-normalization-text';
 import i18n from '../../helpers/i18n';
+
+const emptyImg = require('../../images/empty.png');
 
 const Empty = props => {
   return (
     <View style={StyleSheet.flatten([styles.wrapper, props.style])}>
-      <PrimaryText
-        style={StyleSheet.flatten([styles.emptyText, props.titleStyle])}>
-        {props.title}
-      </PrimaryText>
+      <ImageBackground source={emptyImg} style={styles.emptyImg}>
+        <PrimaryText
+          style={StyleSheet.flatten([styles.emptyText, props.titleStyle])}>
+          {props.title}
+        </PrimaryText>
+      </ImageBackground>
     </View>
   );
 };
@@ -37,6 +41,11 @@ const styles = StyleSheet.create({
   emptyText: {
     textAlign: 'center',
   },
+  emptyImg: {
+    width: 200,
+    height: 200,
+    marginTop: 100,
+  }
 });
 
 export default Empty;

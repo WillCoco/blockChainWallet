@@ -87,4 +87,8 @@ export default {
   backupFailed: '助记词顺序错误',
   backupSuccess: '备份成功',
   backupGuideText: '请按顺序依次点击，还原助记词：',
+  dealDetails: '交易详情',
+  amount: '数量',
+  minerFee: '矿工费',
+  block: '区块',
 };

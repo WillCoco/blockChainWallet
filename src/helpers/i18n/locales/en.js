@@ -66,4 +66,6 @@ export default {
   backupFailed: 'Incorrect order of Mnemonic',
   backupSuccess: 'Backup Successfully',
   backupGuideText: 'Please select Mnemonic Phrase in correct order:',
+  dealDetails: 'Details',
+  block: 'Block',
 };

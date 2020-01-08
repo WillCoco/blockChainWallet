@@ -3,6 +3,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import {useNavigation} from 'react-navigation-hooks';
 import {Icon} from 'react-native-elements';
 import {PrimaryText} from 'react-native-normalization-text';
 import colors from '../../helpers/colors';
@@ -14,10 +15,12 @@ export default () => {
   const walletsList = useSelector(state => _get(state, ['wallets', 'walletsList']) || []);
   const currentWallet = useSelector(state => _get(state, ['wallets', 'currentWallet'])) || {};
   const dispatch = useDispatch();
+  const {navigate} = useNavigation();
 
     // 切换钱包
   const checkWallet = address => {
     dispatch(wallet.updateCurrentWallet(address));
+    navigate('TransactionHistory');
   };
 
   return (
