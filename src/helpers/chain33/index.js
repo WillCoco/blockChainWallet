@@ -144,6 +144,7 @@ export function getHistory(params) {
         symbol: params.symbol,
         action: params.action, // transfer/collect
         status: params.status,
+        executor: params.executor, // [token,coins,默认查token和icons]
         start: params.start,
         num: params.size,
       },

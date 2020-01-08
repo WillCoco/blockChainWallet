@@ -7,7 +7,6 @@ import _get from 'lodash/get';
 import {useNavigation, useIsFocused} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import {metrics, vw} from '../../helpers/metric';
-import {appSettingAction} from '../../redux/actions';
 
 const Guide = () => {
   const {navigate, replace} = useNavigation();
@@ -21,10 +20,14 @@ const Guide = () => {
   /**
    * 同步语言
    */
-  const dispatch = useDispatch();
-  const language =
-    useSelector(state => _get(state, ['appSetting', 'language'])) || [];
-  dispatch(appSettingAction.updateLanguage(language));
+  const language = useSelector(
+    state => `${_get(state, ['appSetting', 'language'])}`,
+  );
+  React.useEffect(() => {
+    if (language && language.toLowerCase) {
+      i18n.changeLanguage(language);
+    }
+  }, [language]);
 
   /**
    * 是否显示按钮
