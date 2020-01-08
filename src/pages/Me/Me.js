@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
-import {ListItem, Icon} from 'react-native-elements';
+import {ListItem} from 'react-native-elements';
 import {useNavigation} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import {bindActionCreators} from 'redux';

@@ -33,23 +33,24 @@ const PasswordPrompt = props => {
           value={props.value}
           autoFocus={props.autoFocus}
           onChangeText={props.onChangeText}
-          placeholder={props.placeholder}
+          placeholder={props.placeholder || i18n.t('passwordValidDesc')}
           style={StyleSheet.flatten([styles.inputStyle, props.inputStyle])}
           wrapperStyle={StyleSheet.flatten([
             styles.inputWrapperStyle,
             props.inputWrapperStyle,
           ])}
+          secureTextEntry={props.secureTextEntry}
         />
       )}
       {props.canCancel && (
         <Dialog.Button
-          label={props.cancelLabel}
+          label={props.cancelLabel || i18n.t('cancel')}
           onPress={props.onCancelPress}
           style={props.cancelStyle}
         />
       )}
       <Dialog.Button
-        label={props.OKLabel}
+        label={props.OKLabel || i18n.t('done')}
         onPress={props.onOKPress}
         style={props.OKStyle}
       />
@@ -63,11 +64,8 @@ PasswordPrompt.defaultProps = {
   titleStyle: undefined,
   description: '',
   descStyle: undefined,
-  placeholder: '请输入内容',
   value: undefined,
-  cancelLabel: '取消',
   cancelStyle: undefined,
-  OKLabel: '确定',
   OKStyle: undefined,
   canCancel: true,
   onCancelPress: () => undefined,
@@ -77,6 +75,7 @@ PasswordPrompt.defaultProps = {
   inputStyle: undefined,
   inputWrapperStyle: undefined,
   autoFocus: true,
+  secureTextEntry: false,
 };
 
 const styles = StyleSheet.create({

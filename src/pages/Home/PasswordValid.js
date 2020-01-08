@@ -44,7 +44,7 @@ const PasswordValid = props => {
 
     // 密码错误
     if (!isValid) {
-      Toast.show({data: '验证失败'});
+      Toast.show({data: i18n.t('passwordValidFailed')});
       console.log(currentWallet.encryptedPrivateKey, 'encryptedPrivateKey');
       console.log(currentWallet.passwordKey, 'passwordKey');
       setPwdDialogVisible(true);
@@ -55,7 +55,7 @@ const PasswordValid = props => {
     const tempMnemonic = await updateTempMnemonic();
     // console.log(tempMnemonic, 'tempMnemonic');
     if (!tempMnemonic) {
-      Toast.show({data: '操作失败'});
+      Toast.show({data: i18n.t('error')});
     }
 
     dispatch(wallet.updateTempMnemonic(tempMnemonic));
@@ -115,6 +115,7 @@ const PasswordValid = props => {
       value={pwd}
       onCancelPress={() => setPwdDialogVisible(false)}
       onOKPress={onOKPress}
+      secureTextEntry={true}
     />
   );
 };

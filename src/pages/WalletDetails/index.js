@@ -204,7 +204,7 @@ const WalletDetails = props => {
           value={_get(currentWallet, 'name')}
           onChangeText={v => setCurrentWallet({...currentWallet, name: v})}
           maxLength={12}
-          inputStyle={{paddingHorizontal: '30%'}}
+          inputStyle={{paddingLeft: '35%'}}
         />
         {/* 修改密码 */}
         {/* <FormRow
@@ -247,6 +247,7 @@ const WalletDetails = props => {
         onChangeText={setPassword}
         onCancelPress={() => setPasswordValidVisible(false)}
         onOKPress={() => action.current.onPressDialogOk(password)}
+        secureTextEntry={true}
       />
       <Overlay
         overlayStyle={styles.copyOverlay}

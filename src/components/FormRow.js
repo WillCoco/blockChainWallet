@@ -54,12 +54,6 @@ const styles = StyleSheet.create({
     height: '100%',
     zIndex: 99,
   },
-  icon: {
-    width: '6%',
-    position: 'absolute',
-    bottom: 18,
-    zIndex: 99,
-  },
 });
 
 export default FormRow;

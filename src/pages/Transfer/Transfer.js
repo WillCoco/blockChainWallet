@@ -255,6 +255,7 @@ export default props => {
         onChangeText={setPwd}
         onCancelPress={() => setPwdDialogVisible(false)}
         onOKPress={signTx}
+        secureTextEntry={true}
       />
     </View>
   );

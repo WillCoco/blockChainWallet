@@ -111,9 +111,15 @@ const AppNavigator = createStackNavigator(
     },
     ImportWallet: {
       screen: ImportWallet,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: i18n.t('importWallet'),
+      }),
     },
     Scan: {
       screen: Scan,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: i18n.t('scan'),
+      }),
     },
     AssetDetail: {
       screen: AssetDetail,
