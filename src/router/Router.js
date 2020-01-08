@@ -120,9 +120,15 @@ const AppNavigator = createStackNavigator(
     },
     SelectToken: {
       screen: SelectToken,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: i18n.t('selectToken'),
+      }),
     },
     SelectBlock: {
       screen: SelectBlock,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: i18n.t('selectBlock'),
+      }),
     },
     WalletManagement: {
       screen: WalletManagement,

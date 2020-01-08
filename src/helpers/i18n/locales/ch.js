@@ -112,4 +112,6 @@ export default {
   invalidMnemonic: '请检查输入的助记词是否正确',
   importSuccess: '导入成功',
   importFailed: '导入失败',
+  selectBlock: '选择区块',
+  selectToken: '选择Token',
 };

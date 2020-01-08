@@ -114,4 +114,6 @@ export default {
   invalidMnemonic: 'Check the mnemonic is correct',
   importSuccess: 'Import Success',
   importFailed: 'Import Failed',
+  selectBlock: 'Select Block',
+  selectToken: 'Select Token',
 };
