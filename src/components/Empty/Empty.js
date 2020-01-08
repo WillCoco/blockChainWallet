@@ -16,12 +16,14 @@ const emptyImg = require('../../images/empty.png');
 const Empty = props => {
   return (
     <View style={StyleSheet.flatten([styles.wrapper, props.style])}>
-      <ImageBackground source={emptyImg} style={styles.emptyImg}>
-        <PrimaryText
-          style={StyleSheet.flatten([styles.emptyText, props.titleStyle])}>
-          {props.title}
-        </PrimaryText>
+      <ImageBackground 
+        source={emptyImg} 
+        style={styles.emptyImg}>
       </ImageBackground>
+      <PrimaryText
+        style={StyleSheet.flatten([styles.emptyText, props.titleStyle])}>
+        {props.title}
+      </PrimaryText>
     </View>
   );
 };
