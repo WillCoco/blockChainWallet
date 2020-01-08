@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {PrimaryText} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
 import _get from 'lodash/get';
+import _shuffle from 'lodash/shuffle';
 import colors from '../../helpers/colors';
 import {vw, metrics} from '../../helpers/metric';
 import i18n from '../../helpers/i18n';
@@ -21,8 +22,8 @@ export default () => {
   const mnemonic = useSelector(state => _get(state.wallets, ['tempMnemonic']));
 
   // 乱序助记词
-  // const unorderedMnemonic = React.useRef(_shuffle(mnemonic));
-  const unorderedMnemonic = React.useRef(mnemonic);
+  const unorderedMnemonic = React.useRef(_shuffle(mnemonic));
+  // const unorderedMnemonic = React.useRef(mnemonic);
 
   // 助记词重置次数
   let [restTimes, setRestTimes] = React.useState(0);

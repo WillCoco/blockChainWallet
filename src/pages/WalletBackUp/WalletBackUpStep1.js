@@ -1,11 +1,10 @@
 import React from 'react';
 import {
-  Text,
   View,
   StyleSheet,
 } from 'react-native';
-import {useSelector} from 'react-redux';
-import _get from 'lodash/get';
+// import {useSelector} from 'react-redux';
+// import _get from 'lodash/get';
 import {Button} from 'react-native-elements';
 import {H1, H2, H3, H4, PrimaryText} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
