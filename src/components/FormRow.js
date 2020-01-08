@@ -6,12 +6,9 @@ import {
 } from 'react-native';
 import {ListItem, Icon} from 'react-native-elements';
 import {PrimaryText} from 'react-native-normalization-text';
-import {useControllableValue} from '@umijs/hooks';
 import colors from '../helpers/colors';
 
 const FormRow = props => {
-  const [value, setValue] = useControllableValue(props);
-
   return (
     <View style={styles.wrapper}>
       <ListItem
@@ -25,8 +22,8 @@ const FormRow = props => {
         keyboardType={props.keyboardType}
         placeholder={props.placeholder}
         style={StyleSheet.flatten([styles.input, props.inputStyle])}
-        value={value}
-        onChangeText={setValue}
+        value={props.value}
+        onChangeText={props.onChangeText}
         editable={props.editable}
         maxLength={props.maxLength}
         autoFocus={props.autoFocus}
@@ -37,6 +34,8 @@ const FormRow = props => {
 };
 
 FormRow.defaultProps = {
+  value: '',
+  onChangeText: () => undefined,
   containerStyle: undefined,
   keyboardType: 'default',
   editable: true,

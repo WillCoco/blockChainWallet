@@ -5,16 +5,28 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {H4, PrimaryText} from 'react-native-normalization-text';
+import {useDispatch, useSelector} from 'react-redux';
+import _get from 'lodash/get';
+import {Icon} from 'react-native-elements';
 import {useNavigation} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
 import i18n from '../../helpers/i18n';
 import WalletQuickManager from './WalletQuickManager';
 import {vh, vw, metrics} from '../../helpers/metric';
-import {Icon} from 'react-native-elements';
+import {appSettingAction} from '../../redux/actions/';
 
 export default () => {
   const [overlayVisible, setOverlayVisible] = React.useState(false);
   const {navigate} = useNavigation();
+  const dispatch = useDispatch();
+
+  console.log(isShowAssets, 'isShowAssets');
+  /**
+   * 是否显示资产
+   */
+  const isShowAssets = useSelector(state =>
+    _get(state, ['appSetting', 'isShowAssets']),
+  );
 
   return (
     <View style={styles.wrapper}>
@@ -22,12 +34,21 @@ export default () => {
         overlayVisible={overlayVisible}
         setOverlayVisible={setOverlayVisible}
       />
-      <View style={styles.assetWrapper}>
-        <PrimaryText color="white" style={{textAlign: 'center', marginRight: 4}}>
+      <TouchableOpacity
+        style={styles.assetWrapper}
+        onPress={() => dispatch(appSettingAction.toggleIsShowAssets())}>
+        <PrimaryText
+          color="white"
+          style={{textAlign: 'center', marginRight: 4}}>
           {i18n.t('asset')}
         </PrimaryText>
-        <Icon name="eye" type='entypo' color={colors.textWhite}/>
-      </View>
+        <Icon
+          name={isShowAssets ? 'eye' : 'eye-with-line'}
+          type="entypo"
+          color={colors.textWhite}
+          size={Math.min(14, vw(6))}
+        />
+      </TouchableOpacity>
 
       <View style={styles.contentWrapper}>
         <TouchableOpacity
@@ -42,7 +63,7 @@ export default () => {
         <TouchableOpacity
           style={styles.contentRight}
           onPress={() => navigate('Collect')}>
-          <Icon name="swap-horiz" color={colors.textWhite}/>
+          <Icon name="swap-horiz" color={colors.textWhite} />
           <H4 color="white" style={styles.alignCenter}>
             {i18n.t('collect')}
           </H4>

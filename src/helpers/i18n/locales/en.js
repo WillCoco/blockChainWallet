@@ -68,4 +68,12 @@ export default {
   backupGuideText: 'Please select Mnemonic Phrase in correct order:',
   dealDetails: 'Details',
   block: 'Block',
+  createAgreement1: 'I have read an agree to',
+  createAgreement2: 'the agreement of usage',
+  emptyWalletName: 'Enter the wallet name',
+  emptyPassword: 'Enter the password',
+  emptyVerifyPassword: 'Enter the verify password',
+  illegalPassword: 'Passwords must be at least 8 characters',
+  mismatchingPassword: 'The passwords mismatching',
+  disagreeAgreement: 'You have not read and agreed to the agreement',
 };

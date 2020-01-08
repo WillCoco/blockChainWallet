@@ -40,7 +40,7 @@ export default props => {
     <View style={styles.wrapper}>
       {/* 钱包列表 */}
       <ScrollView style={styles.content}>
-        {[...walletsList, ...walletsList].map((item, index) => {
+        {walletsList.map((item, index) => {
           return (
             <WalletCard
               key={`${index}_${item.address}`}

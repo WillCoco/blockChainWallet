@@ -9,9 +9,9 @@ import {useSelector, useDispatch} from 'react-redux';
 import {Icon, ListItem, Overlay} from 'react-native-elements';
 import i18n from '../../helpers/i18n';
 import {PrimaryText, SmallText} from 'react-native-normalization-text';
+import {Button} from 'react-native-elements';
 import {metrics, vw, vh} from '../../helpers/metric';
 import colors from '../../helpers/colors';
-import {Button} from 'react-native-elements';
 import FormRow from '../../components/FormRow';
 import {useNavigation} from 'react-navigation-hooks';
 import {NavigationActions} from 'react-navigation';
@@ -75,8 +75,12 @@ const WalletDetails = props => {
       wallet.aesDecrypt({data: currentWallet.encryptedPrivateKey, password}),
     ).then(v => {
       setPrivateKey(v);
-      setExportVisible(true);
       setPasswordValidVisible(false);
+      // requestAnimationFrame(() => {
+      setTimeout(() => {
+        setExportVisible(true);
+      }, 500)
+      // });
       setPassword('');
     });
   };
@@ -135,7 +139,7 @@ const WalletDetails = props => {
   /**
    * 复制
    */
-  const copy = (v) => {
+  const copy = v => {
     Clipboard.setString(v);
     Toast.show({data: i18n.t('copySuccess')});
     setExportVisible(false);
@@ -170,12 +174,14 @@ const WalletDetails = props => {
       <NavBar
         title={currentWalletName}
         rightElement={
-          <PrimaryText style={{color: colors.textWhite}}>{i18n.t('save')}</PrimaryText>
+          <PrimaryText style={{color: colors.textWhite}}>
+            {i18n.t('save')}
+          </PrimaryText>
         }
         onRight={saveWallet}
       />
       <View style={styles.addressCard}>
-        <PrimaryText mut style={styles.addressText}>
+        <PrimaryText style={styles.addressText}>
           {_get(currentWallet, 'address')}
         </PrimaryText>
         <TouchableOpacity onPress={() => copy(_get(currentWallet, 'address'))}>
@@ -195,7 +201,8 @@ const WalletDetails = props => {
             _get(currentWallet, 'name') || i18n.t('createWalletNamePlaceholder')
           }
           bottomDivider
-          onChange={v => setCurrentWallet({...currentWallet, name: v})}
+          value={_get(currentWallet, 'name')}
+          onChangeText={v => setCurrentWallet({...currentWallet, name: v})}
           maxLength={12}
           inputStyle={{paddingHorizontal: '30%'}}
         />
@@ -247,8 +254,12 @@ const WalletDetails = props => {
         height={'auto'}
         onBackdropPress={() => setExportVisible(false)}>
         <>
-          <PrimaryText style={styles.copyTitle}>{action.current.overlayTitle}</PrimaryText>
-          <SmallText style={styles.copyWaringText}>{i18n.t('exportPrivateKeyWarning')}</SmallText>
+          <PrimaryText style={styles.copyTitle}>
+            {action.current.overlayTitle}
+          </PrimaryText>
+          <SmallText style={styles.copyWaringText}>
+            {i18n.t('exportPrivateKeyWarning')}
+          </SmallText>
           <SmallText style={styles.privateKeyText}>{privateKey}</SmallText>
           <Button
             // buttonStyle={styles.button}
@@ -279,7 +290,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     marginRight: metrics.spaceS,
-
   },
   btnContainer: {
     width: '90%',
