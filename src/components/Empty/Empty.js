@@ -7,7 +7,7 @@
  * @lastModificationDate:
  */
 import React from 'react';
-import {View, StyleSheet, Image, ImageBackground} from 'react-native';
+import {View, StyleSheet, ImageBackground} from 'react-native';
 import {PrimaryText} from 'react-native-normalization-text';
 import i18n from '../../helpers/i18n';
 import {vw} from '../../helpers/metric';
