@@ -30,11 +30,10 @@ export default () => {
 
   return walletsList.map((item, index) => {
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.wrapper} key={item.address}>
         {index !== 0 && <Divider style={{backgroundColor: colors.divider}} />}
         <TouchableOpacity
           style={styles.accountItem}
-          key={item.address}
           onPress={() => checkWallet(item.address)}>
           <PrimaryText>{item.name}</PrimaryText>
           {item.address === currentWallet.address && (

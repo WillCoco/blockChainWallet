@@ -28,11 +28,11 @@ export default () => {
         chevron
         onPress={() => navigate('UsageAgreement')}
       />
-      <ListItem
+      {/* <ListItem
         title={i18n.t('privacy')}
         containerStyle={{width: vw(90)}}
         chevron
-      />
+      /> */}
     </View>
   );
 };

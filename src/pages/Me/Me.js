@@ -32,12 +32,12 @@ const menuList = [
     route: 'Languages',
     color: colors.theme,
   },
-  {
-    title: 'helpCenter',
-    icon: 'help',
-    route: 'HelpCenter',
-    color: colors.success,
-  },
+  // {
+  //   title: 'helpCenter',
+  //   icon: 'help',
+  //   route: 'HelpCenter',
+  //   color: colors.success,
+  // },
   {
     title: 'about',
     icon: 'report',
