@@ -53,7 +53,7 @@ export default () => {
         <TouchableOpacity
           style={styles.contentLeft}
           onPress={() => navigate('Transfer')}>
-          <Icon name="exit-to-app" color={colors.textWhite}/>
+          <Icon name="exit-to-app" color={colors.textWhite} />
           <H4 color="white" style={styles.alignCenter}>
             {i18n.t('transfer')}
           </H4>
