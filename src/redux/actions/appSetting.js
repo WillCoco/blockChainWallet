@@ -6,10 +6,7 @@
  * @lastModification:
  * @lastModificationDate:
  */
-import {
-  UPDATE_LANGUAGE,
-  UPDATE_IS_SHOW_ASSETS,
-} from './actionTypes';
+import {UPDATE_LANGUAGE} from './actionTypes';
 import _get from 'lodash/get';
 import i18n from '../../helpers/i18n';
 
@@ -30,6 +27,7 @@ export function updateLanguage(language) {
 export function toggleIsShowAssets() {
   return (dispatch, getState) => {
     const isShowAssets = _get(getState(), ['appSetting', 'isShowAssets']);
+    console.log(isShowAssets, 'isShowAssets=======')
     dispatch(updateIsShowAssets(!isShowAssets));
   };
 }
@@ -39,6 +37,6 @@ export function toggleIsShowAssets() {
  */
 export function updateIsShowAssets(isShowAssets) {
   return (dispatch, getState) => {
-    dispatch({type: UPDATE_IS_SHOW_ASSETS, payload: {isShowAssets}});
+    dispatch({type: UPDATE_LANGUAGE, payload: {isShowAssets}});
   };
 }

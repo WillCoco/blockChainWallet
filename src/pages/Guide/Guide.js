@@ -1,12 +1,13 @@
 import React from 'react';
 import {View, StyleSheet, Animated, Image, StatusBar} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {Button} from 'react-native-elements';
 import {H4} from 'react-native-normalization-text';
 import _get from 'lodash/get';
 import {useNavigation, useIsFocused} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import {metrics, vw} from '../../helpers/metric';
+import {appSettingAction} from '../../redux/actions';
 
 const Guide = () => {
   const {navigate, replace} = useNavigation();
@@ -17,9 +18,22 @@ const Guide = () => {
 
   const isFocused = useIsFocused();
 
-  // 是否显示按钮
+  /**
+   * 同步语言
+   */
+  const dispatch = useDispatch();
+  const language =
+    useSelector(state => _get(state, ['appSetting', 'language'])) || [];
+  dispatch(appSettingAction.updateLanguage(language));
+
+  /**
+   * 是否显示按钮
+   */
   const [btnsAnim] = React.useState(new Animated.Value(0));
 
+  /**
+   * 根据是都有钱包导航分流
+   */
   React.useEffect(() => {
     if (isFocused && walletsList.length > 0) {
       // 有钱包，进入首页

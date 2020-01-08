@@ -13,7 +13,7 @@ const appSettingPersistConfig = {
   key: 'appSetting',
   storage: AsyncStorage,
   version: localStorageVersion,
-  whitelist: ['sessionId', 'account'],
+  whitelist: ['language', 'isShowAssets'],
   migrate: state => {
     return Promise.resolve(state);
   },

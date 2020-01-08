@@ -6,11 +6,13 @@ import {
 } from 'react-native';
 import {SmallText} from 'react-native-normalization-text';
 import {ListItem} from 'react-native-elements';
+import {useNavigation} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import {vh, vw, metrics} from '../../helpers/metric';
 import packageInfo from '../../../package.json';
 
 export default () => {
+  const {navigate} = useNavigation();
   return (
     <View style={styles.wrapper}>
       <Image
@@ -24,6 +26,7 @@ export default () => {
         title={i18n.t('userAgreement')}
         containerStyle={{width: vw(90)}}
         chevron
+        onPress={() => navigate('UsageAgreement')}
       />
       <ListItem
         title={i18n.t('privacy')}

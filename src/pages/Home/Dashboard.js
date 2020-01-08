@@ -20,7 +20,6 @@ export default () => {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
 
-  console.log(isShowAssets, 'isShowAssets');
   /**
    * 是否显示资产
    */

@@ -191,10 +191,10 @@ const AppNavigator = createStackNavigator(
       }),
     },
     UsageAgreement: {
-      screen: WalletDetails,
+      screen: UsageAgreement,
       navigationOptions: ({navigation}) => ({
         // headerTitle: `${i18n.t('about')}`,
-        headerShown: i18n.t('userAgreement'),
+        headerTitle: i18n.t('userAgreement'),
       }),
     },
     Main: {
