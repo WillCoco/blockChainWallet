@@ -15,6 +15,7 @@ import {getHistory} from '../../helpers/chain33';
 import {chainInfo} from '../../config';
 
 const AssetDetail = props => {
+  a.a
   const {navigate} = useNavigation();
   const assetsList = useSelector(state =>
     _get(state, ['assets', 'assetsList']),

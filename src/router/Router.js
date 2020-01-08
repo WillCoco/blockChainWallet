@@ -40,11 +40,12 @@ import About from '../pages/About';
 import WalletDetails from '../pages/WalletDetails';
 import DealDetails from '../pages/DealDetails';
 import UsageAgreement from '../pages/UsageAgreement';
+import safePage from '../helpers/safePage';
 
 const AppNavigator = createStackNavigator(
   {
     Guide: {
-      screen: Guide,
+      screen: props => safePage(Guide, props),
       navigationOptions: ({navigation}) => ({
         headerShown: false,
       }),
@@ -60,40 +61,40 @@ const AppNavigator = createStackNavigator(
       screen: () => <Text>Lock</Text>,
     },
     TextManager: {
-      screen: NormalizationText,
+      screen: props => safePage(NormalizationText, props),
     },
     CreateWallet: {
-      screen: CreateWallet,
+      screen: props => safePage(CreateWallet, props),
       navigationOptions: ({navigation}) => ({
         headerTitle: i18n.t('createWallet'),
       }),
     },
     WalletBackUpStep1: {
-      screen: WalletBackUpStep1,
+      screen: props => safePage(WalletBackUpStep1, props),
       navigationOptions: ({navigation}) => ({
         headerTitle: i18n.t('backupWallet'),
       }),
     },
     WalletBackUpStep2: {
-      screen: WalletBackUpStep2,
+      screen: props => safePage(WalletBackUpStep2, props),
       navigationOptions: ({navigation}) => ({
         headerTitle: i18n.t('backupWallet'),
       }),
     },
     WalletBackUpStep3: {
-      screen: WalletBackUpStep3,
+      screen: props => safePage(WalletBackUpStep3, props),
       navigationOptions: ({navigation}) => ({
         headerTitle: i18n.t('backupWallet'),
       }),
     },
     ImportWallet: {
-      screen: ImportWallet,
+      screen: props => safePage(ImportWallet, props),
     },
     Scan: {
-      screen: Scan,
+      screen: props => safePage(Scan, props),
     },
     AssetDetail: {
-      screen: AssetDetail,
+      screen: props => safePage(AssetDetail, props),
       navigationOptions: ({navigation}) => {
         return {
           headerTitle: navigation.getParam('tokenSymbol'),
@@ -101,75 +102,75 @@ const AppNavigator = createStackNavigator(
       },
     },
     Transfer: {
-      screen: Transfer,
+      screen: props => safePage(Transfer, props),
       navigationOptions: ({navigation}) => ({
         headerTitle: `${i18n.t('transfer')}`,
       }),
     },
     Collect: {
-      screen: Collect,
+      screen: props => safePage(Collect, props),
       navigationOptions: ({navigation}) => ({
         headerTitle: `${i18n.t('collect')}`,
       }),
     },
     SelectToken: {
-      screen: SelectToken,
+      screen: props => safePage(SelectToken, props),
     },
     SelectBlock: {
-      screen: SelectBlock,
+      screen: props => safePage(SelectBlock, props),
     },
     WalletManagement: {
-      screen: WalletManagement,
+      screen: props => safePage(WalletManagement, props),
       navigationOptions: ({navigation}) => ({
         headerTitle: `${i18n.t('walletManagement')}`,
       }),
     },
     TransactionHistory: {
-      screen: TransactionHistory,
+      screen: props => safePage(TransactionHistory, props),
       navigationOptions: ({navigation}) => ({
         headerShown: false,
       }),
     },
     DealDetails: {
-      screen: DealDetails,
+      screen: props => safePage(DealDetails, props),
       navigationOptions: ({navigation}) => ({
         headerShown: false,
         headerTitle: `${i18n.t('dealDetails')}`,
       }),
     },
     SwitchAccount: {
-      screen: SwitchAccount,
+      screen: props => safePage(SwitchAccount, props),
       navigationOptions: ({navigation}) => ({
         headerTitle: `${i18n.t('switchAccount')}`,
       }),
     },
     Languages: {
-      screen: Languages,
+      screen: props => safePage(Languages, props),
       navigationOptions: ({navigation}) => ({
         headerTitle: `${i18n.t('languages')}`,
       }),
     },
     HelpCenter: {
-      screen: HelpCenter,
+      screen: props => safePage(HelpCenter, props),
       navigationOptions: ({navigation}) => ({
         headerTitle: `${i18n.t('helpCenter')}`,
       }),
     },
     About: {
-      screen: About,
+      screen: props => safePage(About, props),
       navigationOptions: ({navigation}) => ({
         headerTitle: `${i18n.t('about')}`,
       }),
     },
     WalletDetails: {
-      screen: WalletDetails,
+      screen: props => safePage(WalletDetails, props),
       navigationOptions: ({navigation}) => ({
         // headerTitle: `${i18n.t('about')}`,
         headerShown: false,
       }),
     },
     UsageAgreement: {
-      screen: UsageAgreement,
+      screen: props => safePage(UsageAgreement, props),
       navigationOptions: ({navigation}) => ({
         // headerTitle: `${i18n.t('about')}`,
         headerTitle: i18n.t('userAgreement'),

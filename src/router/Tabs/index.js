@@ -7,27 +7,26 @@
  * @lastModificationDate: ,
  */
 import React from 'react';
-import {Text, View} from 'react-native';
-
 import Home from '../../pages/Home/index';
 import Me from '../../pages/Me/Me';
 import colors from '../../helpers/colors/index';
+import safePage from '../../helpers/safePage';
 import BottomTabsBar from './BottomTabsBar';
 
 import {createAppContainer} from 'react-navigation';
-import {createBottomTabNavigator, BottomTabBar} from 'react-navigation-tabs';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
 
 const TabsRouter = createBottomTabNavigator(
   {
     Home: {
-      screen: Home,
+      screen: props => safePage(Home, props),
       path: 'main/home',
       navigationOptions: ({navigation}) => ({
         headerTitle: `6'`,
       }),
     },
     Me: {
-      screen: Me,
+      screen: props => safePage(Me, props),
       path: 'main/me',
       navigationOptions: {
         headerShown: false,
