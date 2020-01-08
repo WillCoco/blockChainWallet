@@ -134,6 +134,9 @@ export function sendTransaction(params) {
  * 获取指定token分页token
  */
 export function getHistory(params) {
+  console.log(
+    params, 'getHistory_params'
+  )
   return extraServer
     .get(`${url.serverUrl}/tokenTransferInfo`, {
       params: {

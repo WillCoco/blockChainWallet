@@ -12,6 +12,7 @@ import i18n from '../../helpers/i18n';
 import PagingList from '../../components/PagingList';
 import TxRow from '../../components/TxRow';
 import {getHistory} from '../../helpers/chain33';
+import {chainInfo} from '../../config';
 
 const AssetDetail = props => {
   const {navigate} = useNavigation();
@@ -33,6 +34,8 @@ const AssetDetail = props => {
     state => _get(state.wallets, ['currentWallet']) || [],
   );
 
+  // 是否token
+  const isToken = currentToken.symbol !== chainInfo.symbol;
   /**
    * 渲染行
    */
