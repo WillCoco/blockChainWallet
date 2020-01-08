@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Text,
   View,
   TextInput,
   StyleSheet,
@@ -11,8 +10,6 @@ import QRCode from 'react-native-qrcode-svg';
 import {PrimaryText, SmallText} from 'react-native-normalization-text';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigationParam} from 'react-navigation-hooks';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
 import {vh, vw, metrics} from '../../helpers/metric/index';
 import colors from '../../helpers/colors/index';
 import i18n from '../../helpers/i18n/index';
@@ -46,7 +43,7 @@ const Collect = props => {
       <View style={styles.qrCodeWrapper}>
         <QRCode
           value={`${qrcodeValue}`}
-          size={vw(46)}
+          size={vw(50)}
           logoBackgroundColor="transparent"
         />
       </View>
@@ -78,7 +75,8 @@ const styles = StyleSheet.create({
   },
   qrCodeWrapper: {
     backgroundColor: '#fff',
-    height: '50%',
+    height: '44%',
+    paddingTop: '4%',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -110,21 +108,4 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps(state) {
-  return {
-    tokensList: [{name: 'asd'}, {name: 'ddd'}],
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-    },
-    dispatch,
-  );
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Collect);
+export default Collect;

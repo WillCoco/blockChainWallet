@@ -40,7 +40,12 @@ const AssetDetail = props => {
    * 渲染行
    */
   const renderItem = ({item}) => {
-    return <TxRow {...item} />;
+    return (
+      <TxRow
+        {...item}
+        onPress={() => navigate({routeName: 'DealDetails', params: {txInfo: item}})}
+      />
+    );
   };
 
   /**
@@ -52,6 +57,7 @@ const AssetDetail = props => {
       address: currentWallet.address,
       start: 0,
       size: 14,
+      executor: isToken ? 'token' : 'coins',
     });
   };
 

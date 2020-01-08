@@ -19,9 +19,9 @@ import {
   WalletBackUpStep2,
   WalletBackUpStep3,
 } from '../pages/WalletBackUp';
-import NavBar from 'react-native-pure-navigation-bar';
 import colors from '../helpers/colors';
-import {InnerNaviBar} from 'react-native-pure-navigation-bar';
+// import NavBar, {InnerNaviBar} from 'react-native-pure-navigation-bar';
+import NavBar from '../components/NavBar';
 import i18n from '../helpers/i18n';
 
 import ImportWallet from '../pages/ImportWallet';
@@ -40,29 +40,6 @@ import About from '../pages/About';
 import WalletDetails from '../pages/WalletDetails';
 import DealDetails from '../pages/DealDetails';
 import UsageAgreement from '../pages/UsageAgreement';
-
-// 导航栏默认样式
-InnerNaviBar.defaultProps.style = {
-  safeView: {
-    backgroundColor: colors.theme,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    color: colors.textWhite,
-    fontWeight: '600',
-  },
-  gobackImage: {
-    width: 10,
-  },
-  buttonView: {
-    color: colors.textWhite,
-  },
-  gobackView: {
-    color: colors.textWhite,
-  }
-};
 
 const AppNavigator = createStackNavigator(
   {
@@ -162,6 +139,7 @@ const AppNavigator = createStackNavigator(
     DealDetails: {
       screen: DealDetails,
       navigationOptions: ({navigation}) => ({
+        headerShown: false,
         headerTitle: `${i18n.t('dealDetails')}`,
       }),
     },

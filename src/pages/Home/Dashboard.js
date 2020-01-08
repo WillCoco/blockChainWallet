@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     width: StyleSheet.hairlineWidth * 2,
-    height: '100%',
+    height: '80%',
     backgroundColor: '#fff',
   },
 });

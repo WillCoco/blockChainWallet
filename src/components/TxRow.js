@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   View,
-  Text,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
-import {H1, H2, H3, H4, PrimaryText, SmallText} from 'react-native-normalization-text';
+import {PrimaryText, SmallText} from 'react-native-normalization-text';
 import {Icon} from 'react-native-elements';
 import colors from '../helpers/colors';
 import {metrics, vw} from '../helpers/metric';
@@ -29,7 +29,9 @@ const TxRow = props => {
   const color = isOut ? colors.success : colors.theme;
 
   return (
-    <View style={StyleSheet.flatten([styles.wrapper, props.style])}>
+    <TouchableOpacity
+      onPress={props.onPress}
+      style={StyleSheet.flatten([styles.wrapper, props.style])}>
       <View style={styles.left}>
         <Icon color={color} containerStyle={styles.icon} name={iconName} />
         <View>
@@ -44,7 +46,7 @@ const TxRow = props => {
           {amountSign} {upperUnit(props.amount)} {props.symbol}
         </PrimaryText>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -53,6 +55,7 @@ TxRow.defaultProps = {
   amount: 'amount',
   day: 'YYYY.MM.DD',
   time: 'hh:mm',
+  onPress: () => undefined,
 };
 
 export default TxRow;

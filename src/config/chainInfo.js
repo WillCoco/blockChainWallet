@@ -15,6 +15,7 @@ const chainInfo = {
   symbol: 'UTC',
   digits: 8,
   networks: urls,
+  explorerUrl: 'http://www.uniontea.io/',
 };
 
 module.exports = chainInfo;
