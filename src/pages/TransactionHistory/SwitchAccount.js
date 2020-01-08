@@ -4,12 +4,8 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-<<<<<<< HEAD
 import {useNavigation} from 'react-navigation-hooks';
-import {Icon} from 'react-native-elements';
-=======
 import {Icon, Divider} from 'react-native-elements';
->>>>>>> 995b9af4701d7b0049dc65f086fa37822da5a637
 import {PrimaryText} from 'react-native-normalization-text';
 import _get from 'lodash/get';
 import colors from '../../helpers/colors';
@@ -52,7 +48,7 @@ export default () => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingHorizontal: metrics.spaceS
+    paddingHorizontal: metrics.spaceS,
   },
   accountItem: {
     flexDirection: 'row',
