@@ -52,6 +52,7 @@ const AssetDetail = props => {
       address: currentWallet.address,
       start: 0,
       size: 14,
+      executor: isToken ? 'token' : 'coins',
     });
   };
 

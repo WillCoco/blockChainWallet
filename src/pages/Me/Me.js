@@ -20,13 +20,12 @@ const menuList = [
     route: 'WalletManagement',
     color: colors.theme,
   },
-  // todo: 全部交易（主币和token的暂无接口）
-  // {
-  //   title: 'transactionHistory',
-  //   icon: 'assignment',
-  //   route: 'TransactionHistory',
-  //   color: colors.theme,
-  // },
+  {
+    title: 'transactionHistory',
+    icon: 'assignment',
+    route: 'TransactionHistory',
+    color: colors.theme,
+  },
   {
     title: 'languages',
     icon: 'language',
