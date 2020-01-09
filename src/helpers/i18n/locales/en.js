@@ -119,4 +119,5 @@ export default {
   pageError: 'Sorry! Some error occurred',
   pressToBack: 'Press me to back',
   goWebsite: 'Website',
+  notEnoughAmount: 'Not enough amount',
 };

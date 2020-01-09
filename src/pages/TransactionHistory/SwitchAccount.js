@@ -20,12 +20,12 @@ export default () => {
   const currentWallet =
     useSelector(state => _get(state, ['wallets', 'currentWallet'])) || {};
   const dispatch = useDispatch();
-  const {navigate} = useNavigation();
+  const {goBack} = useNavigation();
 
   // 切换钱包
   const checkWallet = address => {
     dispatch(wallet.updateCurrentWallet(address));
-    navigate('TransactionHistory');
+    goBack();
   };
 
   return walletsList.map((item, index) => {

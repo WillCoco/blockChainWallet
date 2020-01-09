@@ -117,4 +117,5 @@ export default {
   pageError: '抱歉，页面走丢了',
   pressToBack: '点击这里返回',
   goWebsite: '前往下载',
+  notEnoughAmount: '余额不足',
 };

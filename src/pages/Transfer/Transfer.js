@@ -8,6 +8,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Bignumber from 'bignumber.js';
 import {Button, ListItem, Overlay} from 'react-native-elements';
 import _get from 'lodash/get';
+import _filter from 'lodash/filter';
 import {PrimaryText} from 'react-native-normalization-text';
 import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import {metrics, vw, vh} from '../../helpers/metric';
@@ -92,6 +93,18 @@ export default props => {
   };
 
   /**
+   * 获取当前资产余额
+   */
+  const asset = useSelector(state => {
+    const assets = _filter(
+      _get(state, ['assets', 'assetsList']) || [],
+      o => o.symbol === _get(defaultTransferForm, ['token', 'symbol']),
+    );
+
+    return assets && assets[0];
+  });
+
+  /**
    * 点击下一步
    */
   const onPressNext = () => {
@@ -106,6 +119,11 @@ export default props => {
 
     if (!safeTransferForm.amount) {
       Toast.show({data: i18n.t('transferInvalidAmount')});
+      return;
+    }
+
+    // 余额不足
+    if (safeTransferForm.amount > asset.balanceFmt) {
       return;
     }
 

@@ -8,135 +8,36 @@ import {
 } from 'react-native';
 import {Icon, Divider} from 'react-native-elements';
 import {PrimaryText} from 'react-native-normalization-text';
+import {useIsFocused, useNavigation} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import colors from '../../helpers/colors';
 import {vw} from '../../helpers/metric';
 import Empty from '../../components/Empty';
 
-const mockList = [
-  {
-    id: 0,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-  },
-  {
-    id: 1,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-
-  },
-  {
-    id: 2,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-
-  },
-  {
-    id: 3,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-  },
-  {
-    id: 3,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-  },
-  {
-    id: 3,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-  },
-  {
-    id: 3,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-  },{
-    id: 3,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-  },{
-    id: 3,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-  },{
-    id: 3,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-  },
-  {
-    id: 3,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-  },{
-    id: 3,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-  },{
-    id: 3,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-  },{
-    id: 3,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-  },{
-    id: 3,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-  },{
-    id: 3,
-    name: '12123',
-    amount: 1231232135,
-    time: 111,
-    type: 'transfer',
-  },
-
-]
-
 const PagingList = props => {
-  const [isRefreshing, setIsRefreshing] = React.useState(false);
+  const [isRefreshing, setIsRefreshing] = React.useState(false); // 下拉刷新
+  const [isLoading, setIsLoading] = React.useState(false); // 加载中
   const [listData, setListData] = React.useState([]);
   const [empty, setEmpty] = React.useState(false);
   const [noMore, setNoMore] = React.useState();
 
+  const isFocused = useIsFocused();
+  const {state} = useNavigation();
+
   /**
    * 加载时候 获取一次数据
    */
+  // React.useEffect(() => {
+  //   if (props.isInitGetData) {
+  //     onRefresh();
+  //   }
+  // }, []);
+
   React.useEffect(() => {
-    if (props.isInitGetData) {
+    if (isFocused) {
       onRefresh();
     }
-  }, []);
+  }, [state.routeName, isFocused]);
 
   /**
    * 分页
@@ -169,7 +70,7 @@ const PagingList = props => {
    * 加载更多
    */
   const onEndReached = async () => {
-    setIsRefreshing(true);
+    setIsLoading(true);
     page.current++;
     const {result, code} = await props.onEndReached(page, size);
 
@@ -182,7 +83,7 @@ const PagingList = props => {
         return [...listData, ...result];
       });
     }
-    setIsRefreshing(false);
+    setIsLoading(false);
   };
 
   /**
@@ -197,7 +98,7 @@ const PagingList = props => {
       );
     }
 
-    if (isRefreshing) {
+    if (isLoading) {
       return (
         <View style={styles.listFooterWrapper}>
           <ActivityIndicator style={{marginRight: 8}} />
@@ -206,7 +107,7 @@ const PagingList = props => {
       );
     }
 
-    return null;
+    return <View style={styles.listFooterWrapper} />;
   };
 
   /**
@@ -219,13 +120,12 @@ const PagingList = props => {
     return null;
   };
 
-  console.log(listData, 'listDatalistData');
+  // console.log(listData, 'listDatalistData');
 
   return (
     <View style={styles.flatList}>
       <FlatList
         refreshing
-        style={styles.flatList}
         data={listData}
         initialNumToRender={props.initialNumToRender}
         //item显示的布局
@@ -269,12 +169,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listFooterWrapper: {
+    minHeight: 32,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     borderTopWidth: StyleSheet.hairlineWidth * 2,
     borderColor: colors.divider,
-    paddingVertical: 6,
   },
   divider: {
     marginHorizontal: vw(4),
