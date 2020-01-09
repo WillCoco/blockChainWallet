@@ -77,6 +77,7 @@ export function getAddressAsset(params) {
     getAddressTokens(params),
   ]).then(r => {
     const response = format.getAddressAsset(r);
+    console.log(r, '=========')
     return Promise.resolve(response);
   });
 }
@@ -125,7 +126,7 @@ export function sendTransaction(params) {
       ],
     })
     .then(r => {
-      console.log(r, '====');
+      // console.log(r, '====');
       return Promise.resolve(r);
     });
 }
@@ -134,9 +135,6 @@ export function sendTransaction(params) {
  * 获取指定token分页token
  */
 export function getHistory(params) {
-  console.log(
-    params, 'getHistory_params'
-  )
   return extraServer
     .get(`${url.serverUrl}/tokenTransferInfo`, {
       params: {

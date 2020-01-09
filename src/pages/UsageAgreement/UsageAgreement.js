@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import {PrimaryText, H3} from 'react-native-normalization-text';
 import agreement from './agreement';
-import {vh, vw, metrics} from '../../helpers/metric';
+import {metrics} from '../../helpers/metric';
 
 export default () => {
   return (

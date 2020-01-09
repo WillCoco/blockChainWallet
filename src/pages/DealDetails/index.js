@@ -109,16 +109,18 @@ const DealDetails = () => {
                 {tx.sender}
               </PrimaryText>
             </View>
-            <View style={styles.detailsItem}>
-              <PrimaryText style={styles.itemLeft}>
-                {i18n.t('transferNote') + ':'}
-              </PrimaryText>
-              <PrimaryText
-                style={styles.itemRight}
-                onPress={() => copy(tx.note)}>
-                {tx.note}
-              </PrimaryText>
-            </View>
+            {tx.note && (
+              <View style={styles.detailsItem}>
+                <PrimaryText style={styles.itemLeft}>
+                  {i18n.t('transferNote') + ':'}
+                </PrimaryText>
+                <PrimaryText
+                  style={styles.itemRight}
+                  onPress={() => copy(tx.note)}>
+                  {tx.note}
+                </PrimaryText>
+              </View>
+            )}
           </View>
           <View style={styles.bottomBox}>
             <View style={styles.detailsItem}>

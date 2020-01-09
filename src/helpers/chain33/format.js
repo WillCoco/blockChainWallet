@@ -42,7 +42,7 @@ export function getAddressTokens(response) {
 export function getAddressAsset(response) {
   const [accountRes, tokensRes] = response || [];
 
-  if (accountRes.error || tokensRes.error) {
+  if (accountRes.error && tokensRes.error) {
     return {
       result: null,
       error: accountRes.error || tokensRes.error,

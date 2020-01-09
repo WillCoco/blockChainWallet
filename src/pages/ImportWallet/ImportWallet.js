@@ -102,7 +102,7 @@ const ImportWallet = () => {
 
   return (
     <ScrollView style={styles.wrapper}>
-      <KeyboardAvoidingView>
+      <KeyboardAvoidingView style={{flex: 1}}>
         <TextInput
           multiline
           numberOfLines={4}
@@ -139,14 +139,14 @@ const ImportWallet = () => {
           onChangeText={setConfirmPassword}
           inputStyle={{paddingLeft: '45%'}}
          />
-        <FormRow
-          title={i18n.t('createWalletPrompt')}
-          bottomDivider
-          placeholder={i18n.t('createWalletPromptPlaceholder')}
-          value={prompt}
-          onChangeText={setPrompt}
-          inputStyle={{paddingLeft: '45%'}}
-         />
+        {/*<FormRow*/}
+          {/*title={i18n.t('createWalletPrompt')}*/}
+          {/*bottomDivider*/}
+          {/*placeholder={i18n.t('createWalletPromptPlaceholder')}*/}
+          {/*value={prompt}*/}
+          {/*onChangeText={setPrompt}*/}
+          {/*inputStyle={{paddingLeft: '45%'}}*/}
+         {/*/>*/}
         <Button
           iconRight
           containerStyle={styles.btnContainerStyle}

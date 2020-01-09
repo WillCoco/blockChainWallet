@@ -1,17 +1,12 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import {useSelector} from 'react-redux';
+import {View, StyleSheet} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useNavigation} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
 import _get from 'lodash/get';
-import {appSettingAction} from '../../redux/actions';
 import colors from '../../helpers/colors';
+import {vh} from '../../helpers/metric';
 
 const menuList = [
   {
@@ -48,6 +43,7 @@ const menuList = [
 
 const Me = () => {
   const {navigate} = useNavigation();
+  useSelector(state => _get(state, ['appSetting', 'language']));
 
   return (
     <View style={styles.wrapper}>
@@ -58,7 +54,7 @@ const Me = () => {
           leftIcon={{name: item.icon, color: item.color}}
           bottomDivider={i === 2 || i === 0 || i === 3}
           chevron
-          style={(i === 2 || i === 0) && {marginTop: 10}}
+          style={(i === 2 || i === 0) && {marginTop: vh(1.5)}}
           onPress={() => navigate(item.route)}
           containerStyle={{borderColor: colors.divider}}
         />
