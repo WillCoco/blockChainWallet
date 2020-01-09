@@ -129,6 +129,7 @@ const ImportWallet = () => {
           maxLength={20}
           onChangeText={setPassword}
           inputStyle={{paddingLeft: '45%'}}
+          secureTextEntry
          />
         <FormRow
           title={i18n.t('createWalletConfirmPassword')}
@@ -138,6 +139,7 @@ const ImportWallet = () => {
           maxLength={20}
           onChangeText={setConfirmPassword}
           inputStyle={{paddingLeft: '45%'}}
+          secureTextEntry
          />
         {/*<FormRow*/}
           {/*title={i18n.t('createWalletPrompt')}*/}

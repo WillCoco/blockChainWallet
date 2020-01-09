@@ -236,7 +236,7 @@ const PagingList = props => {
         refreshControl={
           <RefreshControl
             title={'Loading'}
-            // colors={['red']}
+            colors={[colors.theme]}
             refreshing={isRefreshing}
             onRefresh={onRefresh}
           />

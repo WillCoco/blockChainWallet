@@ -87,7 +87,7 @@ export function addOrUpdateAWallet(wallet, shouldFocus = true) {
  */
 export function removeAWallet(wallet) {
   return (dispatch, getState) => {
-    console.log(wallet, 1111)
+    // console.log(wallet, 1111)
     const walletsList = _get(getState(), ['wallets', 'walletsList']) || [];
     const currentWallet = _get(getState(), ['wallets', 'currentWallet']) || {};
 
@@ -208,15 +208,19 @@ export function validTempMnemonic(mnemonicInput) {
 }
 
 /**
- * 验证当前钱包密码正确性
+ * 验证指定钱包密码正确性
  * @param: {string} mnemonicInput - 输入的助记词
+ * @param: {string} [password] - 比较基准，正确密码的一次sha256
  */
-export function validPassword(passwordInput) {
+export function validPassword(passwordInput, password) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-      const currentWallet =
-        _get(getState(), ['wallets', 'currentWallet']) || {};
+      // 若没有传入比较基准，默认和当前钱包比
+      const currentWalletPassword =
+        _get(getState(), ['wallets', 'currentWallet', 'passwordKey']) || {};
 
+      const basePassword = password || currentWalletPassword;
+      console.log(basePassword, 'basePassword')
       WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
         {
           payload: {
@@ -224,7 +228,8 @@ export function validPassword(passwordInput) {
             data: passwordInput,
           },
           callback: v => {
-            resolve(v === currentWallet.passwordKey);
+            // console.log(v, 'vvvvv');
+            resolve(v === basePassword);
           },
         },
       ]);
@@ -256,7 +261,7 @@ export function aesDecrypt(params) {
         },
       ]);
     }).catch(err => {
-      console.log('isValidPwd', err);
+      console.log('aesDecrypt', err);
     });
   };
 }
@@ -282,7 +287,7 @@ export function signTx(params) {
         },
       ]);
     }).catch(err => {
-      console.log('isValidPwd', err);
+      console.log('signTx', err);
     });
   };
 }
@@ -306,7 +311,7 @@ export function validMnemonic(mnemonic) {
         },
       ]);
     }).catch(err => {
-      console.log('isValidPwd', err);
+      console.log('validMnemonic', err);
     });
   };
 }

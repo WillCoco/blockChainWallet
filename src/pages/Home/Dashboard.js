@@ -14,8 +14,9 @@ import i18n from '../../helpers/i18n';
 import WalletQuickManager from './WalletQuickManager';
 import {vh, vw, metrics} from '../../helpers/metric';
 import {appSettingAction} from '../../redux/actions/';
+import safePage from '../../helpers/safePage/';
 
-export default () => {
+const Dashboard = () => {
   const [overlayVisible, setOverlayVisible] = React.useState(false);
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
@@ -71,6 +72,8 @@ export default () => {
     </View>
   );
 };
+
+export default props => safePage(Dashboard, props);
 
 const styles = StyleSheet.create({
   wrapper: {

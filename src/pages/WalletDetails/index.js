@@ -24,7 +24,7 @@ import Dialog from '../../components/Dialog';
 const WalletDetails = props => {
   const [passwordValidVisible, setPasswordValidVisible] = useState(false);
   const [exportVisible, setExportVisible] = useState(false);
-  const [privateKey, setPrivateKey] = useState('');
+  const [exportString, setExportString] = useState('');
   const [password, setPassword] = useState('');
   const [currentWallet, setCurrentWallet] = useState(
     _get(props, ['navigation', 'state', 'params']) || {},
@@ -40,6 +40,10 @@ const WalletDetails = props => {
    * 删除钱包
    */
   const deleteWallet = async password => {
+    if (!password) {
+      return;
+    }
+
     const isValidPassword = await dispatch(wallet.validPassword(password));
 
     setPasswordValidVisible(false);
@@ -63,6 +67,10 @@ const WalletDetails = props => {
    * todo: 导出masterKey
    */
   const exportPrivateKeyConfirm = async password => {
+    if (!password) {
+      return;
+    }
+
     // 验证密码
     const isValidPassword = await dispatch(wallet.validPassword(password));
     setPasswordValidVisible(false);
@@ -74,7 +82,7 @@ const WalletDetails = props => {
     dispatch(
       wallet.aesDecrypt({data: currentWallet.encryptedPrivateKey, password}),
     ).then(v => {
-      setPrivateKey(v);
+      setExportString(v);
       setPasswordValidVisible(false);
       // requestAnimationFrame(() => {
       setTimeout(() => {
@@ -90,10 +98,11 @@ const WalletDetails = props => {
    */
   const exportMnemonicConfirm = async password => {
     // 验证密码
-    console.log(password, 'password111')
-    const isValidPassword = await dispatch(wallet.validPassword(password));
+    const isValidPassword = await dispatch(
+      wallet.validPassword(password, currentWallet.passwordKey),
+    );
     setPasswordValidVisible(false);
-    console.log(isValidPassword, 'isValidPassword');
+    // console.log(isValidPassword, 'isValidPassword');
     if (!isValidPassword) {
       Toast.show({data: i18n.t('passwordValidFailed')});
       return;
@@ -102,7 +111,7 @@ const WalletDetails = props => {
     dispatch(
       wallet.aesDecrypt({data: currentWallet.encryptedMnemonic, password}),
     ).then(v => {
-      setPrivateKey(v);
+      setExportString(v);
       setExportVisible(true);
       setPasswordValidVisible(false);
       setPassword('');
@@ -143,6 +152,7 @@ const WalletDetails = props => {
     Clipboard.setString(v);
     Toast.show({data: i18n.t('copySuccess')});
     setExportVisible(false);
+    setExportString('');
   };
 
   /**
@@ -261,11 +271,11 @@ const WalletDetails = props => {
           <SmallText style={styles.copyWaringText}>
             {i18n.t('exportPrivateKeyWarning')}
           </SmallText>
-          <SmallText style={styles.privateKeyText}>{privateKey}</SmallText>
+          <SmallText style={styles.privateKeyText}>{exportString}</SmallText>
           <Button
             // buttonStyle={styles.button}
             title={action.current.overlayCopyTitle}
-            onPress={() => copy(privateKey)}
+            onPress={() => copy(exportString)}
           />
         </>
       </Overlay>

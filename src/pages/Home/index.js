@@ -8,7 +8,7 @@ import PasswordValid from './PasswordValid';
 import {asset} from '../../redux/actions';
 import colors from '../../helpers/colors';
 
-const Home = props => {
+const Home = () => {
   const dispatch = useDispatch();
 
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -37,6 +37,7 @@ const Home = props => {
         <RefreshControl
           refreshing={refreshing}
           onRefresh={getCurrentWalletAssets}
+          colors={[colors.theme]}
         />
       }
       keyboardShouldPersistTaps="handled"
@@ -54,7 +55,5 @@ Home.navigationOptions = nav => {
     headerShown: false,
   };
 };
-
-const styles = StyleSheet.create({});
 
 export default Home;

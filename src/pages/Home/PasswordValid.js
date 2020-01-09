@@ -7,6 +7,7 @@ import Dialog from '../../components/Dialog';
 import {Toast} from '../../components/Toast';
 import {wallet} from '../../redux/actions';
 import i18n from '../../helpers/i18n';
+import safePage from '../../helpers/safePage';
 import {eventTypes, WVEvent} from '../../helpers/eventEmmiter';
 
 const PasswordValid = props => {
@@ -122,4 +123,4 @@ const PasswordValid = props => {
 
 const styles = StyleSheet.create({});
 
-export default PasswordValid;
+export default props => safePage(PasswordValid, props);

@@ -1,18 +1,13 @@
 import React from 'react';
 import {
-  StyleSheet,
   View,
   Platform,
 } from 'react-native';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import _get from 'lodash/get';
-import {H1, H2, PrimaryText} from 'react-native-normalization-text';
 import {WebView} from 'react-native-webview';
-import {wallet} from '../../redux/actions';
 import {WVEvent, eventTypes} from '../../helpers/eventEmmiter';
 import {safeStringify, safeParse} from '../../helpers/utils/safetyFn';
 import {Toast} from '../../components/Toast';
+import i18n from '../../helpers/i18n';
 
 let callId = 0;
 // 回调池
@@ -25,10 +20,6 @@ const WalletWebView = props => {
       : {uri: 'file:///android_asset/walletBackground/index.html'};
 
   let webView = React.useRef();
-
-  // React.useEffect(() => {
-    // props.updateWebViewPost(webView.postMessage);
-  // }, [webView, props]);
 
   React.useEffect(() => {
     function callback(data) {
@@ -62,14 +53,11 @@ const WalletWebView = props => {
       if (result !== undefined && result !== null) {
         handlers[callbackId](result);
       } else {
-        Toast.show({data: '调用错误'});
+        Toast.show({data: i18n.t('error')});
         console.warn('调用错误:', data);
       }
       delete handlers[callbackId];
     }
-    // console.log(handlers, 'handlers');
-
-    // WVEvent.emitEvent(eventTypes.CREATE_WALLET, [e.nativeEvent.data]);
   };
 
   return (
@@ -90,21 +78,4 @@ const WalletWebView = props => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      updateWebViewPost: wallet.updateWebViewPost,
-    },
-    dispatch,
-  );
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(WalletWebView);
+export default WalletWebView;

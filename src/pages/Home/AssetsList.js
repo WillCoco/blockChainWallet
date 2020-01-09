@@ -7,11 +7,12 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {Divider} from 'react-native-elements';
-import {H1, H2, PrimaryText} from 'react-native-normalization-text';
+import {PrimaryText} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
 import Empty from '../../components/Empty';
 import {vw, metrics} from '../../helpers/metric';
 import colors from '../../helpers/colors';
+import safePage from '../../helpers/safePage';
 
 const AssetsList = props => {
   const {navigate} = useNavigation();
@@ -83,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AssetsList;
+export default props => safePage(AssetsList, props);

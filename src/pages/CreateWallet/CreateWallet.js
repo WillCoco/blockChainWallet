@@ -6,6 +6,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
+import _throttle from 'lodash/throttle';
 import {Button, CheckBox} from 'react-native-elements';
 import {SmallText} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
@@ -65,7 +66,7 @@ const CreateWallet = props => {
       return;
     }
 
-    if (password < 2) {
+    if (password.length < 8) {
       Toast.show({data: i18n.t('illegalPassword')});
       return;
     }
@@ -100,6 +101,10 @@ const CreateWallet = props => {
             dispatch(wallet.addOrUpdateAWallet(v));
             dispatch(wallet.updateTempMnemonic(v.tempMnemonic));
             navigate('WalletBackUpStep1');
+            setName();
+            setPassword();
+            setConfirmPassword();
+            setAgreementChecked(false);
           }
         },
       },
@@ -175,7 +180,7 @@ const CreateWallet = props => {
           iconRight
           containerStyle={styles.btnContainerStyle}
           title={i18n.t('next')}
-          onPress={onNextClick}
+          onPress={_throttle(onNextClick, 2000, {trailing: false})}
         />
       </KeyboardAvoidingView>
     </ScrollView>

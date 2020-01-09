@@ -39,6 +39,7 @@ FormRow.defaultProps = {
   containerStyle: undefined,
   keyboardType: 'default',
   editable: true,
+  secureTextEntry: false,
 };
 
 const styles = StyleSheet.create({

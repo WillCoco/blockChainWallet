@@ -15,9 +15,9 @@ import _get from 'lodash/get';
 import {useNavigation} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
 import {vh, vw} from '../../helpers/metric';
+import safePage from '../../helpers/safePage';
 import {wallet} from '../../redux/actions';
 import i18n from '../../helpers/i18n';
-import HomeContext from './HomeContext';
 
 const WalletQuickManager = props => {
   const dispatch = useDispatch();
@@ -136,7 +136,9 @@ const WalletQuickManager = props => {
   );
 };
 
-WalletQuickManager.defaultProps = {
+const SafeWalletQuickManager = props => safePage(WalletQuickManager, props);
+
+SafeWalletQuickManager.defaultProps = {
   overlayVisible: false,
   setOverlayVisible: () => undefined,
   currentWallet: undefined,
@@ -170,4 +172,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WalletQuickManager;
+export default SafeWalletQuickManager;
