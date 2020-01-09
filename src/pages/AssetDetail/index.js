@@ -43,7 +43,9 @@ const AssetDetail = props => {
     return (
       <TxRow
         {...item}
-        onPress={() => navigate({routeName: 'DealDetails', params: {txInfo: item}})}
+        onPress={() =>
+          navigate({routeName: 'DealDetails', params: {txInfo: item}})
+        }
       />
     );
   };

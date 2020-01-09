@@ -26,6 +26,8 @@ const TxRow = props => {
     ? 'subdirectory-arrow-left'
     : 'subdirectory-arrow-right';
 
+  const isOk = props.tyname === 'ExecOk';
+
   const color = isOut ? colors.success : colors.theme;
 
   return (
@@ -33,7 +35,13 @@ const TxRow = props => {
       onPress={props.onPress}
       style={StyleSheet.flatten([styles.wrapper, props.style])}>
       <View style={styles.left}>
-        <Icon color={color} containerStyle={styles.icon} name={iconName} />
+        <View style={styles.iconsWrapper}>
+          {isOk ? (
+            <Icon color={color} name={iconName} />
+          ) : (
+            <Icon name="error" color={colors.warn} size={18} />
+          )}
+        </View>
         <View>
           <PrimaryText>{shorten(props.txid)}</PrimaryText>
           <SmallText>
@@ -67,8 +75,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: vw(4),
     paddingVertical: vw(2),
   },
-  icon: {
-    marginRight: vw(4),
+  iconsWrapper: {
+    width: vw(10),
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingRight: vw(4),
   },
   left: {
     flexDirection: 'row',

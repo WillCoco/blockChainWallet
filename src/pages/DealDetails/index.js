@@ -48,6 +48,11 @@ const DealDetails = () => {
    */
   const sign = tx.direction === 'out' ? '-' : '+';
 
+  /**
+   * 成功失败
+   */
+  const isOk = tx.tyname === 'ExecOk';
+
   return (
     <LinearGradient
       style={styles.page}
@@ -61,13 +66,20 @@ const DealDetails = () => {
       <ScrollView>
         <View style={styles.wrapper}>
           <View style={styles.dealType}>
-            <Icon
-              type="antdesign"
-              name="checkcircle"
-              color={colors.success}
-              size={40}
-            />
+            {isOk ? (
+              <Icon
+                type="antdesign"
+                name="checkcircle"
+                color={colors.success}
+                size={40}
+              />
+            ) : (
+              <Icon name="error" color={colors.warn} size={48} />
+            )}
             <PrimaryText style={{marginTop: metrics.spaceS}}>
+              {isOk ? i18n.t('succeed') : i18n.t('failed')}
+            </PrimaryText>
+            <PrimaryText>
               {tx.day} {tx.time}
             </PrimaryText>
           </View>
@@ -144,7 +156,7 @@ const DealDetails = () => {
           </View>
         </View>
         <PrimaryText style={styles.link} onPress={onPressLink}>
-          前往UTC Park 查询更详细信息>
+          {i18n.t('goExplorer')}
         </PrimaryText>
       </ScrollView>
     </LinearGradient>
@@ -191,6 +203,7 @@ const styles = StyleSheet.create({
   },
   itemLeft: {
     flex: 1.5,
+    minWidth: 24,
     color: colors.textSecondary,
   },
   itemRight: {

@@ -7,6 +7,7 @@ import Dashboard from './Dashboard';
 import PasswordValid from './PasswordValid';
 import {asset} from '../../redux/actions';
 import colors from '../../helpers/colors';
+import Poller from '../../helpers/utils/poller';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -16,10 +17,20 @@ const Home = () => {
   // 请求状态
   const [refreshing, setRefreshingStatus] = React.useState(false);
 
-  // 切到home时，获取一次资产
+  /**
+   * 切到home时，轮询资产
+   */
   useFocusEffect(
     React.useCallback(() => {
-      getCurrentWalletAssets();
+      const assetsPoller = new Poller({
+        interval: 10 * 1000,
+        callback: getCurrentWalletAssets,
+      });
+
+      assetsPoller.start();
+      return () => {
+        assetsPoller.stop();
+      };
     }, []),
   );
 

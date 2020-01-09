@@ -120,4 +120,7 @@ export default {
   pressToBack: 'Press me to back',
   goWebsite: 'Website',
   notEnoughAmount: 'Not enough amount',
+  goExplorer: 'Go UTCPark for more transaction info>',
+  succeed: 'Succeed',
+  failed: 'Failed',
 };

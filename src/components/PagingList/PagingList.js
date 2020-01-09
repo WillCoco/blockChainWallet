@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {Icon, Divider} from 'react-native-elements';
 import {PrimaryText} from 'react-native-normalization-text';
-import {useIsFocused, useNavigation} from 'react-navigation-hooks';
+import {useFocusEffect} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import colors from '../../helpers/colors';
 import {vw} from '../../helpers/metric';
@@ -21,8 +21,6 @@ const PagingList = props => {
   const [empty, setEmpty] = React.useState(false);
   const [noMore, setNoMore] = React.useState();
 
-  const isFocused = useIsFocused();
-  const {state} = useNavigation();
 
   /**
    * 加载时候 获取一次数据
@@ -33,11 +31,11 @@ const PagingList = props => {
   //   }
   // }, []);
 
-  React.useEffect(() => {
-    if (isFocused) {
+  useFocusEffect(
+    React.useCallback(() => {
       onRefresh();
-    }
-  }, [state.routeName, isFocused]);
+    }, []),
+  );
 
   /**
    * 分页
