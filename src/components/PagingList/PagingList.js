@@ -178,7 +178,7 @@ const PagingList = props => {
       setNoMore(true);
     } else {
       setListData(listData => {
-        console.log(result, 'r.result')
+        console.log(result, 'r.result');
         return [...listData, ...result];
       });
     }
