@@ -116,4 +116,6 @@ export default {
   importFailed: 'Import Failed',
   selectBlock: 'Select Block',
   selectToken: 'Select Token',
+  pageError: 'Sorry! Some error occurred',
+  pressToBack: 'Press me to back',
 };

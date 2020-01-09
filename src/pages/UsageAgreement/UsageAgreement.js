@@ -12,7 +12,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
-import {SmallText, PrimaryText, H4, H3} from 'react-native-normalization-text';
+import {PrimaryText, H3} from 'react-native-normalization-text';
 import agreement from './agreement';
 import {vh, vw, metrics} from '../../helpers/metric';
 
@@ -26,10 +26,16 @@ export default () => {
               {item.titlePrimary && (
                 <H3 style={styles.title}>{item.titlePrimary}</H3>
               )}
-              {item.title && <PrimaryText color="title" style={styles.titleP}>{item.title}</PrimaryText>}
+              {item.title && (
+                <PrimaryText color="title" style={styles.titleP}>
+                  {item.title}
+                </PrimaryText>
+              )}
               {item.content &&
                 item.content.map((p, index) => (
-                  <PrimaryText color="secondary" key={`p_${index}`}>&emsp;&emsp;{p}</PrimaryText>
+                  <PrimaryText color="secondary" key={`p_${index}`}>
+                    &emsp;&emsp;{p}
+                  </PrimaryText>
                 ))}
             </View>
           );

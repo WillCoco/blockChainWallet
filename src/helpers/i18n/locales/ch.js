@@ -114,4 +114,6 @@ export default {
   importFailed: '导入失败',
   selectBlock: '选择区块',
   selectToken: '选择Token',
+  pageError: '抱歉，页面走丢了',
+  pressToBack: '点击这里返回',
 };

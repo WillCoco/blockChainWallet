@@ -24,7 +24,7 @@ export default () => {
       {/*<SmallText>{i18n.t('aboutInter')}</SmallText>*/}
       <ListItem
         title={i18n.t('userAgreement')}
-        containerStyle={{width: vw(90)}}
+        containerStyle={{width: vw(90), marginTop: metrics.spaceN}}
         chevron
         onPress={() => navigate('UsageAgreement')}
       />
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: vw(12),
-    marginTop: metrics.spaceL,
+    marginTop: metrics.spaceN,
     marginBottom: 8,
   },
 });

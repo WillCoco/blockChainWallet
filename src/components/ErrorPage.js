@@ -12,6 +12,7 @@ import {H1, H2, PrimaryText} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
 import {vw, vh} from '../helpers/metric';
 import colors from '../helpers/colors';
+import i18n from '../helpers/i18n';
 
 const RootError = () => {
   const {goBack} = useNavigation();
@@ -27,11 +28,11 @@ const RootError = () => {
           source={require('../images/error404.png')}
           style={styles.img}
         />
-        <PrimaryText style={styles.text}>抱歉，页面走丢了</PrimaryText>
-        <PrimaryText style={styles.link} onPress={() => goBack()}>点击这里返回</PrimaryText>
+        <PrimaryText style={styles.text}>{i18n.t('pageError')}</PrimaryText>
+        <PrimaryText style={styles.link} onPress={() => goBack()}>{i18n.t('pressToBack')}</PrimaryText>
       </View>
     </View>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
