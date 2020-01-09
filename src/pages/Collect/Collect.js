@@ -7,14 +7,15 @@ import {
   Clipboard,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import {PrimaryText, SmallText} from 'react-native-normalization-text';
-import {useSelector, useDispatch} from 'react-redux';
+import {PrimaryText} from 'react-native-normalization-text';
+import {useSelector} from 'react-redux';
 import {useNavigationParam} from 'react-navigation-hooks';
+import _get from 'lodash/get';
 import {vh, vw, metrics} from '../../helpers/metric/index';
 import colors from '../../helpers/colors/index';
 import i18n from '../../helpers/i18n/index';
 import chainInfo from '../../config/chainInfo';
-import _get from 'lodash/get';
+import {isValidNumeric} from '../../helpers/utils/numbers';
 import {Toast} from '../../components/Toast';
 
 const Collect = props => {
@@ -38,6 +39,12 @@ const Collect = props => {
     Toast.show({data: i18n.t('copySuccess')});
   };
 
+  const onChangeText = v => {
+    if (isValidNumeric(v)) {
+      setAmount(v);
+    }
+  };
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.qrCodeWrapper}>
@@ -48,12 +55,12 @@ const Collect = props => {
         />
       </View>
       <View style={styles.amountWrapper}>
-        <PrimaryText>{'Amount'}</PrimaryText>
+        <PrimaryText>{i18n.t('transferAmountPlaceholder')}:</PrimaryText>
         <TextInput
           placeholder={i18n.t('transferAmountPlaceholder')}
           style={styles.input}
           value={amount}
-          onChangeText={setAmount}
+          onChangeText={onChangeText}
           keyboardType="numeric"
         />
         <PrimaryText>{currentToken.symbol}</PrimaryText>
@@ -76,6 +83,7 @@ const styles = StyleSheet.create({
   qrCodeWrapper: {
     backgroundColor: '#fff',
     height: '44%',
+    minHeight: vh(30),
     paddingTop: '4%',
     justifyContent: 'center',
     alignItems: 'center',
@@ -89,11 +97,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: metrics.spaceL,
   },
   input: {
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth * 2,
+    borderColor: colors.dividerDark,
     flex: 1,
+    maxWidth: vw(40),
     marginHorizontal: metrics.spaceN,
     paddingBottom: 2,
-    textAlign: 'center',
+    paddingLeft: 10,
+    // textAlign: 'center',
   },
   addressWrapper: {
     flexDirection: 'row',

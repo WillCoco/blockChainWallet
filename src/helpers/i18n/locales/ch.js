@@ -121,4 +121,5 @@ export default {
   goExplorer: '前往UTC Park 查询更详细信息>',
   succeed: '成功',
   failed: '失败',
+  txErrorInfo: '错误信息',
 };

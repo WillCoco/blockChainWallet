@@ -123,4 +123,5 @@ export default {
   goExplorer: 'Go UTCPark for more transaction info>',
   succeed: 'Succeed',
   failed: 'Failed',
+  txErrorInfo: 'Error',
 };

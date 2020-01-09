@@ -14,7 +14,7 @@ import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import {metrics, vw, vh} from '../../helpers/metric';
 import {createTransaction, sendTransaction} from '../../helpers/chain33';
 import {Toast} from '../../components/Toast';
-import {wallet} from '../../redux/actions';
+import {wallet, asset} from '../../redux/actions';
 import {chainInfo} from '../../config/';
 import i18n from '../../helpers/i18n';
 import {isValidNumeric, lowerUnit} from '../../helpers/utils/numbers';
@@ -95,7 +95,7 @@ export default props => {
   /**
    * 获取当前资产余额
    */
-  const asset = useSelector(state => {
+  const currentAsset = useSelector(state => {
     const assets = _filter(
       _get(state, ['assets', 'assetsList']) || [],
       o => o.symbol === _get(defaultTransferForm, ['token', 'symbol']),
@@ -107,7 +107,10 @@ export default props => {
   /**
    * 点击下一步
    */
-  const onPressNext = () => {
+  const onPressNext = async () => {
+    // 更新一次余额
+    await dispatch(asset.getAssetByAddress());
+
     const safeTransferForm = transferForm || {};
     if (
       !safeTransferForm.address ||
@@ -123,7 +126,8 @@ export default props => {
     }
 
     // 余额不足
-    if (safeTransferForm.amount > asset.balanceFmt) {
+    if (new Bignumber(currentAsset.balanceFmt).isLessThan(safeTransferForm.amount)) {
+      Toast.show({data: i18n.t('notEnoughAmount')});
       return;
     }
 

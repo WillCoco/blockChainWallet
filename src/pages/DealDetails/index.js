@@ -95,9 +95,7 @@ const DealDetails = () => {
               </PrimaryText>
             </View>
             <View style={styles.detailsItem}>
-              <PrimaryText style={styles.itemLeft}>
-                {i18n.t('To') + ':'}
-              </PrimaryText>
+              <PrimaryText style={styles.itemLeft}>To:</PrimaryText>
               <PrimaryText
                 style={styles.itemRight}
                 onPress={() => copy(tx.receiver)}>
@@ -113,7 +111,7 @@ const DealDetails = () => {
             </View>
             <View style={styles.detailsItem}>
               <PrimaryText style={styles.itemLeft}>
-                {i18n.t('From') + ':'}
+                From:
               </PrimaryText>
               <PrimaryText
                 style={styles.itemRight}
@@ -153,6 +151,18 @@ const DealDetails = () => {
                 {tx.blockheight}
               </PrimaryText>
             </View>
+            {tx.errinfo && (
+              <View style={styles.detailsItem}>
+                <PrimaryText style={styles.itemLeft}>
+                  {i18n.t('txErrorInfo') + ':'}
+                </PrimaryText>
+                <PrimaryText
+                  style={styles.itemRight}
+                  onPress={() => copy(tx.errinfo)}>
+                  {tx.errinfo}
+                </PrimaryText>
+              </View>
+            )}
           </View>
         </View>
         <PrimaryText style={styles.link} onPress={onPressLink}>
