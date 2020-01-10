@@ -8,7 +8,9 @@ import {
 } from 'react-native';
 import {Icon, Divider} from 'react-native-elements';
 import {PrimaryText} from 'react-native-normalization-text';
-import {useFocusEffect} from 'react-navigation-hooks';
+import {useSelector} from 'react-redux';
+import {useFocusEffect, useIsFocused} from 'react-navigation-hooks';
+import _get from 'lodash/get';
 import i18n from '../../helpers/i18n';
 import colors from '../../helpers/colors';
 import {vw} from '../../helpers/metric';
@@ -20,22 +22,6 @@ const PagingList = props => {
   const [listData, setListData] = React.useState([]);
   const [empty, setEmpty] = React.useState(false);
   const [noMore, setNoMore] = React.useState();
-
-
-  /**
-   * 加载时候 获取一次数据
-   */
-  // React.useEffect(() => {
-  //   if (props.isInitGetData) {
-  //     onRefresh();
-  //   }
-  // }, []);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      onRefresh();
-    }, []),
-  );
 
   /**
    * 分页
@@ -53,10 +39,13 @@ const PagingList = props => {
     page.current = 0;
     const {result, code} = (await props.onRefresh(page, size)) || {};
     setIsRefreshing(false);
-    console.log(result, '====')
+    console.log(result, '====');
     setListData(result || []);
 
     if (result) {
+      if (result.length < size) {
+        setNoMore(true);
+      }
       setListData(result);
     } else {
       setListData([]);
@@ -85,6 +74,36 @@ const PagingList = props => {
   };
 
   /**
+   * 加载时候 获取一次数据
+   */
+  // React.useEffect(() => {
+  //   if (props.isInitGetData) {
+  //     onRefresh();
+  //   }
+  // }, []);
+
+  // 当前钱包
+  const currentWallet = useSelector(
+    state => _get(state.wallets, ['currentWallet']) || [],
+  );
+
+  // console.log(currentWallet.address, '19199119')
+
+  // console.log(123123)
+  // const isFocused = useIsFocused();
+  // console.log(isFocused, 'isFocused111')
+
+  // useFocusEffect(React.useCallback(() => {
+  //   console.log("focusedddddddddd");
+  // }, []));
+
+  useFocusEffect(
+    React.useCallback(() => {
+      onRefresh(currentWallet.address);
+    }, []),
+  );
+
+  /**
    * 列表尾部
    */
   const ListFooterComponent = () => {
@@ -96,7 +115,7 @@ const PagingList = props => {
       );
     }
 
-    if (isLoading) {
+    if (isLoading || isRefreshing) {
       return (
         <View style={styles.listFooterWrapper}>
           <ActivityIndicator style={{marginRight: 8}} />

@@ -48,6 +48,7 @@ const AppNavigator = createStackNavigator(
       screen: props => safePage(Guide, props),
       navigationOptions: ({navigation}) => ({
         headerShown: false,
+        header: null,
       }),
     },
     Login: {
@@ -141,6 +142,7 @@ const AppNavigator = createStackNavigator(
       screen: props => safePage(TransactionHistory, props),
       navigationOptions: ({navigation}) => ({
         headerShown: false,
+        header: null,
       }),
     },
     DealDetails: {
@@ -179,6 +181,7 @@ const AppNavigator = createStackNavigator(
       navigationOptions: ({navigation}) => ({
         // headerTitle: `${i18n.t('about')}`,
         headerShown: false,
+        header: null,
       }),
     },
     UsageAgreement: {
@@ -192,6 +195,7 @@ const AppNavigator = createStackNavigator(
       screen: TabsRouter,
       navigationOptions: ({navigation}) => ({
         headerShown: false,
+        // header: null,
       }),
     },
   },

@@ -72,7 +72,7 @@ const CreateWallet = props => {
     }
 
     if (password !== confirmPassword) {
-      Toast.show({data: i18n.t('mismatching')});
+      Toast.show({data: i18n.t('mismatchingPassword')});
       return;
     }
 

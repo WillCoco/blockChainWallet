@@ -6,7 +6,6 @@ import colors from '../helpers/colors';
 const defaultStyle = {
   safeView: {
     backgroundColor: colors.theme,
-    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
   },

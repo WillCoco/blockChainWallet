@@ -100,7 +100,7 @@ export default {
   emptyPassword: '请填写密码',
   emptyVerifyPassword: '请填写确认密码',
   illegalPassword: '密码至少8位',
-  unmatchPassword: '两次输入密码不一致',
+  mismatchingPassword: '两次输入密码不一致',
   disagreeAgreement: '未同意使用协议',
   scan: '扫描二维码',
   scanText: '将二维码放入框内，即可自动扫描',

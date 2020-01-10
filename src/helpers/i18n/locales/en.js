@@ -95,7 +95,7 @@ export default {
   amount: 'Amount',
   minerFee: 'Miner Fee',
   block: 'Block',
-  createAgreement1: 'I have read an agree to',
+  createAgreement1: 'I have read and agree to',
   createAgreement2: 'the agreement of usage',
   emptyWalletName: 'Enter the wallet name',
   emptyPassword: 'Enter the password',

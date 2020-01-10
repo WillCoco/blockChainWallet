@@ -14,10 +14,13 @@ let callId = 0;
 const handlers = {};
 
 const WalletWebView = props => {
+  console.log(Platform.OS, 'Platform.OS1')
   const urlPath =
     Platform.OS === 'ios'
-      ? {uri: './walletBackground.html'}
+      ? require('./index.html')
       : {uri: 'file:///android_asset/walletBackground/index.html'};
+
+  console.log(urlPath, 'urlPath');
 
   let webView = React.useRef();
 

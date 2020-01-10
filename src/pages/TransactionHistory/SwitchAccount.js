@@ -25,7 +25,9 @@ export default () => {
   // 切换钱包
   const checkWallet = address => {
     dispatch(wallet.updateCurrentWallet(address));
-    goBack();
+    requestAnimationFrame(() => {
+      goBack();
+    });
   };
 
   return walletsList.map((item, index) => {

@@ -126,7 +126,9 @@ export default props => {
     }
 
     // 余额不足
-    if (new Bignumber(currentAsset.balanceFmt).isLessThan(safeTransferForm.amount)) {
+    if (
+      new Bignumber(currentAsset.balanceFmt).isLessThan(safeTransferForm.amount)
+    ) {
       Toast.show({data: i18n.t('notEnoughAmount')});
       return;
     }
@@ -156,8 +158,9 @@ export default props => {
     const tx = await createTransaction(params);
     if (tx.result) {
       unsignedTx.current = tx.result;
-      setTxConfirmVisible(true);
-      // signTx();
+      requestAnimationFrame(() => {
+        setTxConfirmVisible(true);
+      });
     }
   };
 
@@ -211,8 +214,8 @@ export default props => {
     // 成功提示
     Toast.show({data: i18n.t('transferSuccess')});
 
-    // 清除表单
-    setTransferForm();
+    // 恢复默认表单
+    setTransferForm(defaultTransferForm);
   };
 
   return (

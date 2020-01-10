@@ -67,7 +67,7 @@ const Guide = () => {
           source={require('../../images/logo.png')}
           style={styles.logo}
         />
-        <H4 style={styles.appName}>{packageInfo.name}</H4>
+        <H4 color="primary" style={styles.appName}>{packageInfo.name}</H4>
       </View>
       {
         <Animated.View

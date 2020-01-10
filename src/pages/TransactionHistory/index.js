@@ -8,13 +8,13 @@ import {Icon} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import _get from 'lodash/get';
 import {PrimaryText} from 'react-native-normalization-text';
+import {useNavigation, useFocusEffect} from 'react-navigation-hooks';
 import {vh, vw, metrics} from '../../helpers/metric';
 import {getHistory} from '../../helpers/chain33';
 import PagingList from '../../components/PagingList';
 import NavBar from '../../components/NavBar';
 import i18n from '../../helpers/i18n';
 import colors from '../../helpers/colors';
-import {useNavigation} from 'react-navigation-hooks';
 import TxRow from '../../components/TxRow';
 
 export default () => {
@@ -22,12 +22,20 @@ export default () => {
     state => _get(state.wallets, ['currentWallet']) || [],
   );
 
+  console.log(currentWallet, 123123123);
+
   const {navigate} = useNavigation();
+
+  /**
+   * 刷新方法
+   */
+  const refresh = React.useRef();
 
   /**
    * 渲染行
    */
   const renderItem = item => {
+    console.log(2222222);
     return (
       <TxRow
         {...item}
@@ -41,13 +49,25 @@ export default () => {
   /**
    * 下拉刷新
    */
-  const onRefresh = () => {
+  let onRefresh = React.useRef(() => {
+    console.log(currentWallet, 'currentWallet.addressvvvv');
     return getHistory({
       address: currentWallet.address,
       start: 0,
       size: 14,
     });
-  };
+  });
+
+  React.useEffect(() => {
+    onRefresh.current = () => {
+      console.log(currentWallet.address, 'currentWallet.address');
+      return getHistory({
+        address: currentWallet.address,
+        start: 0,
+        size: 14,
+      });
+    };
+  }, [currentWallet]);
 
   /**
    * 加载更多
@@ -71,14 +91,14 @@ export default () => {
             color={colors.textWhite}
           />
         }
-        onRight={() => navigate('SwitchAccount')}
+        onRight={() => navigate({routeName: 'SwitchAccount', params: {onBackCallback: refresh.current}})}
       />
       <PagingList
         size={14}
         //item显示的布局
         renderItem={({item}) => renderItem(item)}
         //下拉刷新相关
-        onRefresh={onRefresh}
+        onRefresh={v => onRefresh.current(v)}
         //加载更多
         onEndReached={onEndReached}
         // ItemSeparatorComponent={separator}
