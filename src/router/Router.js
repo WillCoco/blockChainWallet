@@ -194,8 +194,8 @@ const AppNavigator = createStackNavigator(
     Main: {
       screen: TabsRouter,
       navigationOptions: ({navigation}) => ({
-        headerShown: false,
-        // header: null,
+        // headerShown: false,
+        header: null,
       }),
     },
   },

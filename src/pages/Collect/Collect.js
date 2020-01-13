@@ -10,6 +10,7 @@ import QRCode from 'react-native-qrcode-svg';
 import {PrimaryText} from 'react-native-normalization-text';
 import {useSelector} from 'react-redux';
 import {useNavigationParam} from 'react-navigation-hooks';
+import {Icon} from 'react-native-elements';
 import _get from 'lodash/get';
 import {vh, vw, metrics} from '../../helpers/metric/index';
 import colors from '../../helpers/colors/index';
@@ -55,7 +56,7 @@ const Collect = props => {
         />
       </View>
       <View style={styles.amountWrapper}>
-        <PrimaryText>{i18n.t('transferAmountPlaceholder')}:</PrimaryText>
+        <PrimaryText>{i18n.t('amount')}:</PrimaryText>
         <TextInput
           placeholder={i18n.t('transferAmountPlaceholder')}
           style={styles.input}
@@ -68,7 +69,12 @@ const Collect = props => {
       <View style={styles.addressWrapper}>
         <PrimaryText style={styles.address}>{currentWalletAddress}</PrimaryText>
         <TouchableOpacity onPress={onPressCopy}>
-          <PrimaryText>{i18n.t('copy')}</PrimaryText>
+          <Icon
+            type="material-community"
+            name="content-copy"
+            color={colors.theme}
+            size={vw(4)}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -112,6 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingVertical: metrics.spaceS,
     paddingHorizontal: metrics.spaceL,
+    alignItems: 'center',
   },
   address: {
     flex: 1,

@@ -12,6 +12,8 @@ import i18n from '../../helpers/i18n';
 // import {PrimaryText} from 'react-native-normalization-text';
 import WalletCard from './WalletCard';
 import colors from '../../helpers/colors';
+import {vh, metrics} from '../../helpers/metric';
+import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
 
 export default props => {
   const {navigate} = useNavigation();
@@ -54,7 +56,11 @@ export default props => {
           containerStyle={{flex: 1}}
           buttonStyle={StyleSheet.flatten([
             styles.button,
-            {backgroundColor: colors.success},
+            {
+              backgroundColor: colors.success,
+              paddingTop: metrics.spaceS,
+              paddingBottom: isNotchScreen() ? vh(2.5) : metrics.spaceS,
+            },
           ])}
           icon={
             <Icon
@@ -68,7 +74,13 @@ export default props => {
         />
         <Button
           containerStyle={{flex: 1}}
-          buttonStyle={styles.button}
+          buttonStyle={StyleSheet.flatten([
+            styles.button,
+            {
+              paddingTop: metrics.spaceS,
+              paddingBottom: isNotchScreen() ? vh(2.5) : metrics.spaceS,
+            },
+          ])}
           icon={
             <Icon
               name="application-import"
@@ -96,11 +108,10 @@ const styles = StyleSheet.create({
   },
   btns: {
     width: '100%',
-    height: 50,
     flexDirection: 'row',
   },
   button: {
-    flex: 1,
+    flex: -1,
     backgroundColor: colors.theme,
     borderRadius: 0,
   },

@@ -32,8 +32,10 @@ const PagingList = props => {
   /**
    * 下拉刷新
    */
-  const onRefresh = async () => {
-    setIsRefreshing(true);
+  const onRefresh = async ({withRefreshAnimation}) => {
+    if (withRefreshAnimation) {
+      setIsRefreshing(true);
+    }
     setNoMore(false);
     setEmpty(false);
     page.current = 0;
@@ -87,16 +89,6 @@ const PagingList = props => {
     state => _get(state.wallets, ['currentWallet']) || [],
   );
 
-  // console.log(currentWallet.address, '19199119')
-
-  // console.log(123123)
-  // const isFocused = useIsFocused();
-  // console.log(isFocused, 'isFocused111')
-
-  // useFocusEffect(React.useCallback(() => {
-  //   console.log("focusedddddddddd");
-  // }, []));
-
   useFocusEffect(
     React.useCallback(() => {
       onRefresh(currentWallet.address);
@@ -124,7 +116,7 @@ const PagingList = props => {
       );
     }
 
-    return <View style={styles.listFooterWrapper} />;
+    return <View style={StyleSheet.flatten([styles.listFooterWrapper, {borderTopWidth: 0}])} />;
   };
 
   /**
@@ -155,7 +147,7 @@ const PagingList = props => {
             title={'Loading'}
             colors={[colors.theme]}
             refreshing={isRefreshing}
-            onRefresh={onRefresh}
+            onRefresh={() => onRefresh({withRefreshAnimation: true})}
           />
         }
         ListFooterComponent={ListFooterComponent}

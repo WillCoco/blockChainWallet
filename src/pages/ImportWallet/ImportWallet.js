@@ -4,6 +4,8 @@ import {
   TextInput,
   StyleSheet,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {Button} from 'react-native-elements';
@@ -41,6 +43,9 @@ const ImportWallet = () => {
   // 备注
   const [prompt, setPrompt] = React.useState();
 
+  /**
+   * 点击下一步
+   */
   const onButtonPress = () => {
     // console.log(mnemonicInput, 'mnemonicInput');
     // console.log(name, 'name');
@@ -63,6 +68,14 @@ const ImportWallet = () => {
     }
 
     submit();
+  };
+
+  /**
+   * 聚焦input
+   */
+  let input = React.useRef();
+  const focus = () => {
+    input && input.focus();
   };
 
   const submit = async () => {
@@ -103,15 +116,29 @@ const ImportWallet = () => {
   return (
     <ScrollView style={styles.wrapper}>
       <KeyboardAvoidingView style={{flex: 1}}>
-        <TextInput
-          multiline
-          numberOfLines={4}
-          placeholder={i18n.t('mnemonicInputPlaceholder')}
-          value={mnemonicInput}
-          onChangeText={setMnemonicInput}
-          style={styles.mnemonicInputWrapper}
-          inputStyle={{paddingLeft: '45%'}}
-         />
+        <TouchableWithoutFeedback onPress={focus}>
+          <View style={styles.mnemonicInputWrapper}>
+            <TextInput
+              ref={v => (input = v)}
+              multiline
+              numberOfLines={4}
+              placeholder={i18n.t('mnemonicInputPlaceholder')}
+              value={mnemonicInput}
+              onChangeText={setMnemonicInput}
+              style={styles.mnemonicInput}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+
+        {/*<TextInput*/}
+          {/*multiline*/}
+          {/*numberOfLines={4}*/}
+          {/*placeholder={i18n.t('mnemonicInputPlaceholder')}*/}
+          {/*value={mnemonicInput}*/}
+          {/*onChangeText={setMnemonicInput}*/}
+          {/*style={styles.mnemonicInputWrapper}*/}
+          {/*textAlignVertical="middle"*/}
+         {/*/>*/}
         <FormRow
           title={i18n.t('createWalletName')}
           placeholder={i18n.t('createWalletNamePlaceholder')}
@@ -174,10 +201,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: metrics.spaceS,
     margin: metrics.spaceS,
     height: '20%',
-    fontSize: scale(14),
     minHeight: 120,
-    lineHeight: scale(20),
+    justifyContent: 'center',
     backgroundColor: colors.pageBackground,
+  },
+  mnemonicInput: {
+    fontSize: scale(14),
+    lineHeight: scale(20),
   },
 });
 

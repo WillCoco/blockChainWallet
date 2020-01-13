@@ -4,14 +4,15 @@ import {useSelector} from 'react-redux';
 import _findIndex from 'lodash/findIndex';
 import _get from 'lodash/get';
 import {Button, Icon} from 'react-native-elements';
-import {H1, H2, H3, H4, PrimaryText} from 'react-native-normalization-text';
+import {H2, H4} from 'react-native-normalization-text';
 import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
-import {metrics, vw} from '../../helpers/metric';
+import {metrics, vw, vh} from '../../helpers/metric';
 import i18n from '../../helpers/i18n';
 import PagingList from '../../components/PagingList';
 import TxRow from '../../components/TxRow';
 import {getHistory} from '../../helpers/chain33';
+import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
 import {chainInfo} from '../../config';
 
 const AssetDetail = props => {
@@ -145,8 +146,10 @@ const styles = StyleSheet.create({
   },
   leftButtonStyle: {
     borderRadius: 0,
+    // minHeight: vw(12),
     backgroundColor: colors.success,
-    height: vw(12),
+    paddingTop: metrics.spaceS,
+    paddingBottom: isNotchScreen() ? vh(2.5) : metrics.spaceS,
   },
   rightBtnContainerStyle: {
     flex: 1,
@@ -155,8 +158,10 @@ const styles = StyleSheet.create({
   },
   rightButtonStyle: {
     borderRadius: 0,
-    height: vw(12),
+    // minHeight: vw(12),
     backgroundColor: colors.theme,
+    paddingTop: metrics.spaceS,
+    paddingBottom: isNotchScreen() ? vh(2.5) : metrics.spaceS,
   },
   buttonsWrapper: {
     flexDirection: 'row',

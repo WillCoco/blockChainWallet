@@ -26,6 +26,7 @@ const Guide = () => {
   );
   React.useEffect(() => {
     if (language && language.toLowerCase) {
+      console.log(language, 'language');
       i18n.changeLanguage(language);
     }
   }, [language]);

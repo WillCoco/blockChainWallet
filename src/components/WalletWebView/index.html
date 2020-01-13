@@ -68428,9 +68428,9 @@
    * 监听RN webview 发送到 html5 的消息
    */
   var u = navigator.userAgent, app = navigator.appVersion;
-  document.write(u.match('iPhone'))
+  var Global = u.match('iPhone') ? window : document;
   window.onload = function () {
-    window.addEventListener("message", function (msg) {
+    Global.addEventListener("message", function (msg) {
       var data = safeParse(msg && msg.data) || {};
       var payloadAction = data.action;
 

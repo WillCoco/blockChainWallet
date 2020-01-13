@@ -1,5 +1,13 @@
 import React from 'react';
-import {StyleSheet, RefreshControl, ScrollView, StatusBar} from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  RefreshControl,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Platform,
+} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {useFocusEffect} from 'react-navigation-hooks';
 import AssetsList from './AssetsList';
@@ -7,6 +15,7 @@ import Dashboard from './Dashboard';
 import PasswordValid from './PasswordValid';
 import {asset} from '../../redux/actions';
 import colors from '../../helpers/colors';
+import {vh} from '../../helpers/metric';
 import Poller from '../../helpers/utils/poller';
 
 const Home = () => {
@@ -43,21 +52,27 @@ const Home = () => {
   };
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={getCurrentWalletAssets}
-          colors={[colors.theme]}
-        />
-      }
-      keyboardShouldPersistTaps="handled"
-      stickyHeaderIndices={[0]}>
-      <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
-      <Dashboard isLoaded={isLoaded} />
-      <AssetsList isLoaded={isLoaded} />
-      <PasswordValid />
-    </ScrollView>
+    <SafeAreaView style={styles.wrapper}>
+      {/*<View style={styles.bg} />*/}
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={getCurrentWalletAssets}
+            colors={[colors.theme]}
+            tintColor="#fff"
+          />
+        }
+        keyboardShouldPersistTaps="handled"
+        stickyHeaderIndices={[1]}
+        style={styles.scroll}
+        /*contentContainerStyle={{backgroundColor: colors.theme}}*/>
+        <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
+        <Dashboard isLoaded={isLoaded} />
+        <AssetsList isLoaded={isLoaded} />
+        <PasswordValid />
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -66,5 +81,28 @@ Home.navigationOptions = nav => {
     headerShown: false,
   };
 };
+
+const styles = StyleSheet.create({
+  // safearea颜色
+  wrapper: {
+    flex: 1,
+    backgroundColor: colors.theme,
+  },
+  scroll: Platform.select({
+    // android差异
+    android: {
+      backgroundColor: '#fff',
+    },
+  }),
+  bg: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: vh(24),
+    width: '100%',
+    backgroundColor: colors.theme,
+  },
+});
 
 export default Home;

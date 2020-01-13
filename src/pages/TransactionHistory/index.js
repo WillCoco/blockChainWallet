@@ -22,8 +22,6 @@ export default () => {
     state => _get(state.wallets, ['currentWallet']) || [],
   );
 
-  console.log(currentWallet, 123123123);
-
   const {navigate} = useNavigation();
 
   /**
@@ -35,7 +33,6 @@ export default () => {
    * 渲染行
    */
   const renderItem = item => {
-    console.log(2222222);
     return (
       <TxRow
         {...item}
@@ -91,7 +88,12 @@ export default () => {
             color={colors.textWhite}
           />
         }
-        onRight={() => navigate({routeName: 'SwitchAccount', params: {onBackCallback: refresh.current}})}
+        onRight={() =>
+          navigate({
+            routeName: 'SwitchAccount',
+            params: {onBackCallback: refresh.current},
+          })
+        }
       />
       <PagingList
         size={14}

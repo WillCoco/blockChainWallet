@@ -10,10 +10,10 @@ import {
   UPDATE_LANGUAGE,
   UPDATE_IS_SHOW_ASSETS,
 } from '../actions/actionTypes';
-import i18n from '../../helpers/i18n';
+// import i18n from '../../helpers/i18n';
 
 const initialState = {
-  language: i18n.language,
+  language: 'ch',
   isShowAssets: true, // 是否显示资产值
 };
 

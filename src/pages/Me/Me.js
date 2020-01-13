@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, SafeAreaView} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useNavigation} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
@@ -46,26 +46,31 @@ const Me = () => {
   useSelector(state => _get(state, ['appSetting', 'language']));
 
   return (
-    <View style={styles.wrapper}>
-      {menuList.map((item, i) => (
-        <ListItem
-          key={i}
-          title={i18n.t(item.title)}
-          leftIcon={{name: item.icon, color: item.color}}
-          bottomDivider={i === 2 || i === 0 || i === 3}
-          chevron
-          style={(i === 2 || i === 0) && {marginTop: vh(1.5)}}
-          onPress={() => navigate(item.route)}
-          containerStyle={{borderColor: colors.divider}}
-        />
-      ))}
-    </View>
+    <SafeAreaView style={styles.wrapper}>
+      <View style={styles.contentWrapper}>
+        {menuList.map((item, i) => (
+          <ListItem
+            key={i}
+            title={i18n.t(item.title)}
+            leftIcon={{name: item.icon, color: item.color}}
+            bottomDivider={i === 2 || i === 0 || i === 3}
+            chevron
+            style={(i === 2 || i === 0) && {marginTop: vh(1.5)}}
+            onPress={() => navigate(item.route)}
+            containerStyle={{borderColor: colors.divider}}
+          />
+        ))}
+      </View>
+    </SafeAreaView>
   );
 };
 
 export default Me;
 const styles = StyleSheet.create({
   wrapper: {
+    backgroundColor: colors.theme,
+  },
+  contentWrapper: {
     backgroundColor: colors.pageBackground,
   },
 });
