@@ -1,0 +1,8 @@
+/* 
+  InfoPlist.strings
+  basicApp
+
+  Created by apple on 2020/1/14.
+  Copyright © 2020 Facebook. All rights reserved.
+*/
+PRIVACY_CAMERA="We need use camera to scan";

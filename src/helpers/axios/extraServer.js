@@ -37,6 +37,7 @@ extraServer.interceptors.request.use(config => {
 extraServer.interceptors.response.use(
   (res = {}) => {
     const {url} = res.config || {};
+    console.log(res, 'ressss')
     // const list = _filter(responseIgnoreList, (u) => url.match(u)) || [];
     // if (list.length !== 0) {
     //   return res;
@@ -46,12 +47,6 @@ extraServer.interceptors.response.use(
     const {status, data, error} = res || {};
 
     // console.log(res, 112222333)
-
-
-    // 非200的显示服务器返回错误码
-    // if (code !== 200) {
-      // todo toast
-    // }
 
     // console.log(_get(res, 'data'), '_get(res, \'data\')')
 
@@ -69,6 +64,8 @@ extraServer.interceptors.response.use(
     if (String(err).match('Network Error')) {
       Toast.show({data: i18n.t('networkErr')});
     }
+
+    console.log(err, 'extraServer err');
     return Promise.resolve(err);
   },
 );

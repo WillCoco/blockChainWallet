@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     // borderColor: 'transparent',
-    // borderBottomWidth: 1,
+    // borderWidth: 1,
   },
   emptyText: {
     textAlign: 'center',
@@ -48,7 +48,8 @@ const styles = StyleSheet.create({
     width: vw(50),
     height: vw(50),
     marginTop: 100,
-    justifyContent: 'flex-end',
+    // justifyContent: 'flex-end',
+    // borderWidth: 1,
   },
 });
 

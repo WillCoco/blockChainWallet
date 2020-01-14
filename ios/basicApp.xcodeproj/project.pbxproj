@@ -12,6 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		18FB7C1923CD903200061A97 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18FB7C1B23CD903200061A97 /* InfoPlist.strings */; };
 		2081593C4D3D4A29A5D4819B /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD923A4EE35843DFBA935036 /* Ionicons.ttf */; };
 		24C2FE71156F579ED1FECB57 /* libPods-basicApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C4D34E0686BF9672902CD65 /* libPods-basicApp-tvOS.a */; };
 		2A3C58CCF1C9497DB9FFE1D9 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0EBFC6D5BD524262B0D17A35 /* SimpleLineIcons.ttf */; };
@@ -65,8 +66,10 @@
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = basicApp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = basicApp/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = basicApp/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = basicApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = basicApp/main.m; sourceTree = "<group>"; };
+		18FB7C1223CD72EB00061A97 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = en.lproj/Info.plist; sourceTree = "<group>"; };
+		18FB7C1A23CD903200061A97 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		18FB7C1C23CD904100061A97 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		1DEE81645095E1755F215C75 /* libPods-basicApp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-basicApp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23396052F2CF4D5184DBCF89 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* basicApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "basicApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,7 +162,8 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				13B07FB61A68108700A75B9A /* Info.plist */,
+				18FB7C1323CD72EB00061A97 /* Info.plist */,
+				18FB7C1B23CD903200061A97 /* InfoPlist.strings */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = basicApp;
@@ -367,6 +371,7 @@
 			knownRegions = (
 				English,
 				en,
+				"zh-Hans",
 				Base,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
@@ -401,6 +406,7 @@
 				BDDDEAC57331410DBC745959 /* Feather.ttf in Resources */,
 				7E97553E27A24469BEB999EA /* FontAwesome.ttf in Resources */,
 				A25599E2675A47F39E8EC8CC /* FontAwesome5_Brands.ttf in Resources */,
+				18FB7C1923CD903200061A97 /* InfoPlist.strings in Resources */,
 				61C273607EEA4288BC9A6199 /* FontAwesome5_Regular.ttf in Resources */,
 				0207DE69DA7B416AA0D2072D /* FontAwesome5_Solid.ttf in Resources */,
 				68788F77F2E64605AB50E613 /* Fontisto.ttf in Resources */,
@@ -686,6 +692,27 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		18FB7C1323CD72EB00061A97 /* Info.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18FB7C1223CD72EB00061A97 /* en */,
+			);
+			name = Info.plist;
+			path = basicApp;
+			sourceTree = "<group>";
+		};
+		18FB7C1B23CD903200061A97 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18FB7C1A23CD903200061A97 /* en */,
+				18FB7C1C23CD904100061A97 /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -735,21 +762,22 @@
 			baseConfigurationReference = A44853843647806E0E5855B7 /* Pods-basicApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = ADA66625XJ;
 				INFOPLIST_FILE = basicApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.global.geavesseth;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pool.utc;
 				PRODUCT_NAME = UTCWallet;
-				PROVISIONING_PROFILE_SPECIFIER = store;
+				PROVISIONING_PROFILE_SPECIFIER = "utc-wallet-addhoc";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -762,18 +790,19 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Graves Seth (ADA66625XJ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Graves Seth (ADA66625XJ)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = ADA66625XJ;
 				INFOPLIST_FILE = basicApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pool.utc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pool.utc.test;
 				PRODUCT_NAME = UTCWallet;
-				PROVISIONING_PROFILE_SPECIFIER = "utc-wallet-addhoc";
+				PROVISIONING_PROFILE_SPECIFIER = "utc-wallet-test";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

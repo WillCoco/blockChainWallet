@@ -47,7 +47,7 @@ export default () => {
    * 下拉刷新
    */
   let onRefresh = React.useRef(() => {
-    console.log(currentWallet, 'currentWallet.addressvvvv');
+    // console.log(currentWallet, 'currentWallet.addressvvvv');
     return getHistory({
       address: currentWallet.address,
       start: 0,
@@ -57,7 +57,7 @@ export default () => {
 
   React.useEffect(() => {
     onRefresh.current = () => {
-      console.log(currentWallet.address, 'currentWallet.address');
+      // console.log(currentWallet.address, 'currentWallet.address');
       return getHistory({
         address: currentWallet.address,
         start: 0,

@@ -71,6 +71,7 @@ server.interceptors.response.use(
     if (String(err).match('Network Error')) {
       Toast.show({data: i18n.t('networkErr')});
     }
+    console.log('server error:', err);
     return Promise.resolve(err);
   },
 );

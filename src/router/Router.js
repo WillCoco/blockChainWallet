@@ -200,7 +200,7 @@ const AppNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'Guide',
+    initialRouteName: 'Main',
     defaultNavigationOptions: ({navigation}) => {
       return {
         headerTitle: `默认标题`,
