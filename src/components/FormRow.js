@@ -18,7 +18,7 @@ const FormRow = props => {
           props.containerStyle,
         ])}
       />
-      {props.value ? (
+      {props.onChangeText ? (
         <TextInput
           keyboardType={props.keyboardType}
           placeholder={props.placeholder}
@@ -37,7 +37,7 @@ const FormRow = props => {
 
 FormRow.defaultProps = {
   value: '',
-  onChangeText: () => undefined,
+  onChangeText: undefined,
   containerStyle: undefined,
   keyboardType: 'default',
   editable: true,

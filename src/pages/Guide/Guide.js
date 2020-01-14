@@ -42,6 +42,34 @@ const Guide = () => {
   const [btnsAnim] = React.useState(new Animated.Value(0));
 
   /**
+   * 开始动画
+   */
+  const startAnim = () => {
+    Animated.timing(
+      // timing方法使动画值随时间变化
+      btnsAnim, // 要变化的动画值
+      {
+        toValue: 1, // 最终的动画值
+        duration: 500,
+      },
+    ).start();
+  };
+
+  /**
+   * 复原动画
+   */
+  const recoverAnim = () => {
+    Animated.timing(
+      // timing方法使动画值随时间变化
+      btnsAnim, // 要变化的动画值
+      {
+        toValue: 0, // 最终的动画值
+        duration: 500,
+      },
+    ).start();
+  };
+
+  /**
    * 根据是都有钱包导航分流
    */
   React.useEffect(() => {
@@ -51,15 +79,7 @@ const Guide = () => {
         replace('Main');
       }, 1000);
     } else {
-      // 无钱包，显示按钮
-      Animated.timing(
-        // timing方法使动画值随时间变化
-        btnsAnim, // 要变化的动画值
-        {
-          toValue: 1, // 最终的动画值
-          duration: 500,
-        },
-      ).start();
+      startAnim();
     }
   });
 
@@ -87,13 +107,17 @@ const Guide = () => {
           <Button
             containerStyle={styles.createBtnStyle}
             title={i18n.t('createWallet')}
-            onPress={() => navigate('CreateWallet')}
+            onPress={() => {
+              navigate('CreateWallet');
+            }}
           />
           <Button
             type="outline"
             containerStyle={styles.importBtnStyle}
             title={i18n.t('importWallet')}
-            onPress={() => navigate('ImportWallet')}
+            onPress={() => {
+              navigate('ImportWallet');
+            }}
           />
         </Animated.View>
       }

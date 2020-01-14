@@ -800,9 +800,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pool.utc.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pool.utc;
 				PRODUCT_NAME = UTCWallet;
-				PROVISIONING_PROFILE_SPECIFIER = "utc-wallet-test";
+				PROVISIONING_PROFILE_SPECIFIER = "utc-wallet-addhoc";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

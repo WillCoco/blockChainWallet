@@ -45,7 +45,6 @@ const Home = () => {
 
   // 获取资产
   const getCurrentWalletAssets = async () => {
-    setIsLoaded(false);
     await dispatch(asset.getAssetByAddress());
     setRefreshingStatus(false);
     setIsLoaded(true);
@@ -53,24 +52,26 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      {/*<View style={styles.bg} />*/}
-      <ScrollView
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={getCurrentWalletAssets}
-            colors={[colors.theme]}
-            tintColor="#fff"
-          />
-        }
-        keyboardShouldPersistTaps="handled"
-        stickyHeaderIndices={[1]}
-        style={styles.scroll}>
+      <View style={{flex: 1, backgroundColor: '#fff'}}>
         <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
         <Dashboard isLoaded={isLoaded} />
-        <AssetsList isLoaded={isLoaded} />
-        <PasswordValid />
-      </ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={getCurrentWalletAssets}
+              colors={[colors.theme]}
+              tintColor={colors.theme}
+            />
+          }
+          keyboardShouldPersistTaps="handled"
+          // stickyHeaderIndices={[1]}
+          style={styles.scroll}
+          contentContainerStyle={{backgroundColor: '#fff'}}>
+          <AssetsList isLoaded={isLoaded} />
+          <PasswordValid />
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -88,20 +89,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.theme,
   },
   scroll: Platform.select({
+    flex: 1,
+    backgroundColor: '#fff',
     // android差异
-    android: {
-      backgroundColor: '#fff',
-    },
+    // android: {
+    //   backgroundColor: '#fff',
+    // },
   }),
-  bg: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: vh(24),
-    width: '100%',
-    backgroundColor: colors.theme,
-  },
 });
 
 export default Home;

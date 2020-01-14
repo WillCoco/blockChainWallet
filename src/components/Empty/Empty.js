@@ -17,7 +17,11 @@ const emptyImg = require('../../images/empty.png');
 const Empty = props => {
   return (
     <View style={StyleSheet.flatten([styles.wrapper, props.style])}>
-      <ImageBackground source={emptyImg} style={styles.emptyImg}>
+      <ImageBackground
+        source={emptyImg}
+        style={styles.imgWrapper}
+        imageStyle={styles.img}
+      >
         <PrimaryText
           color="secondary"
           style={StyleSheet.flatten([styles.emptyText, props.titleStyle])}>
@@ -36,20 +40,27 @@ Empty.defaultProps = {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    // borderColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
-    // borderColor: 'transparent',
-    // borderWidth: 1,
   },
   emptyText: {
     textAlign: 'center',
   },
-  emptyImg: {
+  imgWrapper: {
     width: vw(50),
     height: vw(50),
-    marginTop: 100,
-    // justifyContent: 'flex-end',
-    // borderWidth: 1,
+    alignItems: 'center',
+    // width: vw(50),
+    // height: vw(50),
+    // marginTop: 100,
+    justifyContent: 'flex-end',
+  },
+  img: {
+    width: vw(50),
+    height: vw(50),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

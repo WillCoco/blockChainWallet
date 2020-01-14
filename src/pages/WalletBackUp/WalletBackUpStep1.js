@@ -17,7 +17,7 @@ const WalletBackUpStep1 = props => {
 
   return (
     <View styles={styles.wrapper}>
-      <H4 style={styles.textLine1}>{i18n.t('backupTips')}</H4>
+      <H4 style={styles.textLine1}>{i18n.t('backupTipsTitle')}</H4>
       <PrimaryText style={styles.textLine2}>{i18n.t('backupTips')}</PrimaryText>
       <PrimaryText style={styles.title}>
         {i18n.t('backupMnemonicTitle')}
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   title: {
     marginHorizontal: metrics.spaceL,
-    marginTop: metrics.spaceS,
+    marginTop: metrics.spaceL,
     color: colors.textBlack,
   },
   contentSave: {

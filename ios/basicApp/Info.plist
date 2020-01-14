@@ -43,7 +43,7 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRIVACY_CAMERA)</string>
+	<string>若不同意,将无法扫描二维码</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
