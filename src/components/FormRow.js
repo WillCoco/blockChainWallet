@@ -18,17 +18,19 @@ const FormRow = props => {
           props.containerStyle,
         ])}
       />
-      <TextInput
-        keyboardType={props.keyboardType}
-        placeholder={props.placeholder}
-        style={StyleSheet.flatten([styles.input, props.inputStyle])}
-        value={props.value}
-        onChangeText={props.onChangeText}
-        editable={props.editable}
-        maxLength={props.maxLength}
-        autoFocus={props.autoFocus}
-        secureTextEntry={props.secureTextEntry}
-      />
+      {props.value ? (
+        <TextInput
+          keyboardType={props.keyboardType}
+          placeholder={props.placeholder}
+          style={StyleSheet.flatten([styles.input, props.inputStyle])}
+          value={props.value}
+          onChangeText={props.onChangeText}
+          editable={props.editable}
+          maxLength={props.maxLength}
+          autoFocus={props.autoFocus}
+          secureTextEntry={props.secureTextEntry}
+        />
+      ) : null}
     </View>
   );
 };

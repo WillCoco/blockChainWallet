@@ -7,7 +7,7 @@
  * @lastModificationDate:
  */
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import Dialog from 'react-native-dialog';
 import {vw} from '../../helpers/metric/index';
 import i18n from '../../helpers/i18n/index';
@@ -84,9 +84,11 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   inputStyle: {},
-  inputWrapperStyle: {
-    marginBottom: 0,
-  },
+  inputWrapperStyle: Platform.select({
+    android: {
+      marginBottom: 0,
+    },
+  }),
 });
 
 export default PasswordPrompt;

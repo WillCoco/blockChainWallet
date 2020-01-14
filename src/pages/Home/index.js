@@ -65,8 +65,7 @@ const Home = () => {
         }
         keyboardShouldPersistTaps="handled"
         stickyHeaderIndices={[1]}
-        style={styles.scroll}
-        /*contentContainerStyle={{backgroundColor: colors.theme}}*/>
+        style={styles.scroll}>
         <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
         <Dashboard isLoaded={isLoaded} />
         <AssetsList isLoaded={isLoaded} />

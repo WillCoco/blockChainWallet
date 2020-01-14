@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Image,
+  Platform,
 } from 'react-native';
 import {Toast} from '../../components/Toast/index';
 import {H1, H2, H3, H4, PrimaryText} from 'react-native-normalization-text';
@@ -18,6 +19,7 @@ import {vh, vw} from '../../helpers/metric';
 import safePage from '../../helpers/safePage';
 import {wallet} from '../../redux/actions';
 import i18n from '../../helpers/i18n';
+import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
 
 const WalletQuickManager = props => {
   const dispatch = useDispatch();
@@ -69,20 +71,36 @@ const WalletQuickManager = props => {
       <View style={styles.headerWrapper}>
         <TouchableOpacity
           onPress={openOverlay}
-          onLayout={event => setTop(event.nativeEvent.layout.height)}
+          onLayout={event => {
+            // 普通android
+            let topDistance = event.nativeEvent.layout.height;
+            if (isNotchScreen()) {
+              // 刘海屏
+              topDistance += 44;
+            } else if (Platform.OS === 'ios') {
+              // 无刘海ios
+              topDistance += 20;
+            }
+
+            setTop(topDistance);
+          }}
           style={styles.checkedWallet}>
-          <Icon name="wallet-outline" type='material-community' color={colors.textWhite}/>
-          <PrimaryText color="white"  style={{marginLeft: 8}}>
+          <Icon
+            name="wallet-outline"
+            type="material-community"
+            color={colors.textWhite}
+          />
+          <PrimaryText color="white" style={{marginLeft: 8}}>
             {props.walletFormat(currentWallet) || i18n.t('noSelectedWallet')}
           </PrimaryText>
-          {
-            props.overlayVisible 
-            && <Icon name='arrow-drop-up'  color={colors.textWhite}/>
-            || <Icon name='arrow-drop-down' color={colors.textWhite}/>
-          }
+          {props.overlayVisible ? (
+            <Icon name="arrow-drop-up" color={colors.textWhite} />
+          ) : (
+            <Icon name="arrow-drop-down" color={colors.textWhite} />
+          )}
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Icon name="scan1" type='antdesign' color={colors.textWhite} onPress={goScanPage}/>
+        <TouchableOpacity onPress={goScanPage}>
+          <Icon name="scan1" type="antdesign" color={colors.textWhite} />
         </TouchableOpacity>
       </View>
       <Overlay
