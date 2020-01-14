@@ -18,7 +18,7 @@ const FormRow = props => {
           props.containerStyle,
         ])}
       />
-      {props.onChangeText ? (
+      {props.onChangeText || props.value ?(
         <TextInput
           keyboardType={props.keyboardType}
           placeholder={props.placeholder}
