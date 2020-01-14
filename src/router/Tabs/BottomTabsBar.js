@@ -10,6 +10,9 @@ import i18n from '../../helpers/i18n';
 const TabBarComponent = props => {
   const {index: tabIndex} = props.navigation.state;
   const {activeTintColor, inactiveTintColor} = props;
+
+  
+
   return (
     <BottomTabBar
       {...props}
