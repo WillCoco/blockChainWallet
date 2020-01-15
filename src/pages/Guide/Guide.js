@@ -28,7 +28,7 @@ const Guide = () => {
 
   React.useEffect(() => {
     SplashScreen.hide(); // 隐藏启动图
-  });
+  }, []);
 
   /**
    * 同步语言
