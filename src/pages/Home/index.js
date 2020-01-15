@@ -8,8 +8,9 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useFocusEffect} from 'react-navigation-hooks';
+import _get from 'lodash/get';
 import AssetsList from './AssetsList';
 import Dashboard from './Dashboard';
 import PasswordValid from './PasswordValid';
@@ -20,6 +21,10 @@ import Poller from '../../helpers/utils/poller';
 
 const Home = () => {
   const dispatch = useDispatch();
+
+  useSelector(state =>
+    _get(state, ['appSetting', 'language']),
+  );
 
   const [isLoaded, setIsLoaded] = React.useState(false);
 
