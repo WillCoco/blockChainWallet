@@ -9,8 +9,9 @@ import {
   Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {useFocusEffect} from 'react-navigation-hooks';
+import {useFocusEffect, useNavigation, useIsFocused} from 'react-navigation-hooks';
 import _get from 'lodash/get';
+import SplashScreen from 'react-native-splash-screen';
 import AssetsList from './AssetsList';
 import Dashboard from './Dashboard';
 import PasswordValid from './PasswordValid';
@@ -22,6 +23,8 @@ import Poller from '../../helpers/utils/poller';
 const Home = () => {
   const dispatch = useDispatch();
 
+  const {navigate, replace} = useNavigation();
+
   useSelector(state =>
     _get(state, ['appSetting', 'language']),
   );
@@ -30,6 +33,27 @@ const Home = () => {
 
   // 请求状态
   const [refreshing, setRefreshingStatus] = React.useState(false);
+
+  /**
+   * 第一次进入
+   */
+  React.useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
+  /**
+   * 根据是都有钱包导航分流
+   */
+  const isFocused = useIsFocused();
+  // 钱包列表
+  const walletsList =
+    useSelector(state => _get(state, ['wallets', 'walletsList'])) || [];
+  React.useEffect(() => {
+    if (isFocused && walletsList.length === 0) {
+      // 无钱包，进入引导
+      replace('Guide');
+    }
+  });
 
   /**
    * 切到home时，轮询资产

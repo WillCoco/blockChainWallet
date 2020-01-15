@@ -14,7 +14,7 @@ import _get from 'lodash/get';
 import {useNavigation, useIsFocused} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import {metrics, vw} from '../../helpers/metric';
-import SplashScreen from 'react-native-splash-screen';
+// import SplashScreen from 'react-native-splash-screen';
 import packageInfo from '../../../package.json';
 
 const Guide = () => {
@@ -26,9 +26,9 @@ const Guide = () => {
 
   const isFocused = useIsFocused();
 
-  React.useEffect(() => {
-    SplashScreen.hide(); // 隐藏启动图
-  }, []);
+  // React.useEffect(() => {
+  //   SplashScreen.hide(); // 隐藏启动图
+  // }, []);
 
   /**
    * 同步语言

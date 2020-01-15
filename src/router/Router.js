@@ -49,7 +49,6 @@ const AppNavigator = createStackNavigator(
       navigationOptions: ({navigation}) => ({
         headerShown: false,
         header: null,
-        animationEnabled: false,
       }),
     },
     Login: {
@@ -201,7 +200,7 @@ const AppNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'Guide',
+    initialRouteName: 'Main',
     defaultNavigationOptions: ({navigation}) => {
       return {
         headerTitle: `默认标题`,
