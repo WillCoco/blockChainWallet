@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   View,
+  ScrollView,
   Text,
   StyleSheet,
 } from 'react-native';
@@ -219,7 +220,7 @@ export default props => {
   };
 
   return (
-    <View style={styles.wrapper}>
+    <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="handled">
       <FormRow
         title={i18n.t('transferToken')}
         chevron={{size: 24}}
@@ -286,7 +287,7 @@ export default props => {
         onOKPress={signTx}
         secureTextEntry={true}
       />
-    </View>
+    </ScrollView>
   );
 };
 

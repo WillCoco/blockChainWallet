@@ -115,7 +115,7 @@ const ImportWallet = () => {
   };
 
   return (
-    <ScrollView keyboardShouldPersistTaps="always" style={styles.wrapper}>
+    <ScrollView keyboardShouldPersistTaps="handled" style={styles.wrapper}>
       <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
       <KeyboardAvoidingView style={{flex: 1}}>
         <TouchableWithoutFeedback onPress={focus}>

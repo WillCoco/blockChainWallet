@@ -113,7 +113,7 @@ const CreateWallet = props => {
   };
 
   return (
-    <ScrollView keyboardShouldPersistTaps="always" style={styles.wrapper}>
+    <ScrollView keyboardShouldPersistTaps="handled" style={styles.wrapper}>
       <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
       <KeyboardAvoidingView>
         <FormRow
