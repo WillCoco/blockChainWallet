@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, StyleSheet, Animated, Image, StatusBar} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Animated,
+  Image,
+  StatusBar,
+  ImageBackground,
+} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {Button} from 'react-native-elements';
 import {H4} from 'react-native-normalization-text';
@@ -84,16 +91,20 @@ const Guide = () => {
   });
 
   return (
-    <View style={styles.wrapper}>
+    <ImageBackground
+      style={styles.wrapper}
+      source={require('../../images/launchImage.png')}>
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
       <View style={styles.logoWrapper}>
         {/*<H1>Logo</H1>*/}
-        <Image
+        {/* <Image
           resizeMode="contain"
           source={require('../../images/logo.png')}
           style={styles.logo}
         />
-        <H4 color="primary" style={styles.appName}>{packageInfo.name}</H4>
+        <H4 color="primary" style={styles.appName}>
+          {packageInfo.name}
+        </H4> */}
       </View>
       {
         <Animated.View
@@ -121,7 +132,7 @@ const Guide = () => {
           />
         </Animated.View>
       }
-    </View>
+    </ImageBackground>
   );
 };
 
