@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   View,
+  StatusBar,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {Button} from 'react-native-elements';
@@ -115,6 +116,7 @@ const ImportWallet = () => {
 
   return (
     <ScrollView keyboardShouldPersistTaps="always" style={styles.wrapper}>
+      <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
       <KeyboardAvoidingView style={{flex: 1}}>
         <TouchableWithoutFeedback onPress={focus}>
           <View style={styles.mnemonicInputWrapper}>

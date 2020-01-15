@@ -767,21 +767,21 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = ADA66625XJ;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				"HEADER_SEARCH_PATHS[arch=*]" = "$(inherited)";
 				INFOPLIST_FILE = basicApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pool.utc;
-				PRODUCT_NAME = basicApp;
+				PRODUCT_NAME = UTCWallet;
 				PROVISIONING_PROFILE_SPECIFIER = "utc-wallet-addhoc";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -796,20 +796,20 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Graves Seth (ADA66625XJ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Graves Seth (ADA66625XJ)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = ADA66625XJ;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = basicApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pool.utc;
-				PRODUCT_NAME = basicApp;
-				PROVISIONING_PROFILE_SPECIFIER = "utc-wallet-addhoc";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pool.utc.test;
+				PRODUCT_NAME = UTCWallet;
+				PROVISIONING_PROFILE_SPECIFIER = "utc-wallet-test";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

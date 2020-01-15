@@ -69,9 +69,12 @@ export default () => {
         data={wordsInput || ''}
         wrapperStyle={styles.mnemonicPrintWrapper}
       />
-      <PrimaryText style={styles.title}>
-        {i18n.t('backupGuideText')}
-      </PrimaryText>
+      <View>
+        <PrimaryText style={styles.title}>
+          {i18n.t('backupGuideText')}
+        </PrimaryText>
+      </View>
+
       <MnemonicInput
         data={unorderedMnemonic.current || ''}
         wrapperStyle={styles.mnemonicInputWrapper}
