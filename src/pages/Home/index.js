@@ -19,6 +19,8 @@ import {asset} from '../../redux/actions';
 import colors from '../../helpers/colors';
 import {vh} from '../../helpers/metric';
 import Poller from '../../helpers/utils/poller';
+// import {Toast} from '../../components/Toast';
+// Toast.loading();
 
 const Home = () => {
   const dispatch = useDispatch();

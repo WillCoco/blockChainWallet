@@ -14,7 +14,7 @@ import {WToast} from 'react-native-smart-tip';
 const defaultToastOps = {
   textColor: '#ffffff',
   backgroundColor: '#444444',
-  duration: WToast.duration.LONG, //1.SHORT 2.LONG
+  duration: WToast.duration.SHORT, //1.SHORT 2.LONG
   position: WToast.position.CENTER, // 1.TOP 2.CENTER 3.BOTTOM
   // icon: <Image source={require('../data/img/success.png')} style={{width: 32,height: 32,resizeMode: 'contain'}}/>,
 };
@@ -28,6 +28,16 @@ class Toast extends WToast {
   static show = options => {
     const ops = {
       ...defaultToastOps,
+      ...options,
+    };
+    WToast.show(ops);
+  };
+
+  static loading = options => {
+    const ops = {
+      ...defaultToastOps,
+      duration: 0,
+      data: 'Loading',
       ...options,
     };
     WToast.show(ops);

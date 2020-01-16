@@ -27,7 +27,7 @@ const server = axios.create({
 server.interceptors.request.use(config => {
   // todo: config
   // requestEncryptList
-
+  // console.log(config, 'request_server');
   return config;
 });
 
@@ -37,6 +37,7 @@ server.interceptors.request.use(config => {
 server.interceptors.response.use(
   (res = {}) => {
     const {url} = res.config || {};
+    // console.log(res, 'response_server')
     // const list = _filter(responseIgnoreList, (u) => url.match(u)) || [];
     // if (list.length !== 0) {
     //   return res;
@@ -76,6 +77,9 @@ server.interceptors.response.use(
   },
 );
 
+// fetch("https://testnet.utcpark.com:8801", {method: 'POST'})
+//   .then(r => {console.log(r, 91919199)})
+//   .catch(res => console.log())
 /**
  * 响应结果处理
  */

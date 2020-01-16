@@ -40,7 +40,7 @@ export default () => {
           title={i18n.t('goWebsite')}
           containerStyle={styles.listItem}
           chevron
-          onPress={() => Linking.openURL(url.website)}
+          onPress={() => Linking.openURL(`${url.website}/#/download`)}
         />
         {/* <ListItem
         title={i18n.t('privacy')}

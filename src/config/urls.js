@@ -12,22 +12,17 @@ const urls = {
   development: {
     basicUrl: 'https://27.102.128.133:8801',
     serverUrl: 'https://27.102.128.133:3333/api/v1', // 额外服务
-    website: 'https://www.utcpark.io', // 官网
+    website: 'https://utcpark.com', // 官网
   },
   test: {
-    basicUrl: 'https://114.67.92.85:8801', //正式
-    serverUrl: 'https://114.67.92.85:3333/api/v1', // 额外服务
-    website: 'https://www.utcpark.io', // 官网
-  },
-  pre: {
-    basicUrl: 'https://27.102.128.133:8801',
-    serverUrl: 'https://27.102.128.133:3333/api/v1', // 额外服务
-    website: 'https://www.utcpark.io', // 官网
+    basicUrl: 'https://testnet.utcpark.com/rpc/', //正式
+    serverUrl: 'https://testnet.utcpark.com/api', // 额外服务
+    website: 'https://utcpark.com', // 官网
   },
   production: {
-    basicUrl: 'https://27.102.128.133:8801',
-    serverUrl: 'https://27.102.128.133:3333/api/v1', // 额外服务
-    website: 'https://www.utcpark.io', // 官网
+    basicUrl: 'https://mainnet.utcpark.com/rpc',
+    serverUrl: 'https://mainnet.utcpark.com/api', // 额外服务
+    website: 'https://utcpark.com', // 官网
   },
 };
 

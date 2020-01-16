@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Clipboard,
   TouchableOpacity,
+  InteractionManager,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {Icon, ListItem, Overlay} from 'react-native-elements';
@@ -112,9 +113,11 @@ const WalletDetails = props => {
       wallet.aesDecrypt({data: currentWallet.encryptedMnemonic, password}),
     ).then(v => {
       setExportString(v);
-      setExportVisible(true);
       setPasswordValidVisible(false);
       setPassword('');
+      InteractionManager.runAfterInteractions(() => {
+        setExportVisible(true);
+      });
     });
   };
 

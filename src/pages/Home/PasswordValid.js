@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation, useIsFocused} from 'react-navigation-hooks';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, InteractionManager} from 'react-native';
 import _get from 'lodash/get';
 import Dialog from '../../components/Dialog';
 import {Toast} from '../../components/Toast';
@@ -25,9 +25,18 @@ const PasswordValid = props => {
 
   const [pwdDialogVisible, setPwdDialogVisible] = React.useState(false);
 
+  /**
+   * ios safeOPenModal
+   */
+  const safeShowPwdDialog = () => {
+    InteractionManager.runAfterInteractions(() => {
+      setPwdDialogVisible(true);
+    });
+  };
+
   React.useEffect(() => {
     if (isFocused && currentWallet.address && !currentWallet.backupCompleted) {
-      setPwdDialogVisible(true);
+      safeShowPwdDialog();
     }
   }, [isFocused, navigate, currentWallet, currentWallet.backupCompleted]);
 
@@ -48,7 +57,7 @@ const PasswordValid = props => {
       Toast.show({data: i18n.t('passwordValidFailed')});
       console.log(currentWallet.encryptedPrivateKey, 'encryptedPrivateKey');
       console.log(currentWallet.passwordKey, 'passwordKey');
-      setPwdDialogVisible(true);
+      safeShowPwdDialog();
       return;
     }
 

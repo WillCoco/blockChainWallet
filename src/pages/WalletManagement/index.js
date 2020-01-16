@@ -30,9 +30,7 @@ export default props => {
 
   // 恢复钱包
   const recoverWallet = () => {
-    if (true) {
-      navigate('ImportWallet');
-    }
+    navigate('ImportWallet');
   };
 
   return (

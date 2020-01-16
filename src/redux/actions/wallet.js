@@ -10,6 +10,7 @@ import {
   UPDATE_WALLETS,
   UPDATE_CURRENT_WALLET,
   UPDATE_TEMP_MNEMONIC,
+  UPDATE_CURRENT_ASSET,
 } from './actionTypes';
 import _get from 'lodash/get';
 import _findIndex from 'lodash/findIndex';
@@ -140,6 +141,8 @@ export function updateCurrentWallet(address) {
       type: UPDATE_CURRENT_WALLET,
       payload: {currentWallet: wallet},
     });
+    // 先清空资产
+    dispatch({type: UPDATE_CURRENT_ASSET, payload: {assetsList: []}});
 
     // todo: 请求新钱包数据
     if (wallet && wallet.address) {

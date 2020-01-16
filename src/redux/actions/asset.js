@@ -50,7 +50,7 @@ export function getAssetByAddress(address) {
 export function getTxHistory(address) {
   return async (dispatch, getState) => {
     const r = (await getAddressAsset({address})) || {};
-    console.log(r, 123123)
+    // console.log(r, 123123)
 
     if (r.result) {
       dispatch({type: UPDATE_CURRENT_ASSET, payload: {assetsList: r.result}});

@@ -38,6 +38,7 @@ export function getAddressOverview(param) {
     })
     .then(r => {
       const response = format.getAddressOverview(r);
+
       return Promise.resolve(response);
     });
 }
