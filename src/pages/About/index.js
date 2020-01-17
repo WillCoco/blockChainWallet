@@ -16,6 +16,7 @@ import packageInfo from '../../../package.json';
 
 export default () => {
   const {navigate} = useNavigation();
+  alert(`${url.website}/#/download`)
   return (
     <View style={styles.wrapper}>
       <View style={styles.walletInfoWrapper}>
