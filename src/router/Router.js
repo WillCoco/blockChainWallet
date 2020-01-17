@@ -49,6 +49,7 @@ const AppNavigator = createStackNavigator(
       navigationOptions: ({navigation}) => ({
         headerShown: false,
         header: null,
+        gestureEnabled: false,
       }),
     },
     Login: {
@@ -196,6 +197,7 @@ const AppNavigator = createStackNavigator(
       navigationOptions: ({navigation}) => ({
         // headerShown: false,
         header: null,
+        gestureEnabled: false,
       }),
     },
   },

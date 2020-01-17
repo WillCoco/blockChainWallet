@@ -6,6 +6,7 @@ import {PrimaryText} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
 import _get from 'lodash/get';
 import _shuffle from 'lodash/shuffle';
+import {StackActions, NavigationActions} from 'react-navigation';
 import colors from '../../helpers/colors';
 import {vw, metrics} from '../../helpers/metric';
 import i18n from '../../helpers/i18n';
@@ -15,6 +16,8 @@ import {Toast} from '../../components/Toast';
 import {wallet} from '../../redux/actions/';
 
 export default () => {
+  const {dispatch: navDispatch} = useNavigation();
+
   const {replace} = useNavigation();
   const dispatch = useDispatch();
   const [wordsInput, setWordsInput] = React.useState([]);
@@ -39,7 +42,13 @@ export default () => {
 
     console.log(pass, 'pass');
     if (pass) {
-      replace('Main');
+      // 重置路由，进入首页
+      const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({routeName: 'Main'}),],
+      });
+      navDispatch(resetAction);
+
       // alert('备份成功');
       Toast.show({data: i18n.t('backupSuccess')});
     } else {

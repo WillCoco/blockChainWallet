@@ -116,7 +116,9 @@ const WalletDetails = props => {
       setPasswordValidVisible(false);
       setPassword('');
       InteractionManager.runAfterInteractions(() => {
-        setExportVisible(true);
+        setTimeout(() => {
+          setExportVisible(true);
+        }, 10);
       });
     });
   };

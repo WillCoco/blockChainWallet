@@ -29,16 +29,16 @@ const PasswordValid = props => {
    * ios safeOPenModal
    */
   const safeShowPwdDialog = () => {
-    InteractionManager.runAfterInteractions(() => {
+    // InteractionManager.runAfterInteractions(() => {
       setPwdDialogVisible(true);
-    });
+    // });
   };
 
   React.useEffect(() => {
-    if (isFocused && currentWallet.address && !currentWallet.backupCompleted) {
+    if (!props.overlayVisible && isFocused && currentWallet.address && !currentWallet.backupCompleted) {
       safeShowPwdDialog();
     }
-  }, [isFocused, navigate, currentWallet, currentWallet.backupCompleted]);
+  }, [props.overlayVisible, isFocused, navigate, currentWallet, currentWallet.backupCompleted]);
 
   const onOKPress = async () => {
     if (!pwd) {
@@ -57,7 +57,9 @@ const PasswordValid = props => {
       Toast.show({data: i18n.t('passwordValidFailed')});
       console.log(currentWallet.encryptedPrivateKey, 'encryptedPrivateKey');
       console.log(currentWallet.passwordKey, 'passwordKey');
-      safeShowPwdDialog();
+      if (!props.overlayVisible && isFocused && currentWallet.address && !currentWallet.backupCompleted) {
+        safeShowPwdDialog();
+      }
       return;
     }
 

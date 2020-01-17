@@ -37,6 +37,11 @@ const Home = () => {
   const [refreshing, setRefreshingStatus] = React.useState(false);
 
   /**
+   * 快速切换和创建钱包的overlay
+   */
+  const [overlayVisible, setOverlayVisible] = React.useState(false);
+
+  /**
    * 第一次进入
    */
   React.useEffect(() => {
@@ -85,7 +90,11 @@ const Home = () => {
     <SafeAreaView style={styles.wrapper}>
       <View style={{flex: 1, backgroundColor: '#fff'}}>
         <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
-        <Dashboard isLoaded={isLoaded} />
+        <Dashboard
+          isLoaded={isLoaded}
+          overlayVisible={overlayVisible}
+          setOverlayVisible={setOverlayVisible}
+        />
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -100,7 +109,7 @@ const Home = () => {
           style={styles.scroll}
           contentContainerStyle={{backgroundColor: '#fff'}}>
           <AssetsList isLoaded={isLoaded} />
-          <PasswordValid />
+          <PasswordValid overlayVisible={overlayVisible} />
         </ScrollView>
       </View>
     </SafeAreaView>

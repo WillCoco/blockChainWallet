@@ -16,8 +16,7 @@ import {vh, vw, metrics} from '../../helpers/metric';
 import {appSettingAction} from '../../redux/actions/';
 import safePage from '../../helpers/safePage/';
 
-const Dashboard = () => {
-  const [overlayVisible, setOverlayVisible] = React.useState(false);
+const Dashboard = props => {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
 
@@ -31,8 +30,8 @@ const Dashboard = () => {
   return (
     <View style={styles.wrapper}>
       <WalletQuickManager
-        overlayVisible={overlayVisible}
-        setOverlayVisible={setOverlayVisible}
+        overlayVisible={props.overlayVisible}
+        setOverlayVisible={props.setOverlayVisible}
       />
       <TouchableOpacity
         style={styles.assetWrapper}

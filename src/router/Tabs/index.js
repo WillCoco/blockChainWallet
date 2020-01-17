@@ -21,9 +21,9 @@ const TabsRouter = createBottomTabNavigator(
     Home: {
       screen: props => safePage(Home, props),
       path: 'main/home',
-      // navigationOptions: ({navigation}) => ({
-      //   headerTitle: `6'`,
-      // }),
+      navigationOptions: ({navigation}) => ({
+        gestureEnabled: false,
+      }),
     },
     Me: {
       screen: props => safePage(Me, props),

@@ -21,9 +21,10 @@ import FormRow from '../../components/FormRow';
 import {Toast} from '../../components/Toast';
 import {wallet} from '../../redux/actions';
 import {eventTypes, WVEvent} from '../../helpers/eventEmmiter';
+import {StackActions, NavigationActions} from 'react-navigation';
 
-const ImportWallet = () => {
-  const {navigate, goBack} = useNavigation();
+const ImportWallet = (props) => {
+  const {dispatch: navDispatch} = useNavigation();
   const dispatch = useDispatch();
 
   // 导入助记词
@@ -105,7 +106,15 @@ const ImportWallet = () => {
           if (v) {
             dispatch(wallet.addOrUpdateAWallet(v));
             Toast.show({data: i18n.t('importSuccess')});
-            goBack();
+            // goBack();
+            // popToTop('Main');
+
+            // 重置路由，进入首页
+            const resetAction = StackActions.reset({
+              index: 0,
+              actions: [NavigationActions.navigate({routeName: 'Main'})],
+            });
+            navDispatch(resetAction);
           } else {
             Toast.show({data: i18n.t('importFailed')});
           }

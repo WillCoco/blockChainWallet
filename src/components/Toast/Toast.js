@@ -36,8 +36,8 @@ class Toast extends WToast {
   static loading = options => {
     const ops = {
       ...defaultToastOps,
-      duration: 0,
-      data: 'Loading',
+      duration: 100000,
+      data: 'Loading...',
       ...options,
     };
     WToast.show(ops);
