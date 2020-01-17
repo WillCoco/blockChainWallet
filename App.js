@@ -7,6 +7,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import Router from './src/router';
 import stores from './src/redux/store';
 import WalletWebView from './src/components/WalletWebView';
+import {Loading} from './src/components/Mask';
 
 const {store, persistor} = stores;
 
@@ -15,6 +16,7 @@ const App = () => (
     <PersistGate loading={null} persistor={persistor}>
       <Router store={store} />
       <WalletWebView />
+      <Loading.View />
     </PersistGate>
   </Provider>
 );

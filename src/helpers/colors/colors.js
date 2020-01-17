@@ -37,6 +37,7 @@ const colors = {
   forbid: '#cccccc',
   divider: '#f4f4f4',
   dividerDark: textDark3,
+  modalBg: '#444444',
 };
 
 module.exports = colors;

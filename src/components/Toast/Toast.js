@@ -9,11 +9,12 @@
  * @lastModificationDate:
  */
 import {WToast} from 'react-native-smart-tip';
+import colors from '../../helpers/colors';
 
 // 默认参数
 const defaultToastOps = {
   textColor: '#ffffff',
-  backgroundColor: '#444444',
+  backgroundColor: colors.modalBg,
   duration: WToast.duration.SHORT, //1.SHORT 2.LONG
   position: WToast.position.CENTER, // 1.TOP 2.CENTER 3.BOTTOM
   // icon: <Image source={require('../data/img/success.png')} style={{width: 32,height: 32,resizeMode: 'contain'}}/>,

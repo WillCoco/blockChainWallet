@@ -13,6 +13,7 @@ import _filter from 'lodash/filter';
 import {PrimaryText} from 'react-native-normalization-text';
 import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import {metrics, vw, vh} from '../../helpers/metric';
+import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
 import {createTransaction, sendTransaction} from '../../helpers/chain33';
 import {Toast} from '../../components/Toast';
 import {wallet, asset} from '../../redux/actions';
@@ -22,6 +23,7 @@ import {isValidNumeric, lowerUnit} from '../../helpers/utils/numbers';
 import FormRow from '../../components/FormRow';
 import TxConfirmOverlay from './TxConfirmOverlay';
 import Dialog from '../../components/Dialog';
+import {Loading} from '../../components/Mask';
 
 // console.log(chainInfo.symbol, 'chainInfochainInfochainInfo')
 const defaultFee = 0.001;
@@ -109,8 +111,11 @@ export default props => {
    * 点击下一步
    */
   const onPressNext = async () => {
+    Loading.set({visible: true});
     // 更新一次余额
     await dispatch(asset.getAssetByAddress());
+
+    Loading.set({visible: false});
 
     const safeTransferForm = transferForm || {};
     if (
@@ -167,6 +172,8 @@ export default props => {
 
   // 签名交易
   const signTx = async () => {
+    Loading.set({visible: true});
+
     // 验证密码
     const isValidPassword = await dispatch(wallet.validPassword(pwd));
     setPwdDialogVisible(false);
@@ -206,6 +213,8 @@ export default props => {
     const {result, error} = (await sendTransaction(param)) || {};
 
     console.log(result, '发送交易');
+
+    Loading.set({visible: false});
 
     if (error) {
       Toast.show({data: error});
@@ -265,7 +274,7 @@ export default props => {
       />
       <Overlay
         isVisible={txConfirmVisible}
-        overlayStyle={styles.overlayStyle}
+        overlayStyle={StyleSheet.flatten([styles.overlayStyle, isNotchScreen() && {marginBottom: metrics.spaceN}])}
         onBackdropPress={() => setTxConfirmVisible(false)}
         animationType="slide">
         <TxConfirmOverlay

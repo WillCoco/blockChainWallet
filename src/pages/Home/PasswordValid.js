@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation, useIsFocused} from 'react-navigation-hooks';
-import {StyleSheet, InteractionManager} from 'react-native';
+import {StyleSheet} from 'react-native';
 import _get from 'lodash/get';
 import Dialog from '../../components/Dialog';
 import {Toast} from '../../components/Toast';

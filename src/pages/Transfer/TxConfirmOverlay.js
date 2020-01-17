@@ -6,11 +6,11 @@ import {
 } from 'react-native';
 import {Button, ListItem, Overlay, Icon} from 'react-native-elements';
 import {PrimaryText} from 'react-native-normalization-text';
+import _get from 'lodash/get';
 import i18n from '../../helpers/i18n';
 import {metrics, vw} from '../../helpers/metric';
 import FormRow from '../../components/FormRow';
 import {chainInfo} from '../../config/';
-import _get from 'lodash/get';
 
 const TxConfirmOverlay = props => {
   const {transferForm} = props;
