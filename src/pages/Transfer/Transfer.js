@@ -201,6 +201,8 @@ export default props => {
     );
 
     if (!signedTx.current) {
+      Loading.set({visible: false});
+
       Toast.show({data: i18n.t('signFailed')});
       return;
     }
