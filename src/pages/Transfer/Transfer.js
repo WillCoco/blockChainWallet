@@ -179,6 +179,7 @@ export default props => {
     setPwdDialogVisible(false);
     console.log(isValidPassword, 'isValidPassword');
     if (!isValidPassword) {
+      Loading.set({visible: false});
       Toast.show({data: i18n.t('passwordValidFailed')});
       return;
     }
