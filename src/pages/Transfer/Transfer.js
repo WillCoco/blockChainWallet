@@ -111,12 +111,6 @@ export default props => {
    * 点击下一步
    */
   const onPressNext = async () => {
-    Loading.set({visible: true});
-    // 更新一次余额
-    await dispatch(asset.getAssetByAddress());
-
-    Loading.set({visible: false});
-
     const safeTransferForm = transferForm || {};
     if (
       !safeTransferForm.address ||
@@ -130,6 +124,13 @@ export default props => {
       Toast.show({data: i18n.t('transferInvalidAmount')});
       return;
     }
+
+    // 检查余额
+    Loading.set({visible: true});
+    // 更新一次余额
+    await dispatch(asset.getAssetByAddress());
+
+    Loading.set({visible: false});
 
     // 余额不足
     if (
