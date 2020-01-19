@@ -32,7 +32,7 @@ const PagingList = props => {
   /**
    * 下拉刷新
    */
-  const onRefresh = async ({withRefreshAnimation}) => {
+  const onRefresh = async ({withRefreshAnimation} = {}) => {
     if (withRefreshAnimation) {
       setIsRefreshing(true);
     }
@@ -144,7 +144,7 @@ const PagingList = props => {
         //下拉刷新相关
         refreshControl={
           <RefreshControl
-            title={'Loading'}
+            // title={'Loading'}
             colors={[colors.theme]}
             refreshing={isRefreshing}
             onRefresh={() => onRefresh({withRefreshAnimation: true})}

@@ -2,6 +2,7 @@
  * @author: Xu Ke
  * @date: 2020/1/17 3:37 PM
  * @Description: loading蒙层
+ *  全局模块，独立设计，不依赖store
  * @lastModificationBy:
  * @lastModification:
  * @lastModificationDate:
