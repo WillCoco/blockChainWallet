@@ -24,7 +24,7 @@ import _updateConfig from '../../../update.json';
 
 const {appKey} = _updateConfig[Platform.OS];
 
-console.log(150, 'checkUpdate_version');
+console.log(160, 'checkUpdate_version');
 /**
  * 检查更新
  */
