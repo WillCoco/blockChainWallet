@@ -45,7 +45,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>若不同意,将无法扫描二维码</string>
 	<key>NSFileProviderDomainUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSLocationUsageDescription</key>
 	<string>若不同意,将无法使用部分功能</string>
 	<key>NSMicrophoneUsageDescription</key>

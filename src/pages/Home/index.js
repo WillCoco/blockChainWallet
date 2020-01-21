@@ -15,7 +15,7 @@ import SplashScreen from 'react-native-splash-screen';
 import AssetsList from './AssetsList';
 import Dashboard from './Dashboard';
 import PasswordValid from './PasswordValid';
-import {asset} from '../../redux/actions';
+import {asset, update} from '../../redux/actions';
 import colors from '../../helpers/colors';
 import {vh} from '../../helpers/metric';
 import Poller from '../../helpers/utils/poller';
@@ -46,10 +46,13 @@ const Home = () => {
    */
   React.useEffect(() => {
     SplashScreen.hide();
+
+    // 检查更新
+    dispatch(update.checkVersion());
   }, []);
 
   /**
-   * 根据是都有钱包导航分流
+   * 根据是否有钱包导航分流
    */
   const isFocused = useIsFocused();
   // 钱包列表

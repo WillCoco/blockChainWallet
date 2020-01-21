@@ -131,8 +131,8 @@ android {
         applicationId "com.basicapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 8
-        versionName "0.1.5"
+        versionCode 12
+        versionName "1.2.0"
         missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
@@ -180,8 +180,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-svg')
-    implementation project(':@react-native-community_async-storage')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     // implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation "com.facebook.react:react-native:0.61.5"  // From node_modules
