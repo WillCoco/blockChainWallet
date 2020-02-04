@@ -1,14 +1,9 @@
 import React from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useNavigation, useIsFocused} from 'react-navigation-hooks';
-import {StyleSheet} from 'react-native';
 import _get from 'lodash/get';
-import Dialog from '../../components/Dialog';
-import {Toast} from '../../components/Toast';
-import {wallet} from '../../redux/actions';
-import i18n from '../../helpers/i18n';
 import safePage from '../../helpers/safePage';
-import {eventTypes, WVEvent} from '../../helpers/eventEmmiter';
+import {Overlay} from '../../components/Mask';
 
 const PasswordValid = props => {
   const currentWallet = useSelector(
@@ -19,119 +14,47 @@ const PasswordValid = props => {
 
   const {navigate} = useNavigation();
 
-  const dispatch = useDispatch();
-
-  const [pwd, setPwd] = React.useState(null);
-
-  const [pwdDialogVisible, setPwdDialogVisible] = React.useState(false);
-
   /**
    * ios safeOPenModal
    */
-  const safeShowPwdDialog = () => {
+  const safeShowPwdDialog = options => {
     // InteractionManager.runAfterInteractions(() => {
-      setPwdDialogVisible(true);
+    //   setPwdDialogVisible(true);
+    Overlay.push(Overlay.contentTypes.DIALOG_PASSWORD_VALID, {
+      dialog: {
+        canCancel: false,
+        onValidEnd,
+      },
+    });
     // });
   };
 
+  /**
+   * 密码验证完 具体业务
+   */
+  const onValidEnd = isValid => {
+    if (isValid) {
+      navigate('WalletBackUpStep1');
+    }
+  };
+
   React.useEffect(() => {
-    if (!props.overlayVisible && isFocused && currentWallet.address && !currentWallet.backupCompleted) {
+    if (isFocused && currentWallet.address && !currentWallet.backupCompleted) {
+      Overlay.setPause(false);
       safeShowPwdDialog();
     }
-  }, [props.overlayVisible, isFocused, navigate, currentWallet, currentWallet.backupCompleted]);
+  }, [isFocused, navigate, currentWallet, currentWallet.backupCompleted]);
 
-  const onOKPress = async () => {
-    if (!pwd) {
-      return;
-    }
+  /**
+   * 页面销毁，取消modal暂停，tab时机不销毁
+   */
+  React.useEffect(() => {
+    return () => {
+      Overlay.setPause(false);
+    };
+  }, []);
 
-    // 校验密码
-    const isValid = await isValidPwd();
-
-    setPwdDialogVisible(false);
-
-    // console.log(isValid, 'isValid');
-
-    // 密码错误
-    if (!isValid) {
-      Toast.show({data: i18n.t('passwordValidFailed')});
-      console.log(currentWallet.encryptedPrivateKey, 'encryptedPrivateKey');
-      console.log(currentWallet.passwordKey, 'passwordKey');
-      if (!props.overlayVisible && isFocused && currentWallet.address && !currentWallet.backupCompleted) {
-        safeShowPwdDialog();
-      }
-      return;
-    }
-
-    // 正确,生成tempMnemonic进行备份操作
-    const tempMnemonic = await updateTempMnemonic();
-    // console.log(tempMnemonic, 'tempMnemonic');
-    if (!tempMnemonic) {
-      Toast.show({data: i18n.t('error')});
-    }
-
-    dispatch(wallet.updateTempMnemonic(tempMnemonic));
-    setPwd('');
-    setPwdDialogVisible(false);
-    navigate('WalletBackUpStep1');
-  };
-
-  // 验证密码
-  const isValidPwd = () => {
-    return new Promise((resolve, reject) => {
-      WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
-        {
-          payload: {
-            action: eventTypes.SHA_256,
-            data: pwd,
-          },
-          callback: v => {
-            // console.log(currentWallet.passwordKey, 'passwordKey');
-            resolve(v === currentWallet.passwordKey);
-          },
-        },
-      ]);
-    }).catch(err => {
-      console.log('isValidPwd', err);
-    });
-  };
-
-  // 生成临时备份助记词
-  const updateTempMnemonic = () => {
-    return new Promise(resolve => {
-      WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
-        {
-          payload: {
-            action: eventTypes.AES_DECRYPT,
-            data: currentWallet.encryptedMnemonic,
-            password: pwd,
-          },
-          callback: v => {
-            resolve(v);
-          },
-        },
-      ]);
-    }).catch(err => {
-      console.log('updateTempMneonic', err);
-    });
-  };
-
-  return (
-    <Dialog
-      showInput
-      autoFocus
-      canCancel={false}
-      description={i18n.t('passwordValidDesc')}
-      visible={pwdDialogVisible}
-      onChangeText={setPwd}
-      value={pwd}
-      onCancelPress={() => setPwdDialogVisible(false)}
-      onOKPress={onOKPress}
-      secureTextEntry={true}
-    />
-  );
+  return null;
 };
-
-const styles = StyleSheet.create({});
 
 export default props => safePage(PasswordValid, props);

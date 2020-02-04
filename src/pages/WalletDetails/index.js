@@ -2,15 +2,13 @@ import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
-  Clipboard,
   TouchableOpacity,
   InteractionManager,
 } from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
-import {Icon, ListItem, Overlay} from 'react-native-elements';
+import {useDispatch} from 'react-redux';
+import {Icon} from 'react-native-elements';
 import i18n from '../../helpers/i18n';
-import {PrimaryText, SmallText} from 'react-native-normalization-text';
-import {Button} from 'react-native-elements';
+import {PrimaryText} from 'react-native-normalization-text';
 import {metrics, vw, vh} from '../../helpers/metric';
 import colors from '../../helpers/colors';
 import FormRow from '../../components/FormRow';
@@ -20,13 +18,11 @@ import _get from 'lodash/get';
 import {wallet} from '../../redux/actions';
 import {Toast} from '../../components/Toast';
 import NavBar from '../../components/NavBar';
-import Dialog from '../../components/Dialog';
+// import Dialog from '../../components/Dialog';
+import {Overlay} from '../../components/Mask';
 
 const WalletDetails = props => {
-  const [passwordValidVisible, setPasswordValidVisible] = useState(false);
-  const [exportVisible, setExportVisible] = useState(false);
-  const [exportString, setExportString] = useState('');
-  const [password, setPassword] = useState('');
+  // const [password, setPassword] = useState('');
   const [currentWallet, setCurrentWallet] = useState(
     _get(props, ['navigation', 'state', 'params']) || {},
   );
@@ -40,22 +36,9 @@ const WalletDetails = props => {
   /**
    * 删除钱包
    */
-  const deleteWallet = async password => {
-    if (!password) {
-      return;
-    }
-
-    const isValidPassword = await dispatch(wallet.validPassword(password));
-
-    setPasswordValidVisible(false);
-    if (!isValidPassword) {
-      Toast.show({data: i18n.t('passwordValidFailed')});
-      return;
-    }
-
+  const deleteWallet = () => {
     const newWalletList = dispatch(wallet.removeAWallet(currentWallet)) || [];
     Toast.show({data: i18n.t('removeWalletSuccess')});
-
     if (newWalletList.length > 0) {
       goBack();
     } else {
@@ -74,7 +57,7 @@ const WalletDetails = props => {
 
     // 验证密码
     const isValidPassword = await dispatch(wallet.validPassword(password));
-    setPasswordValidVisible(false);
+    // setPasswordValidVisible(false);
     if (!isValidPassword) {
       Toast.show({data: i18n.t('passwordValidFailed')});
       return;
@@ -83,14 +66,12 @@ const WalletDetails = props => {
     dispatch(
       wallet.aesDecrypt({data: currentWallet.encryptedPrivateKey, password}),
     ).then(v => {
-      setExportString(v);
-      setPasswordValidVisible(false);
+      // setPasswordValidVisible(false);
       // requestAnimationFrame(() => {
-      setTimeout(() => {
-        setExportVisible(true);
-      }, 500);
+      // setTimeout(() => {
+      // }, 500);
       // });
-      setPassword('');
+      // setPassword('');
     });
   };
 
@@ -98,49 +79,21 @@ const WalletDetails = props => {
    * 导出助记词
    */
   const exportMnemonicConfirm = async password => {
-    // 验证密码
-    const isValidPassword = await dispatch(
-      wallet.validPassword(password, currentWallet.passwordKey),
-    );
-    setPasswordValidVisible(false);
-    // console.log(isValidPassword, 'isValidPassword');
-    if (!isValidPassword) {
-      Toast.show({data: i18n.t('passwordValidFailed')});
-      return;
-    }
     // 解密
     dispatch(
       wallet.aesDecrypt({data: currentWallet.encryptedMnemonic, password}),
     ).then(v => {
-      setExportString(v);
-      setPasswordValidVisible(false);
-      setPassword('');
       InteractionManager.runAfterInteractions(() => {
-        setTimeout(() => {
-          setExportVisible(true);
-        }, 10);
+        Overlay.push(Overlay.contentTypes.SECRET_EXPORT, {
+          customData: {
+            subTitle: i18n.t('exportPrivateKeyWarning'),
+            copyText: i18n.t('copyMnemonic'),
+            exportString: v,
+          },
+        });
       });
     });
   };
-
-  // 输密码后的动作意图
-  const actionTypes = {
-    // 导出私钥
-    EXPORT_PRIVATE_KEY: {
-      overlayCopyTitle: i18n.t('copyPrivateKey'),
-      onPressDialogOk: exportPrivateKeyConfirm,
-    },
-    // 导出助记词
-    EXPORT_MNEMONIC: {
-      overlayCopyTitle: i18n.t('copyMnemonic'),
-      onPressDialogOk: exportMnemonicConfirm,
-    },
-    // 删除账户
-    REMOVE_WALLET: {
-      onPressDialogOk: deleteWallet,
-    },
-  };
-  const action = React.useRef(actionTypes.EXPORT_PRIVATE_KEY);
 
   /**
    * 保存按钮，即更新钱包
@@ -151,37 +104,49 @@ const WalletDetails = props => {
   };
 
   /**
-   * 复制
-   */
-  const copy = v => {
-    Clipboard.setString(v);
-    Toast.show({data: i18n.t('copySuccess')});
-    setExportVisible(false);
-    setExportString('');
-  };
-
-  /**
    * 点击导出私钥
    */
   const onPressExportPrivateKey = () => {
-    action.current = actionTypes.EXPORT_PRIVATE_KEY;
-    setPasswordValidVisible(true);
+    // setPasswordValidVisible(true);
   };
 
   /**
    * 点击导出助记词
    */
   const onPressExportMnemonic = () => {
-    action.current = actionTypes.EXPORT_MNEMONIC;
-    setPasswordValidVisible(true);
+    Overlay.setPause(false);
+    Overlay.push(Overlay.contentTypes.DIALOG_PASSWORD_VALID, {
+      dialog: {
+        canCancel: true,
+        onValidEnd: (isValid, pwd) => {
+          if (isValid) {
+            exportMnemonicConfirm(pwd);
+          } else {
+            Overlay.remove();
+          }
+        },
+      },
+    });
+    // setPasswordValidVisible(true);
   };
 
   /**
    * 点击删除
    */
   const onPressDelete = () => {
-    action.current = actionTypes.REMOVE_WALLET;
-    setPasswordValidVisible(true);
+    Overlay.setPause(false);
+    Overlay.push(Overlay.contentTypes.DIALOG_PASSWORD_VALID, {
+      dialog: {
+        canCancel: true,
+        onValidEnd: isValid => {
+          if (isValid) {
+            deleteWallet();
+          } else {
+            Overlay.remove();
+          }
+        },
+      },
+    });
   };
 
   return (
@@ -255,35 +220,6 @@ const WalletDetails = props => {
         title={i18n.t('deleteWallet')}
         onPress={onPressDelete}
       />
-      <Dialog
-        showInput
-        description={i18n.t('passwordValidDesc')}
-        visible={passwordValidVisible}
-        onChangeText={setPassword}
-        onCancelPress={() => setPasswordValidVisible(false)}
-        onOKPress={() => action.current.onPressDialogOk(password)}
-        secureTextEntry={true}
-      />
-      <Overlay
-        overlayStyle={styles.copyOverlay}
-        isVisible={exportVisible}
-        height={'auto'}
-        onBackdropPress={() => setExportVisible(false)}>
-        <>
-          <PrimaryText style={styles.copyTitle}>
-            {action.current.overlayTitle}
-          </PrimaryText>
-          <SmallText style={styles.copyWaringText}>
-            {i18n.t('exportPrivateKeyWarning')}
-          </SmallText>
-          <SmallText style={styles.privateKeyText}>{exportString}</SmallText>
-          <Button
-            // buttonStyle={styles.button}
-            title={action.current.overlayCopyTitle}
-            onPress={() => copy(exportString)}
-          />
-        </>
-      </Overlay>
     </>
   );
 };
@@ -312,32 +248,6 @@ const styles = StyleSheet.create({
     marginTop: vw(10),
     alignSelf: 'center',
     backgroundColor: colors.warn,
-  },
-  enterPasswordBtns: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    padding: vw(3),
-  },
-  copyOverlay: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  copyTitle: {
-    marginBottom: 8,
-    textAlign: 'center',
-    fontWeight: '600',
-    color: colors.textTitle,
-  },
-  copyWaringText: {
-    marginBottom: 10,
-    backgroundColor: '#fbf0ee',
-    color: colors.textError,
-  },
-  privateKeyText: {
-    marginBottom: 10,
-    backgroundColor: colors.textDark3,
-    padding: vw(2),
-    color: colors.textPrimary,
   },
 });
 

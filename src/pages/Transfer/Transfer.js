@@ -1,19 +1,15 @@
 import React from 'react';
 import {
-  View,
   ScrollView,
-  Text,
   StyleSheet,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import Bignumber from 'bignumber.js';
-import {Button, ListItem, Overlay} from 'react-native-elements';
+import {Button} from 'react-native-elements';
 import _get from 'lodash/get';
 import _filter from 'lodash/filter';
-import {PrimaryText} from 'react-native-normalization-text';
 import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
-import {metrics, vw, vh} from '../../helpers/metric';
-import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
+import {metrics, vw} from '../../helpers/metric';
 import {createTransaction, sendTransaction} from '../../helpers/chain33';
 import {Toast} from '../../components/Toast';
 import {wallet, asset} from '../../redux/actions';
@@ -21,9 +17,7 @@ import {chainInfo} from '../../config/';
 import i18n from '../../helpers/i18n';
 import {isValidNumeric, lowerUnit} from '../../helpers/utils/numbers';
 import FormRow from '../../components/FormRow';
-import TxConfirmOverlay from './TxConfirmOverlay';
-import Dialog from '../../components/Dialog';
-import {Loading} from '../../components/Mask';
+import {Loading, Overlay} from '../../components/Mask';
 
 // console.log(chainInfo.symbol, 'chainInfochainInfochainInfo')
 const defaultFee = 0.001;
@@ -37,9 +31,6 @@ export default props => {
   // 签名后交易
   const signedTx = React.useRef();
 
-  const [txConfirmVisible, setTxConfirmVisible] = React.useState(false);
-  const [pwdDialogVisible, setPwdDialogVisible] = React.useState(false);
-  const [pwd, setPwd] = React.useState('');
   const dispatch = useDispatch();
 
   // tx构造
@@ -139,7 +130,6 @@ export default props => {
       Toast.show({data: i18n.t('notEnoughAmount')});
       return;
     }
-
     createTx();
   };
 
@@ -163,28 +153,40 @@ export default props => {
 
     // 构造交易
     const tx = await createTransaction(params);
+
+    console.log(tx, '构造交易完成-------');
     if (tx.result) {
       unsignedTx.current = tx.result;
       requestAnimationFrame(() => {
-        setTxConfirmVisible(true);
+        Overlay.push(Overlay.contentTypes.TX_CONFIRM, {
+          customData: {
+            transferForm: {
+              ...transferForm,
+              fee: defaultFee,
+            },
+            confirmPress: () => {
+              Overlay.remove();
+              Overlay.push(Overlay.contentTypes.DIALOG_PASSWORD_VALID, {
+                dialog: {
+                  canCancel: true,
+                  onValidEnd: (isValid, pwd) => {
+                    if (isValid) {
+                      // 签名发送
+                      signTx(pwd);
+                    }
+                  },
+                },
+              });
+            },
+          },
+        });
       });
     }
   };
 
   // 签名交易
-  const signTx = async () => {
+  const signTx = async (pwd) => {
     Loading.set({visible: true});
-
-    // 验证密码
-    const isValidPassword = await dispatch(wallet.validPassword(pwd));
-    setPwdDialogVisible(false);
-    console.log(isValidPassword, 'isValidPassword');
-    if (!isValidPassword) {
-      Loading.set({visible: false});
-      Toast.show({data: i18n.t('passwordValidFailed')});
-      return;
-    }
-    sendTransaction({tx: unsignedTx.current});
 
     // 拿私钥
     const privateKey = await dispatch(
@@ -195,7 +197,7 @@ export default props => {
       }),
     );
 
-    // console.log(privateKey, 'privateKey');
+    console.log(privateKey, 'privateKey');
 
     // 签名交易
     signedTx.current = await dispatch(
@@ -209,6 +211,7 @@ export default props => {
       return;
     }
 
+    console.log(signedTx.current, 'signedTx.currentsignedTx.current')
     sendTx({tx: signedTx.current});
   };
 
@@ -276,30 +279,6 @@ export default props => {
         title={i18n.t('next')}
         onPress={onPressNext}
       />
-      <Overlay
-        isVisible={txConfirmVisible}
-        overlayStyle={StyleSheet.flatten([styles.overlayStyle, isNotchScreen() && {marginBottom: metrics.spaceN}])}
-        onBackdropPress={() => setTxConfirmVisible(false)}
-        animationType="slide">
-        <TxConfirmOverlay
-          closePress={() => setTxConfirmVisible(false)}
-          transferForm={transferForm}
-          defaultFee={defaultFee}
-          confirmPress={() => {
-            setPwdDialogVisible(true);
-            setTxConfirmVisible(false);
-          }}
-        />
-      </Overlay>
-      <Dialog
-        showInput
-        description={i18n.t('passwordValidDesc')}
-        visible={pwdDialogVisible}
-        onChangeText={setPwd}
-        onCancelPress={() => setPwdDialogVisible(false)}
-        onOKPress={signTx}
-        secureTextEntry={true}
-      />
     </ScrollView>
   );
 };
@@ -312,10 +291,5 @@ const styles = StyleSheet.create({
     width: '80%',
     marginTop: vw(10),
     alignSelf: 'center',
-  },
-  overlayStyle: {
-    height: 500,
-    width: '100%',
-    top: vh(100) - 550,
   },
 });

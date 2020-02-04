@@ -15,6 +15,7 @@ import WalletQuickManager from './WalletQuickManager';
 import {vh, vw, metrics} from '../../helpers/metric';
 import {appSettingAction} from '../../redux/actions/';
 import safePage from '../../helpers/safePage/';
+import {Overlay} from '../../components/Mask';
 
 const Dashboard = props => {
   const {navigate} = useNavigation();
@@ -30,8 +31,9 @@ const Dashboard = props => {
   return (
     <View style={styles.wrapper}>
       <WalletQuickManager
-        overlayVisible={props.overlayVisible}
-        setOverlayVisible={props.setOverlayVisible}
+        show={options =>
+          Overlay.push(Overlay.contentTypes.WALLET_QUICK_MANAGER, options)
+        }
       />
       <TouchableOpacity
         style={styles.assetWrapper}

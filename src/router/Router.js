@@ -10,6 +10,7 @@ import React from 'react';
 import {Text, View, Image} from 'react-native';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+import {Overlay} from '../components/Mask';
 import TabsRouter from './Tabs/index';
 import NormalizationText from '../pages/NormalizationText';
 import Guide from '../pages/Guide';
@@ -242,6 +243,18 @@ const AppNavigator = createStackNavigator(
   },
 );
 
-const App = createAppContainer(AppNavigator);
+/**
+ * 注入全局页面
+ */
+const A = props => (
+  <>
+    <AppNavigator {...props} />
+    <Overlay.View />
+  </>
+);
+
+A.router = AppNavigator.router;
+
+const App = createAppContainer(A);
 
 export default App;
