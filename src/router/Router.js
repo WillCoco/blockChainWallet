@@ -248,8 +248,8 @@ const AppNavigator = createStackNavigator(
  */
 const A = props => (
   <>
-    <AppNavigator {...props} />
     <Overlay.View />
+    <AppNavigator {...props} />
   </>
 );
 

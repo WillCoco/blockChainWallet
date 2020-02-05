@@ -19,6 +19,7 @@ import DialogPasswordValid from './DialogPasswordValid';
 import WalletQuickManager from './WalletQuickManager';
 import TxConfirm from './TxConfirm';
 import SecretExport from './SecretExport';
+import Updater from './Updater';
 
 /**
  * 内容种类
@@ -31,6 +32,7 @@ const contentTypes = {
   WALLET_QUICK_MANAGER: 'WALLET_QUICK_MANAGER',
   SECRET_EXPORT: 'SECRET_EXPORT',
   TX_CONFIRM: 'TX_CONFIRM',
+  UPDATER: 'UPDATER',
 };
 
 /**
@@ -190,11 +192,14 @@ const MaskOverlay = props => {
       case contentTypes.TX_CONFIRM:
         return {
           content: (
-            <TxConfirm
-              visible={visible}
-              {...options.customData}
-              {...actions}
-            />
+            <TxConfirm visible={visible} {...options.customData} {...actions} />
+          ),
+          type: maskTypes.TYPES_OVERLAY,
+        };
+      case contentTypes.UPDATER:
+        return {
+          content: (
+            <Updater visible={visible} {...options.customData} {...actions} />
           ),
           type: maskTypes.TYPES_OVERLAY,
         };

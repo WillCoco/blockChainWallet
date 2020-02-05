@@ -124,4 +124,9 @@ export default {
   succeed: 'Succeed',
   failed: 'Failed',
   txErrorInfo: 'Error',
+  checkUpdate: 'Check version',
+  updateNow: 'Update now',
+  newVersion: 'New version',
+  updateLater: 'Update failed, please try later',
+  noNewVersion: `It\'s the latest version`,
 };

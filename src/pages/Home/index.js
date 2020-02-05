@@ -16,6 +16,7 @@ import AssetsList from './AssetsList';
 import Dashboard from './Dashboard';
 import PasswordValid from './PasswordValid';
 import {asset, update} from '../../redux/actions';
+import {Overlay} from '../../components/Mask';
 import colors from '../../helpers/colors';
 import {vh} from '../../helpers/metric';
 import Poller from '../../helpers/utils/poller';
@@ -48,7 +49,34 @@ const Home = () => {
     SplashScreen.hide();
 
     // 检查更新
-    dispatch(update.checkVersion());
+    dispatch(update.checkVersion()).then(info => {
+      // Overlay.unshift(Overlay.contentTypes.UPDATER);
+
+      if (!info) {
+        return;
+      }
+
+      if (info.expired) {
+        // 原生包过期
+        console.log('apk过期', 'checkUpdate_111');
+        Overlay.unshift(Overlay.contentTypes.UPDATER, {
+          customData: {info},
+        });
+      } else if (info.upToDate) {
+        // 您的应用版本已是最新
+        console.log('您的应用版本已是最新', 'checkUpdate_222');
+      } else {
+        console.log('有更新', 'checkUpdate_333');
+        // 这里因为是手动检查的，忽略静默属性
+        if (_get(info, ['metaInfo', 'silent'])) {
+          // 静默下载
+          update.doUpdate(info, false);
+        } else {
+          // 非静默下载
+          Overlay.unshift(Overlay.contentTypes.UPDATER, info);
+        }
+      }
+    });
   }, []);
 
   /**
