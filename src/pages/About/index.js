@@ -80,6 +80,7 @@ export default () => {
               });
           }}
         />
+        <Divider style={styles.divider} />
         <ListItem
           title={i18n.t('goWebsite')}
           containerStyle={styles.listItem}

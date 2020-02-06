@@ -94,7 +94,7 @@ const Home = () => {
     if (isFocused && walletsList.length === 0) {
       // 无钱包，进入引导
       setTimeout(() => {
-        replace('Guide');
+        // replace('Guide');
       }, 0);
     }
   });

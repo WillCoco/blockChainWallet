@@ -11,6 +11,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "RNSplashScreen.h"
+#import "RCTPushy.h"
 
 @implementation AppDelegate
 
@@ -32,12 +33,22 @@
   return YES;
 }
 
+//- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
+//{
+//#if DEBUG
+//  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+//#else
+//  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+//#endif
+//}
+
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
 #if DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 #else
-  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  // 非DEBUG情况下替换为热更新bundle
+  return [RCTPushy bundleURL];
 #endif
 }
 

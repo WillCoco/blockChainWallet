@@ -6,7 +6,7 @@ import {
   InteractionManager,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
-import {Icon} from 'react-native-elements';
+import {Icon, Button} from 'react-native-elements';
 import i18n from '../../helpers/i18n';
 import {PrimaryText} from 'react-native-normalization-text';
 import {metrics, vw, vh} from '../../helpers/metric';

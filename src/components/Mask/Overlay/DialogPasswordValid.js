@@ -120,7 +120,7 @@ const PasswordValid = props => {
       visible={props.visible}
       onChangeText={setPwd}
       value={pwd}
-      onCancelPress={() => props.remove(false)}
+      onCancelPress={() => props.remove()}
       onOKPress={onOKPress}
       secureTextEntry={true}
     />

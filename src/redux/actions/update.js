@@ -6,14 +6,10 @@
  * @lastModification:
  * @lastModificationDate:
  */
-import {
-  Platform,
-} from 'react-native';
+import {Platform} from 'react-native';
 import {
   isFirstTime,
   isRolledBack,
-  packageVersion,
-  currentVersion,
   checkUpdate,
   downloadUpdate,
   switchVersion,

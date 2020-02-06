@@ -12,6 +12,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		18B5923223EBDAA800D22BD1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B5923123EBDAA800D22BD1 /* libz.tbd */; };
+		18B5923423EBDAB400D22BD1 /* libbz2.1.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B5923323EBDAB400D22BD1 /* libbz2.1.0.tbd */; };
 		18FB7C1923CD903200061A97 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18FB7C1B23CD903200061A97 /* InfoPlist.strings */; };
 		2081593C4D3D4A29A5D4819B /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD923A4EE35843DFBA935036 /* Ionicons.ttf */; };
 		24C2FE71156F579ED1FECB57 /* libPods-basicApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C4D34E0686BF9672902CD65 /* libPods-basicApp-tvOS.a */; };
@@ -67,6 +69,8 @@
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = basicApp/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = basicApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = basicApp/main.m; sourceTree = "<group>"; };
+		18B5923123EBDAA800D22BD1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		18B5923323EBDAB400D22BD1 /* libbz2.1.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.1.0.tbd; path = usr/lib/libbz2.1.0.tbd; sourceTree = SDKROOT; };
 		18FB7C1223CD72EB00061A97 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = en.lproj/Info.plist; sourceTree = "<group>"; };
 		18FB7C1A23CD903200061A97 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		18FB7C1C23CD904100061A97 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -115,6 +119,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18B5923423EBDAB400D22BD1 /* libbz2.1.0.tbd in Frameworks */,
+				18B5923223EBDAA800D22BD1 /* libz.tbd in Frameworks */,
 				FF548B32D1827FFB440A90AB /* libPods-basicApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -172,6 +178,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				18B5923323EBDAB400D22BD1 /* libbz2.1.0.tbd */,
+				18B5923123EBDAA800D22BD1 /* libz.tbd */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				629794338E551642A836160F /* libPods-basicApp.a */,
@@ -353,7 +361,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = ADA66625XJ;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -777,7 +785,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = "$(inherited)";
@@ -806,7 +814,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Graves Seth (ADA66625XJ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Graves Seth (ADA66625XJ)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = ADA66625XJ;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = basicApp/Info.plist;
