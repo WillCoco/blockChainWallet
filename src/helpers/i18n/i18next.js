@@ -6,7 +6,7 @@ import ch from './locales/ch';
 i18next.init(
   {
     lng: 'ch',
-    debug: true,
+    debug: false,
     resources: {
       ch: {translation: ch},
       en: {translation: en},

@@ -80,6 +80,9 @@ const Guide = () => {
    * 根据是都有钱包导航分流
    */
   React.useEffect(() => {
+    if (isFocused) {
+      StatusBar.setBarStyle('dark-content');
+    }
     if (isFocused && walletsList.length > 0) {
       // 有钱包，进入首页
       setTimeout(() => {

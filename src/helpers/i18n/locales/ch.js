@@ -125,6 +125,8 @@ export default {
   checkUpdate: '检查更新',
   updateNow: '立即更新',
   newVersion: '发现新版本',
-  updateLater: '更新失败, 请稍后再试',
+  updateLater: '稍后再说',
+  updateFailed: '更新失败, 请稍后再试',
   noNewVersion: '您的应用版本已是最新',
+  foundNewPackage: '发现新版本应用，请前往下载',
 };

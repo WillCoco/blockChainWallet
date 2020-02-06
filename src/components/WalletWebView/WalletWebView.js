@@ -14,7 +14,6 @@ let callId = 0;
 const handlers = {};
 
 const WalletWebView = props => {
-  console.log(Platform.OS, 'Platform.OS1')
   const urlPath =
     Platform.OS === 'ios'
       ? require('./index.html')
@@ -27,7 +26,7 @@ const WalletWebView = props => {
   React.useEffect(() => {
     function callback(data) {
       // 保存回调
-      console.log('Post WebView:', {...data.payload, callId});
+      // console.log('Post WebView:', {...data.payload, callId});
       handlers[++callId] = data.callback;
 
       // 转发事件
@@ -44,7 +43,7 @@ const WalletWebView = props => {
 
   const onWebViewMessage = e => {
     // 收到webView返回值后提交store数据更改
-    console.log(e.nativeEvent.data, 'onWebViewMessage');
+    // console.log(e.nativeEvent.data, 'onWebViewMessage');
     const data = safeParse(e.nativeEvent.data) || {};
     const {callId: callbackId, result} = data;
 

@@ -127,6 +127,8 @@ export default {
   checkUpdate: 'Check version',
   updateNow: 'Update now',
   newVersion: 'New version',
-  updateLater: 'Update failed, please try later',
+  updateLater: 'Later',
+  updateFailed: 'Update failed, please try later',
   noNewVersion: `It\'s the latest version`,
+  foundNewPackage: 'Found a new version',
 };

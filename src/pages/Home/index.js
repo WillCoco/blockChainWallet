@@ -49,9 +49,8 @@ const Home = () => {
     SplashScreen.hide();
 
     // 检查更新
-    dispatch(update.checkVersion()).then(info => {
-      // Overlay.unshift(Overlay.contentTypes.UPDATER);
-
+    dispatch(update.checkVersion()).then(async info => {
+      console.log(info, 'checkUpdate_home')
       if (!info) {
         return;
       }
@@ -70,10 +69,15 @@ const Home = () => {
         // 这里因为是手动检查的，忽略静默属性
         if (_get(info, ['metaInfo', 'silent'])) {
           // 静默下载
-          update.doUpdate(info, false);
+          const hash = await update.doDownload(info);
+
+          // 下次重启生效
+          update.doSwitch(hash, false);
         } else {
           // 非静默下载
-          Overlay.unshift(Overlay.contentTypes.UPDATER, info);
+          Overlay.unshift(Overlay.contentTypes.UPDATER, {
+            customData: {info},
+          });
         }
       }
     });
@@ -89,7 +93,9 @@ const Home = () => {
   React.useEffect(() => {
     if (isFocused && walletsList.length === 0) {
       // 无钱包，进入引导
-      replace('Guide');
+      setTimeout(() => {
+        replace('Guide');
+      }, 0);
     }
   });
 

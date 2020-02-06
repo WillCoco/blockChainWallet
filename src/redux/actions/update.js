@@ -24,7 +24,7 @@ import _updateConfig from '../../../update.json';
 
 const {appKey} = _updateConfig[Platform.OS];
 
-console.log(150, 'checkUpdate_version');
+console.log(199, 'checkUpdate_version');
 
 /**
  * 默认下载信息
@@ -55,7 +55,6 @@ export function checkVersion() {
       // 检查更新
       let info;
       try {
-        console.log(111)
         info = await checkUpdate(appKey);
         console.log(info, 'checkUpdate_info1');
       } catch (err) {
@@ -74,26 +73,6 @@ export function checkVersion() {
       console.log(metaInfo, 'checkUpdate_meta');
 
       resolve({...info, metaInfo});
-
-      // if (info.expired) {
-      //   // 原生包过期
-      //   resolve({...info, metaInfo});
-      //   console.log('apk过期', 'checkUpdate_111');
-      // } else if (info.upToDate) {
-      //   // 您的应用版本已是最新
-      //   resolve({latest: true});
-      //   console.log('您的应用版本已是最新', 'checkUpdate_222');
-      // } else {
-      //   console.log('有更新', 'checkUpdate_333');
-      //   // 根据info是否静默
-      //   if (metaInfo.silent) {
-      //     // 静默下载
-      //     doUpdate(info, false);
-      //   } else {
-      //     // 非静默下载
-      //     resolve({...info, metaInfo});
-      //   }
-      // }
     }).catch(err => {
       console.warn('checkVersionErr:', err);
     });
@@ -101,9 +80,9 @@ export function checkVersion() {
 }
 
 /**
- * 下载、生效时机
+ * 下载
  */
-export async function doUpdate(info, switchNow) {
+export async function doDownload(info) {
   let hash;
   try {
     hash = await downloadUpdate(info);
@@ -111,8 +90,12 @@ export async function doUpdate(info, switchNow) {
     console.warn('downloadUpdate err:', error);
   }
   console.log(hash, 'checkUpdate_d_hash');
-  if (!hash) {
-    return {err: 'no hash'};
-  }
+  return hash;
+}
+
+/**
+ * 生效
+ */
+export async function doSwitch(hash, switchNow) {
   switchNow ? switchVersion(hash) : switchVersionLater(hash);
 }

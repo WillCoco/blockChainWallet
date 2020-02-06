@@ -15,21 +15,21 @@ import {
   View,
   ScrollView,
   StyleSheet,
+  Linking,
 } from 'react-native';
 import {H4, PrimaryText} from 'react-native-normalization-text';
 import {Button} from 'react-native-elements';
-import {
-  packageVersion,
-  currentVersion,
-} from 'react-native-update';
 import _get from 'lodash/get';
 import {vw, metrics} from '../../../helpers/metric';
 import safePage from '../../../helpers/safePage';
 import {update} from '../../../redux/actions';
 import i18n from '../../../helpers/i18n';
 import {Toast} from '../../../components/Toast';
+import {url} from '../../../config/';
 
 const Updater = props => {
+  console.log(props.info, 'checkUpdate_infooooooo');
+
   /**
    * 窗体是否下载状态
    */
@@ -39,48 +39,79 @@ const Updater = props => {
    * 执行下载
    */
   const doUpdate = async () => {
-    // 切换窗体下载中形态
-    setIsLoading(true);
+    console.log(_get(props, ['info', 'expired']), 'checkUpdate_expired')
+    if (_get(props, ['info', 'expired'])) {
+      // apk过期，需要下载
+      const linkingUrl =
+        _get(props.info, 'downloadUrl') || `${url.website}/#/download`;
 
-    // 下载
-    const res = await update.doUpdate(props.info, true);
+      console.log(linkingUrl, 'checkUpdate_url');
+      Linking.openURL(linkingUrl);
+    } else {
+      // 有可用热更
+      console.log('checkUpdate_有可用热更');
 
-    // 下载失败
-    if (res.err) {
-      Toast.show({data: i18n.t('updateLater')});
-      props.remove();
+      // 切换窗体下载中形态
+      setIsLoading(true);
+
+      // 下载
+      const hash = await update.doDownload(props.info);
+
+      // 下载失败
+      if (!hash) {
+        Toast.show({data: i18n.t('updateFailed')});
+        return;
+      }
+
+      // 下载成功
+      setIsLoading(false);
+
+      // 移除所有弹窗
+      props.removeAll();
+
+      // 立即重启
+      update.doSwitch(hash, true);
     }
-
-    // 下载成功
-    setIsLoading(false);
   };
+
+  /**
+   * 详情
+   */
+  const updateDesc =
+    // 热更版本详情
+    _get(props.info, 'description') ||
+    // 更新apk时
+    i18n.t('foundNewPackage');
 
   return (
     <View style={styles.wrapper}>
       <View style={styles.contentWrapper}>
         <View style={{flex: -1, width: '100%'}}>
           <H4 style={styles.title}>
-            {i18n.t('newVersion')} {packageVersion}
+            {i18n.t('newVersion')} {_get(props.info, 'name')}
           </H4>
-          <H4 style={styles.title}>当前版本 {currentVersion}</H4>
           <ScrollView style={styles.content}>
-            <PrimaryText>{props.content}</PrimaryText>
+            <PrimaryText>{updateDesc}</PrimaryText>
           </ScrollView>
         </View>
         <Button
           loading={isLoading}
           containerStyle={styles.btnContainerStyle}
-          title={i18n.t('updateNow')}
+          title={
+            _get(props.info, 'expired')
+              ? i18n.t('goWebsite')
+              : i18n.t('updateNow')
+          }
           onPress={doUpdate}
           disabled={isLoading}
         />
         {// 是否显示稍后更新
-        _get(props.info, ['metaInfo', 'force']) ? (
+        !_get(props.info, ['metaInfo', 'force']) ? (
           <Button
             type="clear"
             containerStyle={styles.btnContainerStyle}
             title={i18n.t('updateLater')}
-            onPress={props.remove}
+            onPress={() => props.remove()}
             disabled={isLoading}
           />
         ) : null}
@@ -92,7 +123,7 @@ const Updater = props => {
 const SafeUpdater = props => safePage(Updater, props);
 
 SafeUpdater.defaultProps = {
-  content: '1.更新内容asd123 1231 23weaweqwe qwe \n2.daskjdhas \n3.asdasasd \n2.daskjdhas \n3.asdasasd\n3.asdasasd \n2.daskjdhas \n3.asdasasd',
+  content: '',
 };
 
 const styles = StyleSheet.create({

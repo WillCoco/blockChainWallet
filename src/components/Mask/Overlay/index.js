@@ -141,20 +141,33 @@ const MaskOverlay = props => {
   };
 
   /**
-   * 关闭一个弹窗，从头部移除一项
+   * 关闭一个弹窗，从头部移除n项
    */
-  const remove = item => {
+  const remove = (depth = 1) => {
     setList(list => {
-      list.shift();
-      return [...list];
+      // 清除所有
+      if (depth === -1) {
+        return [];
+      }
+
+      const newList = list.splice(depth);
+      console.log(newList, list, depth, 'newList');
+      // 清除部分
+      return newList;
     });
   };
+
+  /**
+   * 关闭所有弹窗
+   */
+  const removeAll = () => remove(-1);
 
   actions = {
     push,
     unshift,
     remove,
     setPause,
+    removeAll,
   };
 
   /**
@@ -235,6 +248,7 @@ module.exports = {
   View: MaskOverlay,
   push: (item, options) => actions.push(item, options),
   remove: options => actions.remove(options),
+  removeAll: () => actions.removeAll(),
   unshift: (item, options) => actions.unshift(item, options),
   setPause: () => actions.setPause(),
   showLoading: () => {},
