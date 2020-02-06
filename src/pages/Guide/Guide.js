@@ -81,11 +81,13 @@ const Guide = () => {
    */
   React.useEffect(() => {
     if (isFocused) {
-      StatusBar.setBarStyle('dark-content');
+      // StatusBar.setBarStyle('dark-content');
+      StatusBar.setHidden(true);
     }
     if (isFocused && walletsList.length > 0) {
       // 有钱包，进入首页
       setTimeout(() => {
+        StatusBar.setBarStyle('light-content');
         replace('Main');
       }, 1000);
     } else {
@@ -97,7 +99,7 @@ const Guide = () => {
     <ImageBackground
       style={styles.wrapper}
       source={require('../../images/launchImage.png')}>
-      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      {/*<StatusBar backgroundColor="#fff" barStyle="dark-content" />*/}
       <View style={styles.logoWrapper}>
         {/*<H1>Logo</H1>*/}
         {/* <Image
@@ -122,6 +124,8 @@ const Guide = () => {
             containerStyle={styles.createBtnStyle}
             title={i18n.t('createWallet')}
             onPress={() => {
+              StatusBar.setHidden(false);
+              StatusBar.setBarStyle('light-content');
               navigate('CreateWallet');
             }}
           />
@@ -130,6 +134,8 @@ const Guide = () => {
             containerStyle={styles.importBtnStyle}
             title={i18n.t('importWallet')}
             onPress={() => {
+              StatusBar.setHidden(false);
+              StatusBar.setBarStyle('light-content');
               navigate('ImportWallet');
             }}
           />

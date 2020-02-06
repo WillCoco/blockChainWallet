@@ -48,6 +48,8 @@ const Home = () => {
   React.useEffect(() => {
     SplashScreen.hide();
 
+    StatusBar.setBarStyle('light-content');
+
     // 检查更新
     dispatch(update.checkVersion()).then(async info => {
       console.log(info, 'checkUpdate_home')
@@ -94,7 +96,7 @@ const Home = () => {
     if (isFocused && walletsList.length === 0) {
       // 无钱包，进入引导
       setTimeout(() => {
-        // replace('Guide');
+        replace('Guide');
       }, 0);
     }
   });
@@ -126,7 +128,7 @@ const Home = () => {
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={{flex: 1, backgroundColor: '#fff'}}>
-        <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
+        {/*<StatusBar backgroundColor={colors.theme} barStyle="light-content" />*/}
         <Dashboard
           isLoaded={isLoaded}
           // overlayVisible={overlayVisible}
