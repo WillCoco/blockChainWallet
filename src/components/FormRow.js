@@ -9,6 +9,8 @@ import {PrimaryText} from 'react-native-normalization-text';
 import colors from '../helpers/colors';
 
 const FormRow = props => {
+  const needInputPress = props.onChangeText || props.value;
+  const pointerEvents = props.onPress ? {pointerEvents: 'none'} : null;
   return (
     <View style={styles.wrapper}>
       <ListItem
@@ -18,8 +20,9 @@ const FormRow = props => {
           props.containerStyle,
         ])}
       />
-      {props.onChangeText || props.value ?(
+      {needInputPress ? (
         <TextInput
+          {...pointerEvents}
           keyboardType={props.keyboardType}
           placeholder={props.placeholder}
           style={StyleSheet.flatten([styles.input, props.inputStyle])}
@@ -49,6 +52,7 @@ const styles = StyleSheet.create({
     borderColor: colors.divider,
   },
   input: {
+    backgroundColor: 'transparent',
     width: '94%',
     position: 'absolute',
     bottom: 0,
