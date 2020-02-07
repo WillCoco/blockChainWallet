@@ -17,13 +17,18 @@ import {useNavigation} from 'react-navigation-hooks';
 import _split from 'lodash/split';
 import i18n from '../../helpers/i18n';
 
-const ScannerScreen = () => {
+let isClosing = false;
 
+const ScannerScreen = () => {
   const {navigate, replace} = useNavigation();
   const [show, setShow] = useState(true);
   const [animation, setAnimation] = useState(new Animated.Value(0));
 
   const startAnimation = () => {
+    if (isClosing) {
+      // 避免动画导致 Mask runAfterInteractions回调不执行
+      return;
+    }
     if (show) {
       animation.setValue(0);
       Animated.timing(animation, {
@@ -39,7 +44,8 @@ const ScannerScreen = () => {
       startAnimation();
     });
     return () => {
-      setShow(false);
+      isClosing = true;
+      setShow(false); // setShow不够及时
     }
   });
 

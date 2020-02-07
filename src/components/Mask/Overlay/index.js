@@ -115,8 +115,10 @@ const MaskOverlay = props => {
   console.log(list, 'opts');
 
   const push = (item, opts) => {
+    console.log(111111)
     InteractionManager.runAfterInteractions(() => {
       mergeOptions(opts);
+      console.log(22222)
 
       setList(list => {
         // 已存在该弹窗则不弹出

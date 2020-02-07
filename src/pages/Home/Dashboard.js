@@ -65,12 +65,11 @@ const Dashboard = props => {
     let total = 0;
 
     assetsList.forEach(asset => {
-      // console.log(getRate(asset.symbol), 999900000)
       const newValue = getRate(asset.symbol) * +asset.balanceFmt;
       total += newValue ? newValue : 0;
     });
 
-    console.log(total, 'total asset');
+    // console.log(total, 'total asset');
     // total = total.toFixed(2);
     return new BigNumber(total).toFormat(2);
   }, [assetsList, getRate]);
@@ -125,7 +124,6 @@ const Dashboard = props => {
         </TouchableOpacity>
       </View>
     </View>
-
   );
 };
 

@@ -25,6 +25,7 @@ const WalletQuickManager = props => {
 
   // 打开overlay, 带偏移参数
   const openOverlay = options => {
+    console.log(options, 'optionspushhhhhh')
     Overlay.push(Overlay.contentTypes.WALLET_QUICK_MANAGER, options);
   };
 
