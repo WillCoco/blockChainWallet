@@ -7,7 +7,6 @@
  * @lastModificationDate:
  */
 import React from 'react';
-import {BackHandler} from 'react-native';
 import {View, InteractionManager} from 'react-native';
 import {Overlay} from 'react-native-elements';
 // import _get from 'lodash/get';
@@ -170,10 +169,6 @@ const MaskOverlay = props => {
     setPause,
     removeAll,
   };
-
-  /**
-   * android禁止返回关闭弹窗
-   */
 
   /**
    * 获取内容、内容类型
