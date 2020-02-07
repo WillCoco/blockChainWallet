@@ -29,7 +29,7 @@ const colors = {
   textGrey5,
   textGrey6,
   textError: '#ff190c',
-  theme: '#2898ff',
+  theme: '#2698FB',
   success: '#81c784',
   warn: '#ff0000',
   pageBackground: '#f4f4f4',

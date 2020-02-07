@@ -12,14 +12,17 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useFocusEffect, useNavigation, useIsFocused} from 'react-navigation-hooks';
 import _get from 'lodash/get';
 import SplashScreen from 'react-native-splash-screen';
+import {H4, scale} from 'react-native-normalization-text';
 import AssetsList from './AssetsList';
 import Dashboard from './Dashboard';
 import PasswordValid from './PasswordValid';
 import {asset, update} from '../../redux/actions';
 import {Overlay} from '../../components/Mask';
 import colors from '../../helpers/colors';
-import {vh} from '../../helpers/metric';
+import {vh, metrics} from '../../helpers/metric';
 import Poller from '../../helpers/utils/poller';
+import i18n from '../../helpers/i18n';
+
 // import {Toast} from '../../components/Toast';
 // Toast.loading();
 
@@ -28,9 +31,7 @@ const Home = () => {
 
   const {navigate, replace} = useNavigation();
 
-  useSelector(state =>
-    _get(state, ['appSetting', 'language']),
-  );
+  useSelector(state => _get(state, ['appSetting', 'language']));
 
   const [isLoaded, setIsLoaded] = React.useState(false);
 
@@ -52,7 +53,7 @@ const Home = () => {
 
     // 检查更新
     dispatch(update.checkVersion()).then(async info => {
-      console.log(info, 'checkUpdate_home')
+      // console.log(info, 'checkUpdate_home');
       if (!info) {
         return;
       }
@@ -128,12 +129,11 @@ const Home = () => {
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={{flex: 1, backgroundColor: '#fff'}}>
-        {/*<StatusBar backgroundColor={colors.theme} barStyle="light-content" />*/}
-        <Dashboard
-          isLoaded={isLoaded}
-          // overlayVisible={overlayVisible}
-          // setOverlayVisible={setOverlayVisible}
-        />
+        <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
+        <Dashboard isLoaded={isLoaded} />
+        <H4 color="secondary" style={styles.assetsTitle}>
+          {i18n.t('allAssets')}
+        </H4>
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -175,6 +175,11 @@ const styles = StyleSheet.create({
     //   backgroundColor: '#fff',
     // },
   }),
+  assetsTitle: {
+    fontSize: scale(14),
+    marginHorizontal: metrics.spaceN,
+    marginTop: vh(6.5),
+  },
 });
 
 export default Home;

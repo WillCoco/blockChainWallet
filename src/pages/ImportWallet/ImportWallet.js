@@ -6,14 +6,14 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   View,
-  // StatusBar,
+  StatusBar,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {Button} from 'react-native-elements';
 import {scale} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
-import _get from 'lodash/get';
+// import _get from 'lodash/get';
 import colors from '../../helpers/colors';
 import {vw, metrics} from '../../helpers/metric';
 import {getMnemonicString} from '../../helpers/utils/getMnemonic';
@@ -23,7 +23,7 @@ import {wallet} from '../../redux/actions';
 import {eventTypes, WVEvent} from '../../helpers/eventEmmiter';
 import {StackActions, NavigationActions} from 'react-navigation';
 
-const ImportWallet = (props) => {
+const ImportWallet = () => {
   const {dispatch: navDispatch} = useNavigation();
   const dispatch = useDispatch();
 
@@ -125,7 +125,7 @@ const ImportWallet = (props) => {
 
   return (
     <ScrollView keyboardShouldPersistTaps="handled" style={styles.wrapper}>
-      {/*<StatusBar backgroundColor={colors.theme} barStyle="light-content" />*/}
+      <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
       <KeyboardAvoidingView style={{flex: 1}}>
         <TouchableWithoutFeedback onPress={focus}>
           <View style={styles.mnemonicInputWrapper}>

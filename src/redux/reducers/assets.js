@@ -15,6 +15,10 @@ import {
  */
 const initialState = {
   assetsList: [],
+  exchangeRate: {
+    UTC: 1,
+    TC: 6.98,
+  },
 };
 
 export default function(state = initialState, action) {

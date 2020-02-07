@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   InteractionManager,
+  Clipboard
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {Icon, Button} from 'react-native-elements';
@@ -147,6 +148,14 @@ const WalletDetails = props => {
         },
       },
     });
+  };
+
+  /**
+   * 复制
+   */
+  const copy = v => {
+    Clipboard.setString(v);
+    Toast.show({data: i18n.t('copySuccess')});
   };
 
   return (

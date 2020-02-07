@@ -7,14 +7,19 @@
  * @lastModificationDate:
  */
 import React from 'react';
+import {StatusBar} from 'react-native';
 import {useNavigationParam} from 'react-navigation-hooks';
 import TokensList from '../../components/TokensList';
+import colors from '../../helpers/colors';
 
 const SelectToken = props => {
   const onSelectToken = useNavigationParam('onSelectToken');
 
   return (
-    <TokensList tokensList={props.tokensList} onSelectToken={onSelectToken} />
+    <>
+      <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
+      <TokensList tokensList={props.tokensList} onSelectToken={onSelectToken} />
+    </>
   );
 };
 

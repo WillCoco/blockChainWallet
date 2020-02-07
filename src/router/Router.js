@@ -113,7 +113,8 @@ const AppNavigator = createStackNavigator(
     Transfer: {
       screen: props => safePage(Transfer, props),
       navigationOptions: ({navigation}) => ({
-        headerTitle: `${i18n.t('transfer')}`,
+        // headerTitle: `${i18n.t('transfer')}`,
+        header: null,
       }),
     },
     Collect: {

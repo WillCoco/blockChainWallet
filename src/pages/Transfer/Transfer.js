@@ -2,6 +2,7 @@ import React from 'react';
 import {
   ScrollView,
   StyleSheet,
+  StatusBar,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import Bignumber from 'bignumber.js';
@@ -15,9 +16,11 @@ import {Toast} from '../../components/Toast';
 import {wallet, asset} from '../../redux/actions';
 import {chainInfo} from '../../config/';
 import i18n from '../../helpers/i18n';
+import colors from '../../helpers/colors';
 import {isValidNumeric, lowerUnit} from '../../helpers/utils/numbers';
 import FormRow from '../../components/FormRow';
 import {Loading, Overlay} from '../../components/Mask';
+import NavBar from '../../components/NavBar';
 
 // console.log(chainInfo.symbol, 'chainInfochainInfochainInfo')
 const defaultFee = 0.001;
@@ -58,13 +61,15 @@ export default props => {
   // 选择token
   const goSelectToken = () => {
     navigate('SelectToken', {
-      onSelectToken: token =>
+      onSelectToken: token => {
         setTransferForm(transferForm => {
+          console.log(token, 'tokensss')
           return {
             ...transferForm,
             token,
           };
-        }),
+        });
+      },
     });
   };
 
@@ -92,12 +97,25 @@ export default props => {
   const currentAsset = useSelector(state => {
     const assets = _filter(
       _get(state, ['assets', 'assetsList']) || [],
-      o => o.symbol === _get(defaultTransferForm, ['token', 'symbol']),
+      o => o.symbol === _get(transferForm, ['token', 'symbol']),
     );
 
     return assets && assets[0];
   });
 
+  /**
+   * 主币种资产
+   */
+  const mainAsset = useSelector(state => {
+    const assets = _filter(
+      _get(state, ['assets', 'assetsList']) || [],
+      o => o.symbol === chainInfo.symbol,
+    );
+
+    return assets && assets[0];
+  });
+
+  console.log(currentAsset, 'currentAsset')
   /**
    * 点击下一步
    */
@@ -130,6 +148,13 @@ export default props => {
       Toast.show({data: i18n.t('notEnoughAmount')});
       return;
     }
+
+    // 手续费不足
+    if (new Bignumber(currentAsset.balanceFmt).isLessThan(defaultFee)) {
+      Toast.show({data: i18n.t('notEnoughFee')});
+      return;
+    }
+
     createTx();
   };
 
@@ -237,6 +262,19 @@ export default props => {
 
   return (
     <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="handled">
+      <StatusBar backgroundColor={colors.theme} barStyle="dark-content" />
+      <NavBar
+        lightTheme
+        title={i18n.t('transfer')}
+        safeViewStyle={{
+          backgroundColor: '#fff',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        titleStyle={{
+          color: colors.textTitle,
+        }}
+      />
       <FormRow
         title={i18n.t('transferToken')}
         chevron={{size: 24}}
@@ -247,13 +285,6 @@ export default props => {
         editable={false}
       />
       <FormRow
-        title={i18n.t('transferAddress')}
-        placeholder={i18n.t('transferAddressPlaceholder')}
-        bottomDivider
-        value={_get(transferForm, 'address')}
-        onChangeText={onChangeAddress}
-      />
-      <FormRow
         title={i18n.t('transferAmount')}
         placeholder={i18n.t('transferAmountPlaceholder')}
         bottomDivider
@@ -261,10 +292,11 @@ export default props => {
         onChangeText={onChangeAmount}
       />
       <FormRow
-        title={i18n.t('transferFee')}
-        value={defaultFee + ' ' + chainInfo.symbol}
+        title={i18n.t('transferAddress')}
+        placeholder={i18n.t('transferAddressPlaceholder')}
         bottomDivider
-        editable={false}
+        value={_get(transferForm, 'address')}
+        onChangeText={onChangeAddress}
       />
       <FormRow
         title={i18n.t('transferNote')}
@@ -272,6 +304,12 @@ export default props => {
         placeholder={i18n.t('transferNotePlaceholder')}
         value={_get(transferForm, 'note')}
         onChangeText={v => setTransferForm({...transferForm, note: v})}
+      />
+      <FormRow
+        title={i18n.t('transferFee')}
+        value={defaultFee + ' ' + chainInfo.symbol}
+        bottomDivider
+        editable={false}
       />
       <Button
         iconRight

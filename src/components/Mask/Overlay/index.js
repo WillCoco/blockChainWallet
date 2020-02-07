@@ -7,11 +7,11 @@
  * @lastModificationDate:
  */
 import React from 'react';
-import {StyleSheet, View, Text, InteractionManager} from 'react-native';
+import {View, InteractionManager} from 'react-native';
 import {Overlay} from 'react-native-elements';
 // import _get from 'lodash/get';
 // import Loading from '../Loading';
-import i18n from '../../../helpers/i18n/index';
+// import i18n from '../../../helpers/i18n/index';
 // import safePage from '../../../helpers/safePage/index';
 // import Dialog from '../../../components/Dialog';
 

@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useNavigation} from 'react-navigation-hooks';
+import colors from '../../helpers/colors';
 
 export default props => {
   const {navigate} = useNavigation();
@@ -14,8 +15,10 @@ export default props => {
       onPress={() => {
         navigate('WalletDetails', props.wallet);
       }}
+      titleStyle={{marginBottom: 6, color: colors.textTitle}}
       titleProps={{ellipsizeMode: 'middle', numberOfLines: 1}}
       subtitleProps={{ellipsizeMode: 'middle', numberOfLines: 1}}
+      subtitleStyle={{color: colors.textSecondary}}
       chevron
     />
   );

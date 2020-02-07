@@ -9,6 +9,7 @@
 import _get from 'lodash/get';
 import {chainInfo} from '../../config';
 import {upperUnit} from '../utils/numbers';
+import images from '../../images/index';
 
 export function getAddressOverview(response) {
   // console.log(response, 'response');
@@ -23,6 +24,11 @@ export function getAddressOverview(response) {
   };
 }
 
+const getIcon = symbol => {
+  const name = `${symbol}Icon`;
+  return images[name] || images.UTCIcon;
+};
+
 export function getAddressTokens(response) {
   const {result} = response || {};
   let {tokenAssets} = result || {};
@@ -30,6 +36,7 @@ export function getAddressTokens(response) {
     reciverFmt: upperUnit(_get(token, ['account', 'reciver'])),
     balanceFmt: upperUnit(_get(token, ['account', 'balance'])),
     symbol: token.symbol,
+    icon: getIcon(token.symbol),
   }));
   // console.log(tokenAssets, 'format_getAddressTokens');
 
@@ -54,6 +61,7 @@ export function getAddressAsset(response) {
 
   // 主币种symbol
   accountResult.symbol = chainInfo.coinName;
+  accountResult.icon = getIcon(accountResult.symbol);
   // console.log(
   //   {result: [accountResult, ...tokensArray]},
   //   'format_getAddressAsset',

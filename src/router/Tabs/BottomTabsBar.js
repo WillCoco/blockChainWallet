@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {Icon} from 'react-native-elements';
-import {PrimaryText, SmallText} from 'react-native-normalization-text';
+import {TinyText} from 'react-native-normalization-text';
 import {BottomTabBar} from 'react-navigation-tabs';
 import _get from 'lodash/get';
 import {connect} from 'react-redux';
@@ -10,8 +10,6 @@ import i18n from '../../helpers/i18n';
 const TabBarComponent = props => {
   const {index: tabIndex} = props.navigation.state;
   const {activeTintColor, inactiveTintColor} = props;
-
-  
 
   return (
     <BottomTabBar
@@ -47,9 +45,7 @@ function getLabelText(route, tabIndex, activeTintColor, inactiveTintColor) {
   const {index, textKey} = tabs[route.key];
   const isChecked = tabIndex === index;
   const color = isChecked ? activeTintColor : inactiveTintColor;
-  return (
-    <PrimaryText style={[style.label, {color}]}>{i18n.t(textKey)}</PrimaryText>
-  );
+  return <TinyText style={[styles.label, {color}]}>{i18n.t(textKey)}</TinyText>;
 }
 
 function renderIcon(route, tabIndex, activeTintColor, inactiveTintColor) {
@@ -58,7 +54,7 @@ function renderIcon(route, tabIndex, activeTintColor, inactiveTintColor) {
   const color = isChecked ? activeTintColor : inactiveTintColor;
 
   // return <Text style={[style.icon, {color}]}>{icon}</Text>;
-  return <Icon name={icon} type={iconType} style={style.icon} color={color}/>;
+  return <Icon name={icon} type={iconType} style={styles.icon} color={color} />;
 }
 
 function mapStateToProps(state) {
@@ -67,9 +63,8 @@ function mapStateToProps(state) {
   };
 }
 
-const style = StyleSheet.create({
-  icon: {
-  },
+const styles = StyleSheet.create({
+  icon: {},
   label: {
     textAlign: 'center',
   },

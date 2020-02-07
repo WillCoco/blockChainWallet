@@ -2,16 +2,19 @@ import React from 'react';
 import _get from 'lodash/get';
 import {
   View,
+  Image,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {Divider} from 'react-native-elements';
-import {PrimaryText} from 'react-native-normalization-text';
+import {PrimaryText, SmallText, H4, scale} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
+import BigNumber from 'bignumber.js';
 import Empty from '../../components/Empty';
 import {vw, metrics} from '../../helpers/metric';
 import colors from '../../helpers/colors';
+import i18n from '../../helpers/i18n';
 import safePage from '../../helpers/safePage';
 
 const AssetsList = props => {
@@ -38,28 +41,67 @@ const AssetsList = props => {
     state => _get(state, ['assets', 'assetsList']) || [],
   );
 
+  /**
+   * 汇率
+   */
+  const rates = useSelector(
+    state => _get(state, ['assets', 'exchangeRate']) || {},
+  );
+
+  const getValue = React.useCallback(
+    asset => {
+      const {symbol, balanceFmt} = asset || {};
+      if (!symbol) {
+        console.warn('not fount symbol:', symbol);
+        return 0;
+      }
+      const rate = _get(rates, symbol) || 0;
+      const v = (rate * +asset.balanceFmt)/*.toFixed(2)*/;
+      return new BigNumber(v).toFormat(2);
+    },
+    [rates],
+  );
+
   return (
     <View style={{minHeight: '80%', flex: 1}}>
       {props.isLoaded && assetsList.length === 0 ? (
         <Empty />
       ) : (
-        assetsList.map((asset, index) => {
-          return (
-            <View style={styles.wrapper} key={`asset_${index}`}>
-              {index !== 0 && (
-                <Divider style={{backgroundColor: colors.divider}} />
-              )}
-              <TouchableOpacity
-                style={StyleSheet.flatten([styles.assetRow])}
-                onPress={() => goAssetDetail(asset.symbol)}>
-                <PrimaryText color="">{asset.symbol}</PrimaryText>
-                <PrimaryText color="title">
-                  {isShowAssets ? asset.balanceFmt : '****'}
-                </PrimaryText>
-              </TouchableOpacity>
-            </View>
-          );
-        })
+        <>
+          {/*<H4 color="secondary">{i18n.t('allAssets')}</H4>*/}
+          {assetsList.map((asset, index) => {
+            return (
+              <View style={styles.wrapper} key={`asset_${index}`}>
+                <TouchableOpacity
+                  style={StyleSheet.flatten([styles.assetRow])}
+                  onPress={() => goAssetDetail(asset.symbol)}>
+                  <View style={styles.leftContent}>
+                    <View style={styles.assetIcon}>
+                      <Image
+                        resizeMode="contain"
+                        style={styles.iconStyle}
+                        source={asset.icon}
+                      />
+                    </View>
+
+                    <H4 color="" style={{fontWeight: '500'}}>
+                      {asset.symbol}
+                    </H4>
+                  </View>
+                  <View>
+                    <PrimaryText color="title" style={styles.title}>
+                      {isShowAssets ? asset.balanceFmt : '****'}
+                    </PrimaryText>
+                    <SmallText color="" style={styles.value}>
+                      {isShowAssets ? `¥${getValue(asset)}` : '****'}
+                    </SmallText>
+                  </View>
+                </TouchableOpacity>
+                <Divider style={{backgroundColor: colors.dividerDark}} />
+              </View>
+            );
+          })}
+        </>
       )}
     </View>
   );
@@ -75,12 +117,38 @@ const styles = StyleSheet.create({
     paddingHorizontal: vw(4),
   },
   assetRow: {
-    height: vw(14),
+    height: vw(18),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: metrics.spaceS,
-    borderColor: colors.divider,
+  },
+  leftContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  assetIcon: {
+    width: vw(10),
+    height: vw(10),
+    borderRadius: vw(6),
+    borderWidth: 1,
+    borderColor: colors.dividerDark,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: metrics.spaceS,
+  },
+  iconStyle: {
+    width: vw(7),
+    height: vw(7),
+    alignSelf: 'center',
+  },
+  title: {
+    fontSize: scale(14),
+    textAlign: 'right',
+    fontWeight: '500',
+  },
+  value: {
+    textAlign: 'right',
   },
 });
 

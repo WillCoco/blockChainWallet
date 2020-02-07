@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from 'react-native-pure-navigation-bar';
 import colors from '../helpers/colors';
+import images from '../images';
 
 // 导航栏默认样式
 const defaultStyle = {
@@ -27,7 +28,8 @@ const defaultStyle = {
 const Navbar = props => {
   const navStyle = {
     ...defaultStyle,
-    safeView: {...defaultStyle.safeView, ...props.safeView},
+    title: {...defaultStyle.title, ...props.titleStyle},
+    safeView: {...defaultStyle.safeView, ...props.safeViewStyle},
   };
   return (
     <NavBar
@@ -39,12 +41,13 @@ const Navbar = props => {
       onRight={props.onRight}
       rightElement={props.rightElement}
       style={navStyle}
-      gobackImage={require('../images/backBtn.png')}
+      gobackImage={props.lightTheme ? images.backBtnLight : images.backBtn}
     />
   );
 };
 
 NavBar.defaultProps = {
+  lightTheme: false, // 纯白
   title: '默认标题',
   headerShown: false,
   headerTitle: '',

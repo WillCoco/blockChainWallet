@@ -81,7 +81,7 @@ const Guide = () => {
    */
   React.useEffect(() => {
     if (isFocused) {
-      // StatusBar.setBarStyle('dark-content');
+      console.log(123123,999)
       StatusBar.setHidden(true);
     }
     if (isFocused && walletsList.length > 0) {

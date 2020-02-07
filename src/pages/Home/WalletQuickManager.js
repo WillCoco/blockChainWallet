@@ -5,12 +5,13 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-import {PrimaryText} from 'react-native-normalization-text';
+import {PrimaryText, scale} from 'react-native-normalization-text';
 import {Icon} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import _get from 'lodash/get';
 import {useNavigation} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
+import {vh, vw, metrics} from '../../helpers/metric';
 import safePage from '../../helpers/safePage';
 import i18n from '../../helpers/i18n';
 import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
@@ -41,8 +42,8 @@ const WalletQuickManager = props => {
       <TouchableOpacity
         onPress={() =>
           openOverlay({
-            containerStyle: {top},
-            overlayStyle: {marginTop: top},
+            containerStyle: {top: top + 10},
+            overlayStyle: {marginTop: top + 10},
           })
         }
         onLayout={event => {
@@ -59,12 +60,16 @@ const WalletQuickManager = props => {
           setTop(topDistance);
         }}
         style={styles.checkedWallet}>
-        <Icon
-          name="wallet-outline"
-          type="material-community"
-          color={colors.textWhite}
-        />
-        <PrimaryText color="white" style={{marginLeft: 8}}>
+        {/*<Icon*/}
+          {/*name="wallet-outline"*/}
+          {/*type="material-community"*/}
+          {/*color={colors.textWhite}*/}
+        {/*/>*/}
+        <PrimaryText
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          color="white"
+          style={{marginLeft: 8, maxWidth: vw(20)}}>
           {props.walletFormat(currentWallet) || i18n.t('noSelectedWallet')}
         </PrimaryText>
         {props.overlayVisible ? (
@@ -93,13 +98,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 10,
+    paddingHorizontal: metrics.spaceS,
   },
   checkedWallet: {
-    // height: vh(5),
-    paddingVertical: 10,
-    width: '30%',
+    height: scale(28),
+    maxWidth: '40%',
+    minWidth: '24%',
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 8,
+    borderWidth: 1,
+    borderColor: colors.textGrey3,
+    borderRadius: scale(14),
   },
 });
 
