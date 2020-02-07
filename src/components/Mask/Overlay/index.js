@@ -7,6 +7,7 @@
  * @lastModificationDate:
  */
 import React from 'react';
+import {BackHandler} from 'react-native';
 import {View, InteractionManager} from 'react-native';
 import {Overlay} from 'react-native-elements';
 // import _get from 'lodash/get';
@@ -100,7 +101,7 @@ const MaskOverlay = props => {
   /**
    * 弹窗队列
    */
-  const [list, setList] = React.useState([]);
+  const [list, setList] = React.useState([contentTypes.UPDATER]);
 
   /**
    * 止戈，暂停弹窗显示，不影响队列，只是影响是否显示modal
@@ -115,10 +116,8 @@ const MaskOverlay = props => {
   console.log(list, 'opts');
 
   const push = (item, opts) => {
-    console.log(111111)
     InteractionManager.runAfterInteractions(() => {
       mergeOptions(opts);
-      console.log(22222)
 
       setList(list => {
         // 已存在该弹窗则不弹出
@@ -171,6 +170,10 @@ const MaskOverlay = props => {
     setPause,
     removeAll,
   };
+
+  /**
+   * android禁止返回关闭弹窗
+   */
 
   /**
    * 获取内容、内容类型
@@ -234,7 +237,7 @@ const MaskOverlay = props => {
           overlayBackgroundColor="transparent"
           width="auto"
           height="auto"
-          onBackdropPress={() => remove()}
+          // onBackdropPress={() => remove()} // 返回键是否关闭
           containerStyle={options.containerStyle}
           overlayStyle={options.overlayStyle}>
           {content}

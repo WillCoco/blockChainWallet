@@ -38,6 +38,7 @@ export function checkVersion() {
     return new Promise(async (resolve, reject) => {
       if (__DEV__) {
         // 开发模式不支持热更新，跳过检查
+        reject('dev');
         return;
       }
 
@@ -55,6 +56,7 @@ export function checkVersion() {
         console.log(info, 'checkUpdate_info1');
       } catch (err) {
         console.log(err, 'checkUpdate_err');
+        reject();
         return;
       }
 

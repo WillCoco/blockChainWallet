@@ -111,7 +111,11 @@ const Dashboard = props => {
           style={styles.contentLeft}
           onPress={() => navigate('Transfer')}>
           {/*<Icon name="exit-to-app" color={colors.textWhite} />*/}
-          <Image style={styles.imgIcon} source={images.send} />
+          <Image
+            resizeMode="contain"
+            style={styles.imgIcon}
+            source={images.send}
+          />
           <H4 style={styles.alignCenter}>{i18n.t('transfer')}</H4>
         </TouchableOpacity>
         <View style={styles.divider} />
@@ -161,11 +165,13 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
       },
       android: {
-        elevation: 1,
+        elevation: 2,
       },
     }),
   },
   imgIcon: {
+    width: scale(26),
+    height: 'auto',
     marginRight: metrics.spaceS / 2,
   },
   contentLeft: {

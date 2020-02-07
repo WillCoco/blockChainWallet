@@ -262,7 +262,7 @@ export default props => {
 
   return (
     <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="handled">
-      <StatusBar backgroundColor={colors.theme} barStyle="dark-content" />
+      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
       <NavBar
         lightTheme
         title={i18n.t('transfer')}

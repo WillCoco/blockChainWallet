@@ -81,7 +81,6 @@ const Guide = () => {
    */
   React.useEffect(() => {
     if (isFocused) {
-      console.log(123123,999)
       StatusBar.setHidden(true);
     }
     if (isFocused && walletsList.length > 0) {
