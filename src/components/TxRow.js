@@ -28,8 +28,6 @@ const TxRow = props => {
 
   const isOk = props.tyname === 'ExecOk';
 
-  console.log(props, 'propsprops')
-
   const color = isOut ? colors.success : colors.theme;
 
   return (
