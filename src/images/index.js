@@ -41,4 +41,7 @@ module.exports = {
   get receive() {
     return require('./receive.png');
   },
+  get scan() {
+    return require('./scan.png');
+  },
 };

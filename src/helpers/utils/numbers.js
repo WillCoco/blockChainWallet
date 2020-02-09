@@ -15,6 +15,7 @@ import {chainInfo} from '../../config';
 export function upperUnit(number, options) {
   const defaultOptions = {
     defaultValue: '0',
+    pretty: true,
     scale: chainInfo.digits,
   };
   const opts = {...defaultOptions, ...options};
@@ -23,7 +24,10 @@ export function upperUnit(number, options) {
     return opts.defaultValue;
   }
   const decimals = BigNumber(number);
-  return decimals.shiftedBy(-opts.scale).toFormat();
+
+  return opts.pretty
+    ? decimals.shiftedBy(-opts.scale).toFormat()
+    : decimals.shiftedBy(-opts.scale).toString();
 }
 
 /**

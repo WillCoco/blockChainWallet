@@ -16,6 +16,7 @@ import {vw, metrics} from '../../helpers/metric';
 import colors from '../../helpers/colors';
 import i18n from '../../helpers/i18n';
 import safePage from '../../helpers/safePage';
+import {upperUnit} from '../../helpers/utils/numbers';
 
 const AssetsList = props => {
   const {navigate} = useNavigation();
@@ -56,7 +57,11 @@ const AssetsList = props => {
         return 0;
       }
       const rate = _get(rates, symbol) || 0;
-      const v = (rate * +asset.balanceFmt)/*.toFixed(2)*/;
+      const v = upperUnit(rate * +asset.balance, {
+        pretty: false,
+      });
+
+      // const v = (rate * +('99741.995001'))/*.toFixed(2)*/;
       return new BigNumber(v).toFormat(2);
     },
     [rates],

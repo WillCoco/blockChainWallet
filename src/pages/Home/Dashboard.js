@@ -21,6 +21,7 @@ import {appSettingAction} from '../../redux/actions/';
 import safePage from '../../helpers/safePage/';
 import {Overlay} from '../../components/Mask';
 import images from '../../images';
+import {upperUnit} from '../../helpers/utils/numbers';
 
 const Dashboard = props => {
   const {navigate} = useNavigation();
@@ -65,13 +66,14 @@ const Dashboard = props => {
     let total = 0;
 
     assetsList.forEach(asset => {
-      const newValue = getRate(asset.symbol) * +asset.balanceFmt;
+      const newValue = getRate(asset.symbol) * +asset.balance;
       total += newValue ? newValue : 0;
     });
 
     // console.log(total, 'total asset');
     // total = total.toFixed(2);
-    return new BigNumber(total).toFormat(2);
+    const v = upperUnit(total, {pretty: false});
+    return new BigNumber(v).toFormat(2);
   }, [assetsList, getRate]);
 
   return (
