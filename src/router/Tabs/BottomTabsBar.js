@@ -1,11 +1,12 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {StyleSheet, Image} from 'react-native';
+// import {Icon} from 'react-native-elements';
 import {TinyText} from 'react-native-normalization-text';
 import {BottomTabBar} from 'react-navigation-tabs';
 import _get from 'lodash/get';
 import {connect} from 'react-redux';
 import i18n from '../../helpers/i18n';
+import images from '../../images';
 
 const TabBarComponent = props => {
   const {index: tabIndex} = props.navigation.state;
@@ -32,12 +33,16 @@ const tabs = {
     icon: 'home-currency-usd',
     iconType: 'material-community',
     textKey: 'asset',
+    img: images.tabAsset,
+    imgActive: images.tabAssetActive,
   },
   Me: {
     index: 1,
     icon: 'user',
     iconType: 'font-awesome',
     textKey: 'me',
+    img: images.tabMe,
+    imgActive: images.tabMeActive,
   },
 };
 
@@ -54,7 +59,24 @@ function renderIcon(route, tabIndex, activeTintColor, inactiveTintColor) {
   const color = isChecked ? activeTintColor : inactiveTintColor;
 
   // return <Text style={[style.icon, {color}]}>{icon}</Text>;
-  return <Icon name={icon} type={iconType} style={styles.icon} color={color} />;
+  return (
+    <Image
+      resizeMode="contain"
+      source={tabImgPicker(index, isChecked)}
+      style={styles.icon}
+    />
+  );
+  // return <Icon name={icon} type={iconType} style={styles.icon} color={color} />;
+}
+
+function tabImgPicker(index, isChecked) {
+  if (index === 0) {
+    return isChecked ? tabs.Home.imgActive : tabs.Home.img;
+  }
+
+  if (index === 1) {
+    return isChecked ? tabs.Me.imgActive : tabs.Me.img;
+  }
 }
 
 function mapStateToProps(state) {
@@ -64,7 +86,9 @@ function mapStateToProps(state) {
 }
 
 const styles = StyleSheet.create({
-  icon: {},
+  icon: {
+    height: 20,
+  },
   label: {
     textAlign: 'center',
   },

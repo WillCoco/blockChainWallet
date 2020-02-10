@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  Image,
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
@@ -22,8 +21,10 @@ import safePage from '../../helpers/safePage/';
 import {Overlay} from '../../components/Mask';
 import images from '../../images';
 import {upperUnit} from '../../helpers/utils/numbers';
+import Iconshoukuan from '../../components/Iconfont/Iconshoukuan';
+import Iconliaotianzhuanzhang from '../../components/Iconfont/Iconliaotianzhuanzhang';
 
-const Dashboard = props => {
+const Dashboard = () => {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
 
@@ -112,20 +113,14 @@ const Dashboard = props => {
         <TouchableOpacity
           style={styles.contentLeft}
           onPress={() => navigate('Transfer')}>
-          {/*<Icon name="exit-to-app" color={colors.textWhite} />*/}
-          <Image
-            resizeMode="contain"
-            style={styles.imgIcon}
-            source={images.send}
-          />
+          <Iconliaotianzhuanzhang size={scale(30)} style={{marginRight: 4}} />
           <H4 style={styles.alignCenter}>{i18n.t('transfer')}</H4>
         </TouchableOpacity>
         <View style={styles.divider} />
         <TouchableOpacity
           style={styles.contentRight}
           onPress={() => navigate('Collect')}>
-          {/*<Icon name="swap-horiz" color={colors.textWhite} />*/}
-          <Image style={styles.imgIcon} source={images.receive} />
+          <Iconshoukuan size={scale(33)} style={{marginRight: 2}} />
           <H4 style={styles.alignCenter}>{i18n.t('collect')}</H4>
         </TouchableOpacity>
       </View>
@@ -171,17 +166,13 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  imgIcon: {
-    width: scale(26),
-    height: 'auto',
-    marginRight: metrics.spaceS / 2,
-  },
   contentLeft: {
     flex: 1,
     paddingVertical: 4,
     // textAlign: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   contentRight: {
     flex: 1,
@@ -189,6 +180,7 @@ const styles = StyleSheet.create({
     // textAlign: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   assetWrapper: {
     flex: 1,

@@ -77,6 +77,10 @@
 ## 图标库
 [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)
 
+## 自定义图标
+[react-native-iconfont-cli](https://github.com/iconfont-cli/react-native-iconfont-cli)
+[阿里巴巴素材库](https://www.iconfont.cn/)
+
 
 ## app全局通用store状态
 

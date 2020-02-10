@@ -8,8 +8,17 @@
  */
 
 module.exports = {
-  get backBtn() {
-    return require('./backBtn.png');
+  get tabAsset() {
+    return require('./tabAsset.png');
+  },
+  get tabAssetActive() {
+    return require('./tabAssetActive.png');
+  },
+  get tabMe() {
+    return require('./tabMe.png');
+  },
+  get tabMeActive() {
+    return require('./tabMeActive.png');
   },
   get backBtnLight() {
     return require('./backBtnLight.png');

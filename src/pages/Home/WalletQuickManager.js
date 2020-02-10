@@ -16,6 +16,7 @@ import safePage from '../../helpers/safePage';
 import i18n from '../../helpers/i18n';
 import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
 import {Overlay} from '../../components/Mask';
+import Iconscan from '../../components/Iconfont/Iconscan';
 
 const WalletQuickManager = props => {
   // 当前钱包
@@ -25,7 +26,6 @@ const WalletQuickManager = props => {
 
   // 打开overlay, 带偏移参数
   const openOverlay = options => {
-    console.log(options, 'optionspushhhhhh')
     Overlay.push(Overlay.contentTypes.WALLET_QUICK_MANAGER, options);
   };
 
@@ -61,11 +61,6 @@ const WalletQuickManager = props => {
           setTop(topDistance);
         }}
         style={styles.checkedWallet}>
-        {/*<Icon*/}
-          {/*name="wallet-outline"*/}
-          {/*type="material-community"*/}
-          {/*color={colors.textWhite}*/}
-        {/*/>*/}
         <PrimaryText
           numberOfLines={1}
           ellipsizeMode="tail"
@@ -80,7 +75,7 @@ const WalletQuickManager = props => {
         )}
       </TouchableOpacity>
       <TouchableOpacity onPress={goScanPage}>
-        <Icon name="scan1" type="antdesign" color={colors.textWhite} />
+        <Iconscan size={scale(20)} />
       </TouchableOpacity>
     </View>
   );
