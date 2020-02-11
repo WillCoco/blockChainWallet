@@ -46,7 +46,7 @@ const Updater = props => {
         _get(props.info, 'downloadUrl') || `${url.website}/#/download`;
 
       console.log(linkingUrl, 'checkUpdate_url');
-      Linking.openURL(linkingUrl);
+      Linking.openURL(`${linkingUrl}?t=${Date.now()}`);
     } else {
       // 有可用热更
       console.log('checkUpdate_有可用热更');
