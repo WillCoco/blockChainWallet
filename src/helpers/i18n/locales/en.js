@@ -122,6 +122,7 @@ export default {
   pageError: 'Sorry! Some error occurred',
   pressToBack: 'Press me to back',
   goWebsite: 'Website',
+  balance: 'Balance',
   notEnoughAmount: 'Not enough amount',
   notEnoughFee: 'Not enough fee',
   goExplorer: 'Go UTCPark for more transaction info>',

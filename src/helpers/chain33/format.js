@@ -8,7 +8,7 @@
  */
 import _get from 'lodash/get';
 import {chainInfo} from '../../config';
-import {upperUnit} from '../utils/numbers';
+import {upperUnit, lowerUnit} from '../utils/numbers';
 import images from '../../images/index';
 
 export function getAddressOverview(response) {
@@ -33,9 +33,11 @@ export function getAddressTokens(response) {
   const {result} = response || {};
   let {tokenAssets} = result || {};
   tokenAssets = (tokenAssets || []).map(token => ({
+    balance: _get(token, ['account', 'balance']),
     reciverFmt: upperUnit(_get(token, ['account', 'reciver'])),
     balanceFmt: upperUnit(_get(token, ['account', 'balance'])),
     symbol: token.symbol,
+    symbolURL: _get(token, ['symbolURL']),
     icon: getIcon(token.symbol),
   }));
   // console.log(tokenAssets, 'format_getAddressTokens');

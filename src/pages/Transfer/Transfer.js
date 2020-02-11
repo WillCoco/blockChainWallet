@@ -7,6 +7,7 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import Bignumber from 'bignumber.js';
 import {Button} from 'react-native-elements';
+import {TinyText} from 'react-native-normalization-text';
 import _get from 'lodash/get';
 import _filter from 'lodash/filter';
 import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
@@ -115,7 +116,7 @@ export default props => {
     return assets && assets[0];
   });
 
-  console.log(currentAsset, 'currentAsset')
+  // console.log(currentAsset, 'currentAsset')
   /**
    * 点击下一步
    */
@@ -141,18 +142,35 @@ export default props => {
 
     Loading.set({visible: false});
 
-    // 余额不足
-    if (
-      new Bignumber(currentAsset.balanceFmt).isLessThan(safeTransferForm.amount)
-    ) {
-      Toast.show({data: i18n.t('notEnoughAmount')});
-      return;
-    }
+    // 检查余额
+    if (currentAsset.symbol === chainInfo.symbol) {
+      // 转主币种
+      if (
+        new Bignumber(currentAsset.balance).isLessThan(
+          new Bignumber(lowerUnit(safeTransferForm.amount)).plus(
+            lowerUnit(defaultFee),
+          ),
+        )
+      ) {
+        Toast.show({data: i18n.t('notEnoughAmount')});
+        return;
+      }
+    } else {
+      // 余额不足
+      if (
+        new Bignumber(currentAsset.balance).isLessThan(
+          lowerUnit(safeTransferForm.amount),
+        )
+      ) {
+        Toast.show({data: i18n.t('notEnoughAmount')});
+        return;
+      }
 
-    // 手续费不足
-    if (new Bignumber(currentAsset.balanceFmt).isLessThan(defaultFee)) {
-      Toast.show({data: i18n.t('notEnoughFee')});
-      return;
+      // 手续费不足
+      if (new Bignumber(mainAsset.balance).isLessThan(lowerUnit(defaultFee))) {
+        Toast.show({data: i18n.t('notEnoughFee')});
+        return;
+      }
     }
 
     createTx();
@@ -260,6 +278,12 @@ export default props => {
     setTransferForm(defaultTransferForm);
   };
 
+  /**
+   * 单位
+   */
+  const unitSymbol =
+    _get(transferForm, ['token', 'symbol']) || chainInfo.symbol;
+
   return (
     <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="handled">
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
@@ -281,7 +305,7 @@ export default props => {
         bottomDivider
         containerStyle={{}}
         onPress={goSelectToken}
-        value={_get(transferForm, ['token', 'symbol']) || chainInfo.symbol}
+        value={unitSymbol}
         editable={false}
       />
       <FormRow
@@ -290,6 +314,11 @@ export default props => {
         bottomDivider
         value={_get(transferForm, 'amount')}
         onChangeText={onChangeAmount}
+        attachment={
+          <TinyText style={styles.balance}>
+            {i18n.t('balance')}: {currentAsset.balanceFmt} {unitSymbol}
+          </TinyText>
+        }
       />
       <FormRow
         title={i18n.t('transferAddress')}
@@ -330,4 +359,9 @@ const styles = StyleSheet.create({
     marginTop: vw(10),
     alignSelf: 'center',
   },
+  balance: {
+    color: colors.theme,
+    position: 'absolute',
+    right: '6%',
+  }
 });

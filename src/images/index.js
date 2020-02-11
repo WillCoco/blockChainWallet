@@ -20,6 +20,9 @@ module.exports = {
   get tabMeActive() {
     return require('./tabMeActive.png');
   },
+  get backBtn() {
+    return require('./backBtn.png');
+  },
   get backBtnLight() {
     return require('./backBtnLight.png');
   },

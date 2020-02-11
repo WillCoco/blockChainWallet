@@ -34,6 +34,7 @@ const FormRow = props => {
           secureTextEntry={props.secureTextEntry}
         />
       ) : null}
+      {props.attachment}
     </View>
   );
 };
@@ -48,6 +49,9 @@ FormRow.defaultProps = {
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    justifyContent: 'center',
+  },
   containerStyle: {
     borderColor: colors.divider,
   },
