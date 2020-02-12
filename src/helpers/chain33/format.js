@@ -12,12 +12,13 @@ import {upperUnit, lowerUnit} from '../utils/numbers';
 import images from '../../images/index';
 
 export function getAddressOverview(response) {
-  // console.log(response, 'response');
+  console.log(response, 'response');
   const result = _get(response, 'result') || {};
   return {
     ...response,
     result: {
       ...result,
+      balance: result.balance || '0',
       balanceFmt: upperUnit(result.balance),
       reciverFmt: upperUnit(result.reciver),
     },
