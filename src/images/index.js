@@ -56,4 +56,7 @@ module.exports = {
   get scan() {
     return require('./scan.png');
   },
+  get utcExchageAlertBg() {
+    return require('./utcExchageAlertBg.png');
+  },
 };

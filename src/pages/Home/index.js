@@ -16,8 +16,8 @@ import {H4, scale} from 'react-native-normalization-text';
 import AssetsList from './AssetsList';
 import Dashboard from './Dashboard';
 import PasswordValid from './PasswordValid';
-import {asset, update} from '../../redux/actions';
-import {Overlay} from '../../components/Mask';
+import CheckOverlay from './CheckOverlay';
+import {asset} from '../../redux/actions';
 import colors from '../../helpers/colors';
 import {vh, metrics} from '../../helpers/metric';
 import Poller from '../../helpers/utils/poller';
@@ -51,39 +51,39 @@ const Home = () => {
 
     StatusBar.setBarStyle('light-content');
 
-    // 检查更新
-    dispatch(update.checkVersion()).then(async info => {
-      // console.log(info, 'checkUpdate_home');
-      if (!info) {
-        return;
-      }
-
-      if (info.expired) {
-        // 原生包过期
-        console.log('apk过期', 'checkUpdate_111');
-        Overlay.unshift(Overlay.contentTypes.UPDATER, {
-          customData: {info},
-        });
-      } else if (info.upToDate) {
-        // 您的应用版本已是最新
-        console.log('您的应用版本已是最新', 'checkUpdate_222');
-      } else {
-        console.log('有更新', 'checkUpdate_333');
-        // 这里因为是手动检查的，忽略静默属性
-        if (_get(info, ['metaInfo', 'silent'])) {
-          // 静默下载
-          const hash = await update.doDownload(info);
-
-          // 下次重启生效
-          update.doSwitch(hash, false);
-        } else {
-          // 非静默下载
-          Overlay.unshift(Overlay.contentTypes.UPDATER, {
-            customData: {info},
-          });
-        }
-      }
-    });
+    // // 检查更新
+    // dispatch(update.checkVersion()).then(async info => {
+    //   // console.log(info, 'checkUpdate_home');
+    //   if (!info) {
+    //     return;
+    //   }
+    //
+    //   if (info.expired) {
+    //     // 原生包过期
+    //     console.log('apk过期', 'checkUpdate_111');
+    //     Overlay.unshift(Overlay.contentTypes.UPDATER, {
+    //       customData: {info},
+    //     });
+    //   } else if (info.upToDate) {
+    //     // 您的应用版本已是最新
+    //     console.log('您的应用版本已是最新', 'checkUpdate_222');
+    //   } else {
+    //     console.log('有更新', 'checkUpdate_333');
+    //     // 这里因为是手动检查的，忽略静默属性
+    //     if (_get(info, ['metaInfo', 'silent'])) {
+    //       // 静默下载
+    //       const hash = await update.doDownload(info);
+    //
+    //       // 下次重启生效
+    //       update.doSwitch(hash, false);
+    //     } else {
+    //       // 非静默下载
+    //       Overlay.unshift(Overlay.contentTypes.UPDATER, {
+    //         customData: {info},
+    //       });
+    //     }
+    //   }
+    // });
   }, []);
 
   /**
@@ -150,6 +150,7 @@ const Home = () => {
           <AssetsList isLoaded={isLoaded} />
           <PasswordValid />
         </ScrollView>
+        <CheckOverlay />
       </View>
     </SafeAreaView>
   );

@@ -20,6 +20,7 @@ import WalletQuickManager from './WalletQuickManager';
 import TxConfirm from './TxConfirm';
 import SecretExport from './SecretExport';
 import Updater from './Updater';
+import Guidance from './Guidance';
 
 /**
  * 内容种类
@@ -33,6 +34,7 @@ const contentTypes = {
   SECRET_EXPORT: 'SECRET_EXPORT',
   TX_CONFIRM: 'TX_CONFIRM',
   UPDATER: 'UPDATER',
+  GUIDANCE: 'GUIDANCE',
 };
 
 /**
@@ -213,6 +215,13 @@ const MaskOverlay = props => {
         return {
           content: (
             <Updater visible={visible} {...options.customData} {...actions} />
+          ),
+          type: maskTypes.TYPES_OVERLAY,
+        };
+      case contentTypes.GUIDANCE:
+        return {
+          content: (
+            <Guidance visible={visible} {...options.customData} {...actions} />
           ),
           type: maskTypes.TYPES_OVERLAY,
         };

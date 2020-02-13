@@ -134,4 +134,5 @@ export default {
   updateFailed: '更新失败, 请稍后再试',
   noNewVersion: '您的应用版本已是最新',
   foundNewPackage: '发现新版本应用，请前往下载',
+  pressToGo: '点击进入',
 };

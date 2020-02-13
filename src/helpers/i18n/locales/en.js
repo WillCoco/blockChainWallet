@@ -136,4 +136,5 @@ export default {
   updateFailed: 'Update failed, please try later',
   noNewVersion: `It\'s the latest version`,
   foundNewPackage: 'Found a new version',
+  pressToGo: 'Go',
 };
