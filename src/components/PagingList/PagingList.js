@@ -154,7 +154,11 @@ const PagingList = props => {
         //加载更多
         onEndReached={onEndReached}
         onEndReachedThreshold={0.01}
-        ItemSeparatorComponent={() => <Divider style={styles.divider} />}
+        ItemSeparatorComponent={
+          props.showItemSeparator
+            ? () => <Divider style={styles.divider} />
+            : null
+        }
         keyExtractor={(item, index) => 'index' + index + item}
       />
     </View>
@@ -169,6 +173,7 @@ PagingList.defaultProps = {
   onRefresh: () => undefined,
   onEndReached: () => undefined,
   initialNumToRender: undefined,
+  showItemSeparator: false,
 };
 
 export default PagingList;
@@ -176,6 +181,7 @@ export default PagingList;
 const styles = StyleSheet.create({
   flatList: {
     flex: 1,
+    backgroundColor: colors.pageBackground,
   },
   listFooterWrapper: {
     minHeight: 32,

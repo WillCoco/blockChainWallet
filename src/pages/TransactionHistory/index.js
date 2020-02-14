@@ -15,7 +15,7 @@ import PagingList from '../../components/PagingList';
 import NavBar from '../../components/NavBar';
 import i18n from '../../helpers/i18n';
 import colors from '../../helpers/colors';
-import TxRow from '../../components/TxRow';
+import TxRow from '../../components/TxRow/TxRow';
 
 export default () => {
   const currentWallet = useSelector(

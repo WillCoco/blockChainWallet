@@ -11,6 +11,7 @@ import {
   View,
   StyleSheet,
   ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
 import {SmallText, PrimaryText, scale} from 'react-native-normalization-text';
 import {useSelector, useDispatch} from 'react-redux';
@@ -52,9 +53,11 @@ const SecretExport = props => {
 
   return (
     <View style={styles.wrapper}>
-      <View style={styles.contentWrapper}>
-        {content}
-        <Icon1 size={scale(40)} style={styles.close} onPress={() => props.remove()} />
+      <View style={{alignItems: 'center'}}>
+        <View style={styles.contentWrapper}>{content}</View>
+        <TouchableOpacity style={styles.close} onPress={() => props.remove()}>
+          <Icon1 size={scale(40)} />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -81,7 +84,6 @@ const styles = StyleSheet.create({
     height: vw(120),
     borderRadius: radius,
     alignItems: 'center',
-    marginBottom: vw(10),
   },
   imageBackground: {
     flex: 1,
@@ -98,8 +100,7 @@ const styles = StyleSheet.create({
   },
   button: {},
   close: {
-    position: 'absolute',
-    bottom: -vw(14),
+    marginTop: vw(4),
   },
 });
 

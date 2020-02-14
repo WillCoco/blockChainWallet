@@ -36,8 +36,16 @@ const tabs = {
     img: images.tabAsset,
     imgActive: images.tabAssetActive,
   },
-  Me: {
+  Exchange: {
     index: 1,
+    icon: 'user',
+    iconType: 'font-awesome',
+    textKey: 'quickExchange',
+    img: images.tabExchange,
+    imgActive: images.tabExchangeActive,
+  },
+  Me: {
+    index: 2,
     icon: 'user',
     iconType: 'font-awesome',
     textKey: 'me',
@@ -75,6 +83,10 @@ function tabImgPicker(index, isChecked) {
   }
 
   if (index === 1) {
+    return isChecked ? tabs.Exchange.imgActive : tabs.Exchange.img;
+  }
+
+  if (index === 2) {
     return isChecked ? tabs.Me.imgActive : tabs.Me.img;
   }
 }

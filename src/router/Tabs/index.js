@@ -8,6 +8,7 @@
  */
 import React from 'react';
 import Home from '../../pages/Home/index';
+import Exchange from '../../pages/Exchange/index';
 import Me from '../../pages/Me/index';
 import colors from '../../helpers/colors/index';
 import safePage from '../../helpers/safePage';
@@ -24,6 +25,13 @@ const TabsRouter = createBottomTabNavigator(
       navigationOptions: ({navigation}) => ({
         gestureEnabled: false,
       }),
+    },
+    Exchange: {
+      screen: props => safePage(Exchange, props),
+      path: 'main/exchange',
+      navigationOptions: {
+        // headerShown: false,
+      },
     },
     Me: {
       screen: props => safePage(Me, props),

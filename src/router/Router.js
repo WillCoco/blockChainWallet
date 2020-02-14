@@ -20,7 +20,8 @@ import {
   WalletBackUpStep2,
   WalletBackUpStep3,
 } from '../pages/WalletBackUp';
-import colors from '../helpers/colors';
+import DappsWebview from '../components/DappsWebview';
+// import colors from '../helpers/colors';
 // import NavBar, {InnerNaviBar} from 'react-native-pure-navigation-bar';
 import NavBar from '../components/NavBar';
 import i18n from '../helpers/i18n';
@@ -106,7 +107,8 @@ const AppNavigator = createStackNavigator(
       screen: props => safePage(AssetDetail, props),
       navigationOptions: ({navigation}) => {
         return {
-          headerTitle: navigation.getParam('tokenSymbol'),
+          header: null,
+          // headerTitle: navigation.getParam('tokenSymbol'),
         };
       },
     },
@@ -251,6 +253,7 @@ const A = props => (
   <>
     <Overlay.View />
     <AppNavigator {...props} />
+    <DappsWebview.View />
   </>
 );
 

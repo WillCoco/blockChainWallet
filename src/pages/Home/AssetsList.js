@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {Divider} from 'react-native-elements';
-import {PrimaryText, SmallText, H4, scale} from 'react-native-normalization-text';
+import {PrimaryText, SmallText, TinyText, H4, scale} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
 import BigNumber from 'bignumber.js';
 import Empty from '../../components/Empty';
@@ -89,9 +89,17 @@ const AssetsList = props => {
                       />
                     </View>
 
-                    <H4 color="" style={{fontWeight: '500'}}>
-                      {asset.symbol}
-                    </H4>
+                    <View style={styles.leftWrapper}>
+                      <PrimaryText color="title" style={{fontWeight: '500'}}>
+                        {asset.symbol}
+                      </PrimaryText>
+                      <TinyText color="" style={styles.tinyText}>
+                        {i18n.t('frozenAsset')} xxx{}
+                      </TinyText>
+                      <TinyText color="" style={styles.tinyText}>
+                        {i18n.t('availableAsset')} xxx{}
+                      </TinyText>
+                    </View>
                   </View>
                   <View>
                     <PrimaryText color="title" style={styles.title}>
@@ -147,10 +155,17 @@ const styles = StyleSheet.create({
     height: vw(7),
     alignSelf: 'center',
   },
+  leftWrapper: {
+    justifyContent: 'center',
+  },
   title: {
     fontSize: scale(14),
     textAlign: 'right',
     fontWeight: '500',
+  },
+  tinyText: {
+    color: colors.textSecondary,
+    lineHeight: scale(12),
   },
   value: {
     textAlign: 'right',

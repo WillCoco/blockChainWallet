@@ -29,13 +29,13 @@ const CheckOverlay = props => {
     checkVersion();
 
     // utc兑换
-    Overlay.push(Overlay.contentTypes.GUIDANCE, {
-      customData: {
-        buttonText: i18n.t('pressToGo'),
-        backgroundImg: images.utcExchageAlertBg,
-        onConfirm: () => navigate('Me'),
-      },
-    });
+    // Overlay.push(Overlay.contentTypes.GUIDANCE, {
+    //   customData: {
+    //     buttonText: i18n.t('pressToGo'),
+    //     backgroundImg: images.utcExchageAlertBg,
+    //     onConfirm: () => navigate('Exchange'),
+    //   },
+    // });
   }, []);
 
   /**

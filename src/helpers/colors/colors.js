@@ -29,15 +29,20 @@ const colors = {
   textGrey5,
   textGrey6,
   textError: '#ff190c',
+  textWarn: '#FC5D68',
+  textSuccess: '#00CC96',
+  textTheme: '#0F6EFF',
   theme: '#2698FB',
-  success: '#81c784',
+  success: '#00CC96',
   warn: '#ff0000',
-  pageBackground: '#f4f4f4',
+  pageBackground: '#f6f6f6',
   disable: '#cccccc',
   forbid: '#cccccc',
   divider: '#f4f4f4',
   dividerDark: textDark3,
   modalBg: '#444444',
+  iconBg1: '#E9F0FF',
+  iconBg2: '#FFF5F2',
 };
 
 module.exports = colors;

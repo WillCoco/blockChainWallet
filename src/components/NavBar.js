@@ -23,6 +23,9 @@ const defaultStyle = {
   gobackView: {
     color: colors.textWhite,
   },
+  normalView: {
+    backgroundColor: 'red',
+  }
 };
 
 const Navbar = props => {
@@ -30,7 +33,10 @@ const Navbar = props => {
     ...defaultStyle,
     title: {...defaultStyle.title, ...props.titleStyle},
     safeView: {...defaultStyle.safeView, ...props.safeViewStyle},
+    absoluteView: {...defaultStyle.absoluteView, ...props.absoluteViewStyle},
   };
+
+  console.log(navStyle, 'navStyle');
   return (
     <NavBar
       title={props.title}
@@ -42,6 +48,8 @@ const Navbar = props => {
       rightElement={props.rightElement}
       style={navStyle}
       gobackImage={props.lightTheme ? images.backBtnLight : images.backBtn}
+      isAbsolute={props.isAbsolute}
+      isTranslucent={props.isTranslucent}
     />
   );
 };
@@ -54,10 +62,11 @@ NavBar.defaultProps = {
   headerRight: void 0,
   headerLeft: void 0,
   onLeft: void 0,
-  lertElement: void 0,
+  leftElement: void 0,
   onRight: void 0,
   rightElement: void 0,
   safeView: void 0,
+  // isTranslucent: true,
 };
 
 export default Navbar;

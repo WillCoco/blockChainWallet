@@ -14,6 +14,12 @@ module.exports = {
   get tabAssetActive() {
     return require('./tabAssetActive.png');
   },
+  get tabExchange() {
+    return require('./tabExchange.png');
+  },
+  get tabExchangeActive() {
+    return require('./tabExchangeActive.png');
+  },
   get tabMe() {
     return require('./tabMe.png');
   },
@@ -58,5 +64,11 @@ module.exports = {
   },
   get utcExchageAlertBg() {
     return require('./utcExchageAlertBg.png');
+  },
+  get assetDetailCard() {
+    return require('./assetDetailCard.png');
+  },
+  get netBg() {
+    return require('./netBg.png');
   },
 };

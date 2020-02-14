@@ -7,6 +7,7 @@
  * @lastModificationDate:
  */
 import chainInfo from './chainInfo';
+import dapps from './dapps';
 const urls = require('./urls');
 const env = require('./env');
 
@@ -15,4 +16,5 @@ module.exports = {
   env: env.serverEnv, // 当前服务环境
   url: urls[env.serverEnv], // urls
   urls: chainInfo.networks, // urls
+  dapps,
 };

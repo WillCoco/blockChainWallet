@@ -6,9 +6,9 @@ import {
 } from 'react-native';
 import {PrimaryText, SmallText} from 'react-native-normalization-text';
 import {Icon} from 'react-native-elements';
-import colors from '../helpers/colors';
-import {metrics, vw} from '../helpers/metric';
-import {upperUnit} from '../helpers/utils/numbers';
+import colors from '../../helpers/colors/index';
+import {metrics, vw} from '../../helpers/metric/index';
+import {upperUnit} from '../../helpers/utils/numbers';
 
 const TxRow = props => {
   // 缩短txId
