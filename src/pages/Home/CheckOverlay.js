@@ -8,11 +8,12 @@
  */
 
 import React from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {useNavigation, useIsFocused} from 'react-navigation-hooks';
+import {useDispatch} from 'react-redux';
+import {useNavigation} from 'react-navigation-hooks';
 import _get from 'lodash/get';
 import {Overlay} from '../../components/Mask';
 import safePage from '../../helpers/safePage';
+import {vw} from '../../helpers/metric';
 import i18n from '../../helpers/i18n';
 import images from '../../images';
 import {update} from '../../redux/actions';
@@ -29,13 +30,17 @@ const CheckOverlay = props => {
     checkVersion();
 
     // utc兑换
-    // Overlay.push(Overlay.contentTypes.GUIDANCE, {
-    //   customData: {
-    //     buttonText: i18n.t('pressToGo'),
-    //     backgroundImg: images.utcExchageAlertBg,
-    //     onConfirm: () => navigate('Exchange'),
-    //   },
-    // });
+    Overlay.push(Overlay.contentTypes.GUIDANCE, {
+      customData: {
+        buttonText: i18n.t('pressToGo'),
+        backgroundImg: images.utcExchageAlertBg,
+        onConfirm: () => navigate('Exchange'),
+        contentWrapperStyle: {
+          width: vw(76),
+          height: vw(120),
+        },
+      },
+    });
   }, []);
 
   /**

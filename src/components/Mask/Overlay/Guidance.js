@@ -13,18 +13,13 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import {SmallText, PrimaryText, scale} from 'react-native-normalization-text';
-import {useSelector, useDispatch} from 'react-redux';
-import _get from 'lodash/get';
-import {useNavigation} from 'react-navigation-hooks';
-import {Icon, ListItem, Overlay as Overl, Button} from 'react-native-elements';
-import colors from '../../../helpers/colors';
-import {vh, vw, metrics} from '../../../helpers/metric';
+import {scale} from 'react-native-normalization-text';
+import {Button} from 'react-native-elements';
+import {vw, metrics} from '../../../helpers/metric';
 import safePage from '../../../helpers/safePage';
-import {wallet} from '../../../redux/actions';
-import i18n from '../../../helpers/i18n';
+import colors from '../../../helpers/colors';
 import {Toast} from '../../../components/Toast';
-import Icon1 from '../../../components/Iconfont/Iconliaotianzhuanzhang';
+import IconCloseCircle from '../../../components/Iconfont/Iconclosecircle';
 
 const SecretExport = props => {
   const onPress = () => {
@@ -54,9 +49,15 @@ const SecretExport = props => {
   return (
     <View style={styles.wrapper}>
       <View style={{alignItems: 'center'}}>
-        <View style={styles.contentWrapper}>{content}</View>
+        <View
+          style={StyleSheet.flatten([
+            styles.contentWrapper,
+            props.contentWrapperStyle,
+          ])}>
+          {content}
+        </View>
         <TouchableOpacity style={styles.close} onPress={() => props.remove()}>
-          <Icon1 size={scale(40)} />
+          <IconCloseCircle size={scale(35)} />
         </TouchableOpacity>
       </View>
     </View>
@@ -69,6 +70,7 @@ SafeSecretExportExport.defaultProps = {
   backgroundImg: null,
   onConfirm: () => undefined,
   buttonTitle: null,
+  contentWrapperStyle: null,
 };
 
 const radius = vw(2);
@@ -79,8 +81,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contentWrapper: {
-    backgroundColor: '#fff',
-    width: vw(90),
+    width: vw(76),
     height: vw(120),
     borderRadius: radius,
     alignItems: 'center',
@@ -97,8 +98,11 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     width: '50%',
     maxWidth: 250,
+    bottom: '10%',
   },
-  button: {},
+  button: {
+    backgroundColor: colors.success,
+  },
   close: {
     marginTop: vw(4),
   },
