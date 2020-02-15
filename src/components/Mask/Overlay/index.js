@@ -104,7 +104,7 @@ const MaskOverlay = props => {
   /**
    * 弹窗队列
    */
-  const [list, setList] = React.useState([contentTypes.EXCHANGE_CONFIRM]);
+  const [list, setList] = React.useState([]);
 
   /**
    * 止戈，暂停弹窗显示，不影响队列，只是影响是否显示modal

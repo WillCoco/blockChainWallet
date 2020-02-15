@@ -87,7 +87,7 @@ const Histories = props => {
    */
   const allHistories = {
     key: '1',
-    title: i18n.t('allHistories'),
+    getTitle: () => i18n.t('allHistories'),
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
     renderItem: renderItem,
@@ -99,7 +99,7 @@ const Histories = props => {
    */
   const inHistories = {
     key: '2',
-    title: i18n.t('inHistories'),
+    getTitle: () => i18n.t('inHistories'),
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
     renderItem: renderItem,
@@ -111,7 +111,7 @@ const Histories = props => {
    */
   const outHistories = {
     key: '3',
-    title: i18n.t('outHistories'),
+    getTitle: () => i18n.t('outHistories'),
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
     renderItem: renderItem,
@@ -123,7 +123,7 @@ const Histories = props => {
    */
   const exchangeHistories = {
     key: '4',
-    title: i18n.t('exchangeHistories'),
+    getTitle: () => i18n.t('exchangeHistories'),
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
     renderItem: renderItem,
@@ -135,7 +135,7 @@ const Histories = props => {
    */
   const unlockHistories = {
     key: '5',
-    title: i18n.t('unlockHistories'),
+    title: () => i18n.t('unlockHistories'),
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
     renderItem: renderItem,

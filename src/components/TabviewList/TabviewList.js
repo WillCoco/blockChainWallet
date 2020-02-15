@@ -19,7 +19,10 @@ import safePage from '../../helpers/safePage';
 const TabviewList = props => {
   const [index, setIndex] = React.useState(0);
 
-  const [routes] = React.useState(props.tabs);
+  const routes = props.tabs.map(tab => ({
+    key: tab.key,
+    title: tab.getTitle(),
+  }));
 
   /**
    * 渲染每一页, 每一页是下拉刷新分页器
@@ -83,7 +86,7 @@ safeTabviewList.defaultProps = {
   tabs: [
     {
       key: '1',
-      title: '测试1',
+      getTitle: () => '测试1',
       size: 14,
       initialNumToRender: 14,
       renderItem: () => <H4>row</H4>,
@@ -92,7 +95,7 @@ safeTabviewList.defaultProps = {
     },
     {
       key: '2',
-      title: '测试2',
+      getTitle: () => '测试2',
       size: 14,
       initialNumToRender: 14,
       renderItem: () => <H4>row1</H4>,

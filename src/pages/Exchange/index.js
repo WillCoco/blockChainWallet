@@ -28,6 +28,11 @@ const Exchange = () => {
     state => _get(state.wallets, ['currentWallet']) || [],
   );
 
+  /**
+   * 订阅语言
+   */
+  useSelector(state => _get(state, ['appSetting', 'language']));
+
   return (
     <View style={styles.wrapper}>
       <NavBar

@@ -80,7 +80,7 @@ const Exchange = () => {
    */
   const exchangeHistories = {
     key: '1',
-    title: i18n.t('exchangeRecordHistories'),
+    getTitle: () => i18n.t('exchangeRecordHistories'),
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
     renderItem: item => renderItem(item, i18n.t('unlock180')),
@@ -93,7 +93,7 @@ const Exchange = () => {
    */
   const unlockHistories = {
     key: '2',
-    title: i18n.t('unlockRecordHistories'),
+    getTitle: () => i18n.t('unlockRecordHistories'),
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
     renderItem: item => renderItem(item, i18n.t('notLock')),
