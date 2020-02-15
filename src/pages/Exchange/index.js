@@ -37,6 +37,7 @@ const Exchange = () => {
     <View style={styles.wrapper}>
       <NavBar
         isAbsolute
+        leftElement={null}
         title={i18n.t('quickExchange')}
         absoluteViewStyle={{backgroundColor: 'transparent'}}
       />

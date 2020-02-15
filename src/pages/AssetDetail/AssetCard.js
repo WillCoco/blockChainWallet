@@ -35,22 +35,23 @@ const AssetCard = props => {
   /**
    * 余额、冻结、可用展示
    */
-  const balanceFmt = _get(props.asset, ['balanceFmt']);
+  const balanceFmt = _get(props, ['asset', 'balanceFmt']);
 
-  const frozen = _get(props.asset, ['balanceFmt']);
+  const frozen = _get(props, ['asset', 'balanceFmt']);
 
-  const available = _get(props.asset, ['balanceFmt']);
+  const available = _get(props, ['asset', 'balanceFmt']);
 
   /**
    * 计算资产总价值
    */
   const assetsValue = React.useMemo(() => {
     const value =
-      getRate(_get(props.asset, ['symbol'])) * +_get(props.asset, ['balance']);
+      getRate(_get(props, ['asset', 'symbol'])) *
+      +_get(props, ['asset', 'balance']);
 
     const v = upperUnit(value, {pretty: false});
     return new BigNumber(v).toFormat(2);
-  }, [props.asset, getRate]);
+  }, [props, getRate]);
 
   return (
     <ImageBackground source={images.netBg} style={styles.headerWrapper}>
@@ -78,9 +79,7 @@ const AssetCard = props => {
                 onPress={() => {
                   Toast.show({data: i18n.t('frozenDescription')});
                 }}>
-                <IconHelp
-                  style={styles.help}
-                />
+                <IconHelp style={styles.help} />
               </TouchableOpacity>
             </View>
             <PrimaryText color="white">{available}</PrimaryText>

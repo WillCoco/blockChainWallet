@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import Iconarrowdetail from './Iconarrowdetail';
 import Iconclosecircle from './Iconclosecircle';
 import Iconarrowright from './Iconarrowright';
 import Iconclose from './Iconclose';
@@ -41,6 +42,8 @@ import Iconscan from './Iconscan';
 // And then regenerate icons by using cli command.
 export const Icon = ({ color, name, size, ...rest }) => {
   switch (name) {
+    case 'arrowdetail':
+      return <Iconarrowdetail size={size} color={color} {...rest} />;
     case 'closecircle':
       return <Iconclosecircle size={size} color={color} {...rest} />;
     case 'arrowright':

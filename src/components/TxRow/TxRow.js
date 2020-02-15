@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {PrimaryText, SmallText, scale} from 'react-native-normalization-text';
-import {Icon} from 'react-native-elements';
 import colors from '../../helpers/colors/index';
 import {metrics, vw} from '../../helpers/metric/index';
 import {upperUnit} from '../../helpers/utils/numbers';
@@ -14,6 +13,7 @@ import IconIn from '../../components/Iconfont/Iconin';
 import IconOut from '../../components/Iconfont/Iconout';
 import IconExchange from '../../components/Iconfont/Iconexchange';
 import IconUnlock from '../../components/Iconfont/Iconunlock';
+import IconArrowDetail from '../../components/Iconfont/Iconarrowdetail';
 
 const TxRow = props => {
   // 缩短txId
@@ -28,11 +28,11 @@ const TxRow = props => {
   /**
    * 交易类型
    */
-  const txType = props.txTypes['in'];
+  const txType = props.txTypes['unlock'];
 
   return (
     <TouchableOpacity
-      onPress={props.onPress}
+      onPress={txType.hasDetail ? props.onPress : undefined}
       style={StyleSheet.flatten([styles.wrapper, props.style])}>
       <View style={styles.left}>
         <View
@@ -65,6 +65,9 @@ const TxRow = props => {
           ])}>
           {txType.sign} {upperUnit(props.amount)} {props.symbol}
         </PrimaryText>
+        <View style={styles.arrowDetail}>
+          {txType.hasDetail ? <IconArrowDetail size={scale(24)} /> : null}
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -85,24 +88,28 @@ safeTxRow.defaultProps = {
       sign: '+',
       Icon: IconIn,
       iconBg: colors.iconBg1,
+      hasDetail: true,
     },
     out: {
       amountColor: colors.warn,
       sign: '-',
       Icon: IconOut,
       iconBg: colors.iconBg2,
+      hasDetail: true,
     },
     exchange: {
       amountColor: colors.success,
       sign: '',
       Icon: IconExchange,
       iconBg: colors.iconBg1,
+      hasDetail: true,
     },
     unlock: {
       amountColor: colors.textTheme,
       sign: '*', // todo：看交易数据，是否需要判断
       Icon: IconUnlock,
       iconBg: colors.iconBg1,
+      hasDetail: false,
     },
   },
 };
@@ -145,5 +152,8 @@ const styles = StyleSheet.create({
   },
   rightText: {
     textAlign: 'center',
+  },
+  arrowDetail: {
+    width: scale(20),
   },
 });

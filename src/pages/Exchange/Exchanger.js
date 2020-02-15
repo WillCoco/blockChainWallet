@@ -46,9 +46,9 @@ const Exchanger = () => {
   useSelector(state => _get(state, ['appSetting', 'language']));
 
   // 当前钱包
-  const currentWallet = useSelector(
-    state => _get(state.wallets, ['currentWallet']) || [],
-  );
+  // const currentWallet = useSelector(
+  //   state => _get(state.wallets, ['currentWallet']) || [],
+  // );
 
   /**
    * 资产列表
@@ -58,7 +58,7 @@ const Exchanger = () => {
       _get(state, ['assets', 'assetsList']) || [],
       o => o.symbol === 'TC',
     );
-    return _get(asset, '0');
+    return _get(asset, '0') || {};
   });
 
   /**
@@ -180,7 +180,7 @@ const Exchanger = () => {
           </View>
           <View style={styles.balanceWrapper}>
             <PrimaryText color="white" style={{marginRight: metrics.spaceS}}>
-              {i18n.t('balance')} {assetTC.balanceFmt} TC
+              {i18n.t('balance')} {assetTC.balanceFmt || '0'} TC
             </PrimaryText>
             <TouchableOpacity
               onPress={() => {
