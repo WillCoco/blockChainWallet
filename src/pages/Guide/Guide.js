@@ -30,18 +30,18 @@ const Guide = () => {
   //   SplashScreen.hide(); // 隐藏启动图
   // }, []);
 
-  /**
-   * 同步语言
-   */
-  const language = useSelector(
-    state => `${_get(state, ['appSetting', 'language'])}`,
-  );
-  React.useEffect(() => {
-    if (language && language.toLowerCase) {
-      console.log(language, 'language');
-      i18n.changeLanguage(language);
-    }
-  }, [language]);
+  // /**
+  //  * 同步语言
+  //  */
+  // const language = useSelector(
+  //   state => `${_get(state, ['appSetting', 'language'])}`,
+  // );
+  // React.useEffect(() => {
+  //   if (language && language.toLowerCase) {
+  //     console.log(language, 'language');
+  //     i18n.changeLanguage(language);
+  //   }
+  // }, [language]);
 
   /**
    * 是否显示按钮

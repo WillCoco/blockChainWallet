@@ -87,6 +87,19 @@ const Home = () => {
   }, []);
 
   /**
+   * 重启后从持久化同步语言
+   */
+  const language = useSelector(
+    state => `${_get(state, ['appSetting', 'language'])}`,
+  );
+  React.useEffect(() => {
+    if (language && language.toLowerCase) {
+      console.log(language, 'language');
+      i18n.changeLanguage(language);
+    }
+  }, [language]);
+
+  /**
    * 根据是否有钱包导航分流
    */
   const isFocused = useIsFocused();
