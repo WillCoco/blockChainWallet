@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: vw(2),
-    paddingVertical: vw(3.2),
+    paddingVertical: vw(2),
     backgroundColor: '#fff',
     marginTop: vw(2),
     marginHorizontal: metrics.spaceS,

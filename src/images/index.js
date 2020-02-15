@@ -71,4 +71,10 @@ module.exports = {
   get netBg() {
     return require('./netBg.png');
   },
+  get otcEntrance() {
+    return require('./otcEntrance.png');
+  },
+  get utcExplorer() {
+    return require('./utcExplorer.png');
+  },
 };

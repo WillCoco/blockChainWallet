@@ -2,6 +2,10 @@
 
 import React from 'react';
 
+import Iconclose from './Iconclose';
+import Iconserviceshandiantuikuan from './Iconserviceshandiantuikuan';
+import Iconliulanqi from './Iconliulanqi';
+import Iconshandian from './Iconshandian';
 import Iconqianbao2 from './Iconqianbao2';
 import Iconjiantou from './Iconjiantou';
 import Iconunlock from './Iconunlock';
@@ -35,6 +39,14 @@ import Iconscan from './Iconscan';
 // And then regenerate icons by using cli command.
 export const Icon = ({ color, name, size, ...rest }) => {
   switch (name) {
+    case 'close':
+      return <Iconclose size={size} color={color} {...rest} />;
+    case 'serviceshandiantuikuan':
+      return <Iconserviceshandiantuikuan size={size} color={color} {...rest} />;
+    case 'liulanqi':
+      return <Iconliulanqi size={size} color={color} {...rest} />;
+    case 'shandian':
+      return <Iconshandian size={size} color={color} {...rest} />;
     case 'qianbao2':
       return <Iconqianbao2 size={size} color={color} {...rest} />;
     case 'jiantou':

@@ -196,47 +196,6 @@ const Histories = props => {
       </View>
     </View>
   );
-
-  return (
-    <View style={styles.wrapper}>
-      <View style={styles.shape} />
-      <View style={styles.historyWrapper}>
-        <H4 style={styles.transactionTitle}>{i18n.t('txHistories')}</H4>
-        <PagingList
-          size={14}
-          //item显示的布局
-          renderItem={renderItem}
-          //下拉刷新相关
-          onRefresh={onRefresh}
-          //加载更多
-          onEndReached={onEndReached}
-          // ItemSeparatorComponent={separator}
-          keyExtractor={(item, index) => 'index' + index + item}
-          initialNumToRender={14}
-        />
-      </View>
-      <View style={styles.buttonsWrapper}>
-        <Button
-          title={i18n.t('transfer')}
-          containerStyle={styles.leftBtnContainerStyle}
-          buttonStyle={styles.leftButtonStyle}
-          icon={<Icon name="exit-to-app" color={colors.textWhite} />}
-          onPress={() =>
-            navigate({routeName: 'Transfer', params: {tokenSymbol}})
-          }
-        />
-        <Button
-          title={i18n.t('collect')}
-          containerStyle={styles.rightBtnContainerStyle}
-          buttonStyle={styles.rightButtonStyle}
-          icon={<Icon name="swap-horiz" color={colors.textWhite} />}
-          onPress={() =>
-            navigate({routeName: 'Collect', params: {currentToken}})
-          }
-        />
-      </View>
-    </View>
-  );
 };
 
 const safeHistories = props => safePage(Histories, props);
@@ -276,8 +235,8 @@ const styles = StyleSheet.create({
   },
   btnStyle: {
     borderRadius: vw(0.5),
-    paddingTop: metrics.spaceS,
-    paddingBottom: isNotchScreen() ? vh(2.5) : metrics.spaceS,
+    paddingVertical: metrics.spaceS,
+    marginBottom: isNotchScreen() ? vh(2.5) : metrics.spaceS,
   },
   leftBtnStyle: {
     backgroundColor: colors.success,

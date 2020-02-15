@@ -30,6 +30,7 @@ const TabsRouter = createBottomTabNavigator(
       screen: props => safePage(Exchange, props),
       path: 'main/exchange',
       navigationOptions: {
+        header: null,
         // headerShown: false,
       },
     },

@@ -70,10 +70,14 @@ const AssetCard = props => {
           </View>
           <View style={styles.frozenWrapper}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <SmallText style={styles.frozen}>{i18n.t('frozenAsset')}</SmallText>
+              <SmallText style={styles.frozen}>
+                {i18n.t('frozenAsset')}
+              </SmallText>
               <IconHelp
                 style={styles.help}
-                onPress={() => {Toast.show({data: i18n.t('frozenDescription')})}}
+                onPress={() => {
+                  Toast.show({data: i18n.t('frozenDescription')});
+                }}
               />
             </View>
             <PrimaryText color="white">{available}</PrimaryText>
@@ -148,8 +152,8 @@ const styles = StyleSheet.create({
   },
   help: {
     color: '#fff',
-    marginLeft: 6
-  }
+    marginLeft: 6,
+  },
 });
 
 export default safeAssetCard;

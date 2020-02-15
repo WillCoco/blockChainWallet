@@ -16,10 +16,12 @@ import {
   StyleSheet,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
+import {scale} from 'react-native-normalization-text';
 import {WVEvent, eventTypes} from '../../helpers/eventEmmiter';
 import {safeStringify, safeParse} from '../../helpers/utils/safetyFn';
 import {Toast} from '../../components/Toast';
 import NavBar from '../../components/NavBar';
+import IconClose from '../../components/Iconfont/Iconclose';
 import i18n from '../../helpers/i18n';
 import {metrics, vw} from '../../helpers/metric';
 import safePage from '../../helpers/safePage';
@@ -140,7 +142,13 @@ const DappsWebView = props => {
 
   return (
     <View style={wrapperStyle}>
-      <NavBar onLeft={() => dispatch({type: actionTypes.CLOSE})} />
+      <NavBar
+        // isAbsolute
+        title=""
+        leftElement={<IconClose size={scale(20)} />}
+        onLeft={() => dispatch({type: actionTypes.CLOSE})}
+        // safeViewStyle={{height: 80}}
+      />
       <WebView
         originWhitelist={[
           'https://*',
@@ -160,8 +168,7 @@ const DappsWebView = props => {
 
 const safeDappsWebview = props => safePage(DappsWebView, props);
 
-safeDappsWebview.defaultProps = {
-};
+safeDappsWebview.defaultProps = {};
 
 const styles = StyleSheet.create({
   wrapperOpened: {

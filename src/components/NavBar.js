@@ -24,8 +24,7 @@ const defaultStyle = {
     color: colors.textWhite,
   },
   normalView: {
-    backgroundColor: 'red',
-  }
+  },
 };
 
 const Navbar = props => {

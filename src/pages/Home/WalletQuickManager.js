@@ -4,6 +4,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  Image,
+  Linking,
 } from 'react-native';
 import {PrimaryText, scale} from 'react-native-normalization-text';
 import {Icon} from 'react-native-elements';
@@ -17,6 +19,13 @@ import i18n from '../../helpers/i18n';
 import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
 import {Overlay} from '../../components/Mask';
 import Iconscan from '../../components/Iconfont/Iconscan';
+import {
+  dappDispatch,
+  VIEW_STATUS,
+  actionTypes,
+} from '../../components/DappsWebview';
+import images from '../../images';
+import {chainInfo, env, dapps} from '../../config';
 
 const WalletQuickManager = props => {
   // 当前钱包
@@ -57,7 +66,6 @@ const WalletQuickManager = props => {
             // 无刘海ios
             topDistance += 20;
           }
-
           setTop(topDistance);
         }}
         style={styles.checkedWallet}>
@@ -74,6 +82,32 @@ const WalletQuickManager = props => {
           <Icon name="arrow-drop-down" color={colors.textWhite} />
         )}
       </TouchableOpacity>
+      <View style={styles.entrancesWrapper}>
+        <TouchableOpacity
+          onPress={() => {
+            const network = env === 'test' ? 'testnet/' : '';
+            Linking.openURL(`${chainInfo.explorerUrl}/#/${network}`);
+          }}>
+          <Image
+            resizeMode="contain"
+            style={styles.explorerImg}
+            source={images.utcExplorer}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            dappDispatch({
+              type: actionTypes.OPEN,
+              payload: {uri: dapps.otc.url},
+            });
+          }}>
+          <Image
+            resizeMode="contain"
+            style={styles.entranceImg}
+            source={images.otcEntrance}
+          />
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity onPress={goScanPage}>
         <Iconscan size={scale(20)} />
       </TouchableOpacity>
@@ -107,6 +141,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.textGrey3,
     borderRadius: scale(14),
+  },
+  entrancesWrapper: {
+    flexDirection: 'row',
+    position: 'absolute',
+    right: '15%',
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: -1,
+    height: scale(30),
+  },
+  explorerImg: {
+    width: scale(24),
+    marginRight: scale(16),
+  },
+  entranceImg: {
+    width: scale(40),
   },
 });
 
