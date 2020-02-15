@@ -21,6 +21,7 @@ import TxConfirm from './TxConfirm';
 import SecretExport from './SecretExport';
 import Updater from './Updater';
 import Guidance from './Guidance';
+import ExchangeConfirm from './ExchangeConfirm';
 
 /**
  * 内容种类
@@ -35,6 +36,7 @@ const contentTypes = {
   TX_CONFIRM: 'TX_CONFIRM',
   UPDATER: 'UPDATER',
   GUIDANCE: 'GUIDANCE',
+  EXCHANGE_CONFIRM: 'EXCHANGE_CONFIRM',
 };
 
 /**
@@ -102,7 +104,7 @@ const MaskOverlay = props => {
   /**
    * 弹窗队列
    */
-  const [list, setList] = React.useState([]);
+  const [list, setList] = React.useState([contentTypes.EXCHANGE_CONFIRM]);
 
   /**
    * 止戈，暂停弹窗显示，不影响队列，只是影响是否显示modal
@@ -222,6 +224,13 @@ const MaskOverlay = props => {
         return {
           content: (
             <Guidance visible={visible} {...options.customData} {...actions} />
+          ),
+          type: maskTypes.TYPES_OVERLAY,
+        };
+      case contentTypes.EXCHANGE_CONFIRM:
+        return {
+          content: (
+            <ExchangeConfirm visible={visible} {...options.customData} {...actions} />
           ),
           type: maskTypes.TYPES_OVERLAY,
         };

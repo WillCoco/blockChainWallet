@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, ImageBackground} from 'react-native';
+import {View, StyleSheet, ImageBackground, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
 import _get from 'lodash/get';
 import {H2, H4,PrimaryText, SmallText, scale} from 'react-native-normalization-text';
@@ -55,13 +55,14 @@ const AssetCard = props => {
   return (
     <ImageBackground source={images.netBg} style={styles.headerWrapper}>
       <ImageBackground
+        resizeMode="contain"
         source={images.assetDetailCard}
         imageStyle={styles.cardImg}
         style={styles.cardWrapper}>
         <View style={styles.contentWrapper}>
           <H4 style={styles.title}>{i18n.t('myAssets')}</H4>
           <H2 style={styles.asset}>{balanceFmt}</H2>
-          <SmallText style={styles.CNY}>折合CNY {assetsValue}</SmallText>
+          <SmallText style={styles.CNY}>{i18n.t('asValue')}CNY {assetsValue}</SmallText>
           <View style={styles.availableWrapper}>
             <SmallText style={styles.available}>
               {i18n.t('availableAsset')}
@@ -73,12 +74,14 @@ const AssetCard = props => {
               <SmallText style={styles.frozen}>
                 {i18n.t('frozenAsset')}
               </SmallText>
-              <IconHelp
-                style={styles.help}
+              <TouchableOpacity
                 onPress={() => {
                   Toast.show({data: i18n.t('frozenDescription')});
-                }}
-              />
+                }}>
+                <IconHelp
+                  style={styles.help}
+                />
+              </TouchableOpacity>
             </View>
             <PrimaryText color="white">{available}</PrimaryText>
           </View>
@@ -101,12 +104,14 @@ const styles = StyleSheet.create({
   },
   headerWrapper: {
     backgroundColor: colors.theme,
-    height: '40%',
-    justifyContent: 'flex-end',
+    paddingTop: vh(12),
+    // height: '40%',
+    // justifyContent: 'flex-end',
   },
   cardWrapper: {
-    height: vw(50),
-    marginBottom: '4%',
+    // height: vw(50),
+    height: vw(62),
+    // marginBottom: '4%',
   },
   cardImg: {
     width: '100%',
@@ -114,12 +119,15 @@ const styles = StyleSheet.create({
   },
   contentWrapper: {
     flex: 1,
-    position: 'relative',
+    // paddingTop: vw(8.5),
+    // paddingBottom: vw(14),
+    // paddingHorizontal: vw(7.2),
+    // justifyContent: 'space-between',
   },
   title: {
     color: '#fff',
     marginLeft: metrics.spaceL,
-    marginTop: metrics.spaceS,
+    marginTop: metrics.spaceL,
   },
   asset: {
     color: '#fff',
@@ -136,7 +144,7 @@ const styles = StyleSheet.create({
   },
   availableWrapper: {
     position: 'absolute',
-    bottom: metrics.spaceN,
+    bottom: metrics.spaceL,
     left: metrics.spaceL,
   },
   available: {
@@ -144,7 +152,7 @@ const styles = StyleSheet.create({
   },
   frozenWrapper: {
     position: 'absolute',
-    bottom: metrics.spaceN,
+    bottom: metrics.spaceL,
     left: vw(50),
   },
   frozen: {

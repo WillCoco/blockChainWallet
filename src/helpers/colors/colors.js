@@ -43,6 +43,8 @@ const colors = {
   modalBg: '#444444',
   iconBg1: '#E9F0FF',
   iconBg2: '#FFF5F2',
+  iconBg3: '#69788C',
+  iconBg4: '#C9F0EE',
 };
 
 module.exports = colors;

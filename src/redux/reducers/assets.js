@@ -16,8 +16,8 @@ import {
 const initialState = {
   assetsList: [],
   exchangeRate: {
-    UTC: 7,
-    TC: 25,
+    UTC: 25,
+    TC: 7,
   },
 };
 

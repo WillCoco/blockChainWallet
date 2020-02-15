@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: metrics.spaceS,
+    marginTop: metrics.spaceS / 2,
   },
   checkedWallet: {
     height: scale(28),

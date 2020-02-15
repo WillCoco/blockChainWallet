@@ -106,75 +106,15 @@ const Exchange = () => {
    */
   const tabs = [exchangeHistories, unlockHistories];
 
-  /**
-   * 兑换
-   */
-  const exchange = () => {
-    alert('兑换');
-  };
-
   return (
-    <View style={styles.wrapper}>
-      <NavBar
-        isAbsolute
-        title={i18n.t('quickExchange')}
-        absoluteViewStyle={{backgroundColor: 'transparent'}}
-      />
-      <ImageBackground source={images.netBg} style={styles.headerWrapper}>
-        <ImageBackground
-          source={images.assetDetailCard}
-          imageStyle={styles.cardImg}
-          style={styles.cardWrapper}>
-          <View style={styles.contentWrapper}>
-          </View>
-        </ImageBackground>
-      </ImageBackground>
-      <Button
-        title={i18n.t('exchange')}
-        containerStyle={styles.btnContainerStyle}
-        buttonStyle={styles.btnStyle}
-        // icon={<Icon name="exit-to-app" color={colors.textWhite} />}
-        onPress={exchange}
-      />
-      <View style={styles.historyWrapper}>
-        <View style={styles.shape} />
-        <TabviewList tabs={tabs} />
-      </View>
+    <View style={styles.historyWrapper}>
+      <View style={styles.shape} />
+      <TabviewList tabs={tabs} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    backgroundColor: colors.theme,
-  },
-  // contentWrapper: {
-  //   backgroundColor: colors.pageBackground,
-  // },
-  headerWrapper: {
-    backgroundColor: colors.theme,
-    height: '50%',
-    justifyContent: 'flex-end',
-  },
-  cardWrapper: {
-    height: vw(50),
-    marginBottom: '4%',
-  },
-  cardImg: {
-    width: '100%',
-    height: '100%',
-  },
-  btnContainerStyle: {
-    alignItems: 'center',
-    marginBottom: metrics.spaceN,
-  },
-  btnStyle: {
-    height: vh(7),
-    backgroundColor: colors.success,
-    minWidth: '90%',
-    borderRadius: vw(2),
-  },
   historyWrapper: {
     flex: 1,
     backgroundColor: '#fff',
