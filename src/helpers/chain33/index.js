@@ -6,7 +6,7 @@
  * @lastModification:
  * @lastModificationDate:
  */
-import {url} from '../../config';
+import {url, chainInfo} from '../../config';
 import {server, extraServer} from '../axios';
 import * as format from './format';
 
@@ -37,6 +37,7 @@ export function getAddressOverview(param) {
       id: ++callId,
     })
     .then(r => {
+      console.log(r, '获取地址主币资产')
       const response = format.getAddressOverview(r);
 
       return Promise.resolve(response);
@@ -64,6 +65,7 @@ export function getAddressTokens(param) {
       id: ++callId,
     })
     .then(r => {
+      console.log(r, '获取地址下token资产')
       const response = format.getAddressTokens(r);
       return Promise.resolve(response);
     });
@@ -154,6 +156,37 @@ export function getHistory(params) {
     });
 }
 
+/**
+ * 兑换主币种
+ * @params:
+ * @param: {string} params.amount - 兑换数量（待兑换token，非主币种）
+ * @param: {number} params.opType - 1: 直接解锁, 2:分批解锁
+ * @param: {number} params.recv - 发起兑换地址
+ * @param: {string} params.[manager] - 公账户
+ * @param: {manager} params.[symbol] - 待兑换token
+ */
+export function exchangeMainCoin(params) {
+  const defaultParams = {
+    symbol: 'TC',
+    manager: chainInfo.exchangeAccount,
+  };
+
+  const finallyParams = {...defaultParams, ...params};
+  console.log(finallyParams, 'finallyParams')
+  return server
+    .post(url.basicUrl, {
+      jsonrpc,
+      method: 'exchange.ExchangeOpTx',
+      params: [finallyParams],
+      id: ++callId,
+    })
+    .then(r => {
+      console.log(r, 'exchangeMainCoin');
+      // const response = format.getAddressTokens(r);
+      return Promise.resolve(r);
+    });
+}
+
 // getHistory({
 //   address: '11',
 //   symbol: 'TC',
@@ -162,4 +195,3 @@ export function getHistory(params) {
 //   action: 'transfer',
 //   status: 'ExecOk',
 // })
-

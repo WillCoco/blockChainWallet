@@ -24,7 +24,7 @@ import {Loading, Overlay} from '../../components/Mask';
 import NavBar from '../../components/NavBar';
 
 // console.log(chainInfo.symbol, 'chainInfochainInfochainInfo')
-const defaultFee = 0.001;
+const defaultFee = chainInfo.defaultFee;
 
 export default props => {
   // 当前钱包
@@ -240,7 +240,7 @@ export default props => {
       }),
     );
 
-    console.log(privateKey, 'privateKey');
+    // console.log(privateKey, 'privateKey');
 
     // 签名交易
     signedTx.current = await dispatch(

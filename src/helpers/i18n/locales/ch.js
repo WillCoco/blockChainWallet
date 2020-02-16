@@ -162,4 +162,5 @@ export default {
   lockText: '180天内缓释',
   exchangeSucceed: '兑换成功',
   exchangeFailed: '兑换失败',
+  exchangeValue2small: '少于最小兑换量',
 };

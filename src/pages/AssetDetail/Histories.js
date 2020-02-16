@@ -135,7 +135,7 @@ const Histories = props => {
    */
   const unlockHistories = {
     key: '5',
-    title: () => i18n.t('unlockHistories'),
+    getTitle: () => i18n.t('unlockHistories'),
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
     renderItem: renderItem,

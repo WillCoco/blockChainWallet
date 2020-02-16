@@ -164,4 +164,5 @@ export default {
   lockText: 'Unlock in 180 days',
   exchangeSucceed: 'Exchange succeed',
   exchangeFailed: 'Exchange failed',
+  exchangeValue2small: 'Exchange value too little',
 };

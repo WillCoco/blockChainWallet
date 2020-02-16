@@ -16,6 +16,9 @@ const chainInfo = {
   digits: 8,
   networks: urls,
   explorerUrl: 'https://www.utcpark.com',
+  exchangeAccount: '14KEKbYtKKQm4wMthSK9J4La4nAiidGozt',
+  defaultFee: '0.001',
+  minTC2UTCExchangeValue: '1',
 };
 
 module.exports = chainInfo;

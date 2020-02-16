@@ -7,7 +7,7 @@
  * @lastModificationDate:
  */
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   View,
   StyleSheet,
@@ -19,6 +19,7 @@ import {
 import {Button, Icon} from 'react-native-elements';
 import {useNavigation} from 'react-navigation-hooks';
 import _get from 'lodash/get';
+import Bignumber from 'bignumber.js';
 import _filter from 'lodash/filter';
 import {
   PrimaryText,
@@ -31,24 +32,28 @@ import {
 } from 'react-native-normalization-text';
 import IconLightning from '../../components/Iconfont/Iconshandian';
 import IconArrowRight from '../../components/Iconfont/Iconarrowright';
-import {Overlay} from '../../components/Mask';
+import {Overlay, Loading} from '../../components/Mask';
 import {Toast} from '../../components/Toast';
 import i18n from '../../helpers/i18n';
 import colors from '../../helpers/colors';
 import {vh, vw, metrics} from '../../helpers/metric';
 import safePage from '../../helpers/safePage';
-import {upperUnit, isValidNumeric} from '../../helpers/utils/numbers';
+import {upperUnit, lowerUnit, isValidNumeric} from '../../helpers/utils/numbers';
 import images from '../../images';
 import {chainInfo} from '../../config';
+import {exchangeMainCoin, sendTransaction} from '../../helpers/chain33';
+import {wallet} from '../../redux/actions';
 
 const Exchanger = () => {
   const {navigate} = useNavigation();
   useSelector(state => _get(state, ['appSetting', 'language']));
 
+  const dispatch = useDispatch();
+
   // 当前钱包
-  // const currentWallet = useSelector(
-  //   state => _get(state.wallets, ['currentWallet']) || [],
-  // );
+  const currentWallet = useSelector(
+    state => _get(state.wallets, ['currentWallet']) || [],
+  );
 
   /**
    * 资产列表
@@ -113,19 +118,127 @@ const Exchanger = () => {
   };
 
   /**
+   * 兑换预检
+   */
+  const preExchange = () => {
+    // 最小
+    if (
+      new Bignumber(lowerUnit(exchangeValue)).isLessThan(
+        lowerUnit(chainInfo.minTC2UTCExchangeValue),
+      )
+    ) {
+      Toast.show({
+        data: `${i18n.t('exchangeValue2small')} ${chainInfo.minTC2UTCExchangeValue} TC`,
+      });
+      return false;
+    }
+
+    // 余额不足
+    if (new Bignumber(assetTC.balance).isLessThan(lowerUnit(exchangeValue))) {
+      Toast.show({data: i18n.t('notEnoughAmount')});
+      return false;
+    }
+    return true;
+  };
+
+  /**
    * 兑换
    */
-  const exchange = () => {
-    if (true) {
-      Toast.show({
-        data: i18n.t('exchangeSucceed'),
-      });
+  const exchange = async () => {
+    // todo: 表单验证
+    if (!preExchange()) {
+      return;
+    }
+    // console.log(
+    //   {
+    //     amount: +lowerUnit(exchangeValue),
+    //     recv: currentWallet.address,
+    //     opType: isLock ? 2 : 1
+    //   },
+    //   1111111
+    // );
+
+    // rpc获取兑换未签名交易
+    const r = await exchangeMainCoin({
+      amount: +lowerUnit(exchangeValue),
+      recv: currentWallet.address,
+      opType: isLock ? 2 : 1,
+    });
+
+    if (!r || !r.result) {
+      Toast.show({data: i18n.t('exchangeFailed')});
       return;
     }
 
-    Toast.show({
-      data: i18n.t('exchangeFailed'),
+    // 密码签名
+    requestAnimationFrame(() => {
+      Overlay.push(Overlay.contentTypes.DIALOG_PASSWORD_VALID, {
+        dialog: {
+          canCancel: true,
+          onValidEnd: (isValid, pwd) => {
+            if (isValid) {
+              // 签名发送
+              signTx(pwd, r.result);
+            }
+          },
+        },
+      });
     });
+  };
+
+  /**
+   * 签名交易
+   */
+  const signTx = async (pwd, unsignedTx) => {
+    Loading.set({visible: true});
+
+    // 拿私钥
+    const privateKey = await dispatch(
+      wallet.aesDecrypt({
+        data: currentWallet.encryptedPrivateKey,
+        // password: '11',
+        password: pwd,
+      }),
+    );
+
+    // console.log(privateKey, 'privateKey');
+
+    // 签名交易
+    const signedTx = await dispatch(
+      wallet.signTx({data: unsignedTx, privateKey})
+    );
+
+    if (!signedTx) {
+      Loading.set({visible: false});
+
+      Toast.show({data: i18n.t('signFailed')});
+      return;
+    }
+
+    console.log(signedTx, '签名交易');
+    sendTx({tx: signedTx});
+  };
+
+  /**
+   * 发送交易
+   */
+  const sendTx = async tx => {
+    const {result, error} = (await sendTransaction(tx)) || {};
+
+    console.log(result, error, '发送交易');
+
+    Loading.set({visible: false});
+
+    if (error) {
+      Toast.show({data: error});
+      return;
+    }
+
+    // 成功提示
+    Toast.show({data: i18n.t('exchangeSucceed')});
+
+    // 恢复默认表单
+    setExchangeValue();
   };
 
   return (

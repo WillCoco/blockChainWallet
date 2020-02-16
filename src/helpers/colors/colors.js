@@ -45,6 +45,7 @@ const colors = {
   iconBg2: '#FFF5F2',
   iconBg3: '#69788C',
   iconBg4: '#C9F0EE',
+  greyShadow: '#ccc',
 };
 
 module.exports = colors;
