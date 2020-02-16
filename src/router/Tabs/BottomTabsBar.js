@@ -1,11 +1,12 @@
 import React from 'react';
-import {StyleSheet, Image} from 'react-native';
+import {StyleSheet, Image, Platform} from 'react-native';
 // import {Icon} from 'react-native-elements';
 import {TinyText} from 'react-native-normalization-text';
 import {BottomTabBar} from 'react-navigation-tabs';
 import _get from 'lodash/get';
 import {connect} from 'react-redux';
 import i18n from '../../helpers/i18n';
+import colors from '../../helpers/colors';
 import images from '../../images';
 
 const TabBarComponent = props => {
@@ -21,7 +22,15 @@ const TabBarComponent = props => {
       renderIcon={route =>
         renderIcon(route.route, tabIndex, activeTintColor, inactiveTintColor)
       }
-      style={{}}
+      style={Platform.select({
+        ios: {
+          shadowColor: colors.greyShadow,
+          shadowBlur: 10,
+          shadowOffsetY: 4,
+          shadowOpacity: 0.5,
+          borderTopWidth: 0,
+        },
+      })}
     />
   );
 };
