@@ -28,6 +28,11 @@ const CheckOverlay = props => {
   const walletsList =
     useSelector(state => _get(state, ['wallets', 'walletsList'])) || [];
 
+  // 当前钱包
+  const currentWallet = useSelector(
+    state => _get(state.wallets, ['currentWallet']) || [],
+  );
+
   /**
    * 第一次进入app时检查需要弹出的overlay
    */
@@ -38,18 +43,20 @@ const CheckOverlay = props => {
     if (isFocused && walletsList.length !== 0) {
       // 有钱包，不进入引导，检查在主页需要的弹窗
 
-      // utc兑换
-      Overlay.push(Overlay.contentTypes.GUIDANCE, {
-        customData: {
-          buttonText: i18n.t('pressToGo'),
-          backgroundImg: images.utcExchageAlertBg,
-          onConfirm: () => navigate('Exchange'),
-          contentWrapperStyle: {
-            width: vw(76),
-            height: vw(120),
+      // utc兑换，当前钱包未备份不弹出
+      if (currentWallet.backupCompleted) {
+        Overlay.push(Overlay.contentTypes.GUIDANCE, {
+          customData: {
+            buttonText: i18n.t('pressToGo'),
+            backgroundImg: images.utcExchageAlertBg,
+            onConfirm: () => navigate('Exchange'),
+            contentWrapperStyle: {
+              width: vw(76),
+              height: vw(120),
+            },
           },
-        },
-      });
+        });
+      }
     }
   }, []);
 

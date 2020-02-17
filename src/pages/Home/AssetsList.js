@@ -93,7 +93,7 @@ const AssetsList = props => {
                 : asset.balanceFmt) || '0';
 
             return (
-              <View style={styles.wrapper} key={`asset_${index}`}>
+              <View style={styles.wrapper} key={`asset_${index}_${Math.random()}`}>
                 <TouchableOpacity
                   style={StyleSheet.flatten([styles.assetRow])}
                   onPress={() => goAssetDetail(asset.symbol)}>
