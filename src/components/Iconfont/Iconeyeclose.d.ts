@@ -10,6 +10,6 @@ interface Props extends GProps, ViewProps {
   color?: string | string[];
 }
 
-export declare const IconyanjingBiyan: FunctionComponent<Props>;
+export declare const Iconeyeclose: FunctionComponent<Props>;
 
-export default IconyanjingBiyan;
+export default Iconeyeclose;

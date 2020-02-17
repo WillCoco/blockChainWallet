@@ -47,8 +47,12 @@ const WalletQuickManager = props => {
 
   const {navigate} = useNavigation();
 
+  const wrapperStyle = Platform.select({
+    ios: isNotchScreen() ? {top: 44} : {top: 22},
+  });
+
   return (
-    <View style={styles.headerWrapper}>
+    <View style={StyleSheet.flatten([styles.headerWrapper, wrapperStyle])}>
       <TouchableOpacity
         onPress={() =>
           openOverlay({
@@ -130,6 +134,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: metrics.spaceS,
     marginTop: metrics.spaceS / 2,
+    position: 'absolute',
+    width: '100%',
+    top: 0,
   },
   checkedWallet: {
     height: scale(28),

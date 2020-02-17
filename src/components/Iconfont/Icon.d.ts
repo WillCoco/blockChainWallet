@@ -6,7 +6,7 @@ import { ViewProps } from 'react-native';
 import { GProps } from 'react-native-svg';
 
 interface Props extends GProps, ViewProps {
-  name: 'arrowdetail' | 'closecircle' | 'arrowright' | 'close' | 'serviceshandiantuikuan' | 'liulanqi' | 'shandian' | 'qianbao2' | 'jiantou' | 'unlock' | 'wode' | 'question' | 'zichanbaoguanli' | 'suo' | 'qianbao' | 'suo1' | 'qianbao1' | 'zichanzonglan' | 'xinxi' | 'huabanfuben' | 'in' | 'out' | 'jiesuo' | 'daoru' | 'yanjing-biyan' | 'saoyisao' | 'shoukuan2' | 'zhuanzhang' | 'qianbao_huaban' | 'liaotianzhuanzhang' | 'shoukuan1' | 'exchange' | 'shoukuan' | 'scan';
+  name: 'eyeopen' | 'arrowdetail' | 'closecircle' | 'arrowright' | 'close' | 'serviceshandiantuikuan' | 'liulanqi' | 'shandian' | 'qianbao2' | 'jiantou' | 'unlock' | 'wode' | 'question' | 'zichanbaoguanli' | 'suo' | 'qianbao' | 'suo1' | 'qianbao1' | 'zichanzonglan' | 'xinxi' | 'huabanfuben' | 'in' | 'out' | 'jiesuo' | 'daoru' | 'eyeclose' | 'saoyisao' | 'shoukuan2' | 'zhuanzhang' | 'qianbao_huaban' | 'liaotianzhuanzhang' | 'exchange' | 'shoukuan' | 'scan';
   size?: number;
   color?: string | string[];
 }

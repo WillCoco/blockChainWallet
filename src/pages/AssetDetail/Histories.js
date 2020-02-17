@@ -34,7 +34,7 @@ const Histories = props => {
   };
 
   // 当前币种
-  const currentToken = findTokenBySymbol(tokenSymbol);
+  const currentToken = findTokenBySymbol(tokenSymbol) || {};
 
   // 当前钱包
   const currentWallet = useSelector(
@@ -60,25 +60,28 @@ const Histories = props => {
   /**
    * 下拉刷新
    */
-  const onRefresh = () => {
+  const onRefresh = params => {
     return getHistory({
       symbol: currentToken.symbol,
-      address: currentWallet.address,
+      // address: currentWallet.address,
       start: 0,
-      size: 14,
+      size: PAGE_SIZE,
       executor: isToken ? 'token' : 'coins',
+      ...params,
     });
   };
 
   /**
    * 加载更多
    */
-  const onEndReached = (page, size) => {
+  const onEndReached = (page, size, params) => {
     return getHistory({
       symbol: currentToken.symbol,
-      address: currentWallet.address,
+      // address: currentWallet.address,
       start: page.current * size,
+      executor: isToken ? 'token' : 'coins',
       size,
+      ...params,
     });
   };
 
@@ -91,8 +94,14 @@ const Histories = props => {
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
     renderItem: renderItem,
-    onRefresh: onRefresh,
-    onEndReached: onEndReached,
+    onRefresh: () =>
+      onRefresh({
+        address: currentWallet.address,
+      }),
+    onEndReached: (page, size) =>
+      onEndReached(page, size, {
+        address: currentWallet.address,
+      }),
   };
   /**
    * 转入记录
@@ -103,8 +112,14 @@ const Histories = props => {
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
     renderItem: renderItem,
-    onRefresh: onRefresh,
-    onEndReached: onEndReached,
+    onRefresh: () =>
+      onRefresh({
+        receiver: currentWallet.address,
+      }),
+    onEndReached: (page, size) =>
+      onEndReached(page, size, {
+        receiver: currentWallet.address,
+      }),
   };
   /**
    * 转出记录
@@ -115,21 +130,44 @@ const Histories = props => {
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
     renderItem: renderItem,
-    onRefresh: onRefresh,
-    onEndReached: onEndReached,
+    onRefresh: () =>
+      onRefresh({
+        sender: currentWallet.address,
+      }),
+    onEndReached: (page, size) =>
+      onEndReached(page, size, {
+        sender: currentWallet.address,
+      }),
   };
+
   /**
    * 兑换记录
    */
+  // 是查单个token兑换 还是查所有token兑换
+  const exchangeExecutor = isToken ? '' : 'exchange';
+  const exchangeSymbol = isToken ? currentToken.symbol : '';
   const exchangeHistories = {
     key: '4',
     getTitle: () => i18n.t('exchangeHistories'),
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
     renderItem: renderItem,
-    onRefresh: onRefresh,
-    onEndReached: onEndReached,
+    onRefresh: () =>
+      onRefresh({
+        sender: currentWallet.address,
+        executor: exchangeExecutor,
+        action: 'ExchangeOp',
+        symbol: exchangeSymbol,
+      }),
+    onEndReached: (page, size) =>
+      onEndReached(page, size, {
+        sender: currentWallet.address,
+        executor: exchangeExecutor,
+        action: 'ExchangeOp',
+        symbol: exchangeSymbol,
+      }),
   };
+
   /**
    * 释放记录
    */
@@ -139,17 +177,38 @@ const Histories = props => {
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
     renderItem: renderItem,
-    onRefresh: onRefresh,
-    onEndReached: onEndReached,
+    onRefresh: () =>
+      onRefresh({
+        sender: currentWallet.address,
+        executor: '',
+        action: 'ExchangeActiveOp',
+        symbol: 'TC',
+      }),
+    onEndReached: (page, size) =>
+      onEndReached(page, size, {
+        sender: currentWallet.address,
+        executor: '',
+        action: 'ExchangeActiveOp',
+        symbol: 'TC',
+      }),
   };
 
   /**
    * tabs数据
+   * utc显示兑换和解锁
+   * tc显示解锁
+   * 其他代币只显示转账
+   * todo: utc显示的兑换锁仓应该是所有代币的，不能和tc的一套数据
    */
-  const tabs =
-    currentToken.symbol === 'UTC'
-      ? [allHistories, inHistories, outHistories, exchangeHistories, unlockHistories]
-      : [allHistories, inHistories, outHistories, exchangeHistories];
+  let tabs;
+
+  if (currentToken.symbol === 'UTC') {
+    tabs = [allHistories, inHistories, outHistories, exchangeHistories, unlockHistories];
+  } else if (currentToken.symbol === 'TC') {
+    tabs = [allHistories, inHistories, outHistories, exchangeHistories];
+  } else {
+    tabs = [allHistories, inHistories, outHistories];
+  }
 
   return (
     <View style={styles.wrapper}>

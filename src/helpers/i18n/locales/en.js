@@ -149,6 +149,7 @@ export default {
   exchangeRecordHistories: 'Exchange',
   unlockRecordHistories: 'Unlock',
   unlock180: 'Unlock in 180 D',
+  unlocked: 'Unlocked',
   notLock: 'Unlocked',
   availableAsset: 'Available',
   frozenAsset: 'Frozen',

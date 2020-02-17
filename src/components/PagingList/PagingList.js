@@ -132,7 +132,7 @@ const PagingList = props => {
   // console.log(listData, 'listDatalistData');
 
   return (
-    <View style={styles.flatList}>
+    <View style={StyleSheet.flatten([styles.flatList, {backgroundColor: empty ? '#fff' : colors.pageBackground}])}>
       <FlatList
         refreshing
         data={listData}
@@ -181,7 +181,6 @@ export default PagingList;
 const styles = StyleSheet.create({
   flatList: {
     flex: 1,
-    backgroundColor: colors.pageBackground,
   },
   listFooterWrapper: {
     minHeight: 32,

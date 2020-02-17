@@ -39,7 +39,7 @@ const DealDetails = () => {
    * 跳转区块浏览器
    */
   const onPressLink = () => {
-    const network = env === 'test' ? 'testnet/' : '';
+    const network = env === 'testnet' ? 'testnet/' : '';
     Linking.openURL(`${chainInfo.explorerUrl}/#/${network}tx/${tx.txid}`);
   };
 

@@ -22,6 +22,8 @@ import colors from '../../helpers/colors';
 import {vh, metrics} from '../../helpers/metric';
 import Poller from '../../helpers/utils/poller';
 import i18n from '../../helpers/i18n';
+import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
+import NavBar from '../../components/NavBar';
 
 // import {Toast} from '../../components/Toast';
 // Toast.loading();
@@ -140,32 +142,32 @@ const Home = () => {
   };
 
   return (
-    <SafeAreaView style={styles.wrapper}>
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={styles.wrapper}>
+      <View style={{flex: 1, backgroundColor: colors.theme}}>
         <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
         <Dashboard isLoaded={isLoaded} />
-        <H4 color="secondary" style={styles.assetsTitle}>
-          {i18n.t('allAssets')}
-        </H4>
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={getCurrentWalletAssets}
-              colors={[colors.theme]}
-              tintColor={colors.theme}
-            />
-          }
-          keyboardShouldPersistTaps="handled"
-          // stickyHeaderIndices={[1]}
-          style={styles.scroll}
-          contentContainerStyle={{backgroundColor: '#fff'}}>
-          <AssetsList isLoaded={isLoaded} />
-          <PasswordValid />
-        </ScrollView>
+        <PhoneShapeWrapper>
+          <H4 style={styles.assetsTitle}>{i18n.t('allAssets')}</H4>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={getCurrentWalletAssets}
+                colors={[colors.theme]}
+                tintColor={colors.theme}
+              />
+            }
+            keyboardShouldPersistTaps="handled"
+            // stickyHeaderIndices={[1]}
+            style={styles.scroll}
+            contentContainerStyle={{backgroundColor: '#fff'}}>
+            <AssetsList isLoaded={isLoaded} />
+            <PasswordValid />
+          </ScrollView>
+        </PhoneShapeWrapper>
         <CheckOverlay />
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -192,7 +194,7 @@ const styles = StyleSheet.create({
   assetsTitle: {
     fontSize: scale(14),
     marginHorizontal: metrics.spaceN,
-    marginTop: vh(6.5),
+    // marginTop: vh(6.5),
   },
 });
 

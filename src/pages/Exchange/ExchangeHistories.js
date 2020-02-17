@@ -20,10 +20,10 @@ import safePage from '../../helpers/safePage';
 import NavBar from '../../components/NavBar';
 import images from '../../images';
 import TabviewList from '../../components/TabviewList';
-import {getHistory} from '../../helpers/chain33';
+import {getHistory, getExchangeHistory} from '../../helpers/chain33';
 import TxRow from '../../components/TxRow/TxRow';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 30;
 const INITIAL_PAGE_SIZE = 10;
 
 const Exchange = () => {
@@ -38,11 +38,12 @@ const Exchange = () => {
   /**
    * 渲染行
    */
-  const renderItem = ({item}, leftMainText) => {
+  const renderItem = ({item}, option) => {
     return (
       <TxRow
         {...item}
-        leftMainText={leftMainText}
+        leftMainText={option.leftMainText}
+        txType={option.txType}
         onPress={() =>
           navigate({routeName: 'DealDetails', params: {txInfo: item}})
         }
@@ -54,11 +55,11 @@ const Exchange = () => {
    * 下拉刷新
    */
   const onRefresh = () => {
-    return getHistory({
-      symbol: 'TC',
+    // return Promise.resolve([]);
+    return getExchangeHistory({
       address: currentWallet.address,
-      start: 0,
-      size: 14,
+      // start: 0,
+      // size: 14,
       executor: 'token',
     });
   };
@@ -67,8 +68,10 @@ const Exchange = () => {
    * 加载更多
    */
   const onEndReached = (page, size) => {
-    return getHistory({
-      symbol: '',
+    // todo 现不支持加载更多， 一次拉完
+    return Promise.resolve([]);
+
+    return getExchangeHistory({
       address: currentWallet.address,
       start: page.current * size,
       size,
@@ -83,7 +86,14 @@ const Exchange = () => {
     getTitle: () => i18n.t('exchangeRecordHistories'),
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
-    renderItem: item => renderItem(item, i18n.t('unlock180')),
+    renderItem: item => {
+      return renderItem(item, {
+        txType: 'exchangeType1',
+        leftMainText:
+          _get(item, ['item', 'type']) === 1 ? i18n.t('notLock') : i18n.t('unlock180'),
+      });
+    },
+
     onRefresh: onRefresh,
     onEndReached: onEndReached,
   };
@@ -96,7 +106,11 @@ const Exchange = () => {
     getTitle: () => i18n.t('unlockRecordHistories'),
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
-    renderItem: item => renderItem(item, i18n.t('notLock')),
+    renderItem: item =>
+      renderItem(item, {
+        txType: 'unlockType1',
+        leftMainText: i18n.t('unlocked'),
+      }),
     onRefresh: onRefresh,
     onEndReached: onEndReached,
   };
@@ -109,7 +123,7 @@ const Exchange = () => {
   return (
     <View style={styles.historyWrapper}>
       <View style={styles.shape} />
-      <TabviewList tabs={tabs} />
+      <TabviewList tabs={tabs} tabBarWidth="50%" />
     </View>
   );
 };

@@ -11,7 +11,7 @@ import {View, StyleSheet} from 'react-native';
 import {H2, H4} from 'react-native-normalization-text';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import colors from '../../helpers/colors';
-import {metrics, DEVICE_WIDTH} from '../../helpers/metric';
+import {metrics, vw, DEVICE_WIDTH} from '../../helpers/metric';
 // import i18n from '../../helpers/i18n';
 import PagingList from '../../components/PagingList';
 import safePage from '../../helpers/safePage';
@@ -49,6 +49,16 @@ const TabviewList = props => {
 
   const renderScene = SceneMap(map);
 
+  console.log(StyleSheet.flatten([
+    {
+      backgroundColor: 'white',
+      // borderColor: 'red',
+      marginTop: 10,
+      elevation: 0,
+      justifyContent: 'flex-end',
+    },
+    props.tabBarStyle,
+  ]), 'props.tabBarStyle,')
   return (
     <View style={styles.wrapper}>
       <TabView
@@ -57,22 +67,28 @@ const TabviewList = props => {
         onIndexChange={setIndex}
         initialLayout={{width: DEVICE_WIDTH}}
         style={{}}
+        lazy
         renderTabBar={props => (
           <TabBar
             {...props}
-            indicatorStyle={{backgroundColor: colors.theme}}
-            style={{
-              backgroundColor: 'white',
-              borderColor: 'red',
-              marginTop: 10,
-              elevation: 0,
-            }}
+            style={StyleSheet.flatten([
+              {
+                backgroundColor: 'white',
+                // borderColor: 'red',
+                marginTop: 10,
+                elevation: 0,
+                justifyContent: 'flex-end',
+                width: props.tabBarWidth || '100%',
+              },
+              props.tabBarStyle,
+            ])}
             inactiveColor={colors.textDark1}
             activeColor={colors.textPrimary}
             indicatorContainerStyle={{}}
+            indicatorStyle={{backgroundColor: colors.theme}}
             tabStyle={{paddingHorizontal: 0}}
             labelStyle={{marginHorizontal: 0}}
-            contentContainerStyle={{borderColor: 'blue'}}
+            contentContainerStyle={{}}
           />
         )}
       />

@@ -147,6 +147,7 @@ export default {
   exchangeRecordHistories: '兑换记录',
   unlockRecordHistories: '释放记录',
   unlock180: '180天缓释',
+  unlocked: '锁仓释放',
   notLock: '无锁定期',
   availableAsset: '可用',
   frozenAsset: '冻结',

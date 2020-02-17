@@ -27,7 +27,7 @@ const server = axios.create({
 server.interceptors.request.use(config => {
   // todo: config
   // requestEncryptList
-  // console.log(config, 'request_server');
+  console.log(config, 'request_server');
   return config;
 });
 

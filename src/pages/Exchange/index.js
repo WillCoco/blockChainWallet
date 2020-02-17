@@ -20,13 +20,11 @@ import Exchanger from './Exchanger';
 import ExchangeHistories from './ExchangeHistories';
 
 const Exchange = () => {
-  const {navigate} = useNavigation();
-  useSelector(state => _get(state, ['appSetting', 'language']));
-
+  // const {navigate} = useNavigation();
   // 当前钱包
-  const currentWallet = useSelector(
-    state => _get(state.wallets, ['currentWallet']) || [],
-  );
+  // const currentWallet = useSelector(
+  //   state => _get(state.wallets, ['currentWallet']) || [],
+  // );
 
   /**
    * 订阅语言

@@ -27,6 +27,7 @@ const extraServer = axios.create({
 extraServer.interceptors.request.use(config => {
   // todo: config
   // requestEncryptList
+  console.log(config, 'extraServer_request');
 
   return config;
 });

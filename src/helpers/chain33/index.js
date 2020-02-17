@@ -139,8 +139,9 @@ export function sendTransaction(params) {
  */
 export function getHistory(params) {
   return extraServer
-    .get(`${url.serverUrl}/tokenTransferInfo`, {
+    .get(`http://114.67.92.85:3333/api/v1/tokenTransferInfo`, {
       params: {
+        ...params,
         addr: params.address,
         symbol: params.symbol,
         action: params.action, // transfer/collect
@@ -152,9 +153,29 @@ export function getHistory(params) {
     })
     .then(r => {
       console.log(r, 'getHistory');
-      return Promise.resolve(r);
+      const result = format.getHistory(r)
+      return Promise.resolve(result);
     });
 }
+// export function getHistory(params) {
+//   return extraServer
+//     .get(`${url.serverUrl}/tokenTransferInfo`, {
+//       params: {
+//         addr: params.address,
+//         symbol: params.symbol,
+//         action: params.action, // transfer/collect
+//         status: params.status,
+//         executor: params.executor, // [token,coins,默认查token和icons]
+//         start: params.start,
+//         num: params.size,
+//       },
+//     })
+//     .then(r => {
+//       console.log(r, 'getHistory');
+//       const result = format.getHistory(r)
+//       return Promise.resolve(result);
+//     });
+// }
 
 /**
  * 兑换主币种
@@ -184,6 +205,48 @@ export function exchangeMainCoin(params) {
       console.log(r, 'exchangeMainCoin');
       // const response = format.getAddressTokens(r);
       return Promise.resolve(r);
+    });
+}
+
+/**
+ * 查询兑换历史(闪兑页面)
+ * @params:
+ * @param: {string} params.address - 兑换数量（待兑换token，非主币种）
+ * @param: {number} params.[count] -
+ * @param: {number} params.[symbol] - 币种
+ */
+export function getExchangeHistory(params) {
+  const defaultParams = {
+    count: 20,
+    symbol: 'TC',
+  };
+
+  const finallyParams = {...defaultParams, ...params};
+  console.log(finallyParams, 'exchangeHistory');
+
+  return server
+    .post(url.basicUrl, {
+      jsonrpc,
+      method: 'Chain33.Query',
+      params: [
+        {
+          execer: 'exchange',
+          funcName: 'QueryExchangeOpInfo',
+          payload: {
+            address: finallyParams.address,
+            count: finallyParams.count,
+            symbol: finallyParams.symbol,
+          },
+        },
+      ],
+      id: ++callId,
+    })
+    .then(r => {
+      console.log(r, 'exchangeMainCoin');
+      const response = format.getExchangeHistory(r);
+
+      console.log(response, 'responsssssss')
+      return Promise.resolve(response);
     });
 }
 

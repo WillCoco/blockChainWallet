@@ -3,8 +3,6 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  ImageBackground,
-  Platform,
 } from 'react-native';
 import {H4, H1, PrimaryText, scale} from 'react-native-normalization-text';
 import {useDispatch, useSelector} from 'react-redux';
@@ -19,10 +17,10 @@ import {vh, vw, metrics} from '../../helpers/metric';
 import {appSettingAction} from '../../redux/actions/';
 import safePage from '../../helpers/safePage/';
 import {Overlay} from '../../components/Mask';
-import images from '../../images';
+import AssetCardWrapper from '../../components/AssetCardWrapper';
 import {upperUnit} from '../../helpers/utils/numbers';
-import Iconshoukuan from '../../components/Iconfont/Iconshoukuan';
-import Iconliaotianzhuanzhang from '../../components/Iconfont/Iconliaotianzhuanzhang';
+import Iconshoukuan from '../../components/Iconfont/Iconshoukuan2';
+import Iconliaotianzhuanzhang from '../../components/Iconfont/Iconzhuanzhang';
 
 const Dashboard = () => {
   const {navigate} = useNavigation();
@@ -79,15 +77,7 @@ const Dashboard = () => {
 
   return (
     <View>
-      <ImageBackground
-        source={images.dashboardBg}
-        resizeMode="stretch"
-        style={styles.wrapper}>
-        <WalletQuickManager
-          show={options =>
-            Overlay.push(Overlay.contentTypes.WALLET_QUICK_MANAGER, options)
-          }
-        />
+      <AssetCardWrapper>
         <View style={styles.assetWrapper}>
           <TouchableOpacity
             style={styles.assetButton}
@@ -103,27 +93,32 @@ const Dashboard = () => {
             />
           </TouchableOpacity>
           <View>
-            <H1 color="white" style={{textAlign: 'center', marginRight: 4}}>
+            <H1 color="white" style={styles.assetText}>
               {isShowAssets ? assetsValue : '********'}
             </H1>
           </View>
         </View>
-      </ImageBackground>
-      <View style={styles.contentWrapper}>
-        <TouchableOpacity
-          style={styles.contentLeft}
-          onPress={() => navigate('Transfer')}>
-          <Iconliaotianzhuanzhang size={scale(30)} style={{marginRight: 4}} />
-          <H4 style={styles.alignCenter}>{i18n.t('transfer')}</H4>
-        </TouchableOpacity>
-        <View style={styles.divider} />
-        <TouchableOpacity
-          style={styles.contentRight}
-          onPress={() => navigate('Collect')}>
-          <Iconshoukuan size={scale(33)} style={{marginRight: 2}} />
-          <H4 style={styles.alignCenter}>{i18n.t('collect')}</H4>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.contentWrapper}>
+          <TouchableOpacity
+            style={styles.contentLeft}
+            onPress={() => navigate('Transfer')}>
+            <Iconliaotianzhuanzhang size={scale(26)} style={{marginRight: 4}} />
+            <H4 color="white" style={styles.alignCenter}>{i18n.t('transfer')}</H4>
+          </TouchableOpacity>
+          <View style={styles.divider} />
+          <TouchableOpacity
+            style={styles.contentRight}
+            onPress={() => navigate('Collect')}>
+            <Iconshoukuan size={scale(26)} style={{marginRight: 2}} />
+            <H4 color="white" style={styles.alignCenter}>{i18n.t('collect')}</H4>
+          </TouchableOpacity>
+        </View>
+      </AssetCardWrapper>
+      <WalletQuickManager
+        show={options =>
+          Overlay.push(Overlay.contentTypes.WALLET_QUICK_MANAGER, options)
+        }
+      />
     </View>
   );
 };
@@ -139,32 +134,32 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   assetsTitle: {
-    textAlign: 'center',
+    // textAlign: 'center',
     marginRight: 4,
     color: colors.textGrey1,
   },
   contentWrapper: {
     flexDirection: 'row',
     width: '88%',
-    height: scale(54),
+    // height: scale(54),
     alignSelf: 'center',
     alignItems: 'center',
-    marginTop: 12,
+    // marginTop: 12,
     paddingVertical: 8,
-    position: 'absolute',
-    bottom: -scale(27),
-    backgroundColor: '#fff',
-    borderRadius: vw(1),
-    ...Platform.select({
-      ios: {
-        shadowColor: colors.theme,
-        shadowRadius: 10,
-        shadowOpacity: 0.5,
-      },
-      android: {
-        elevation: 2,
-      },
-    }),
+    // ...Platform.select({
+    //   ios: {
+    //     shadowColor: colors.theme,
+    //     shadowRadius: 10,
+    //     shadowOpacity: 0.5,
+    //   },
+    //   android: {
+    //     elevation: 2,
+    //   },
+    // }),
+  },
+  assetText: {
+    marginRight: 4,
+    marginTop: metrics.spaceS,
   },
   contentLeft: {
     flex: 1,
@@ -177,21 +172,16 @@ const styles = StyleSheet.create({
   contentRight: {
     flex: 1,
     paddingVertical: 4,
-    // textAlign: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
   assetWrapper: {
-    flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
   },
   assetButton: {
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: vw(10),
     paddingTop: vh(1),
   },
   alignCenter: {
@@ -199,7 +189,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     width: StyleSheet.hairlineWidth * 2,
-    height: '60%',
-    backgroundColor: colors.dividerDark,
+    height: '40%',
+    backgroundColor: colors.textGrey3,
   },
 });

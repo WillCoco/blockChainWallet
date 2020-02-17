@@ -74,3 +74,18 @@ export function getAddressAsset(response) {
     result: [accountResult, ...tokensArray],
   };
 }
+
+export function getHistory(response) {
+  console.log(response, 'rrrr111')
+  // 区分交易类型
+
+  return response;
+}
+
+export function getExchangeHistory(response) {
+  // console.log(response, 'rrrr111')
+
+  return {
+    result: _get(response, ['result', 'exchangeOpInfo']),
+  };
+}

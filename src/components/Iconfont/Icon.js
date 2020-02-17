@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import Iconeyeopen from './Iconeyeopen';
 import Iconarrowdetail from './Iconarrowdetail';
 import Iconclosecircle from './Iconclosecircle';
 import Iconarrowright from './Iconarrowright';
@@ -26,13 +27,12 @@ import Iconin from './Iconin';
 import Iconout from './Iconout';
 import Iconjiesuo from './Iconjiesuo';
 import Icondaoru from './Icondaoru';
-import IconyanjingBiyan from './IconyanjingBiyan';
+import Iconeyeclose from './Iconeyeclose';
 import Iconsaoyisao from './Iconsaoyisao';
 import Iconshoukuan2 from './Iconshoukuan2';
 import Iconzhuanzhang from './Iconzhuanzhang';
 import IconqianbaoHuaban from './IconqianbaoHuaban';
 import Iconliaotianzhuanzhang from './Iconliaotianzhuanzhang';
-import Iconshoukuan1 from './Iconshoukuan1';
 import Iconexchange from './Iconexchange';
 import Iconshoukuan from './Iconshoukuan';
 import Iconscan from './Iconscan';
@@ -42,6 +42,8 @@ import Iconscan from './Iconscan';
 // And then regenerate icons by using cli command.
 export const Icon = ({ color, name, size, ...rest }) => {
   switch (name) {
+    case 'eyeopen':
+      return <Iconeyeopen size={size} color={color} {...rest} />;
     case 'arrowdetail':
       return <Iconarrowdetail size={size} color={color} {...rest} />;
     case 'closecircle':
@@ -90,8 +92,8 @@ export const Icon = ({ color, name, size, ...rest }) => {
       return <Iconjiesuo size={size} color={color} {...rest} />;
     case 'daoru':
       return <Icondaoru size={size} color={color} {...rest} />;
-    case 'yanjing-biyan':
-      return <IconyanjingBiyan size={size} color={color} {...rest} />;
+    case 'eyeclose':
+      return <Iconeyeclose size={size} color={color} {...rest} />;
     case 'saoyisao':
       return <Iconsaoyisao size={size} color={color} {...rest} />;
     case 'shoukuan2':
@@ -102,8 +104,6 @@ export const Icon = ({ color, name, size, ...rest }) => {
       return <IconqianbaoHuaban size={size} color={color} {...rest} />;
     case 'liaotianzhuanzhang':
       return <Iconliaotianzhuanzhang size={size} color={color} {...rest} />;
-    case 'shoukuan1':
-      return <Iconshoukuan1 size={size} color={color} {...rest} />;
     case 'exchange':
       return <Iconexchange size={size} color={color} {...rest} />;
     case 'shoukuan':
