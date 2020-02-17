@@ -7,6 +7,7 @@
  * @lastModificationDate:
  */
 import _get from 'lodash/get';
+import {BigNumber} from 'bignumber.js';
 import {chainInfo} from '../../config';
 import {upperUnit, lowerUnit} from '../utils/numbers';
 import images from '../../images/index';
@@ -21,6 +22,27 @@ export function getAddressOverview(response) {
       balance: result.balance || '0',
       balanceFmt: upperUnit(result.balance),
       reciverFmt: upperUnit(result.reciver),
+    },
+  };
+}
+
+// 主币种余额
+export function getAddressBalance(response) {
+  console.log(response, 'response111');
+  const result = _get(response, ['result', '0']) || {};
+
+  const available = result.balance || 0;
+  const frozen = result.frozen || 0;
+  const balance = +available + +frozen || 0;
+
+  return {
+    result: {
+      balance, // 总余额
+      available,
+      frozen,
+      balanceFmt: upperUnit(balance),
+      availableFmt: upperUnit(balance),
+      frozenFmt: upperUnit(frozen),
     },
   };
 }
@@ -76,7 +98,7 @@ export function getAddressAsset(response) {
 }
 
 export function getHistory(response) {
-  console.log(response, 'rrrr111')
+  // console.log(response, 'rrrr111')
   // 区分交易类型
 
   return response;

@@ -77,7 +77,14 @@ const Dashboard = () => {
     let total = 0;
 
     assetsList.forEach(asset => {
-      const newValue = getRate(asset.symbol) * +asset.balance;
+      // 是否主币
+      const isMainCoin = asset.symbol === chainInfo.symbol;
+
+      const coinsQuantity = isMainCoin
+        ? +_get(asset, ['exchange', 'balanceTotal'])
+        : +asset.balance;
+
+      const newValue = getRate(asset.symbol) * coinsQuantity;
       total += newValue ? newValue : 0;
     });
 

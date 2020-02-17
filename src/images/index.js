@@ -77,4 +77,7 @@ module.exports = {
   get utcExplorer() {
     return require('./utcExplorer.png');
   },
+  get loading() {
+    return require('./loading.png');
+  },
 };

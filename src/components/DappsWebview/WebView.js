@@ -12,21 +12,22 @@
 import React from 'react';
 import {
   View,
-  Platform,
+  Image,
   StyleSheet,
   StatusBar,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
-import {scale} from 'react-native-normalization-text';
+import {scale, SmallText} from 'react-native-normalization-text';
 import {WVEvent, eventTypes} from '../../helpers/eventEmmiter';
 import {safeStringify, safeParse} from '../../helpers/utils/safetyFn';
 import {Toast} from '../../components/Toast';
 import NavBar from '../../components/NavBar';
 import IconClose from '../../components/Iconfont/Iconclose';
 import i18n from '../../helpers/i18n';
-import {metrics, vw} from '../../helpers/metric';
+import {metrics, vh, vw} from '../../helpers/metric';
 import safePage from '../../helpers/safePage';
 import colors from '../../helpers/colors';
+import images from '../../images';
 import actionTypes from './actionTypes';
 
 let callId = 0;
@@ -153,6 +154,14 @@ const DappsWebView = props => {
         safeViewStyle={{backgroundColor: colors.otcTheme}}
       />
       <WebView
+        startInLoadingState
+        scalesPageToFit={false}
+        renderLoading={() => (
+          <View style={styles.loadingWrapper}>
+            <Image resizeMode="contain" style={styles.loading} source={images.loading} />
+            <SmallText>Loading...</SmallText>
+          </View>
+        )}
         originWhitelist={[
           'https://*',
           'http://*',
@@ -194,6 +203,19 @@ const styles = StyleSheet.create({
   },
   webview: {
     // borderWidth: 10,
+  },
+  loadingWrapper: {
+    position: 'absolute',
+    top: vh(30),
+    left: vw(50) - vw(10),
+    height: vw(24),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loading: {
+    width: vw(20),
+    height: vw(20),
+    marginBottom: scale(10),
   },
 });
 

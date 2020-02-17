@@ -36,7 +36,7 @@ export function getAssetByAddress(address) {
 
     dispatch({
       type: UPDATE_CURRENT_ASSET,
-      payload: {assetsList: r.result || []}
+      payload: {assetsList: r.result || []},
     });
 
     return r;

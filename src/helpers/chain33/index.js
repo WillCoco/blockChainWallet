@@ -6,9 +6,11 @@
  * @lastModification:
  * @lastModificationDate:
  */
+import _get from 'lodash/get';
 import {url, chainInfo} from '../../config';
 import {server, extraServer} from '../axios';
 import * as format from './format';
+import {upperUnit} from '../utils/numbers';
 
 let jsonrpc = '2.0';
 let callId = 0;
@@ -28,17 +30,71 @@ export function getServerTime() {
 /**
  * 获取地址主币资产
  */
-export function getAddressOverview(param) {
+// export function getAddressOverview(param) {
+//   return server
+//     .post(url.basicUrl, {
+//       jsonrpc,
+//       method: 'Chain33.GetAddrOverview',
+//       params: [{addr: param.address}],
+//       id: ++callId,
+//     })
+//     .then(r => {
+//       console.log(r, '获取地址主币资产')
+//       const response = format.getAddressOverview(r);
+//
+//       return Promise.resolve(response);
+//     });
+// }
+//
+export function getAddressOverview(params) {
+  return Promise.all([
+    getAddressBalance({...params, execer: 'coins'}), // coins余额
+    getAddressBalance({...params, execer: 'exchange'}),
+  ]).then((r = []) => {
+    const coinsRes = r[0] || {};
+    const exchangeRes = r[1] || {};
+
+    // 主币显示的余额 = exchange兑换全部 + coins全部
+    const balanceTotal =
+      +_get(coinsRes, ['result', 'balance']) +
+      +_get(exchangeRes, ['result', 'balance']);
+
+    const balanceTotalFmt = upperUnit(balanceTotal);
+
+    // console.log(balanceTotalFmt, balanceTotal, 'balanceTotalbalanceTotalbalanceTotal')
+
+    const res = {
+      result: {
+        ...coinsRes.result,
+        exchange: {
+          ...exchangeRes.result,
+          balanceTotal,
+          balanceTotalFmt,
+        },
+      },
+    };
+
+    return Promise.resolve(res);
+  });
+}
+
+// coins
+export function getAddressBalance(param) {
   return server
     .post(url.basicUrl, {
       jsonrpc,
-      method: 'Chain33.GetAddrOverview',
-      params: [{addr: param.address}],
+      method: 'Chain33.GetBalance',
+      params: [
+        {
+          addresses: [param.address],
+          execer: param.execer, // coins, exchange 取指定执行器下的钱
+        },
+      ],
       id: ++callId,
     })
     .then(r => {
-      console.log(r, '获取地址主币资产')
-      const response = format.getAddressOverview(r);
+      console.log(r, '获取地址主币资产');
+      const response = format.getAddressBalance(r);
 
       return Promise.resolve(response);
     });

@@ -12,10 +12,12 @@ import {
   StyleSheet,
   ImageBackground,
 } from 'react-native';
+// import {scale} from 'react-native-normalization-text';
 import images from '../../images';
 import {vw, vh} from '../../helpers/metric';
 import colors from '../../helpers/colors';
 import safePage from '../../helpers/safePage';
+import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
 
 const AssetCardWrapper = props => {
   return (
@@ -48,7 +50,7 @@ safeAssetCardWrapper.defaultProps = {
 const styles = StyleSheet.create({
   headerWrapper: {
     backgroundColor: colors.theme,
-    paddingTop: vh(9),
+    paddingTop: isNotchScreen() ? 44 + vh(6) : vh(6),
     // height: '58%',
     // justifyContent: 'flex-end',
   },

@@ -236,7 +236,7 @@ const Exchanger = () => {
     }
 
     // 成功提示
-    Toast.show({data: i18n.t('exchangeSucceed')});
+    Toast.show({data: i18n.t('transferSuccess')});
 
     // 恢复默认表单
     setExchangeValue();

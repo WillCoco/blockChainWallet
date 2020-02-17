@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useSelector} from 'react-redux';
-import {Divider} from 'react-native-elements';
 import {PrimaryText, SmallText, TinyText, H4, scale} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
 import BigNumber from 'bignumber.js';
@@ -17,6 +16,7 @@ import colors from '../../helpers/colors';
 import i18n from '../../helpers/i18n';
 import safePage from '../../helpers/safePage';
 import {upperUnit} from '../../helpers/utils/numbers';
+import {chainInfo} from '../../config';
 
 const AssetsList = props => {
   const {navigate} = useNavigation();
@@ -50,14 +50,19 @@ const AssetsList = props => {
   );
 
   const getValue = React.useCallback(
-    asset => {
+    (asset, isMainCoin) => {
       const {symbol, balanceFmt} = asset || {};
       if (!symbol) {
         console.warn('not fount symbol:', symbol);
         return 0;
       }
       const rate = _get(rates, symbol) || 0;
-      const v = upperUnit(rate * +asset.balance, {
+
+      const coinsQuantity = isMainCoin
+        ? +_get(asset, ['exchange', 'balanceTotal'])
+        : +asset.balance;
+
+      const v = upperUnit(rate * coinsQuantity, {
         pretty: false,
       });
 
@@ -75,6 +80,18 @@ const AssetsList = props => {
         <>
           {/*<H4 color="secondary">{i18n.t('allAssets')}</H4>*/}
           {assetsList.map((asset, index) => {
+            /**
+             * 余额显示
+             */
+            // 主币种
+            const isMainCoin = asset.symbol === chainInfo.symbol;
+
+            // 右侧余额
+            let balanceRight =
+              (isMainCoin
+                ? _get(asset, ['exchange', 'balanceTotalFmt'])
+                : asset.balanceFmt) || '0';
+
             return (
               <View style={styles.wrapper} key={`asset_${index}`}>
                 <TouchableOpacity
@@ -93,24 +110,25 @@ const AssetsList = props => {
                       <PrimaryText color="title" style={{fontWeight: '500'}}>
                         {asset.symbol}
                       </PrimaryText>
-                      {asset.frozen && (
-                        <TinyText color="" style={styles.tinyText}>
-                          {i18n.t('frozenAsset')} {asset.frozen}
-                        </TinyText>
-                      )}
-                      {asset.frozen && (
-                        <TinyText color="" style={styles.tinyText}>
-                          {i18n.t('availableAsset')} {asset.frozen}
-                        </TinyText>
-                      )}
+                      {isMainCoin ? (
+                        <SmallText color="" style={styles.tinyText}>
+                          {i18n.t('contractAccount')}
+                          {_get(asset, ['exchange', 'balanceFmt'])}
+                        </SmallText>
+                      ) : null}
+                      {isMainCoin ? (
+                        <SmallText color="" style={styles.tinyText}>
+                          {i18n.t('availableAsset')} {asset.balanceFmt}
+                        </SmallText>
+                      ) : null}
                     </View>
                   </View>
                   <View>
                     <PrimaryText color="title" style={styles.title}>
-                      {isShowAssets ? asset.balanceFmt : '****'}
+                      {isShowAssets ? balanceRight : '****'}
                     </PrimaryText>
                     <SmallText color="" style={styles.value}>
-                      {isShowAssets ? `¥${getValue(asset)}` : '****'}
+                      {isShowAssets ? `¥${getValue(asset, isMainCoin)}` : '****'}
                     </SmallText>
                   </View>
                 </TouchableOpacity>
@@ -179,7 +197,7 @@ const styles = StyleSheet.create({
   },
   tinyText: {
     color: colors.textSecondary,
-    lineHeight: scale(12),
+    lineHeight: scale(13),
   },
   value: {
     textAlign: 'right',

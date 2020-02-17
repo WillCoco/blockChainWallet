@@ -164,4 +164,6 @@ export default {
   exchangeSucceed: '兑换成功',
   exchangeFailed: '兑换失败',
   exchangeValue2small: '少于最小兑换量',
+  contractAccount: '合约账户',
+  withdraw: '提现',
 };

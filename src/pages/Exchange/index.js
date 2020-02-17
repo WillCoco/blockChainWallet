@@ -18,6 +18,7 @@ import safePage from '../../helpers/safePage';
 import NavBar from '../../components/NavBar';
 import Exchanger from './Exchanger';
 import ExchangeHistories from './ExchangeHistories';
+import ExchangeContract from './ExchangeWithdraw';
 
 const Exchange = () => {
   // const {navigate} = useNavigation();
@@ -40,6 +41,7 @@ const Exchange = () => {
         absoluteViewStyle={{backgroundColor: 'transparent'}}
       />
       <Exchanger />
+      <ExchangeContract />
       <ExchangeHistories />
     </View>
   );

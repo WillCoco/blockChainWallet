@@ -166,4 +166,6 @@ export default {
   exchangeSucceed: 'Exchange succeed',
   exchangeFailed: 'Exchange failed',
   exchangeValue2small: 'Exchange value too little',
+  contractAccount: 'Contract',
+  withdraw: 'withdraw',
 };
