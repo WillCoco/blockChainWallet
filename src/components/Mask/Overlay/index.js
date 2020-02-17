@@ -51,6 +51,7 @@ let actions;
 
 /**
  * 默认overlay配置
+ * toFix: 多弹窗时 数据覆盖
  */
 let defaultOptions = {
   containerStyle: {},
@@ -80,22 +81,22 @@ const MaskOverlay = props => {
       customData = {},
     } = opts || {};
 
-    setOptions(() => ({
+    setOptions(options => ({
       ...opts,
       containerStyle: {
-        ...defaultOptions.containerStyle,
+        ...options.containerStyle,
         ...containerStyle,
       },
       overlayStyle: {
-        ...defaultOptions.overlayStyle,
+        ...options.overlayStyle,
         ...overlayStyle,
       },
       dialog: {
-        ...defaultOptions.dialog,
+        ...options.dialog,
         ...dialog,
       },
       customData: {
-        ...defaultOptions.customData,
+        ...options.customData,
         ...customData,
       },
     }));
@@ -105,6 +106,8 @@ const MaskOverlay = props => {
    * 弹窗队列
    */
   const [list, setList] = React.useState([]);
+
+  console.log(list, 'listtttttttttt')
 
   /**
    * 止戈，暂停弹窗显示，不影响队列，只是影响是否显示modal

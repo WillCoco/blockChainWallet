@@ -167,5 +167,7 @@ export default {
   exchangeFailed: 'Exchange failed',
   exchangeValue2small: 'Exchange value too little',
   contractAccount: 'Contract',
+  startContractAccount: 'Contract account',
   withdraw: 'withdraw',
+  contractDescription: 'You have all permissions, you can withdraw anytime',
 };

@@ -8,22 +8,31 @@
  */
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {StyleSheet, View} from 'react-native';
-import {PrimaryText, SmallText} from 'react-native-normalization-text';
-import {Button} from 'react-native-elements';
-import i18n from '../../helpers/i18n';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {PrimaryText, SmallText, scale} from 'react-native-normalization-text';
 import _get from 'lodash/get';
+import _filter from 'lodash/filter';
+import i18n from '../../helpers/i18n';
+import {metrics, vw} from '../../helpers/metric';
 import safePage from '../../helpers/safePage';
-import TabviewList from '../../components/TabviewList';
-
+import colors from '../../helpers/colors';
+import {chainInfo} from '../../config';
+import {Toast} from '../../components/Toast';
+import IconHelp from '../../components/Iconfont/IconquestionRedCopy';
 
 const Withdraw = () => {
   useSelector(state => _get(state, ['appSetting', 'language']));
 
-  // 当前钱包
-  const currentWallet = useSelector(
-    state => _get(state.wallets, ['currentWallet']) || [],
-  );
+  /**
+   * exchange合约资产
+   */
+  const exchangeUTC = useSelector(state => {
+    const asset = _filter(
+      _get(state, ['assets', 'assetsList']) || [],
+      o => o.symbol === chainInfo.symbol,
+    );
+    return _get(asset, ['0', 'exchange']) || {};
+  });
 
   // 兑换
   const onPressExchange = () => {
@@ -31,26 +40,63 @@ const Withdraw = () => {
   };
 
   return (
-    <View style={{}}>
-      <View>
-        <PrimaryText>{i18n.t('frozen')}</PrimaryText>
-        <PrimaryText>{i18n.t('available')}</PrimaryText>
+    <View style={styles.wrapper}>
+      <View style={styles.row}>
+        <View style={styles.row}>
+          <PrimaryText color="title">{i18n.t('startContractAccount')}</PrimaryText>
+          <TouchableOpacity
+            onPress={() => {
+              Toast.show({data: i18n.t('contractDescription')});
+            }}>
+            <IconHelp style={styles.help} />
+          </TouchableOpacity>
+        </View>
+        <PrimaryText style={{color: colors.textTheme}}>
+          {exchangeUTC.balanceFmt} {chainInfo.symbol}
+        </PrimaryText>
       </View>
-      <SmallText>{i18n.t('frozen')} {}</SmallText>
-      <View>
-        <SmallText>{i18n.t('available')} {}</SmallText>
-        <Button
-          iconRight
-          containerStyle={styles.btnContainerStyle}
-          title={i18n.t('withdraw')}
-          onPress={onPressExchange}
-        />
-      </View>
+      <SmallText>
+        {i18n.t('frozenAsset')}: {exchangeUTC.frozenFmt}
+      </SmallText>
+      <SmallText>
+        {i18n.t('availableAsset')}: {exchangeUTC.availableFmt}
+      </SmallText>
+      <TouchableOpacity
+        style={styles.btnContainerStyle}
+        onPress={onPressExchange}>
+        <SmallText color="white">{i18n.t('withdraw')}</SmallText>
+      </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  wrapper: {
+    backgroundColor: '#fff',
+    marginHorizontal: metrics.spaceS,
+    padding: 8,
+    borderRadius: vw(2),
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  btnContainerStyle: {
+    position: 'absolute',
+    bottom: 8,
+    right: 8,
+    height: scale(20),
+    paddingHorizontal: scale(16),
+    backgroundColor: colors.success,
+    justifyContent: 'center',
+    borderRadius: scale(10),
+  },
+  help: {
+    color: '#000',
+    marginLeft: 6,
+  },
+});
 
 const safeWithdraw = props => safePage(Withdraw, props);
 

@@ -243,7 +243,7 @@ const Exchanger = () => {
   };
 
   return (
-    <View>
+    <View style={styles.wrapper}>
       <AssetCardWrapper>
         <View style={styles.exchangeCoins}>
           <View style={styles.iconWrapper}>
@@ -330,6 +330,8 @@ const Exchanger = () => {
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+  },
   row: {
     flexDirection: 'row',
   },
@@ -343,7 +345,6 @@ const styles = StyleSheet.create({
   exchangeCoins: {
     flexDirection: 'row',
     alignItems: 'center',
-    // height: scale(44),
   },
   exchangeRateWrapper: {
     flexDirection: 'row',
@@ -374,9 +375,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    // minHeight: scale(46),
-    // borderWidth: 1,
-    // borderColor: '#fff',
   },
   input: {
     color: '#fff',
@@ -393,8 +391,8 @@ const styles = StyleSheet.create({
   },
   btnContainerStyle: {
     alignItems: 'center',
-    marginTop: -vh(0.8),
-    marginBottom: metrics.spaceN,
+    marginTop: -vh(1.6),
+    marginBottom: metrics.spaceS,
   },
   btnStyle: {
     height: vh(8),

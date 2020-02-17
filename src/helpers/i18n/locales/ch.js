@@ -165,5 +165,7 @@ export default {
   exchangeFailed: '兑换失败',
   exchangeValue2small: '少于最小兑换量',
   contractAccount: '合约账户',
+  startContractAccount: '智能合约账户',
   withdraw: '提现',
+  contractDescription: '兑换后的UTC存放于您合约账户，无需他人许可即可提现',
 };

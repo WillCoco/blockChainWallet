@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import Iconbrowser from './Iconbrowser';
 import Iconeyeopen from './Iconeyeopen';
 import Iconarrowdetail from './Iconarrowdetail';
 import Iconclosecircle from './Iconclosecircle';
@@ -15,6 +16,8 @@ import Iconjiantou from './Iconjiantou';
 import Iconunlock from './Iconunlock';
 import Iconwode from './Iconwode';
 import Iconquestion from './Iconquestion';
+import IconquestionCopy from './IconquestionCopy';
+import IconquestionRedCopy from './IconquestionRedCopy';
 import Iconzichanbaoguanli from './Iconzichanbaoguanli';
 import Iconsuo from './Iconsuo';
 import Iconqianbao from './Iconqianbao';
@@ -42,6 +45,8 @@ import Iconscan from './Iconscan';
 // And then regenerate icons by using cli command.
 export const Icon = ({ color, name, size, ...rest }) => {
   switch (name) {
+    case 'browser':
+      return <Iconbrowser size={size} color={color} {...rest} />;
     case 'eyeopen':
       return <Iconeyeopen size={size} color={color} {...rest} />;
     case 'arrowdetail':
@@ -68,6 +73,10 @@ export const Icon = ({ color, name, size, ...rest }) => {
       return <Iconwode size={size} color={color} {...rest} />;
     case 'question':
       return <Iconquestion size={size} color={color} {...rest} />;
+    case 'question-copy':
+      return <IconquestionCopy size={size} color={color} {...rest} />;
+    case 'question-red-copy':
+      return <IconquestionRedCopy size={size} color={color} {...rest} />;
     case 'zichanbaoguanli':
       return <Iconzichanbaoguanli size={size} color={color} {...rest} />;
     case 'suo':

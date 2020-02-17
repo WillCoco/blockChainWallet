@@ -8,8 +8,8 @@
  */
 
 import React from 'react';
-import {useDispatch} from 'react-redux';
-import {useNavigation} from 'react-navigation-hooks';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation, useIsFocused} from 'react-navigation-hooks';
 import _get from 'lodash/get';
 import {Overlay} from '../../components/Mask';
 import safePage from '../../helpers/safePage';
@@ -22,6 +22,12 @@ const CheckOverlay = props => {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
 
+  const isFocused = useIsFocused();
+
+  // 钱包列表
+  const walletsList =
+    useSelector(state => _get(state, ['wallets', 'walletsList'])) || [];
+
   /**
    * 第一次进入app时检查需要弹出的overlay
    */
@@ -29,18 +35,22 @@ const CheckOverlay = props => {
     // 检查更新
     checkVersion();
 
-    // utc兑换
-    Overlay.push(Overlay.contentTypes.GUIDANCE, {
-      customData: {
-        buttonText: i18n.t('pressToGo'),
-        backgroundImg: images.utcExchageAlertBg,
-        onConfirm: () => navigate('Exchange'),
-        contentWrapperStyle: {
-          width: vw(76),
-          height: vw(120),
+    if (isFocused && walletsList.length !== 0) {
+      // 有钱包，不进入引导，检查在主页需要的弹窗
+
+      // utc兑换
+      Overlay.push(Overlay.contentTypes.GUIDANCE, {
+        customData: {
+          buttonText: i18n.t('pressToGo'),
+          backgroundImg: images.utcExchageAlertBg,
+          onConfirm: () => navigate('Exchange'),
+          contentWrapperStyle: {
+            width: vw(76),
+            height: vw(120),
+          },
         },
-      },
-    });
+      });
+    }
   }, []);
 
   /**

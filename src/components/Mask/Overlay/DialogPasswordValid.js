@@ -68,6 +68,7 @@ const PasswordValid = props => {
     props.setPause(false);
 
     // 结果回调
+    console.log(props.onValidEnd, 'list_onValidEnd');
     props.onValidEnd(true, pwd);
   };
 
