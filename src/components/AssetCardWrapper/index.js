@@ -27,7 +27,13 @@ const AssetCardWrapper = props => {
         source={images.assetDetailCard}
         imageStyle={styles.cardImg}
         style={styles.cardWrapper}>
-        <View style={styles.contentWrapper}>{props.children}</View>
+        <View
+          style={StyleSheet.flatten([
+            styles.contentWrapper,
+            props.contentWrapperStyle,
+          ])}>
+          {props.children}
+        </View>
       </ImageBackground>
     </ImageBackground>
   );
@@ -42,7 +48,7 @@ safeAssetCardWrapper.defaultProps = {
 const styles = StyleSheet.create({
   headerWrapper: {
     backgroundColor: colors.theme,
-    paddingTop: vh(12),
+    paddingTop: vh(9),
     // height: '58%',
     // justifyContent: 'flex-end',
   },

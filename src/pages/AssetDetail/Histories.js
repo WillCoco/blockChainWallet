@@ -9,8 +9,8 @@ import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
 import {metrics, vw, vh} from '../../helpers/metric';
 import i18n from '../../helpers/i18n';
-import PagingList from '../../components/PagingList';
 import TabviewList from '../../components/TabviewList';
+import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
 import TxRow from '../../components/TxRow/TxRow';
 import {getHistory} from '../../helpers/chain33';
 import safePage from '../../helpers/safePage';
@@ -211,49 +211,46 @@ const Histories = props => {
   }
 
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.shape} />
-      <View style={styles.historyWrapper}>
-        <H4 style={styles.transactionTitle}>{i18n.t('txHistories')}</H4>
-        <TabviewList tabs={tabs} />
-        <View style={styles.buttonsWrapper}>
-          <Button
-            title={i18n.t('transfer')}
-            containerStyle={styles.btnContainerStyle}
-            buttonStyle={StyleSheet.flatten([
-              styles.btnStyle,
-              styles.leftBtnStyle,
-            ])}
-            // icon={<Icon name="exit-to-app" color={colors.textWhite} />}
-            onPress={() =>
-              navigate({routeName: 'Transfer', params: {tokenSymbol}})
-            }
-          />
-          <Button
-            title={i18n.t('collect')}
-            containerStyle={styles.btnContainerStyle}
-            buttonStyle={StyleSheet.flatten([
-              styles.btnStyle,
-              styles.middleBtnStyle,
-            ])}
-            // icon={<Icon name="swap-horiz" color={colors.textWhite} />}
-            onPress={() =>
-              navigate({routeName: 'Collect', params: {currentToken}})
-            }
-          />
-          <Button
-            title={i18n.t('exchange')}
-            containerStyle={styles.btnContainerStyle}
-            buttonStyle={StyleSheet.flatten([
-              styles.btnStyle,
-              styles.rightBtnStyle,
-            ])}
-            // icon={<Icon name="swap-horiz" color={colors.textWhite} />}
-            onPress={() => navigate({routeName: 'Exchange'})}
-          />
-        </View>
+    <PhoneShapeWrapper>
+      <H4 style={styles.transactionTitle}>{i18n.t('txHistories')}</H4>
+      <TabviewList tabs={tabs} />
+      <View style={styles.buttonsWrapper}>
+        <Button
+          title={i18n.t('transfer')}
+          containerStyle={styles.btnContainerStyle}
+          buttonStyle={StyleSheet.flatten([
+            styles.btnStyle,
+            styles.leftBtnStyle,
+          ])}
+          // icon={<Icon name="exit-to-app" color={colors.textWhite} />}
+          onPress={() =>
+            navigate({routeName: 'Transfer', params: {tokenSymbol}})
+          }
+        />
+        <Button
+          title={i18n.t('collect')}
+          containerStyle={styles.btnContainerStyle}
+          buttonStyle={StyleSheet.flatten([
+            styles.btnStyle,
+            styles.middleBtnStyle,
+          ])}
+          // icon={<Icon name="swap-horiz" color={colors.textWhite} />}
+          onPress={() =>
+            navigate({routeName: 'Collect', params: {currentToken}})
+          }
+        />
+        <Button
+          title={i18n.t('exchange')}
+          containerStyle={styles.btnContainerStyle}
+          buttonStyle={StyleSheet.flatten([
+            styles.btnStyle,
+            styles.rightBtnStyle,
+          ])}
+          // icon={<Icon name="swap-horiz" color={colors.textWhite} />}
+          onPress={() => navigate({routeName: 'Exchange'})}
+        />
       </View>
-    </View>
+    </PhoneShapeWrapper>
   );
 };
 
@@ -272,14 +269,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: metrics.spaceN,
     borderTopRightRadius: metrics.spaceN,
     overflow: 'hidden',
-  },
-  shape: {
-    height: 5,
-    width: vw(10),
-    backgroundColor: colors.disable,
-    alignSelf: 'center',
-    marginTop: metrics.spaceS,
-    borderRadius: 2.5,
   },
   buttonsWrapper: {
     flexDirection: 'row',

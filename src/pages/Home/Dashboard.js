@@ -3,6 +3,8 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  Image,
+  Linking,
 } from 'react-native';
 import {H4, H1, PrimaryText, scale} from 'react-native-normalization-text';
 import {useDispatch, useSelector} from 'react-redux';
@@ -20,7 +22,17 @@ import {Overlay} from '../../components/Mask';
 import AssetCardWrapper from '../../components/AssetCardWrapper';
 import {upperUnit} from '../../helpers/utils/numbers';
 import Iconshoukuan from '../../components/Iconfont/Iconshoukuan2';
+import images from '../../images';
 import Iconliaotianzhuanzhang from '../../components/Iconfont/Iconzhuanzhang';
+import IconeyeOpen from '../../components/Iconfont/Iconeyeopen';
+import IconeyeClose from '../../components/Iconfont/Iconeyeclose';
+import {
+  dappDispatch,
+  VIEW_STATUS,
+  actionTypes,
+} from '../../components/DappsWebview';
+import {chainInfo, env, dapps} from '../../config';
+
 
 const Dashboard = () => {
   const {navigate} = useNavigation();
@@ -85,12 +97,11 @@ const Dashboard = () => {
             <PrimaryText style={styles.assetsTitle}>
               {i18n.t('myAssets')}({i18n.t('RMB')})
             </PrimaryText>
-            <Icon
-              name={isShowAssets ? 'eye' : 'eye-with-line'}
-              type="entypo"
-              color={colors.textWhite}
-              size={Math.min(14, vw(6))}
-            />
+            {isShowAssets ? (
+              <IconeyeOpen size={Math.min(18, vw(7))} />
+            ) : (
+              <IconeyeClose size={Math.min(18, vw(7))} />
+            )}
           </TouchableOpacity>
           <View>
             <H1 color="white" style={styles.assetText}>
@@ -119,6 +130,36 @@ const Dashboard = () => {
           Overlay.push(Overlay.contentTypes.WALLET_QUICK_MANAGER, options)
         }
       />
+      <View style={styles.entrancesWrapper}>
+        <TouchableOpacity
+          style={styles.entranceBtn}
+          onPress={() => {
+            const network = env === 'test' ? 'testnet/' : '';
+            Linking.openURL(`${chainInfo.explorerUrl}/#/${network}`);
+          }}>
+          <Image
+            resizeMode="contain"
+            style={styles.explorerImg}
+            source={images.utcExplorer}
+          />
+          <PrimaryText color="white">UTC Park</PrimaryText>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.entranceBtn}
+          onPress={() => {
+            dappDispatch({
+              type: actionTypes.OPEN,
+              payload: {uri: dapps.otc.url},
+            });
+          }}>
+          <Image
+            resizeMode="contain"
+            style={styles.entranceImg}
+            source={images.otcEntrance}
+          />
+          <PrimaryText color="white">OTC</PrimaryText>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -140,7 +181,6 @@ const styles = StyleSheet.create({
   },
   contentWrapper: {
     flexDirection: 'row',
-    width: '88%',
     // height: scale(54),
     alignSelf: 'center',
     alignItems: 'center',
@@ -191,5 +231,25 @@ const styles = StyleSheet.create({
     width: StyleSheet.hairlineWidth * 2,
     height: '40%',
     backgroundColor: colors.textGrey3,
+  },
+  entrancesWrapper: {
+    flexDirection: 'row',
+    overflow: 'hidden',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flex: -1,
+    bottom: scale(10),
+    marginBottom: -scale(10),
+  },
+  explorerImg: {
+    width: scale(60),
+    height: scale(60),
+  },
+  entranceImg: {
+    height: scale(60),
+    width: scale(60),
+  },
+  entranceBtn: {
+    alignItems: 'center',
   },
 });

@@ -93,12 +93,16 @@ const AssetsList = props => {
                       <PrimaryText color="title" style={{fontWeight: '500'}}>
                         {asset.symbol}
                       </PrimaryText>
-                      <TinyText color="" style={styles.tinyText}>
-                        {i18n.t('frozenAsset')} xxx{}
-                      </TinyText>
-                      <TinyText color="" style={styles.tinyText}>
-                        {i18n.t('availableAsset')} xxx{}
-                      </TinyText>
+                      {asset.frozen && (
+                        <TinyText color="" style={styles.tinyText}>
+                          {i18n.t('frozenAsset')} {asset.frozen}
+                        </TinyText>
+                      )}
+                      {asset.frozen && (
+                        <TinyText color="" style={styles.tinyText}>
+                          {i18n.t('availableAsset')} {asset.frozen}
+                        </TinyText>
+                      )}
                     </View>
                   </View>
                   <View>
@@ -110,7 +114,6 @@ const AssetsList = props => {
                     </SmallText>
                   </View>
                 </TouchableOpacity>
-                <Divider style={{backgroundColor: colors.dividerDark}} />
               </View>
             );
           })}
@@ -127,14 +130,25 @@ AssetsList.defaultProps = {
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingHorizontal: vw(4),
+    paddingHorizontal: vw(2),
+    backgroundColor: colors.pageBackground,
   },
   assetRow: {
-    height: vw(18),
+    // height: vw(18),
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    // alignItems: 'center',
+    // marginHorizontal: metrics.spaceS,
+    // backgroundColor: '#fff',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: metrics.spaceS,
+    paddingHorizontal: vw(2),
+    paddingVertical: vw(3.2),
+    backgroundColor: '#fff',
+    marginTop: vw(2),
+    marginHorizontal: metrics.spaceS,
+    borderRadius: vw(1),
+    overflow: 'hidden',
   },
   leftContent: {
     flexDirection: 'row',
@@ -143,16 +157,16 @@ const styles = StyleSheet.create({
   assetIcon: {
     width: vw(10),
     height: vw(10),
-    borderRadius: vw(6),
-    borderWidth: 1,
+    // borderRadius: vw(6),
+    // borderWidth: 1,
     borderColor: colors.dividerDark,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: metrics.spaceS,
   },
   iconStyle: {
-    width: vw(7),
-    height: vw(7),
+    width: vw(10),
+    height: vw(10),
     alignSelf: 'center',
   },
   leftWrapper: {
@@ -169,6 +183,7 @@ const styles = StyleSheet.create({
   },
   value: {
     textAlign: 'right',
+    color: colors.textTheme,
   },
 });
 

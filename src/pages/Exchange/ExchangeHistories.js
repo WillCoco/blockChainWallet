@@ -8,20 +8,15 @@
  */
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {View, StyleSheet, SafeAreaView, ImageBackground} from 'react-native';
-import {Button} from 'react-native-elements';
+import {StyleSheet} from 'react-native';
 import {useNavigation} from 'react-navigation-hooks';
-import {PrimaryText} from 'react-native-normalization-text';
 import i18n from '../../helpers/i18n';
 import _get from 'lodash/get';
-import colors from '../../helpers/colors';
-import {vh, vw, metrics} from '../../helpers/metric';
 import safePage from '../../helpers/safePage';
-import NavBar from '../../components/NavBar';
-import images from '../../images';
 import TabviewList from '../../components/TabviewList';
-import {getHistory, getExchangeHistory} from '../../helpers/chain33';
+import {getExchangeHistory} from '../../helpers/chain33';
 import TxRow from '../../components/TxRow/TxRow';
+import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
 
 const PAGE_SIZE = 30;
 const INITIAL_PAGE_SIZE = 10;
@@ -121,31 +116,13 @@ const Exchange = () => {
   const tabs = [exchangeHistories, unlockHistories];
 
   return (
-    <View style={styles.historyWrapper}>
-      <View style={styles.shape} />
-      <TabviewList tabs={tabs} tabBarWidth="50%" />
-    </View>
+    <PhoneShapeWrapper>
+      <TabviewList style={{marginTop: -14}} tabs={tabs} tabBarWidth="50%" />
+    </PhoneShapeWrapper>
   );
 };
 
-const styles = StyleSheet.create({
-  historyWrapper: {
-    flex: 1,
-    backgroundColor: '#fff',
-    marginTop: metrics.spaceS,
-    borderTopLeftRadius: metrics.spaceN,
-    borderTopRightRadius: metrics.spaceN,
-    overflow: 'hidden',
-  },
-  shape: {
-    height: 5,
-    width: vw(10),
-    backgroundColor: colors.disable,
-    alignSelf: 'center',
-    marginTop: metrics.spaceS,
-    borderRadius: 2.5,
-  },
-});
+const styles = StyleSheet.create({});
 
 const safeExchange = props => safePage(Exchange, props);
 

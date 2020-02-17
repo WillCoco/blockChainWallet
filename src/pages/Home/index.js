@@ -160,7 +160,7 @@ const Home = () => {
             keyboardShouldPersistTaps="handled"
             // stickyHeaderIndices={[1]}
             style={styles.scroll}
-            contentContainerStyle={{backgroundColor: '#fff'}}>
+            contentContainerStyle={{backgroundColor: colors.pageBackground}}>
             <AssetsList isLoaded={isLoaded} />
             <PasswordValid />
           </ScrollView>
@@ -183,14 +183,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.theme,
   },
-  scroll: Platform.select({
-    flex: 1,
-    backgroundColor: '#fff',
-    // android差异
-    // android: {
-    //   backgroundColor: '#fff',
-    // },
-  }),
+  scroll: {
+    backgroundColor: colors.pageBackground,
+  },
   assetsTitle: {
     fontSize: scale(14),
     marginHorizontal: metrics.spaceN,

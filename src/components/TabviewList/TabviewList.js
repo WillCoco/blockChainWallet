@@ -49,18 +49,18 @@ const TabviewList = props => {
 
   const renderScene = SceneMap(map);
 
-  console.log(StyleSheet.flatten([
-    {
-      backgroundColor: 'white',
-      // borderColor: 'red',
-      marginTop: 10,
-      elevation: 0,
-      justifyContent: 'flex-end',
-    },
-    props.tabBarStyle,
-  ]), 'props.tabBarStyle,')
+  // console.log(StyleSheet.flatten([
+  //   {
+  //     backgroundColor: 'white',
+  //     borderColor: 'red',
+      // marginTop: 10,
+      // elevation: 0,
+      // justifyContent: 'flex-end',
+    // },
+    // props.tabBarStyle,
+  // ]), 'props.tabBarStyle,')
   return (
-    <View style={styles.wrapper}>
+    <View style={StyleSheet.flatten([styles.wrapper, props.style])}>
       <TabView
         navigationState={{index, routes}}
         renderScene={renderScene}
@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
   },
-
 });
 
 export default safeTabviewList;

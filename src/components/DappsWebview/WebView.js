@@ -14,6 +14,7 @@ import {
   View,
   Platform,
   StyleSheet,
+  StatusBar,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import {scale} from 'react-native-normalization-text';
@@ -25,6 +26,7 @@ import IconClose from '../../components/Iconfont/Iconclose';
 import i18n from '../../helpers/i18n';
 import {metrics, vw} from '../../helpers/metric';
 import safePage from '../../helpers/safePage';
+import colors from '../../helpers/colors';
 import actionTypes from './actionTypes';
 
 let callId = 0;
@@ -142,12 +144,13 @@ const DappsWebView = props => {
 
   return (
     <View style={wrapperStyle}>
+      <StatusBar backgroundColor={colors.otcTheme} barStyle="light-content" />
       <NavBar
         // isAbsolute
         title=""
         leftElement={<IconClose size={scale(20)} />}
         onLeft={() => dispatch({type: actionTypes.CLOSE})}
-        // safeViewStyle={{height: 80}}
+        safeViewStyle={{backgroundColor: colors.otcTheme}}
       />
       <WebView
         originWhitelist={[

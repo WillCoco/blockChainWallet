@@ -34,6 +34,7 @@ import IconLightning from '../../components/Iconfont/Iconshandian';
 import IconArrowRight from '../../components/Iconfont/Iconarrowright';
 import {Overlay, Loading} from '../../components/Mask';
 import {Toast} from '../../components/Toast';
+import AssetCardWrapper from '../../components/AssetCardWrapper';
 import i18n from '../../helpers/i18n';
 import colors from '../../helpers/colors';
 import {vh, vw, metrics} from '../../helpers/metric';
@@ -56,6 +57,11 @@ const Exchanger = () => {
   );
 
   /**
+   * 缓释价格
+   */
+  const unlock180Price = '15';
+
+  /**
    * 资产列表
    */
   const assetTC = useSelector(state => {
@@ -65,16 +71,6 @@ const Exchanger = () => {
     );
     return _get(asset, '0') || {};
   });
-
-  /**
-   * 汇率
-   */
-  const rates = useSelector(
-    state => _get(state, ['assets', 'exchangeRate']) || {},
-  );
-  const TC2UTCrate = parseFloat(
-    (rates.TC / rates[chainInfo.symbol]).toFixed(4),
-  );
 
   /**
    * 输入兑换值
@@ -98,9 +94,14 @@ const Exchanger = () => {
   const isLock = exchangeTypes.LOCK === exchangeType;
 
   /**
-   * 缓释价格
+   * 汇率
    */
-  const unlock180Price = '15';
+  const rates = useSelector(
+    state => _get(state, ['assets', 'exchangeRate']) || {},
+  );
+  const UTCPrice = isLock ? unlock180Price : rates[chainInfo.symbol];
+
+  const TC2UTCrate = parseFloat((rates.TC / UTCPrice).toFixed(4));
 
   /**
    * 修改兑换类型
@@ -242,88 +243,81 @@ const Exchanger = () => {
   };
 
   return (
-    <ImageBackground source={images.netBg} style={styles.headerWrapper}>
-      <ImageBackground
-        resizeMode="contain"
-        source={images.assetDetailCard}
-        imageStyle={styles.cardImg}
-        style={styles.cardWrapper}>
-        <View style={styles.contentWrapper}>
-          <View style={styles.exchangeCoins}>
-            <View style={styles.iconWrapper}>
-              <Image
-                resizeMode="contain"
-                style={styles.coinIcon}
-                source={images.TCIcon}
-              />
-            </View>
-            <H3 color="white">TC</H3>
-            <IconArrowRight size={scale(26)} style={styles.arrow} />
-            <View style={styles.iconWrapper}>
-              <Image
-                resizeMode="contain"
-                style={styles.coinIcon}
-                source={images.UTCIcon}
-              />
-            </View>
-            <TouchableOpacity onPress={changeExchangeType}>
-              <View style={styles.row}>
-                <H3 style={{}} color="white">{chainInfo.symbol}</H3>
-                <Icon name="arrow-drop-down" color={colors.textWhite} />
-              </View>
-              <SmallText
-                style={{color: colors.textGrey2, lineHeight: scale(12)}}>
-                {isLock ? i18n.t('unlock180') : i18n.t('notLock')}
-              </SmallText>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.exchangeRateWrapper}>
-            <PrimaryText color="white">
-              {i18n.t('price')} ¥{rates.TC}
-            </PrimaryText>
-            <PrimaryText color="white">
-              {i18n.t('exchangeRate')} {TC2UTCrate}
-            </PrimaryText>
-            <PrimaryText
-              color="white"
-              style={{width: '20%', minWidth: scale(64)}}>
-              {i18n.t('price')} ¥
-              {isLock ? unlock180Price : rates[chainInfo.symbol]}
-            </PrimaryText>
-          </View>
-          <View style={styles.balanceWrapper}>
-            <PrimaryText color="white" style={{marginRight: metrics.spaceS}}>
-              {i18n.t('balance')} {assetTC.balanceFmt || '0'} TC
-            </PrimaryText>
-            <TouchableOpacity
-              onPress={() => {
-                navigate('Collect');
-              }}>
-              <PrimaryText style={{color: colors.textSuccess}}>
-                {i18n.t('recharge')}
-              </PrimaryText>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.formWrapper}>
-            <TextInput
-              value={exchangeValue}
-              placeholder={i18n.t('exchangeInputPlaceholder')}
-              placeholderTextColor={colors.textGrey3}
-              onChangeText={onChangeText}
-              style={styles.input}
+    <View>
+      <AssetCardWrapper>
+        <View style={styles.exchangeCoins}>
+          <View style={styles.iconWrapper}>
+            <Image
+              resizeMode="contain"
+              style={styles.coinIcon}
+              source={images.TCIcon}
             />
-            <TouchableOpacity
-              onPress={() => {
-                const allValue = upperUnit(assetTC.balance, {pretty: false});
-                onChangeText(allValue);
-              }}>
-              <PrimaryText color="white" style={{fontWeight: '500'}}>{i18n.t('all')}</PrimaryText>
-            </TouchableOpacity>
-            <PrimaryText style={styles.unit}>TC</PrimaryText>
           </View>
-          <TinyText style={styles.helpText}>{i18n.t('exchangeRateHelpText')}</TinyText>
+          <H3 color="white">TC</H3>
+          <IconArrowRight size={scale(26)} style={styles.arrow} />
+          <View style={styles.iconWrapper}>
+            <Image
+              resizeMode="contain"
+              style={styles.coinIcon}
+              source={images.UTCIcon}
+            />
+          </View>
+          <TouchableOpacity onPress={changeExchangeType}>
+            <View style={styles.row}>
+              <H3 style={{}} color="white">{chainInfo.symbol}</H3>
+              <Icon name="arrow-drop-down" color={colors.textWhite} />
+            </View>
+            <SmallText style={{color: colors.textGrey2, lineHeight: scale(12)}}>
+              {isLock ? i18n.t('unlock180') : i18n.t('notLock')}
+            </SmallText>
+          </TouchableOpacity>
         </View>
-      </ImageBackground>
+        <View style={styles.exchangeRateWrapper}>
+          <PrimaryText color="white">
+            {i18n.t('price')} ¥{rates.TC}
+          </PrimaryText>
+          <PrimaryText color="white">
+            {i18n.t('exchangeRate')} {TC2UTCrate}
+          </PrimaryText>
+          <PrimaryText
+            color="white"
+            style={{width: '20%', minWidth: scale(64)}}>
+            {i18n.t('price')} ¥
+            {isLock ? unlock180Price : rates[chainInfo.symbol]}
+          </PrimaryText>
+        </View>
+        <View style={styles.balanceWrapper}>
+          <PrimaryText color="white" style={{marginRight: metrics.spaceS}}>
+            {i18n.t('balance')} {assetTC.balanceFmt || '0'} TC
+          </PrimaryText>
+          <TouchableOpacity
+            onPress={() => {
+              navigate('Collect');
+            }}>
+            <PrimaryText style={{color: colors.textSuccess}}>
+              {i18n.t('recharge')}
+            </PrimaryText>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.formWrapper}>
+          <TextInput
+            value={exchangeValue}
+            placeholder={i18n.t('exchangeInputPlaceholder')}
+            placeholderTextColor={colors.textGrey3}
+            onChangeText={onChangeText}
+            style={styles.input}
+          />
+          <TouchableOpacity
+            onPress={() => {
+              const allValue = upperUnit(assetTC.balance, {pretty: false});
+              onChangeText(allValue);
+            }}>
+            <PrimaryText color="white" style={{fontWeight: '500'}}>{i18n.t('all')}</PrimaryText>
+          </TouchableOpacity>
+          <PrimaryText style={styles.unit}>TC</PrimaryText>
+        </View>
+        <TinyText style={styles.helpText}>{i18n.t('exchangeRateHelpText')}</TinyText>
+      </AssetCardWrapper>
       <Button
         title={i18n.t('exchange')}
         containerStyle={styles.btnContainerStyle}
@@ -331,24 +325,11 @@ const Exchanger = () => {
         icon={<IconLightning size={scale(24)} />}
         onPress={exchange}
       />
-    </ImageBackground>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  headerWrapper: {
-    backgroundColor: colors.theme,
-    paddingTop: vh(12),
-    // height: '58%',
-    // justifyContent: 'flex-end',
-  },
-  cardWrapper: {
-    height: vw(62),
-  },
-  cardImg: {
-    width: '100%',
-    height: '100%',
-  },
   row: {
     flexDirection: 'row',
   },
@@ -392,7 +373,10 @@ const styles = StyleSheet.create({
   formWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-end',
+    // minHeight: scale(46),
+    // borderWidth: 1,
+    // borderColor: '#fff',
   },
   input: {
     color: '#fff',
@@ -422,7 +406,7 @@ const styles = StyleSheet.create({
   },
   helpText: {
     color: colors.textGrey1,
-    marginTop: '-2.5%',
+    bottom: '2.3%',
   },
 });
 

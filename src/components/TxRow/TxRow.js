@@ -113,7 +113,7 @@ const TxRow = props => {
     txTypes[type] || // 根据action字段判断
     txTypes['in']; // 兜底
 
-  // console.log(txType, 'txType')
+  console.log(props.reward, 'props')
 
   return (
     <TouchableOpacity
@@ -142,23 +142,33 @@ const TxRow = props => {
           ])}
         />
         <View style={{}}>
-          <PrimaryText
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            style={StyleSheet.flatten([
-              styles.rightText,
-              {color: txType.RTTextColor},
-            ])}>
-            {txType.RTSign} {upperUnit(txType.RTText)} {props.symbol}
-          </PrimaryText>
-          {props.RBText && (
+          <View style={{flexDirection: 'row'}}>
+            <PrimaryText style={{width: 8, color: txType.RTTextColor, marginRight: 4, textAlign: 'center'}}>
+              {txType.RTSign}
+            </PrimaryText>
             <PrimaryText
+              numberOfLines={1}
+              ellipsizeMode="tail"
               style={StyleSheet.flatten([
                 styles.rightText,
-                {color: txType.RBTextColor},
+                {color: txType.RTTextColor},
               ])}>
-              {txType.RBSign} {upperUnit(txType.RBText)} {props.symbol}
+              {upperUnit(txType.RTText)} {props.symbol}
             </PrimaryText>
+          </View>
+          {txType.RBText && (
+            <View style={{flexDirection: 'row'}}>
+              <PrimaryText style={{width: 8, color: txType.RBTextColor, marginRight: 4, textAlign: 'center'}}>
+                {txType.RBSign}
+              </PrimaryText>
+              <PrimaryText
+                style={StyleSheet.flatten([
+                  styles.rightText,
+                  {color: txType.RBTextColor},
+                ])}>
+                {upperUnit(txType.RBText)} {props.symbol}
+              </PrimaryText>
+            </View>
           )}
         </View>
         <View style={styles.arrowDetail}>
