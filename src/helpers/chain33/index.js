@@ -195,7 +195,7 @@ export function sendTransaction(params) {
  */
 export function getHistory(params) {
   return extraServer
-    .get(`http://114.67.92.85:3333/api/v1/tokenTransferInfo`, {
+    .get(`${url.serverUrl}/tokenTransferInfo`, {
       params: {
         ...params,
         addr: params.address,
@@ -273,12 +273,12 @@ export function exchangeMainCoin(params) {
  */
 export function getExchangeHistory(params) {
   const defaultParams = {
-    count: 20,
+    count: 50,
     symbol: 'TC',
   };
 
   const finallyParams = {...defaultParams, ...params};
-  console.log(finallyParams, 'exchangeHistory');
+  // console.log(finallyParams, 'exchangeHistory');
 
   return server
     .post(url.basicUrl, {
@@ -298,11 +298,43 @@ export function getExchangeHistory(params) {
       id: ++callId,
     })
     .then(r => {
-      console.log(r, 'exchangeMainCoin');
       const response = format.getExchangeHistory(r);
 
-      console.log(response, 'responsssssss')
+      console.log(response, 'getExchangeHistory')
       return Promise.resolve(response);
+    });
+}
+
+/**
+ * 兑换提现
+ * @params:
+ */
+export function exchangeWithdraw(params) {
+  const defaultParams = {
+    "to":"1LVU7ZDQbNMBJpTraUJZYLyXsfK4FkaCqS",
+    "amount": 0,
+    "fee": 0,
+    "note":"",
+    "isToken": undefined,
+    "isWithdraw": true,
+    "tokenSymbol": '',
+    "execName":"exchange"
+  };
+
+  const finallyParams = {...defaultParams, ...params};
+  console.log(finallyParams, '兑换提现finallyParams');
+
+  return server
+    .post(url.basicUrl, {
+      jsonrpc,
+      method: 'Chain33.CreateRawTransaction',
+      params: [
+        finallyParams
+      ],
+      id: ++callId,
+    })
+    .then(r => {
+      return Promise.resolve(r || {});
     });
 }
 

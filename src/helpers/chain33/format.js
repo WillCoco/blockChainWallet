@@ -107,7 +107,24 @@ export function getHistory(response) {
 export function getExchangeHistory(response) {
   // console.log(response, 'rrrr111')
 
+  const list = _get(response, ['result', 'exchangeOpInfo']) || [];
+  const result = list.map(d => {
+    const t = _get(d, 'blocktime') * 1000;
+    const date = new Date(t);
+    const Y = date.getFullYear();
+    const M = (date.getMonth() + 1) < 10 ? `0${(date.getMonth() + 1)}` : (date.getMonth() + 1)
+    const D = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()
+
+    const h = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+    const m = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+    const s = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
+    return {
+      ...d,
+      day: `${M}/${D}`,
+      time: `${h}:${m}`,
+    };
+  })
   return {
-    result: _get(response, ['result', 'exchangeOpInfo']),
+    result
   };
 }

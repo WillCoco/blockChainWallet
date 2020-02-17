@@ -170,4 +170,5 @@ export default {
   startContractAccount: 'Contract account',
   withdraw: 'withdraw',
   contractDescription: 'You have all permissions, you can withdraw anytime',
+  withdrawFailed: 'Withdraw failed',
 };

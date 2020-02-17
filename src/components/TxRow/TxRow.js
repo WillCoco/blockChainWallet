@@ -113,8 +113,6 @@ const TxRow = props => {
     txTypes[type] || // 根据action字段判断
     txTypes['in']; // 兜底
 
-  console.log(props.reward, 'props')
-
   return (
     <TouchableOpacity
       onPress={txType.hasDetail ? props.onPress : undefined}
@@ -141,7 +139,7 @@ const TxRow = props => {
             {backgroundColor: txType.RTTextColor},
           ])}
         />
-        <View style={{}}>
+        <View style={{alignItems: 'flex-end'}}>
           <View style={{flexDirection: 'row'}}>
             <PrimaryText style={{width: 8, color: txType.RTTextColor, marginRight: 4, textAlign: 'center'}}>
               {txType.RTSign}

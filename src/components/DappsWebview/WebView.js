@@ -154,14 +154,14 @@ const DappsWebView = props => {
         safeViewStyle={{backgroundColor: colors.otcTheme}}
       />
       <WebView
-        startInLoadingState
-        scalesPageToFit={false}
-        renderLoading={() => (
-          <View style={styles.loadingWrapper}>
-            <Image resizeMode="contain" style={styles.loading} source={images.loading} />
-            <SmallText>Loading...</SmallText>
-          </View>
-        )}
+        // startInLoadingState
+        // scalesPageToFit={false}
+        // renderLoading={() => (
+        //   <View style={styles.loadingWrapper}>
+        //     <Image resizeMode="contain" style={styles.loading} source={images.loading} />
+        //     <SmallText>Loading...</SmallText>
+        //   </View>
+        // )}
         originWhitelist={[
           'https://*',
           'http://*',
