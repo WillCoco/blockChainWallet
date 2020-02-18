@@ -51,7 +51,7 @@ const TxRow = props => {
       hasDetail: true,
     },
     exchange: {
-      leftMainText: props.leftMainText || shorten(props.txid),
+      leftMainText: i18n.t('exchangeUTC'),
       RTText: props.amount,
       RTTextColor: colors.textWarn,
       RTSign: '-',
@@ -60,7 +60,7 @@ const TxRow = props => {
       hasDetail: true,
     },
     unlock: {
-      leftMainText: props.leftMainText || shorten(props.txid),
+      leftMainText: i18n.t('unlocked'),
       RTText: props.amount,
       RTTextColor: colors.textTheme,
       RTSign: '', // todo：看交易数据，是否需要判断
@@ -73,7 +73,7 @@ const TxRow = props => {
       leftMainText: i18n.t('withdraw'),
       RTText: props.amount,
       RTTextColor: colors.textTheme,
-      RTSign: '', //
+      RTSign: '+', //
       RTSymbol: chainInfo.symbol,
       Icon: IconUnlock,
       iconBg: colors.iconBg1,

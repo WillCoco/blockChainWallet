@@ -100,6 +100,8 @@ const Histories = props => {
     onRefresh: () =>
       onRefresh({
         address: currentWallet.address,
+        executor: '',
+        symbol: '',
       }),
     onEndReached: (page, size) =>
       onEndReached(page, size, {
@@ -193,14 +195,14 @@ const Histories = props => {
     onRefresh: () =>
       onRefresh({
         sender: currentWallet.address,
-        executor: '',
+        executor: 'exchange',
         action: 'ExchangeActiveOp',
-        symbol: 'TC',
+        symbol: '',
       }),
     onEndReached: (page, size) =>
       onEndReached(page, size, {
         sender: currentWallet.address,
-        executor: '',
+        executor: 'exchange',
         action: 'ExchangeActiveOp',
         symbol: 'TC',
       }),

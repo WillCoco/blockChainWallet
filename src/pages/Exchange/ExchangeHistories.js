@@ -17,8 +17,9 @@ import TabviewList from '../../components/TabviewList';
 import {getExchangeHistory} from '../../helpers/chain33';
 import TxRow from '../../components/TxRow/TxRow';
 import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
+import {getHistory} from '../../helpers/chain33';
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 12;
 const INITIAL_PAGE_SIZE = 10;
 
 const Exchange = () => {
@@ -47,20 +48,18 @@ const Exchange = () => {
   };
 
   /**
-   * 下拉刷新
+   * 兑换下拉刷新
    */
   const onRefresh = () => {
     // return Promise.resolve([]);
     return getExchangeHistory({
       address: currentWallet.address,
-      // start: 0,
-      // size: 14,
       executor: 'token',
     });
   };
 
   /**
-   * 加载更多
+   * 兑换加载更多
    */
   const onEndReached = (page, size) => {
     // todo 现不支持加载更多， 一次拉完
@@ -69,6 +68,35 @@ const Exchange = () => {
     return getExchangeHistory({
       address: currentWallet.address,
       start: page.current * size,
+      size,
+    });
+  };
+
+  /**
+   * 释放下拉刷新。只显示需要缓释的
+   */
+  const unlockOnRefresh = params => {
+    return getHistory({
+      addr: currentWallet.address,
+      action: 'ExchangeActiveOp',
+      // symbol: currentToken.symbol,
+      // address: currentWallet.address,
+      start: 0,
+      size: PAGE_SIZE,
+      executor: 'exchange',
+      ...params,
+    });
+  };
+
+  /**
+   * 释放加载更多
+   */
+  const unlockOnEndReached = (page, size) => {
+    return getExchangeHistory({
+      addr: currentWallet.address,
+      action: 'ExchangeActiveOp',
+      start: page.current * size,
+      executor: 'exchange',
       size,
     });
   };
@@ -106,8 +134,8 @@ const Exchange = () => {
         txType: 'unlockType1',
         leftMainText: i18n.t('unlocked'),
       }),
-    onRefresh: onRefresh,
-    onEndReached: onEndReached,
+    onRefresh: unlockOnRefresh,
+    onEndReached: unlockOnEndReached,
   };
 
   /**

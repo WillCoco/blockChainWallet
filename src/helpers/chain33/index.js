@@ -201,9 +201,9 @@ export function getHistory(params) {
     .get(`${url.serverUrl}/tokenTransferInfo`, {
       params: {
         ...params,
-        addr: params.address,
+        addr: params.address || params.addr,
         symbol: params.symbol,
-        action: params.action, // transfer/collect
+        action: params.action, // transfer/exchange/coins
         status: params.status,
         executor: params.executor, // [token,coins,默认查token和icons]
         start: params.start,

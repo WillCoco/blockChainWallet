@@ -361,7 +361,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = ADA66625XJ;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -827,7 +827,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pool.utc;
 				PRODUCT_NAME = UTCWallet;
-				PROVISIONING_PROFILE_SPECIFIER = "utc-wallet-prod";
+				PROVISIONING_PROFILE_SPECIFIER = "utc-wallet-addhoc";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

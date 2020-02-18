@@ -63,7 +63,7 @@ const PagingList = props => {
     page.current++;
     const {result, code} = await props.onEndReached(page, size);
 
-    if (!result) {
+    if (!result || result.length === 0) {
       page.current--;
       setNoMore(true);
     } else {
