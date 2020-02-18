@@ -11,6 +11,7 @@ import {StyleSheet, Platform} from 'react-native';
 import Dialog from 'react-native-dialog';
 import {vw} from '../../helpers/metric/index';
 import i18n from '../../helpers/i18n/index';
+import colors from '../../helpers/colors';
 
 const PasswordPrompt = props => {
   return (
@@ -34,6 +35,7 @@ const PasswordPrompt = props => {
           autoFocus={props.autoFocus}
           onChangeText={props.onChangeText}
           placeholder={props.placeholder || i18n.t('passwordValidDesc')}
+          placeholderTextColor={colors.textDark1}
           style={StyleSheet.flatten([styles.inputStyle, props.inputStyle])}
           wrapperStyle={StyleSheet.flatten([
             styles.inputWrapperStyle,
@@ -83,7 +85,9 @@ const styles = StyleSheet.create({
     width: vw(80),
     paddingTop: 0,
   },
-  inputStyle: {},
+  inputStyle: {
+    color: colors.textTitle,
+  },
   inputWrapperStyle: Platform.select({
     android: {
       marginBottom: 0,

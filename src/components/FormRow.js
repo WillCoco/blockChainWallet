@@ -25,6 +25,7 @@ const FormRow = props => {
           {...pointerEvents}
           keyboardType={props.keyboardType}
           placeholder={props.placeholder}
+          placeholderTextColor={colors.textDark1}
           style={StyleSheet.flatten([styles.input, props.inputStyle])}
           value={props.value}
           onChangeText={props.onChangeText}
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     borderColor: colors.divider,
   },
   input: {
-    backgroundColor: 'transparent',
+    color: colors.textTitle,
     width: '94%',
     position: 'absolute',
     bottom: 0,

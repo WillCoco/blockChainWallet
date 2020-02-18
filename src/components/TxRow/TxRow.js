@@ -11,6 +11,7 @@ import {metrics, vw} from '../../helpers/metric/index';
 import {upperUnit} from '../../helpers/utils/numbers';
 import {chainInfo} from '../../config';
 import safePage from '../../helpers/safePage';
+import i18n from '../../helpers/i18n';
 import IconIn from '../../components/Iconfont/Iconin';
 import IconOut from '../../components/Iconfont/Iconout';
 import IconExchange from '../../components/Iconfont/Iconexchange';
@@ -63,6 +64,17 @@ const TxRow = props => {
       RTText: props.amount,
       RTTextColor: colors.textTheme,
       RTSign: '', // todo：看交易数据，是否需要判断
+      RTSymbol: chainInfo.symbol,
+      Icon: IconUnlock,
+      iconBg: colors.iconBg1,
+      hasDetail: false,
+    },
+    withdraw: {
+      leftMainText: i18n.t('withdraw'),
+      RTText: props.amount,
+      RTTextColor: colors.textTheme,
+      RTSign: '', //
+      RTSymbol: chainInfo.symbol,
       Icon: IconUnlock,
       iconBg: colors.iconBg1,
       hasDetail: false,
@@ -108,6 +120,9 @@ const TxRow = props => {
   } else if (txAction === 'transfer') {
     // 转账
     type = _get(props, ['direction']) === 'out' ? 'out' : 'in';
+  } else if (txAction === 'withdraw') {
+    // 提现
+    type = 'withdraw';
   }
   // console.log(type, 'type')
 

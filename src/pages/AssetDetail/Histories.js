@@ -118,6 +118,7 @@ const Histories = props => {
     onRefresh: () =>
       onRefresh({
         receiver: currentWallet.address,
+        action: 'transfer',
       }),
     onEndReached: (page, size) =>
       onEndReached(page, size, {
@@ -136,6 +137,7 @@ const Histories = props => {
     onRefresh: () =>
       onRefresh({
         sender: currentWallet.address,
+        action: 'transfer',
       }),
     onEndReached: (page, size) =>
       onEndReached(page, size, {
