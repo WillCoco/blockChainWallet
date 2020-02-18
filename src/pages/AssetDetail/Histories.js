@@ -46,10 +46,13 @@ const Histories = props => {
   /**
    * 渲染行
    */
-  const renderItem = ({item}) => {
+  const renderItem = ({item}, option) => {
+    const opt = option || {};
+
     return (
       <TxRow
         {...item}
+        leftMainText={opt.leftMainText}
         onPress={() =>
           navigate({routeName: 'DealDetails', params: {txInfo: item}})
         }
@@ -151,7 +154,11 @@ const Histories = props => {
     getTitle: () => i18n.t('exchangeHistories'),
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
-    renderItem: renderItem,
+    renderItem: item => {
+      return renderItem(item, {
+        leftMainText: i18n.t('exchangeUTC'),
+      });
+    },
     onRefresh: () =>
       onRefresh({
         sender: currentWallet.address,
@@ -176,7 +183,11 @@ const Histories = props => {
     getTitle: () => i18n.t('unlockHistories'),
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
-    renderItem: renderItem,
+    renderItem: item => {
+      return renderItem(item, {
+        leftMainText: i18n.t('unlocked'),
+      });
+    },
     onRefresh: () =>
       onRefresh({
         sender: currentWallet.address,

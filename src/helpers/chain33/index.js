@@ -54,6 +54,9 @@ export function getAddressOverview(params) {
     const coinsRes = r[0] || {};
     const exchangeRes = r[1] || {};
 
+    console.log({...exchangeRes.result}, 'exchangeRes');
+    // exchange部分format
+
     // 主币显示的余额 = exchange兑换全部 + coins全部
     const balanceTotal =
       +_get(coinsRes, ['result', 'balance']) +
@@ -66,8 +69,8 @@ export function getAddressOverview(params) {
     const res = {
       result: {
         ...coinsRes.result,
-        exchange: {
-          ...exchangeRes.result,
+        exchange: exchangeRes.result,
+        show: {
           balanceTotal,
           balanceTotalFmt,
         },

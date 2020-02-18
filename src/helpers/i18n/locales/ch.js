@@ -144,6 +144,7 @@ export default {
   outHistories: '转出',
   exchangeHistories: '兑换',
   unlockHistories: '释放',
+  exchangeUTC: '兑换UTC',
   exchangeRecordHistories: '兑换记录',
   unlockRecordHistories: '释放记录',
   unlock180: '180天缓释',
@@ -169,4 +170,5 @@ export default {
   withdraw: '提现',
   contractDescription: '兑换后的UTC存放于您合约账户，无需他人许可即可提现',
   withdrawFailed: '提现失败',
+  contractAssetDescription: '您兑换过的UTC存放于智能合约内，请前往闪兑页面提取',
 };

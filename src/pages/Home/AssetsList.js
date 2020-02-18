@@ -59,7 +59,7 @@ const AssetsList = props => {
       const rate = _get(rates, symbol) || 0;
 
       const coinsQuantity = isMainCoin
-        ? +_get(asset, ['exchange', 'balanceTotal'])
+        ? +_get(asset, ['show', 'balanceTotal'])
         : +asset.balance;
 
       const v = upperUnit(rate * coinsQuantity, {
@@ -89,7 +89,7 @@ const AssetsList = props => {
             // 右侧余额
             let balanceRight =
               (isMainCoin
-                ? _get(asset, ['exchange', 'balanceTotalFmt'])
+                ? _get(asset, ['show', 'balanceTotalFmt'])
                 : asset.balanceFmt) || '0';
 
             return (

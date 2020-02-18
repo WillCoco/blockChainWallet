@@ -15,6 +15,7 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  Keyboard,
 } from 'react-native';
 import {Button, Icon} from 'react-native-elements';
 import {useNavigation} from 'react-navigation-hooks';
@@ -101,6 +102,8 @@ const Exchanger = () => {
   );
   const UTCPrice = isLock ? unlock180Price : rates[chainInfo.symbol];
 
+  console.log(isLock, 'isLockisLockisLockisLock')
+
   const TC2UTCrate = parseFloat((rates.TC / UTCPrice).toFixed(4));
 
   /**
@@ -150,6 +153,8 @@ const Exchanger = () => {
     if (!preExchange()) {
       return;
     }
+
+    Keyboard.dismiss();
     // console.log(
     //   {
     //     amount: +lowerUnit(exchangeValue),

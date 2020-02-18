@@ -361,7 +361,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = ADA66625XJ;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -785,7 +785,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = "$(inherited)";
@@ -814,7 +814,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Graves Seth (ADA66625XJ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Graves Seth (ADA66625XJ)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = ADA66625XJ;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = basicApp/Info.plist;
@@ -825,9 +825,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pool.utc.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pool.utc;
 				PRODUCT_NAME = UTCWallet;
-				PROVISIONING_PROFILE_SPECIFIER = "utc-wallet-test";
+				PROVISIONING_PROFILE_SPECIFIER = "utc-wallet-prod";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

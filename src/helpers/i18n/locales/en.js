@@ -146,6 +146,7 @@ export default {
   outHistories: 'Out',
   exchangeHistories: 'Exchange',
   unlockHistories: 'Unlock',
+  exchangeUTC: 'Exchange UTC',
   exchangeRecordHistories: 'Exchange',
   unlockRecordHistories: 'Unlock',
   unlock180: 'Unlock in 180 D',
@@ -171,4 +172,5 @@ export default {
   withdraw: 'withdraw',
   contractDescription: 'You have all permissions, you can withdraw anytime',
   withdrawFailed: 'Withdraw failed',
+  contractAssetDescription: 'You have all permissions, you can withdraw anytime',
 };

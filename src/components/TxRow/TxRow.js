@@ -9,6 +9,7 @@ import {PrimaryText, SmallText, scale} from 'react-native-normalization-text';
 import colors from '../../helpers/colors/index';
 import {metrics, vw} from '../../helpers/metric/index';
 import {upperUnit} from '../../helpers/utils/numbers';
+import {chainInfo} from '../../config';
 import safePage from '../../helpers/safePage';
 import IconIn from '../../components/Iconfont/Iconin';
 import IconOut from '../../components/Iconfont/Iconout';
@@ -61,7 +62,7 @@ const TxRow = props => {
       leftMainText: props.leftMainText || shorten(props.txid),
       RTText: props.amount,
       RTTextColor: colors.textTheme,
-      RTSign: '*', // todo：看交易数据，是否需要判断
+      RTSign: '', // todo：看交易数据，是否需要判断
       Icon: IconUnlock,
       iconBg: colors.iconBg1,
       hasDetail: false,
@@ -75,6 +76,7 @@ const TxRow = props => {
       RBText: props.reward,
       RBTextColor: colors.textSuccess,
       RBSign: '+',
+      RBSymbol: chainInfo.symbol,
       Icon: IconExchange,
       iconBg: colors.iconBg1,
       hasDetail: false,
@@ -84,6 +86,7 @@ const TxRow = props => {
       RTText: props.amount,
       RTTextColor: colors.textTheme,
       RTSign: '',
+      RTSymbol: chainInfo.symbol,
       Icon: IconExchange,
       iconBg: colors.iconBg1,
       hasDetail: false,
@@ -151,7 +154,7 @@ const TxRow = props => {
                 styles.rightText,
                 {color: txType.RTTextColor},
               ])}>
-              {upperUnit(txType.RTText)} {props.symbol}
+              {upperUnit(txType.RTText)} {txType.RTSymbol || props.symbol}
             </PrimaryText>
           </View>
           {txType.RBText && (
@@ -164,7 +167,7 @@ const TxRow = props => {
                   styles.rightText,
                   {color: txType.RBTextColor},
                 ])}>
-                {upperUnit(txType.RBText)} {props.symbol}
+                {upperUnit(txType.RBText)} {txType.RBSymbol || props.symbol}
               </PrimaryText>
             </View>
           )}

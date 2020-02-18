@@ -81,7 +81,7 @@ const Dashboard = () => {
       const isMainCoin = asset.symbol === chainInfo.symbol;
 
       const coinsQuantity = isMainCoin
-        ? +_get(asset, ['exchange', 'balanceTotal'])
+        ? +_get(asset, ['show', 'balanceTotal'])
         : +asset.balance;
 
       const newValue = getRate(asset.symbol) * coinsQuantity;

@@ -41,7 +41,7 @@ export function getAddressBalance(response) {
       available,
       frozen,
       balanceFmt: upperUnit(balance),
-      availableFmt: upperUnit(balance),
+      availableFmt: upperUnit(available),
       frozenFmt: upperUnit(frozen),
     },
   };
@@ -55,14 +55,23 @@ const getIcon = symbol => {
 export function getAddressTokens(response) {
   const {result} = response || {};
   let {tokenAssets} = result || {};
-  tokenAssets = (tokenAssets || []).map(token => ({
-    balance: _get(token, ['account', 'balance']),
-    reciverFmt: upperUnit(_get(token, ['account', 'reciver'])),
-    balanceFmt: upperUnit(_get(token, ['account', 'balance'])),
-    symbol: token.symbol,
-    symbolURL: _get(token, ['symbolURL']),
-    icon: getIcon(token.symbol),
-  }));
+  tokenAssets = (tokenAssets || []).map(token => {
+    const frozen = _get(token, ['account', 'frozen']) || 0;
+    const available = _get(token, ['account', 'balance']) || 0;
+    const balance = +available + +frozen || 0;
+    return {
+      balance,
+      available,
+      frozen,
+      // reciverFmt: upperUnit(_get(token, ['account', 'reciver'])),
+      balanceFmt: upperUnit(balance),
+      availableFmt: upperUnit(available),
+      frozenFmt: upperUnit(frozen),
+      symbol: token.symbol,
+      symbolURL: _get(token, ['symbolURL']),
+      icon: getIcon(token.symbol),
+    };
+  });
   // console.log(tokenAssets, 'format_getAddressTokens');
 
   return {
