@@ -108,6 +108,7 @@ const Histories = props => {
         address: currentWallet.address,
       }),
   };
+
   /**
    * 转入记录
    */
@@ -127,6 +128,7 @@ const Histories = props => {
         receiver: currentWallet.address,
       }),
   };
+
   /**
    * 转出记录
    */
@@ -148,11 +150,11 @@ const Histories = props => {
   };
 
   /**
-   * 兑换记录
+   * token页兑换记录
    */
   // 是查单个token兑换 还是查所有token兑换
-  const exchangeExecutor = isToken ? '' : 'exchange';
-  const exchangeSymbol = isToken ? currentToken.symbol : '';
+  // const exchangeExecutor = isToken ? '' : 'exchange';
+  // const exchangeSymbol = isToken ? currentToken.symbol : '';
   const exchangeHistories = {
     key: '4',
     getTitle: () => i18n.t('exchangeHistories'),
@@ -166,16 +168,44 @@ const Histories = props => {
     onRefresh: () =>
       onRefresh({
         sender: currentWallet.address,
-        executor: exchangeExecutor,
+        executor: 'exchange',
         action: 'ExchangeOp',
-        symbol: exchangeSymbol,
+        symbol: currentToken.symbol,
       }),
     onEndReached: (page, size) =>
       onEndReached(page, size, {
         sender: currentWallet.address,
-        executor: exchangeExecutor,
+        executor: 'exchange',
         action: 'ExchangeOp',
-        symbol: exchangeSymbol,
+        symbol: currentToken.symbol,
+      }),
+  };
+  /**
+   * 主币页记录
+   */
+  const withdrawHistories = {
+    key: 'withdrawHistories',
+    getTitle: () => i18n.t('withdraw'),
+    size: PAGE_SIZE,
+    initialNumToRender: INITIAL_PAGE_SIZE,
+    renderItem: item => {
+      return renderItem(item, {
+        leftMainText: i18n.t('withdraw'),
+      });
+    },
+    onRefresh: () =>
+      onRefresh({
+        sender: currentWallet.address,
+        // executor: 'withdraw',
+        action: 'withdraw',
+        symbol: chainInfo.symbol,
+      }),
+    onEndReached: (page, size) =>
+      onEndReached(page, size, {
+        sender: currentWallet.address,
+        // executor: 'withdraw',
+        action: 'withdraw',
+        symbol: chainInfo.symbol,
       }),
   };
 
@@ -218,7 +248,7 @@ const Histories = props => {
   let tabs;
 
   if (currentToken.symbol === 'UTC') {
-    tabs = [allHistories, inHistories, outHistories, exchangeHistories, unlockHistories];
+    tabs = [allHistories, inHistories, outHistories, withdrawHistories, unlockHistories];
   } else if (currentToken.symbol === 'TC') {
     tabs = [allHistories, inHistories, outHistories, exchangeHistories];
   } else {

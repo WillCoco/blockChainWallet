@@ -171,4 +171,5 @@ export default {
   contractDescription: '兑换后的UTC存放于您合约账户，无需他人许可即可提现',
   withdrawFailed: '提现失败',
   contractAssetDescription: '您兑换过的UTC存放于智能合约内，请前往闪兑页面提取',
+  comingSoon: '敬请期待',
 };

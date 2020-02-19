@@ -9,7 +9,7 @@ import {
 import {H4, H1, PrimaryText, scale} from 'react-native-normalization-text';
 import {useDispatch, useSelector} from 'react-redux';
 import _get from 'lodash/get';
-import {Icon} from 'react-native-elements';
+// import {Icon} from 'react-native-elements';
 import {useNavigation} from 'react-navigation-hooks';
 import BigNumber from 'bignumber.js';
 import colors from '../../helpers/colors';
@@ -26,13 +26,13 @@ import images from '../../images';
 import Iconliaotianzhuanzhang from '../../components/Iconfont/Iconzhuanzhang';
 import IconeyeOpen from '../../components/Iconfont/Iconeyeopen';
 import IconeyeClose from '../../components/Iconfont/Iconeyeclose';
-import {
-  dappDispatch,
-  VIEW_STATUS,
-  actionTypes,
-} from '../../components/DappsWebview';
+import {Toast} from '../../components/Toast';
+// import {
+//   dappDispatch,
+//   VIEW_STATUS,
+//   actionTypes,
+// } from '../../components/DappsWebview';
 import {chainInfo, env, dapps} from '../../config';
-
 
 const Dashboard = () => {
   const {navigate} = useNavigation();
@@ -154,10 +154,11 @@ const Dashboard = () => {
         <TouchableOpacity
           style={styles.entranceBtn}
           onPress={() => {
-            dappDispatch({
-              type: actionTypes.OPEN,
-              payload: {uri: dapps.otc.url},
-            });
+            Toast.show({data: i18n.t('comingSoon')});
+            // dappDispatch({
+            //   type: actionTypes.OPEN,
+            //   payload: {uri: dapps.otc.url},
+            // });
           }}>
           <Image
             resizeMode="contain"

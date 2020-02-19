@@ -173,4 +173,5 @@ export default {
   contractDescription: 'You have all permissions, you can withdraw anytime',
   withdrawFailed: 'Withdraw failed',
   contractAssetDescription: 'You have all permissions, you can withdraw anytime',
+  comingSoon: 'Coming soon',
 };

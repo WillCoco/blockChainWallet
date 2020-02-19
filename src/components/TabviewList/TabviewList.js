@@ -26,26 +26,31 @@ const TabviewList = props => {
 
   /**
    * 渲染每一页, 每一页是下拉刷新分页器
+   * memo 修复列表闪动
    */
-  let map = {};
-  props.tabs.forEach(tab => {
-    map[tab.key] = () => {
-      return (
-        <PagingList
-          size={tab.size}
-          //item显示的布局
-          renderItem={tab.renderItem}
-          //下拉刷新相关
-          onRefresh={tab.onRefresh}
-          //加载更多
-          onEndReached={tab.onEndReached}
-          // ItemSeparatorComponent={separator}
-          keyExtractor={(item, index) => 'index' + index + item}
-          initialNumToRender={tab.initialNumToRender}
-        />
-      );
-    };
-  });
+  let map = React.useMemo(() => {
+    let m = {};
+    props.tabs.forEach(tab => {
+      m[tab.key] = () => {
+        return (
+          <PagingList
+            size={tab.size}
+            //item显示的布局
+            renderItem={tab.renderItem}
+            //下拉刷新相关
+            onRefresh={tab.onRefresh}
+            //加载更多
+            onEndReached={tab.onEndReached}
+            // ItemSeparatorComponent={separator}
+            keyExtractor={(item, index) => 'index' + index + item}
+            initialNumToRender={tab.initialNumToRender}
+          />
+        );
+      };
+    });
+
+    return m;
+  }, []);
 
   const renderScene = SceneMap(map);
 

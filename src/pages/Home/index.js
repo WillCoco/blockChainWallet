@@ -116,23 +116,6 @@ const Home = () => {
       }, 0);
     } else {
       // 直至轮询
-    //   const assetsPoller = new Poller({
-    //     interval: 10 * 1000,
-    //     callback: getCurrentWalletAssets,
-    //   });
-    //
-    //   assetsPoller.start();
-    //   return () => {
-    //     assetsPoller.stop();
-    //   };
-    }
-  });
-
-  /**
-   * 切到home时，轮询资产
-   */
-  useFocusEffect(
-    React.useCallback(() => {
       const assetsPoller = new Poller({
         interval: 10 * 1000,
         callback: getCurrentWalletAssets,
@@ -142,8 +125,25 @@ const Home = () => {
       return () => {
         assetsPoller.stop();
       };
-    }, []),
-  );
+    }
+  });
+
+  /**
+   * 切到home时，轮询资产
+   */
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     const assetsPoller = new Poller({
+  //       interval: 10 * 1000,
+  //       callback: getCurrentWalletAssets,
+  //     });
+  //
+  //     assetsPoller.start();
+  //     return () => {
+  //       assetsPoller.stop();
+  //     };
+  //   }, []),
+  // );
 
   // 获取资产
   const getCurrentWalletAssets = async () => {
