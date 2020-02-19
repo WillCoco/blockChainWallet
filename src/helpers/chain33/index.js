@@ -194,7 +194,7 @@ export function sendTransaction(params) {
 }
 
 /**
- * 获取指定token分页token
+ * 获取主币和token指定类型分页交易历史
  */
 export function getHistory(params) {
   return extraServer
@@ -235,6 +235,28 @@ export function getHistory(params) {
 //       return Promise.resolve(result);
 //     });
 // }
+
+/**
+ * 获取主币、指定token全部类型分页交易历史
+ */
+export function getAllHistory(params) {
+  return extraServer
+    .get(`${url.serverUrl}/allTokenTransferiInfo`, {
+      params: {
+        addr: params.address || params.addr,
+        symbol: params.symbol,
+        // status: params.status,
+        // executor: params.executor,
+        start: params.start,
+        num: params.size,
+      },
+    })
+    .then(r => {
+      console.log(r, 'getHistory');
+      const result = format.getHistory(r);
+      return Promise.resolve(result);
+    });
+}
 
 /**
  * 兑换主币种

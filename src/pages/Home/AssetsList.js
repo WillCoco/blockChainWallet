@@ -112,13 +112,12 @@ const AssetsList = props => {
                       </PrimaryText>
                       {isMainCoin ? (
                         <SmallText color="" style={styles.tinyText}>
-                          {i18n.t('contractAccount')}
-                          {_get(asset, ['exchange', 'balanceFmt'])}
+                          {i18n.t('contractAccount')} {isShowAssets ? _get(asset, ['exchange', 'balanceFmt']) : '****'}
                         </SmallText>
                       ) : null}
                       {isMainCoin ? (
                         <SmallText color="" style={styles.tinyText}>
-                          {i18n.t('availableAsset')} {asset.balanceFmt}
+                          {i18n.t('availableAsset')} {isShowAssets ? `¥${asset.balanceFmt}` : '****'}
                         </SmallText>
                       ) : null}
                     </View>

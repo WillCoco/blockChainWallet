@@ -12,7 +12,7 @@ import i18n from '../../helpers/i18n';
 import TabviewList from '../../components/TabviewList';
 import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
 import TxRow from '../../components/TxRow/TxRow';
-import {getHistory} from '../../helpers/chain33';
+import {getHistory, getAllHistory} from '../../helpers/chain33';
 import safePage from '../../helpers/safePage';
 import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
 import images from '../../images';
@@ -91,22 +91,30 @@ const Histories = props => {
   /**
    * 全部记录
    */
+  const allOnRefresh = () => {
+    return getAllHistory({
+      addr: currentWallet.address,
+      symbol: isToken ? currentToken.symbol : chainInfo.symbol,
+      start: 0,
+      size: PAGE_SIZE,
+    })
+  };
+  const allOnEndReached = (page, size) => {
+    return getAllHistory({
+      addr: currentWallet.address,
+      symbol: isToken ? currentToken.symbol : chainInfo.symbol,
+      start: page.current * size,
+      size,
+    });
+  };
   const allHistories = {
-    key: '1',
+    key: 'allHistories',
     getTitle: () => i18n.t('allHistories'),
     size: PAGE_SIZE,
     initialNumToRender: INITIAL_PAGE_SIZE,
     renderItem: renderItem,
-    onRefresh: () =>
-      onRefresh({
-        address: currentWallet.address,
-        executor: '',
-        symbol: '',
-      }),
-    onEndReached: (page, size) =>
-      onEndReached(page, size, {
-        address: currentWallet.address,
-      }),
+    onRefresh: allOnRefresh,
+    onEndReached: allOnEndReached,
   };
 
   /**
