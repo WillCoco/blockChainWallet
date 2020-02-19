@@ -39,14 +39,16 @@ const Updater = props => {
    * 执行下载
    */
   const doUpdate = async () => {
-    console.log(_get(props, ['info', 'expired']), 'checkUpdate_expired')
+    console.log(_get(props, ['info', 'expired']), 'checkUpdate_expired');
     if (_get(props, ['info', 'expired'])) {
       // apk过期，需要下载
       const linkingUrl =
         _get(props.info, 'downloadUrl') || `${url.website}/#/download`;
 
       console.log(linkingUrl, 'checkUpdate_url');
-      Linking.openURL(`${linkingUrl}?t=${Date.now()}`);
+      Linking.openURL(`${linkingUrl}?t=${Date.now()}`).catch(() => {
+        Linking.openURL(`${url.website}/#/download`);
+      });
     } else {
       // 有可用热更
       console.log('checkUpdate_有可用热更');

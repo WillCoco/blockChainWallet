@@ -24,9 +24,9 @@ const TxRow = props => {
     typeof v === 'string' ? `${v.slice(0, 6)}...${v.slice(-6)}` : '';
 
   // 是否支出
-  const isOut = props.direction === 'out';
+  // const isOut = props.direction === 'out';
 
-  const isOk = props.tyname === 'ExecOk';
+  // const isOk = props.tyname === 'ExecOk';
 
   /**
    * 交易类型
