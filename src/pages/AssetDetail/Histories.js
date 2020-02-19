@@ -97,7 +97,7 @@ const Histories = props => {
       symbol: isToken ? currentToken.symbol : chainInfo.symbol,
       start: 0,
       size: PAGE_SIZE,
-    })
+    });
   };
   const allOnEndReached = (page, size) => {
     return getAllHistory({

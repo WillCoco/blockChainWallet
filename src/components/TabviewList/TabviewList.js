@@ -8,6 +8,8 @@
  */
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
+import {useSelector} from 'react-redux';
+import _get from 'lodash/get';
 import {H2, H4} from 'react-native-normalization-text';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import colors from '../../helpers/colors';
@@ -17,6 +19,10 @@ import PagingList from '../../components/PagingList';
 import safePage from '../../helpers/safePage';
 
 const TabviewList = props => {
+  // 当前钱包
+  const currentWallet = useSelector(
+    state => _get(state.wallets, ['currentWallet']) || [],
+  );
   const [index, setIndex] = React.useState(0);
 
   const routes = props.tabs.map(tab => ({
@@ -50,7 +56,7 @@ const TabviewList = props => {
     });
 
     return m;
-  }, []);
+  }, [currentWallet]);
 
   const renderScene = SceneMap(map);
 

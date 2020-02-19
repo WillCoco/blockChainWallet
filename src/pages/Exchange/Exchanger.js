@@ -142,6 +142,9 @@ const Exchanger = () => {
       Toast.show({data: i18n.t('notEnoughAmount')});
       return false;
     }
+
+    // todo： 手续费检测
+
     return true;
   };
 

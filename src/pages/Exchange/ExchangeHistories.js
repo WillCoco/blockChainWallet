@@ -50,13 +50,21 @@ const Exchange = () => {
   /**
    * 兑换下拉刷新
    */
-  const onRefresh = () => {
-    // return Promise.resolve([]);
+  // const onRefresh = () => {
+  //   // return Promise.resolve([]);
+  //   alert(currentWallet.address)
+  //   return getExchangeHistory({
+  //     address: currentWallet.address,
+  //     executor: 'token',
+  //   });
+  // };
+
+  const onRefresh = React.useCallback(() => {
     return getExchangeHistory({
       address: currentWallet.address,
       executor: 'token',
     });
-  };
+  }, [currentWallet.address]);
 
   /**
    * 兑换加载更多

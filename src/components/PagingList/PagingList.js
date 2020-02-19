@@ -23,7 +23,7 @@ const PagingList = props => {
   const [empty, setEmpty] = React.useState(false);
   const [noMore, setNoMore] = React.useState();
 
-  console.log(listData, 'listDatalistDatalistData')
+  // console.log(listData, 'listDatalistDatalistData')
 
   /**
    * 分页
@@ -46,7 +46,7 @@ const PagingList = props => {
     console.log(result, '====');
     setListData(result || []);
 
-    if (result) {
+    if (result && result.length > 0) {
       if (result.length < size) {
         setNoMore(true);
       }
