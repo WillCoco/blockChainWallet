@@ -12,19 +12,19 @@ const urls = {
   development: {
     basicUrl: 'http://114.67.92.85:8801/',
     serverUrl: 'http://114.67.92.85:3333/api/v1', // 额外服务
-    website: 'https://www.uniontea.io', // 官网
+    website: 'https://uniontea.io', // 官网
   },
   testnet: {
     basicUrl: 'https://testnet.utcpark.com:8801/', //正式
     serverUrl: 'https://testnet.utcpark.com:3333/api/v1', // 额外服务
-    website: 'https://www.uniontea.io', // 官网
+    website: 'https://uniontea.io', // 官网
   },
   mainnet: {
     // basicUrl: 'https://mainnet.utcpark.com/rpc',
     basicUrl: 'https://mainnet.utcpark.com:8801/',
     // serverUrl: 'https://mainnet.utcpark.com/api', // 额外服务
     serverUrl: 'https://mainnet.utcpark.com:3333/api/v1', // 额外服务
-    website: 'https://www.uniontea.io', // 官网
+    website: 'https://uniontea.io', // 官网
   },
 };
 

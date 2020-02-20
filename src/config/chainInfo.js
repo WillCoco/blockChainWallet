@@ -16,9 +16,9 @@ const chainInfo = {
   digits: 8,
   networks: urls,
   explorerUrl: 'https://www.utcpark.com',
-  exchangeAccount: '14KEKbYtKKQm4wMthSK9J4La4nAiidGozt',
+  exchangeAccount: '1AwEALqRjxFCDNWn4M91riDgL9Dc8mHipM',
   defaultFee: '0.001',
-  minTC2UTCExchangeValue: '1',
+  minTC2UTCExchangeValue: '1', // todo satoshi
 };
 
 module.exports = chainInfo;
