@@ -72,8 +72,9 @@ const Withdraw = () => {
       return;
     }
 
+    console.log(+exchangeUTC.available, 199191919)
     const r = await exchangeWithdraw({
-      amount: +lowerUnit(exchangeUTC.availableFmt),
+      amount: +exchangeUTC.available,
       fee: +lowerUnit(chainInfo.defaultFee),
     });
 
@@ -132,7 +133,6 @@ const Withdraw = () => {
     console.log(signedTx, '签名交易');
     sendTx({tx: signedTx});
   };
-
 
   /**
    * 发送交易

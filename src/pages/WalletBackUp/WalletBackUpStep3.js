@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, LayoutAnimation} from 'react-native';
+import {StyleSheet, View, LayoutAnimation, ScrollView} from 'react-native';
 import {Button} from 'react-native-elements';
 import {useSelector, useDispatch} from 'react-redux';
 import {PrimaryText} from 'react-native-normalization-text';
@@ -73,7 +73,7 @@ export default () => {
   };
 
   return (
-    <View style={styles.wrapper}>
+    <ScrollView style={styles.wrapper}>
       <MnemonicPrint
         data={wordsInput || ''}
         wrapperStyle={styles.mnemonicPrintWrapper}
@@ -104,7 +104,7 @@ export default () => {
           onPress={reset}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
