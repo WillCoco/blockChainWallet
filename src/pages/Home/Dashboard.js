@@ -27,11 +27,11 @@ import Iconliaotianzhuanzhang from '../../components/Iconfont/Iconzhuanzhang';
 import IconeyeOpen from '../../components/Iconfont/Iconeyeopen';
 import IconeyeClose from '../../components/Iconfont/Iconeyeclose';
 import {Toast} from '../../components/Toast';
-// import {
-//   dappDispatch,
-//   VIEW_STATUS,
-//   actionTypes,
-// } from '../../components/DappsWebview';
+import {
+  dappDispatch,
+  VIEW_STATUS,
+  actionTypes,
+} from '../../components/DappsWebview';
 import {chainInfo, env, dapps} from '../../config';
 
 const Dashboard = () => {
@@ -154,11 +154,11 @@ const Dashboard = () => {
         <TouchableOpacity
           style={styles.entranceBtn}
           onPress={() => {
-            Toast.show({data: i18n.t('comingSoon')});
-            // dappDispatch({
-            //   type: actionTypes.OPEN,
-            //   payload: {uri: dapps.otc.url},
-            // });
+            // Toast.show({data: i18n.t('comingSoon')});
+            dappDispatch({
+              type: actionTypes.OPEN,
+              payload: {uri: dapps.otc.url},
+            });
           }}>
           <Image
             resizeMode="contain"

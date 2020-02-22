@@ -18,6 +18,7 @@ const WalletWebView = props => {
     Platform.OS === 'ios'
       ? require('./index.html')
       : {uri: 'file:///android_asset/walletBackground/index.html'};
+      // : {uri: 'http://192.168.1.7:3001/utc/ok.html'}; // debug
 
   console.log(urlPath, 'urlPath');
 

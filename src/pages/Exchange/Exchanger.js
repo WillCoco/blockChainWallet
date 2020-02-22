@@ -275,7 +275,7 @@ const Exchanger = () => {
               <H3 style={{}} color="white">{chainInfo.symbol}</H3>
               <Icon name="arrow-drop-down" color={colors.textWhite} />
             </View>
-            <SmallText style={{color: colors.textGrey2, lineHeight: scale(12)}}>
+            <SmallText style={{color: colors.textGrey2, bottom: 2}}>
               {isLock ? i18n.t('unlock180') : i18n.t('notLock')}
             </SmallText>
           </TouchableOpacity>
@@ -289,7 +289,8 @@ const Exchanger = () => {
           </PrimaryText>
           <PrimaryText
             color="white"
-            style={{width: '20%', minWidth: scale(64)}}>
+            // style={{width: '20%', minWidth: scale(964)}}
+            >
             {i18n.t('price')} ¥
             {isLock ? unlock180Price : rates[chainInfo.symbol]}
           </PrimaryText>

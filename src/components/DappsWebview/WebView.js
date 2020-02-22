@@ -169,7 +169,7 @@ const DappsWebView = props => {
           'sms://*',
           'tel://*',
         ]}
-        source={{uri: state.uri}}
+        source={{uri: state.uri, headers: {'Cache-Control': 'no-cache'}}}
         ref={c => (webView.current = c)}
         onMessage={onWebViewMessage}
         style={styles.webview}
