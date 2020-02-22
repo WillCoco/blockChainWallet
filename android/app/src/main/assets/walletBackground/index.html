@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.3.0"></script>
+    <script>new VConsole()</script>
 </head>
 <style>
     body {
@@ -83361,7 +83362,6 @@
      * @lastModification:
      * @lastModificationDate:
      */
-    console.log('window.walletBase mee')
     var isBrowser = this.toString() === '[object Window]';
     var globalObj = isBrowser ? window : global;
 
@@ -83403,11 +83403,11 @@
 
     function createWallet(params) {
       var mnemonic = seed.newMnemonicInEN();
-      const walletObj = seed.newWalletFromMnemonic(mnemonic);
+      var walletObj = seed.newWalletFromMnemonic(mnemonic);
 
-      const wallet = walletObj.newAccount(params.name);
+      var wallet = walletObj.newAccount(params.name);
 
-      const accountInfo = {};
+      var accountInfo = {};
       accountInfo.name = wallet.name;
 
       // 第一个账户的地址
@@ -83418,14 +83418,14 @@
 
       // 助记词（持久化加密备份验证）
       console.log(mnemonic, 'mnemonic')
-      const encryptedMnemonicObj = encrypt({
+      var encryptedMnemonicObj = encrypt({
         data: mnemonic,
         password: params.password,
       });
       accountInfo.encryptedMnemonic = encryptedMnemonicObj.result;
 
       // 加密后的私钥
-      const encryptedPrivateKeyObj = encrypt({
+      var encryptedPrivateKeyObj = encrypt({
         data: wallet.hexPrivateKey,
         password: params.password,
       });
@@ -83462,26 +83462,26 @@
 // console.log(w, 'w')
 
     function recoverWalletFromMnemonic(params) {
-      const walletObj = seed.newWalletFromMnemonic(params.mnemonic);
+      var walletObj = seed.newWalletFromMnemonic(params.mnemonic);
       // todo: 是否recover遍历底下n个, 目前只使用第一个账户
-      const wallet = walletObj.genAccount(0, params.name);
+      var wallet = walletObj.genAccount(0, params.name);
       // console.log(walletObj, 'walletObj')
       // console.log(wallet, 'wallet')
 
-      const accountInfo = {};
+      var accountInfo = {};
       accountInfo.name = wallet.name;
       accountInfo.address = wallet.address;
       accountInfo.backupCompleted = true; // 导入的不需要备份
 
       // 助记词（持久化加密备份验证）
-      const encryptedMnemonicObj = encrypt({
+      var encryptedMnemonicObj = encrypt({
         data: params.mnemonic,
         password: params.password,
       });
       accountInfo.encryptedMnemonic = encryptedMnemonicObj.result;
 
       // 加密后的私钥
-      const encryptedPrivateKeyObj = encrypt({
+      var encryptedPrivateKeyObj = encrypt({
         data: wallet.hexPrivateKey,
         password: params.password,
       });
@@ -83515,12 +83515,12 @@
       // 加密数据不是8的整数倍 报错：malformed utf-8 data
       // console.log(params.data, 'bsq')
 
-      const dataUtf8 = cryptoJs.enc.Base64.parse(params.data).toString(
-        cryptoJs.enc.Utf8,
+      var dataUtf8 = cryptoJs.enc.Base64.parse(params.data).toString(
+        cryptoJs.enc.Utf8
       );
 
-      const result = cryptoJs.AES.decrypt(dataUtf8, params.password).toString(
-        cryptoJs.enc.Utf8,
+      var result = cryptoJs.AES.decrypt(dataUtf8, params.password).toString(
+        cryptoJs.enc.Utf8
       );
 
       return {
@@ -83540,16 +83540,16 @@
       // 加密数据不是8的整数倍 报错：malformed utf-8 data
 
       // 先加密
-      let encrypted = cryptoJs.AES.encrypt(params.data, params.password).toString();
+      var encrypted = cryptoJs.AES.encrypt(params.data, params.password).toString();
 
       // 再转bs64
-      const result = cryptoJs.enc.Base64.stringify(
-        cryptoJs.enc.Utf8.parse(encrypted),
+      var result = cryptoJs.enc.Base64.stringify(
+        cryptoJs.enc.Utf8.parse(encrypted)
       );
 
       return {
         callId: params.callId,
-        result,
+        result: result,
       };
     }
 
@@ -83561,10 +83561,10 @@
      * @return: {string} object.result - 加密结果
      */
     function sha256(params) {
-      const result = cryptoJs.SHA256(params.data).toString();
+      var result = cryptoJs.SHA256(params.data).toString();
       return {
         callId: params.callId,
-        result,
+        result: result,
       };
     }
 
@@ -83578,7 +83578,7 @@
      * @return: {string} object.result - 加密结果
      */
     function signTx(params) {
-      const signed = sign.signRawTransaction(params.data, params.privateKey);
+      var signed = sign.signRawTransaction(params.data, params.privateKey);
       return {
         callId: params.callId,
         result: signed,
@@ -83625,8 +83625,6 @@
    * 监听RN webview 发送到 html5 的消息
    */
   window.onload = function () {
-        console.log(window.walletBase, 'window.walletBase')
-
     document.addEventListener("message", function (msg) {
       var data = safeParse(msg && msg.data) || {};
       var payloadAction = data.action;
