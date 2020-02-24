@@ -174,4 +174,6 @@ export default {
   withdrawFailed: 'Withdraw failed',
   contractAssetDescription: 'You have all permissions, you can withdraw anytime',
   comingSoon: 'Coming soon',
+  exchangeEndText: 'TC、UTC exchange active end at February 21, 2020',
+  exchangeEnd: 'Exchange end',
 };

@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import Iconnew from './Iconnew';
+import Iconjiazai from './Iconjiazai';
 import Iconbrowser from './Iconbrowser';
 import Iconeyeopen from './Iconeyeopen';
 import Iconarrowdetail from './Iconarrowdetail';
@@ -45,6 +47,10 @@ import Iconscan from './Iconscan';
 // And then regenerate icons by using cli command.
 export const Icon = ({ color, name, size, ...rest }) => {
   switch (name) {
+    case 'new':
+      return <Iconnew size={size} color={color} {...rest} />;
+    case 'jiazai':
+      return <Iconjiazai size={size} color={color} {...rest} />;
     case 'browser':
       return <Iconbrowser size={size} color={color} {...rest} />;
     case 'eyeopen':

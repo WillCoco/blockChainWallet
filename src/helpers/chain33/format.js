@@ -28,7 +28,6 @@ export function getAddressOverview(response) {
 
 // 主币种余额
 export function getAddressBalance(response) {
-  console.log(response, 'response111');
   const result = _get(response, ['result', '0']) || {};
 
   const available = result.balance || 0;

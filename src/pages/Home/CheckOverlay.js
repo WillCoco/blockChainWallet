@@ -43,19 +43,8 @@ const CheckOverlay = props => {
     if (isFocused && walletsList.length !== 0) {
       // 有钱包，不进入引导，检查在主页需要的弹窗
 
-      // utc兑换，当前钱包未备份不弹出
+      // 钱包未备份不弹出
       if (currentWallet.backupCompleted) {
-        Overlay.push(Overlay.contentTypes.GUIDANCE, {
-          customData: {
-            buttonText: i18n.t('pressToGo'),
-            backgroundImg: images.utcExchageAlertBg,
-            onConfirm: () => navigate('Exchange'),
-            contentWrapperStyle: {
-              width: vw(76),
-              height: vw(120),
-            },
-          },
-        });
       }
     }
   }, []);

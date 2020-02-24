@@ -26,6 +26,7 @@ import images from '../../images';
 import Iconliaotianzhuanzhang from '../../components/Iconfont/Iconzhuanzhang';
 import IconeyeOpen from '../../components/Iconfont/Iconeyeopen';
 import IconeyeClose from '../../components/Iconfont/Iconeyeclose';
+import IconNew from '../../components/Iconfont/Iconnew';
 import {Toast} from '../../components/Toast';
 import {
   dappDispatch,
@@ -166,6 +167,7 @@ const Dashboard = () => {
             source={images.otcEntrance}
           />
           <PrimaryText color="white">OTC</PrimaryText>
+          <IconNew size={scale(32)} style={styles.iconNew} />
         </TouchableOpacity>
       </View>
     </View>
@@ -242,7 +244,6 @@ const styles = StyleSheet.create({
   },
   entrancesWrapper: {
     flexDirection: 'row',
-    overflow: 'hidden',
     justifyContent: 'space-around',
     alignItems: 'center',
     flex: -1,
@@ -259,5 +260,10 @@ const styles = StyleSheet.create({
   },
   entranceBtn: {
     alignItems: 'center',
+  },
+  iconNew: {
+    position: 'absolute',
+    top: -scale(12),
+    right: -scale(10),
   },
 });

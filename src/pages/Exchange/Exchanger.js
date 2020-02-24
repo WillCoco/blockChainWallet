@@ -152,6 +152,9 @@ const Exchanger = () => {
    * 兑换
    */
   const exchange = async () => {
+    Toast.show({data: i18n.t('exchangeEnd')});
+    return;
+
     // todo: 表单验证
     if (!preExchange()) {
       return;

@@ -172,4 +172,6 @@ export default {
   withdrawFailed: '提现失败',
   contractAssetDescription: '您兑换过的UTC存放于智能合约内，请前往闪兑页面提取',
   comingSoon: '敬请期待',
+  exchangeEndText: 'TC兑换UTC活动已于2月21日20:30结束',
+  exchangeEnd: '兑换活动已结束',
 };

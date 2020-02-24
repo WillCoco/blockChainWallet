@@ -10,11 +10,12 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {View, StyleSheet} from 'react-native';
 import {useNavigation} from 'react-navigation-hooks';
-// import {PrimaryText} from 'react-native-normalization-text';
+import {PrimaryText} from 'react-native-normalization-text';
 import i18n from '../../helpers/i18n';
 import _get from 'lodash/get';
 import colors from '../../helpers/colors';
 import safePage from '../../helpers/safePage';
+import {isNotchScreen, isIOS} from '../../helpers/utils/isNotchScreen';
 import NavBar from '../../components/NavBar';
 import Exchanger from './Exchanger';
 import ExchangeHistories from './ExchangeHistories';
@@ -43,14 +44,33 @@ const Exchange = () => {
       <Exchanger />
       <ExchangeContract />
       <ExchangeHistories />
+      <PrimaryText style={styles.noticeText}>{i18n.t('exchangeEndText')}</PrimaryText>
     </View>
   );
 };
+
+let statusBarOffset;
+if (isIOS()) {
+  statusBarOffset = isNotchScreen() ? 44 : 20;
+} else {
+  statusBarOffset = 0;
+}
+
+console.log(statusBarOffset, 'statusBarOffset')
 
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: colors.theme,
+  },
+  noticeText: {
+    position: 'absolute',
+    backgroundColor: colors.notice,
+    top: statusBarOffset + 36,
+    left: 0,
+    right: 0,
+    textAlign: 'center',
+    color: '#fff',
   },
 });
 
