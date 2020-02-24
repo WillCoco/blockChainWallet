@@ -6,8 +6,9 @@
  * @lastModification:
  * @lastModificationDate:
  */
-import chainInfo from './chainInfo';
-import dapps from './dapps';
+const chainInfo = require('./chainInfo');
+const dapps = require('./dapps');
+const updateConfig = require('./updateConfig');
 const urls = require('./urls');
 const env = require('./env');
 
@@ -17,4 +18,5 @@ module.exports = {
   url: urls[env.serverEnv], // urls
   urls: chainInfo.networks, // urls
   dapps,
+  updateConfig, // 更新配置
 };

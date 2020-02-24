@@ -7,7 +7,7 @@
  * @lastModification:
  * @lastModificationDate:
  */
-import urls from './urls';
+const urls = require('./urls');
 
 const chainInfo = {
   chainName: 'UTC',
