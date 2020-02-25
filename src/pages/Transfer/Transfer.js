@@ -3,6 +3,7 @@ import {
   ScrollView,
   StyleSheet,
   StatusBar,
+  Keyboard,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import Bignumber from 'bignumber.js';
@@ -56,6 +57,8 @@ export default props => {
   // console.log(tokenSymbol, 'tokenSymbol')
 
   const [transferForm, setTransferForm] = React.useState(defaultTransferForm);
+
+  // console.log(transferForm, 'transferForm')
 
   const isToken = _get(transferForm, ['token', 'symbol']) !== chainInfo.symbol;
 
@@ -121,6 +124,7 @@ export default props => {
    * 点击下一步
    */
   const onPressNext = async () => {
+    Keyboard.dismiss();
     const safeTransferForm = transferForm || {};
     if (
       !safeTransferForm.address ||
@@ -275,7 +279,11 @@ export default props => {
     Toast.show({data: i18n.t('transferSuccess')});
 
     // 恢复默认表单
-    setTransferForm(defaultTransferForm);
+    setTransferForm({
+      ...defaultTransferForm,
+      address: '',
+      amount: '',
+    });
   };
 
   /**

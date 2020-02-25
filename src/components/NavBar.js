@@ -35,7 +35,7 @@ const Navbar = props => {
     absoluteView: {...defaultStyle.absoluteView, ...props.absoluteViewStyle},
   };
 
-  console.log(navStyle, 'navStyle');
+  // console.log(navStyle, 'navStyle');
   return (
     <NavBar
       title={props.title}
