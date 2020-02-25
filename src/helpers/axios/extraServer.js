@@ -37,8 +37,8 @@ extraServer.interceptors.request.use(config => {
  */
 extraServer.interceptors.response.use(
   (res = {}) => {
-    const {url} = res.config || {};
-    console.log(res, 'ressss')
+    // const {url} = res.config || {};
+    // console.log(res, 'ressss');
     // const list = _filter(responseIgnoreList, (u) => url.match(u)) || [];
     // if (list.length !== 0) {
     //   return res;

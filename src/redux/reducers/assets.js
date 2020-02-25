@@ -8,6 +8,7 @@
  */
 import {
   UPDATE_CURRENT_ASSET,
+  UPDATE_EXCHANGE_RATE,
 } from '../actions/actionTypes';
 
 /**
@@ -25,6 +26,14 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case UPDATE_CURRENT_ASSET:
       return {...state, assetsList: action.payload.assetsList};
+    case UPDATE_EXCHANGE_RATE:
+      return {
+        ...state,
+        exchangeRate: {
+          ...state.exchangeRate,
+          ...action.payload.exchangeRate,
+        },
+      };
     default:
       return state;
   }

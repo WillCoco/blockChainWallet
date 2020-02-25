@@ -4,3 +4,4 @@ export const UPDATE_CURRENT_WALLET = 'UPDATE_CURRENT_WALLET'; // 更新当前钱
 export const UPDATE_TEMP_MNEMONIC = 'UPDATE_TEMP_MNEMONIC'; // 更新助记词临时存储
 export const UPDATE_CURRENT_ASSET = 'UPDATE_CURRENT_ASSET'; // 更新当前钱包的资产
 export const UPDATE_IS_SHOW_ASSETS = 'UPDATE_IS_SHOW_ASSETS'; // 是否显示资产
+export const UPDATE_EXCHANGE_RATE = 'UPDATE_EXCHANGE_RATE'; // 更新汇率

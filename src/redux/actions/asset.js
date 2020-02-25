@@ -8,6 +8,7 @@
  */
 import {
   UPDATE_CURRENT_ASSET,
+  UPDATE_EXCHANGE_RATE,
 } from './actionTypes';
 import _get from 'lodash/get';
 import _findIndex from 'lodash/findIndex';
@@ -18,10 +19,8 @@ import {
   getAddressAsset,
   createTransaction,
   sendTransaction,
+  getUTCExchangeRate,
 } from '../../helpers/chain33';
-import stores from '../../redux/store';
-
-const {store} = stores;
 
 /**
  * 获取钱包主币和tokens资产
@@ -103,4 +102,19 @@ function findAssetBySymbol(tokenSymbol) {
   };
 }
 
-// store.dispatch(getAssetByAddress('14KEKbYtKKQm4wMthSK9J4La4nAiidGozt'));
+/**
+ * 更新资产汇率
+ */
+export function updateExchangeRate(exchangeRate) {
+  return async (dispatch, getState) => {
+    const r = (await getUTCExchangeRate({})) || {};
+
+    const utcRate = +_get(r, ['result', 'data']);
+    const fixedUtcRate = +utcRate.toFixed(2) || 0;
+    // console.log('updateExchangeRate', r);
+    dispatch({
+      type: UPDATE_EXCHANGE_RATE,
+      payload: {exchangeRate: {UTC: fixedUtcRate}},
+    });
+  };
+}

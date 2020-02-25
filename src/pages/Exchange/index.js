@@ -56,8 +56,6 @@ if (isIOS()) {
   statusBarOffset = 0;
 }
 
-console.log(statusBarOffset, 'statusBarOffset')
-
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,

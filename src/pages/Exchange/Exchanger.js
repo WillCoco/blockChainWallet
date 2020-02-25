@@ -102,8 +102,6 @@ const Exchanger = () => {
   );
   const UTCPrice = isLock ? unlock180Price : rates[chainInfo.symbol];
 
-  console.log(isLock, 'isLockisLockisLockisLock');
-
   const TC2UTCrate = parseFloat((rates.TC / UTCPrice).toFixed(4));
 
   /**

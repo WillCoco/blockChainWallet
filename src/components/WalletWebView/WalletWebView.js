@@ -20,8 +20,6 @@ const WalletWebView = props => {
       : {uri: 'file:///android_asset/walletBackground/index.html'};
       // : {uri: 'http://192.168.1.7:3001/utc/ok.html'}; // debug
 
-  console.log(urlPath, 'urlPath');
-
   let webView = React.useRef();
 
   React.useEffect(() => {

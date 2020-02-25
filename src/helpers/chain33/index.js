@@ -54,7 +54,6 @@ export function getAddressOverview(params) {
     const coinsRes = r[0] || {};
     const exchangeRes = r[1] || {};
 
-    console.log({...exchangeRes.result}, 'exchangeRes');
     // exchange部分format
 
     // 主币显示的余额 = exchange兑换全部 + coins全部
@@ -96,7 +95,7 @@ export function getAddressBalance(param) {
       id: ++callId,
     })
     .then(r => {
-      console.log(r, '获取地址主币资产');
+      // console.log(r, '获取地址主币资产');
       const response = format.getAddressBalance(r);
 
       return Promise.resolve(response);
@@ -124,7 +123,7 @@ export function getAddressTokens(param) {
       id: ++callId,
     })
     .then(r => {
-      console.log(r, '获取地址下token资产')
+      // console.log(r, '获取地址下token资产')
       const response = format.getAddressTokens(r);
       return Promise.resolve(response);
     });
@@ -139,7 +138,6 @@ export function getAddressAsset(params) {
     getAddressTokens(params),
   ]).then(r => {
     const response = format.getAddressAsset(r);
-    console.log(r, 'getAddressAsset');
     return Promise.resolve(response);
   });
 }
@@ -325,7 +323,7 @@ export function getExchangeHistory(params) {
     .then(r => {
       const response = format.getExchangeHistory(r);
 
-      console.log(response, 'getExchangeHistory')
+      // console.log(response, 'getExchangeHistory')
       return Promise.resolve(response);
     });
 }
@@ -336,14 +334,14 @@ export function getExchangeHistory(params) {
  */
 export function exchangeWithdraw(params) {
   const defaultParams = {
-    "to":"1LVU7ZDQbNMBJpTraUJZYLyXsfK4FkaCqS",
-    "amount": 0,
-    "fee": 0,
-    "note":"",
-    "isToken": undefined,
-    "isWithdraw": true,
-    "tokenSymbol": '',
-    "execName":"exchange"
+    to: '1LVU7ZDQbNMBJpTraUJZYLyXsfK4FkaCqS',
+    amount: 0,
+    fee: 0,
+    note: '',
+    isToken: undefined,
+    isWithdraw: true,
+    tokenSymbol: '',
+    execName: 'exchange',
   };
 
   const finallyParams = {...defaultParams, ...params};
@@ -353,9 +351,7 @@ export function exchangeWithdraw(params) {
     .post(url.basicUrl, {
       jsonrpc,
       method: 'Chain33.CreateRawTransaction',
-      params: [
-        finallyParams
-      ],
+      params: [finallyParams],
       id: ++callId,
     })
     .then(r => {
@@ -363,11 +359,12 @@ export function exchangeWithdraw(params) {
     });
 }
 
-// getHistory({
-//   address: '11',
-//   symbol: 'TC',
-//   start: 0,
-//   size: 10,
-//   action: 'transfer',
-//   status: 'ExecOk',
-// })
+/**
+ * 获取UTC汇率
+ * @params:
+ */
+export function getUTCExchangeRate() {
+  return extraServer.post(`${url.otcServerUrl}/transfer/getUtcCny`).then(r => {
+    return Promise.resolve(r || {});
+  });
+}

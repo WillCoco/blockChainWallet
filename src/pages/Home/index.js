@@ -118,7 +118,10 @@ const Home = () => {
       // 直至轮询
       const assetsPoller = new Poller({
         interval: 10 * 1000,
-        callback: getCurrentWalletAssets,
+        callback: () => {
+          getCurrentWalletAssets();
+          dispatch(asset.updateExchangeRate());
+        },
       });
 
       assetsPoller.start();
