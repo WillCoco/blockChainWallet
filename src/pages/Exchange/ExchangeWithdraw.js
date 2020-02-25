@@ -153,7 +153,7 @@ const Withdraw = () => {
     Toast.show({data: i18n.t('transferSuccess')});
   };
 
-  console.log(exchangeUTC, 'exchangeUTC')
+  // console.log(exchangeUTC, 'exchangeUTC')
 
   return (
     <View style={styles.wrapper}>

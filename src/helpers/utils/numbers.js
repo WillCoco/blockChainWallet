@@ -47,7 +47,7 @@ export function lowerUnit(number, options) {
   }
 
   const decimals = BigNumber(number);
-  console.log(opts.needInteger)
+  // console.log(opts.needInteger)
   if (opts.needInteger) {
     return parseInt(decimals.shiftedBy(opts.scale).toNumber(), 10);
   }

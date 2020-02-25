@@ -29,10 +29,11 @@ import safePage from '../../helpers/safePage';
 import colors from '../../helpers/colors';
 import images from '../../images';
 import actionTypes from './actionTypes';
+import {injectedJavaScript, webViewMessageHandler} from './DappHelper';
 
-let callId = 0;
+// let callId = 0;
 // 回调池
-const handlers = {};
+// const handlers = {};
 
 /**
  * 窗体状态
@@ -60,7 +61,6 @@ const DappsWebView = props => {
   };
 
   function reducer(state, action) {
-    console.log(action, 'accccc')
     switch (action.type) {
       case actionTypes.PRELOAD:
         return {...state, uri: action.payload.uri, status: VIEW_STATUS.HIDDEN};
@@ -82,45 +82,6 @@ const DappsWebView = props => {
 
   // 赋值state
   dappState = state;
-
-  // React.useEffect(() => {
-  //   function callback(data) {
-  //     // 保存回调
-  //     // console.log('Post WebView:', {...data.payload, callId});
-  //     handlers[++callId] = data.callback;
-  //
-  //     // 转发事件
-  //     webView.current.postMessage(safeStringify({...data.payload, callId}));
-  //   }
-  //
-  //   // 转发至webView
-  //   WVEvent.on(eventTypes.POST_WEB_VIEW, callback);
-  //
-  //   return () => {
-  //     WVEvent.off(eventTypes.POST_WEB_VIEW, callback);
-  //   };
-  // }, []);
-
-  const onWebViewMessage = e => {
-    // 收到webView返回值后提交store数据更改
-    // console.log(e.nativeEvent.data, 'onWebViewMessage');
-    const data = safeParse(e.nativeEvent.data) || {};
-    const {callId: callbackId, result} = data;
-
-    // console.log(handlers[callbackId], 'handlers[callbackId]');
-    // console.log(result, 'result');
-    // console.log(callbackId, 'callbackId');
-
-    if (handlers[callbackId]) {
-      if (result !== undefined && result !== null) {
-        handlers[callbackId](result);
-      } else {
-        Toast.show({data: i18n.t('error')});
-        console.warn('调用错误:', data);
-      }
-      delete handlers[callbackId];
-    }
-  };
 
   // 关闭
   if (state.status === VIEW_STATUS.CLOSED) {
@@ -169,10 +130,14 @@ const DappsWebView = props => {
           'sms://*',
           'tel://*',
         ]}
-        source={{uri: state.uri, headers: {'Cache-Control': 'no-cache'}}}
+        // source={{uri: state.uri, headers: {'Cache-Control': 'no-cache'}}}
+        source={{uri: 'http://192.168.0.117:3001/utc/dapp.html'}}
         ref={c => (webView.current = c)}
-        onMessage={onWebViewMessage}
+        onMessage={webViewMessageHandler}
         style={styles.webview}
+        injectedJavaScript={injectedJavaScript}
+        //injectJavaScript={'console.log(1)'}
+        javaScriptEnabled
       />
     </View>
   );

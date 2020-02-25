@@ -64,7 +64,7 @@ export default props => {
     navigate('SelectToken', {
       onSelectToken: token => {
         setTransferForm(transferForm => {
-          console.log(token, 'tokensss')
+          // console.log(token, 'tokensss')
           return {
             ...transferForm,
             token,

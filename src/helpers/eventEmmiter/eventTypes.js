@@ -7,7 +7,7 @@
  * @lastModificationDate:
  */
 module.exports = {
-  POST_WEB_VIEW: 'POST-POST_WEB_VIEW', // 向webView转发
+  POST_WEB_VIEW: 'POST-POST_WEB_VIEW', // 向钱包webView lib转发
   CREATE_WALLET: 'CREATE_WALLET', // 创建钱包
   RECOVER_WALLET_FROM_MNEMONIC: 'RECOVER_WALLET_FROM_MNEMONIC', // 助记词导入
   AES_DECRYPT: 'AES_DECRYPT', // AES解密
@@ -15,4 +15,5 @@ module.exports = {
   SHA_256: 'SHA_256', // sha256加密
   SIGN_TX: 'SIGN_TX', // 签名交易
   VALID_MNEMONIC: 'VALID_MNEMONIC', // 助记词验证
+  DAPP_QUICK_SEND: 'DAPP_QUICK_SEND', // dapp快速发送(创建、输入密码、签名、发送)
 };
