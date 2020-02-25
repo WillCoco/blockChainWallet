@@ -61,6 +61,7 @@ const Exchanger = () => {
    * 缓释价格
    */
   const unlock180Price = '15';
+  const unlockRightNowPrice = '25';
 
   /**
    * 资产列表
@@ -100,7 +101,7 @@ const Exchanger = () => {
   const rates = useSelector(
     state => _get(state, ['assets', 'exchangeRate']) || {},
   );
-  const UTCPrice = isLock ? unlock180Price : rates[chainInfo.symbol];
+  const UTCPrice = isLock ? unlock180Price : unlockRightNowPrice;
 
   const TC2UTCrate = parseFloat((rates.TC / UTCPrice).toFixed(4));
 
@@ -292,8 +293,7 @@ const Exchanger = () => {
             color="white"
             // style={{width: '20%', minWidth: scale(964)}}
             >
-            {i18n.t('price')} ¥
-            {isLock ? unlock180Price : rates[chainInfo.symbol]}
+            {i18n.t('price')} ¥{isLock ? unlock180Price : unlockRightNowPrice}
           </PrimaryText>
         </View>
         <View style={styles.balanceWrapper}>
