@@ -168,7 +168,7 @@ function modifyPushyInfo(env) {
  */
 function setNetwork(net = network) {
   if (!networks[net]) {
-    console.log(chalk.red(`不合法的newwork参数: ${net}\n`));
+    console.log(chalk.red(`不合法的network参数: ${net}\n`));
     return;
   }
   const targetNetwork = {serverEnv: net};
@@ -232,7 +232,6 @@ function writeJSON(path, json) {
  * 读取cli参数
  * returns {object} result - 参数对象
  */
-
 function getArgs() {
   const args = process.argv.slice(2);
   if (args.length === 0) {
