@@ -121,7 +121,10 @@ const PasswordValid = props => {
       visible={props.visible}
       onChangeText={setPwd}
       value={pwd}
-      onCancelPress={() => props.remove()}
+      onCancelPress={() => {
+        props.remove();
+        props.onCancel();
+      }}
       onOKPress={onOKPress}
       secureTextEntry={true}
     />
@@ -131,6 +134,7 @@ const PasswordValid = props => {
 PasswordValid.defaultProps = {
   canCancel: false,
   onValidEnd: () => undefined,
+  onCancel: () => undefined,
 };
 
 const styles = StyleSheet.create({});

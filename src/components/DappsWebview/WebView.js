@@ -12,28 +12,23 @@
 import React from 'react';
 import {
   View,
-  Image,
   StyleSheet,
   StatusBar,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import {scale, SmallText} from 'react-native-normalization-text';
-import {WVEvent, eventTypes} from '../../helpers/eventEmmiter';
-import {safeStringify, safeParse} from '../../helpers/utils/safetyFn';
 import {Toast} from '../../components/Toast';
 import NavBar from '../../components/NavBar';
 import IconClose from '../../components/Iconfont/Iconclose';
-import i18n from '../../helpers/i18n';
-import {metrics, vh, vw} from '../../helpers/metric';
+import {vh, vw} from '../../helpers/metric';
 import safePage from '../../helpers/safePage';
 import colors from '../../helpers/colors';
-import images from '../../images';
 import actionTypes from './actionTypes';
-import {injectedJavaScript, webViewMessageHandler} from './DappHelper';
-
-// let callId = 0;
-// 回调池
-// const handlers = {};
+import {
+  injectedJavaScript,
+  webViewMessageHandler,
+  updateWebViewRef,
+} from './DappHelper';
 
 /**
  * 窗体状态
@@ -82,6 +77,13 @@ const DappsWebView = props => {
 
   // 赋值state
   dappState = state;
+
+  // 初始化webView实例
+  React.useEffect(() => {
+    if (webView.current) {
+      updateWebViewRef(webView.current);
+    }
+  }, [state.status]);
 
   // 关闭
   if (state.status === VIEW_STATUS.CLOSED) {
