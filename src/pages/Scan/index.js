@@ -57,9 +57,14 @@ const ScannerScreen = () => {
         Vibration.vibrate([0, 500], false);
         let result = e.data;
         let transferData = {};
-        transferData['address'] = _split(_split(result, '?')[0], ':')[1];
-        transferData[_split(_split(_split(result, '?')[1], '&')[0], '=')[0]] = _split(_split(_split(result, '?')[1], '&')[0], '=')[1];
-        transferData[_split(_split(_split(result, '?')[1], '&')[1], '=')[0]] = _split(_split(_split(result, '?')[1], '&')[1], '=')[1];
+        if (result.match(':')) {
+          transferData['address'] = _split(_split(result, '?')[0], ':')[1];
+          transferData[_split(_split(_split(result, '?')[1], '&')[0], '=')[0]] = _split(_split(_split(result, '?')[1], '&')[0], '=')[1];
+          transferData[_split(_split(_split(result, '?')[1], '&')[1], '=')[0]] = _split(_split(_split(result, '?')[1], '&')[1], '=')[1];
+        } else {
+          transferData['address'] = result;
+        }
+
         replace('Transfer', transferData);
       } else {
         Alert.alert(

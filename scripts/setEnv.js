@@ -33,6 +33,12 @@ const envs = {
   production: 'production',
 };
 
+// networks参数
+const networks = {
+  mainnet: 'mainnet',
+  testnet: 'testnet',
+};
+
 setEnv();
 
 async function setEnv() {
@@ -43,13 +49,13 @@ async function setEnv() {
     return;
   }
 
-  const {env} = getArgs();
+  const {env, network} = getArgs();
   console.log(chalk.green('\n目标环境：' + env + '\n'));
 
   /**
    * 设置netwrok
    */
-  setNetwork(env);
+  setNetwork(network);
 
   /**
    * 检查pushy登录、切换两个(正式、测试)update信息
@@ -160,11 +166,14 @@ function modifyPushyInfo(env) {
 /**
  * 设置网络
  */
-function setNetwork(env) {
-  const targetNetwork =
-    env === envs.production ? {serverEnv: 'mainnet'} : {serverEnv: 'testnet'};
+function setNetwork(net = network) {
+  if (!networks[net]) {
+    console.log(chalk.red(`不合法的network参数: ${net}\n`));
+    return;
+  }
+  const targetNetwork = {serverEnv: net};
 
-  const needModify = network !== targetNetwork.serverEnv;
+  const needModify = network !== net;
 
   if (needModify) {
     writeJSON(networkPath, targetNetwork);
@@ -223,7 +232,6 @@ function writeJSON(path, json) {
  * 读取cli参数
  * returns {object} result - 参数对象
  */
-
 function getArgs() {
   const args = process.argv.slice(2);
   if (args.length === 0) {
