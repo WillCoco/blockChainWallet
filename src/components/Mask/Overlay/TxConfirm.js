@@ -35,7 +35,14 @@ const TxConfirm = props => {
     <View style={styles.wrapper}>
       <View style={styles.contentWrapper}>
         <View style={styles.titleContainer}>
-          <Icon name="close" onPress={() => props.remove()} style={{width: 20}} />
+          <Icon
+            name="close"
+            style={{width: 20}}
+            onPress={() => {
+              props.remove();
+              props.closePress && props.closePress();
+            }}
+          />
           <PrimaryText color="title" style={{textAlign: 'center', flex: 1}}>
             {i18n.t('orderDetail')}
           </PrimaryText>

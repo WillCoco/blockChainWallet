@@ -16,7 +16,7 @@ import {eventTypes} from '../../helpers/eventEmmiter';
 import {Toast} from '../../components/Toast';
 import {createTransaction, sendTransaction} from '../../helpers/chain33';
 import {Overlay, Loading} from '../../components/Mask';
-import {lowerUnit} from '../../helpers/utils/numbers';
+import {lowerUnit, upperUnit} from '../../helpers/utils/numbers';
 import {wallet} from '../../redux/actions';
 import stores from '../../redux/store';
 import {chainInfo} from '../../config';
@@ -76,58 +76,87 @@ async function dappQuickSend(data) {
   const unsignedTx = await createTransaction(dataJson);
 
   if (!unsignedTx) {
-    dappResolver(_get(data, 'callId'), safeStringify({error: '构造为签名交易失败'}));
+    dappResolver(
+      _get(data, 'callId'),
+      safeStringify({error: '构造为签名交易失败'}),
+    );
     return;
   }
-  // console.log(unsignedTx, 123123123);
 
-  // 输入密码
-  Overlay.unshift(Overlay.contentTypes.DIALOG_PASSWORD_VALID, {
-    dialog: {
-      canCancel: true,
-      onValidEnd: async (isValid, pwd) => {
-        if (isValid) {
-          Loading.set({visible: true});
-
-          const currentWallet = _get(store.getState(), ['wallets', 'currentWallet']);
-
-          // 拿私钥
-          const privateKey = await store.dispatch(
-            wallet.aesDecrypt({
-              data: currentWallet.encryptedPrivateKey,
-              // password: '11',
-              password: pwd,
-            }),
-          );
-
-          // 签名
-          const signedTx = await store.dispatch(
-            wallet.signTx({
-              data: unsignedTx.result,
-              privateKey,
-            }),
-          );
-
-          // console.log(privateKey, 'privateKey')
-          // console.log(signedTx, 'signedTx')
-
-          // 发送
-          const result = (await sendTransaction({tx: signedTx})) || {};
-
-          // console.log(result, 'result');
-
-          dappResolver(_get(data, 'callId'), safeStringify(result));
-          Loading.set({visible: false});
-        }
+  // 交易详情展示
+  Overlay.push(Overlay.contentTypes.TX_CONFIRM, {
+    customData: {
+      transferForm: {
+        amount: upperUnit(txForm.amount),
+        address: txForm.to,
+        fee: upperUnit(txForm.fee),
+        note: txForm.note,
+        token: txForm.isToken ? {symbol: txForm.tokenSymbol} : undefined,
       },
-      onCancel: () => {
+      confirmPress: () => {
+        Overlay.remove();
+        confirmAction();
+      },
+      closePress: () => {
         dappResolver(
           _get(data, 'callId'),
-          safeStringify({result: 'USER_CANCEL'}),
+          safeStringify({error: 'USER_CANCEL'}),
         );
       },
     },
   });
+
+  // console.log(unsignedTx, 123123123);
+
+  // 输入密码q
+  function confirmAction() {
+    Overlay.unshift(Overlay.contentTypes.DIALOG_PASSWORD_VALID, {
+      dialog: {
+        canCancel: true,
+        onValidEnd: async (isValid, pwd) => {
+          if (isValid) {
+            Loading.set({visible: true});
+
+            const currentWallet = _get(store.getState(), ['wallets', 'currentWallet']);
+
+            // 拿私钥
+            const privateKey = await store.dispatch(
+              wallet.aesDecrypt({
+                data: currentWallet.encryptedPrivateKey,
+                // password: '11',
+                password: pwd,
+              }),
+            );
+
+            // 签名
+            const signedTx = await store.dispatch(
+              wallet.signTx({
+                data: unsignedTx.result,
+                privateKey,
+              }),
+            );
+
+            // console.log(privateKey, 'privateKey')
+            // console.log(signedTx, 'signedTx')
+
+            // 发送
+            const result = (await sendTransaction({tx: signedTx})) || {};
+
+            // console.log(result, 'result');
+
+            dappResolver(_get(data, 'callId'), safeStringify(result));
+            Loading.set({visible: false});
+          }
+        },
+        onCancel: () => {
+          dappResolver(
+            _get(data, 'callId'),
+            safeStringify({result: 'USER_CANCEL'}),
+          );
+        },
+      },
+    });
+  }
 }
 
 /**

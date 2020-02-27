@@ -52,6 +52,7 @@ let actions;
 /**
  * 默认overlay配置
  * toFix: 多弹窗时 数据覆盖
+ * data应该在list中[{type: xxx, data: {}}]
  */
 let defaultOptions = {
   containerStyle: {},
@@ -95,10 +96,7 @@ const MaskOverlay = props => {
         ...options.dialog,
         ...dialog,
       },
-      customData: {
-        ...options.customData,
-        ...customData,
-      },
+      customData,
     }));
   };
 
@@ -117,11 +115,12 @@ const MaskOverlay = props => {
   /**
    * 添加到队列尾部
    */
-  // console.log(list, 'opts');
+  console.log(options, 'options');
 
   const push = (item, opts) => {
     InteractionManager.runAfterInteractions(() => {
       mergeOptions(opts);
+      // console.log(opts, 123123123)
 
       setList(list => {
         // 已存在该弹窗则不弹出
