@@ -33,10 +33,12 @@ const colors = {
   textSuccess: '#00CC96',
   textTheme: '#0F6EFF',
   theme: '#0F6EFF',
+  themeOpacity: '#E7F0FD',
   otcTheme: '#2698FB',
   success: '#00CC96',
   warn: '#ff0000',
   pageBackground: '#fbfbfb',
+  pageDarkBackground: '#051C3F', // 管理钱包
   disable: '#cccccc',
   forbid: '#cccccc',
   divider: '#f4f4f4',

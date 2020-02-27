@@ -140,7 +140,8 @@ const AppNavigator = createStackNavigator(
     WalletManagement: {
       screen: props => safePage(WalletManagement, props),
       navigationOptions: ({navigation}) => ({
-        headerTitle: `${i18n.t('walletManagement')}`,
+        // headerTitle: `${i18n.t('walletManagement')}`,
+        header: null,
       }),
     },
     TransactionHistory: {
