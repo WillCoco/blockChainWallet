@@ -3,8 +3,6 @@ import {
   View,
   StyleSheet,
   Animated,
-  Image,
-  StatusBar,
   ImageBackground,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -14,8 +12,9 @@ import _get from 'lodash/get';
 import {useNavigation, useIsFocused} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import {metrics, vw} from '../../helpers/metric';
+import PageWrapper from '../../components/PageWrapper';
 // import SplashScreen from 'react-native-splash-screen';
-import packageInfo from '../../../package.json';
+// import packageInfo from '../../../package.json';
 
 const Guide = () => {
   const {navigate, replace} = useNavigation();
@@ -80,13 +79,9 @@ const Guide = () => {
    * 根据是都有钱包导航分流
    */
   React.useEffect(() => {
-    if (isFocused) {
-      StatusBar.setHidden(true);
-    }
     if (isFocused && walletsList.length > 0) {
       // 有钱包，进入首页
       setTimeout(() => {
-        StatusBar.setBarStyle('light-content');
         replace('Main');
       }, 1000);
     } else {
@@ -95,13 +90,13 @@ const Guide = () => {
   });
 
   return (
-    <ImageBackground
-      style={styles.wrapper}
-      source={require('../../images/launchImage.png')}>
-      {/*<StatusBar backgroundColor="#fff" barStyle="dark-content" />*/}
-      <View style={styles.logoWrapper}>
-        {/*<H1>Logo</H1>*/}
-        {/* <Image
+    <PageWrapper statusBarProps={{backgroundColor: '#fff', barStyle: 'dark-content'}}>
+      <ImageBackground
+        style={styles.wrapper}
+        source={require('../../images/launchImage.png')}>
+        <View style={styles.logoWrapper}>
+          {/*<H1>Logo</H1>*/}
+          {/* <Image
           resizeMode="contain"
           source={require('../../images/logo.png')}
           style={styles.logo}
@@ -109,38 +104,35 @@ const Guide = () => {
         <H4 color="primary" style={styles.appName}>
           {packageInfo.name}
         </H4> */}
-      </View>
-      {
-        <Animated.View
-          style={{
-            opacity: btnsAnim,
-            top: btnsAnim.interpolate({
-              inputRange: [0, 1],
-              outputRange: [vw(10), 0],
-            }),
-          }}>
-          <Button
-            containerStyle={styles.createBtnStyle}
-            title={i18n.t('createWallet')}
-            onPress={() => {
-              StatusBar.setHidden(false);
-              StatusBar.setBarStyle('light-content');
-              navigate('CreateWallet');
-            }}
-          />
-          <Button
-            type="outline"
-            containerStyle={styles.importBtnStyle}
-            title={i18n.t('importWallet')}
-            onPress={() => {
-              StatusBar.setHidden(false);
-              StatusBar.setBarStyle('light-content');
-              navigate('ImportWallet');
-            }}
-          />
-        </Animated.View>
-      }
-    </ImageBackground>
+        </View>
+        {
+          <Animated.View
+            style={{
+              opacity: btnsAnim,
+              top: btnsAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [vw(10), 0],
+              }),
+            }}>
+            <Button
+              containerStyle={styles.createBtnStyle}
+              title={i18n.t('createWallet')}
+              onPress={() => {
+                navigate('CreateWallet');
+              }}
+            />
+            <Button
+              type="outline"
+              containerStyle={styles.importBtnStyle}
+              title={i18n.t('importWallet')}
+              onPress={() => {
+                navigate('ImportWallet');
+              }}
+            />
+          </Animated.View>
+        }
+      </ImageBackground>
+    </PageWrapper>
   );
 };
 

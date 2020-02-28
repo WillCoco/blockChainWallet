@@ -43,7 +43,7 @@ const WalletQuickManager = props => {
   const {navigate} = useNavigation();
 
   const wrapperStyle = Platform.select({
-    ios: isNotchScreen() ? {top: 44} : {top: 22},
+    // ios: isNotchScreen() ? {top: 44} : {top: 22},
   });
 
   return (

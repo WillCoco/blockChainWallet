@@ -9,6 +9,8 @@ import colors from '../../helpers/colors';
 import AssetCard from './AssetCard';
 import Histories from './Histories';
 import NavBar from '../../components/NavBar';
+import PageWrapper from '../../components/PageWrapper';
+import DotsNet from '../../components/PageWrapper/PageBackgrounds/DotsNet';
 
 const AssetDetail = props => {
   const {navigate} = useNavigation();
@@ -26,15 +28,18 @@ const AssetDetail = props => {
   const currentToken = findTokenBySymbol(tokenSymbol);
 
   return (
-    <View style={styles.wrapper}>
+    <PageWrapper style={styles.wrapper} pageBackgroundImg={<DotsNet />}>
       <NavBar
         isAbsolute
         title={tokenSymbol}
-        absoluteViewStyle={{backgroundColor: 'transparent'}}
+        absoluteViewStyle={{
+          backgroundColor: 'transparent',
+          paddingTop: 0,
+        }}
       />
       <AssetCard asset={currentToken} />
       <Histories />
-    </View>
+    </PageWrapper>
   );
 };
 

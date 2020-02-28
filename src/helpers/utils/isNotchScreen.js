@@ -16,3 +16,5 @@ const isIphone11 = () =>
   Platform.OS === 'ios' && (DEVICE_WIDTH === 414 && DEVICE_HEIGHT === 896);
 
 export const isIOS = () => Platform.OS === 'ios';
+
+export const isAndroid = () => Platform.OS === 'android';

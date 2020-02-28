@@ -15,11 +15,12 @@ import i18n from '../../helpers/i18n';
 import _get from 'lodash/get';
 import colors from '../../helpers/colors';
 import safePage from '../../helpers/safePage';
-import {isNotchScreen, isIOS} from '../../helpers/utils/isNotchScreen';
 import NavBar from '../../components/NavBar';
 import Exchanger from './Exchanger';
 import ExchangeHistories from './ExchangeHistories';
 import ExchangeContract from './ExchangeWithdraw';
+import PageWrapper from '../../components/PageWrapper';
+import DotsNet from '../../components/PageWrapper/PageBackgrounds/DotsNet';
 
 const Exchange = () => {
   // const {navigate} = useNavigation();
@@ -34,27 +35,23 @@ const Exchange = () => {
   useSelector(state => _get(state, ['appSetting', 'language']));
 
   return (
-    <View style={styles.wrapper}>
+    <PageWrapper style={styles.wrapper} pageBackgroundImg={<DotsNet />}>
       <NavBar
         isAbsolute
         leftElement={null}
         title={i18n.t('quickExchange')}
-        absoluteViewStyle={{backgroundColor: 'transparent'}}
+        absoluteViewStyle={{
+          backgroundColor: 'transparent',
+          paddingTop: 0,
+        }}
       />
       <Exchanger />
       <ExchangeContract />
       <ExchangeHistories />
       <PrimaryText style={styles.noticeText}>{i18n.t('exchangeEndText')}</PrimaryText>
-    </View>
+    </PageWrapper>
   );
 };
-
-let statusBarOffset;
-if (isIOS()) {
-  statusBarOffset = isNotchScreen() ? 44 : 20;
-} else {
-  statusBarOffset = 0;
-}
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -64,7 +61,7 @@ const styles = StyleSheet.create({
   noticeText: {
     position: 'absolute',
     backgroundColor: colors.notice,
-    top: statusBarOffset + 36,
+    top: 36,
     left: 0,
     right: 0,
     textAlign: 'center',

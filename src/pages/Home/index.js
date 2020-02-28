@@ -1,15 +1,12 @@
 import React from 'react';
 import {
-  SafeAreaView,
   View,
   RefreshControl,
   ScrollView,
-  StatusBar,
   StyleSheet,
-  Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {useFocusEffect, useNavigation, useIsFocused} from 'react-navigation-hooks';
+import {useNavigation, useIsFocused} from 'react-navigation-hooks';
 import _get from 'lodash/get';
 import SplashScreen from 'react-native-splash-screen';
 import {H4, scale} from 'react-native-normalization-text';
@@ -23,7 +20,9 @@ import {vh, metrics} from '../../helpers/metric';
 import Poller from '../../helpers/utils/poller';
 import i18n from '../../helpers/i18n';
 import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
-import NavBar from '../../components/NavBar';
+// import NavBar from '../../components/NavBar';
+import PageWrapper from '../../components/PageWrapper';
+import DotsNet from '../../components/PageWrapper/PageBackgrounds/DotsNet';
 
 // import {Toast} from '../../components/Toast';
 // Toast.loading();
@@ -51,7 +50,7 @@ const Home = () => {
   React.useEffect(() => {
     SplashScreen.hide();
 
-    StatusBar.setBarStyle('light-content');
+    // StatusBar.setBarStyle('light-content');
 
     // // 检查更新
     // dispatch(update.checkVersion()).then(async info => {
@@ -156,9 +155,8 @@ const Home = () => {
   };
 
   return (
-    <View style={styles.wrapper}>
-      <View style={{flex: 1, backgroundColor: colors.theme}}>
-        <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
+    <PageWrapper style={styles.wrapper} pageBackgroundImg={<DotsNet />}>
+      <View style={{flex: 1}}>
         <Dashboard isLoaded={isLoaded} />
         <PhoneShapeWrapper>
           <H4 style={styles.assetsTitle}>{i18n.t('allAssets')}</H4>
@@ -181,7 +179,7 @@ const Home = () => {
         </PhoneShapeWrapper>
         <CheckOverlay />
       </View>
-    </View>
+    </PageWrapper>
   );
 };
 

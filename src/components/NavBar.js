@@ -65,7 +65,7 @@ NavBar.defaultProps = {
   onRight: void 0,
   rightElement: void 0,
   safeView: void 0,
-  // isTranslucent: true,
+  isTranslucent: true,
 };
 
 export default Navbar;

@@ -7,6 +7,7 @@ import i18n from '../../helpers/i18n';
 import _get from 'lodash/get';
 import colors from '../../helpers/colors';
 import {vh} from '../../helpers/metric';
+import PageWrapper from '../../components/PageWrapper';
 
 const menuList = [
   {
@@ -46,7 +47,7 @@ const Me = () => {
   useSelector(state => _get(state, ['appSetting', 'language']));
 
   return (
-    <SafeAreaView style={styles.wrapper}>
+    <PageWrapper style={styles.wrapper} statusBarProps={{barStyle: 'dark-content'}}>
       <View style={styles.contentWrapper}>
         {menuList.map((item, i) => (
           <ListItem
@@ -61,14 +62,14 @@ const Me = () => {
           />
         ))}
       </View>
-    </SafeAreaView>
+    </PageWrapper>
   );
 };
 
 export default Me;
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: colors.theme,
+    // backgroundColor: colors.theme,
   },
   contentWrapper: {
     backgroundColor: colors.pageBackground,

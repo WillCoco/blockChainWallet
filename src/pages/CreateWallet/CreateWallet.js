@@ -4,7 +4,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   StyleSheet,
-  // StatusBar,
+  StatusBar,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import _throttle from 'lodash/throttle';
@@ -114,7 +114,7 @@ const CreateWallet = props => {
 
   return (
     <ScrollView keyboardShouldPersistTaps="handled" style={styles.wrapper}>
-      {/*<StatusBar backgroundColor={colors.theme} barStyle="light-content" />*/}
+      <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
       <KeyboardAvoidingView>
         <FormRow
           title={i18n.t('createWalletBlock')}

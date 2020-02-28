@@ -22,7 +22,7 @@ import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
 const AssetCardWrapper = props => {
   return (
     <ImageBackground
-      source={images.netBg}
+      // source={images.netBg}
       style={StyleSheet.flatten([styles.headerWrapper, props.style])}>
       <ImageBackground
         resizeMode="contain"
@@ -49,8 +49,9 @@ safeAssetCardWrapper.defaultProps = {
 
 const styles = StyleSheet.create({
   headerWrapper: {
-    backgroundColor: colors.theme,
-    paddingTop: isNotchScreen() ? 44 + vh(6) : vh(6),
+    // backgroundColor: colors.theme,
+    // paddingTop: isNotchScreen() ? 44 + vh(6) : vh(6),
+    paddingTop: vh(6),
     // height: '58%',
     // justifyContent: 'flex-end',
   },
