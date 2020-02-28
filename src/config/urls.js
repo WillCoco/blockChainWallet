@@ -19,7 +19,8 @@ const urls = {
     basicUrl: 'https://testnet.utcpark.com:8801/', //正式
     serverUrl: 'https://testnet.utcpark.com:3333/api/v1', // 额外服务
     website: 'https://uniontea.io', // 官网
-    otcServerUrl: 'https://pre.otc.msn.best', // otc服务
+    // otcServerUrl: 'https://pre.otc.msn.best', // otc服务
+    otcServerUrl: 'https://m.otcutc.com/', // otc服务
   },
   mainnet: {
     // basicUrl: 'https://mainnet.utcpark.com/rpc',
@@ -27,7 +28,7 @@ const urls = {
     // serverUrl: 'https://mainnet.utcpark.com/api', // 额外服务
     serverUrl: 'https://mainnet.utcpark.com:3333/api/v1', // 额外服务
     website: 'https://uniontea.io', // 官网
-    otcServerUrl: 'https://otc.msn.best', // otc服务
+    otcServerUrl: 'https://m.otcutc.com/', // otc服务
   },
 };
 
