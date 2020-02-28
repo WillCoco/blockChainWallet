@@ -50,8 +50,8 @@ safeAssetCardWrapper.defaultProps = {
 const styles = StyleSheet.create({
   headerWrapper: {
     // backgroundColor: colors.theme,
-    // paddingTop: isNotchScreen() ? 44 + vh(6) : vh(6),
-    paddingTop: vh(6),
+    paddingTop: isNotchScreen() ? 44 + vh(6) : vh(6),
+    // paddingTop: vh(6),
     // height: '58%',
     // justifyContent: 'flex-end',
   },

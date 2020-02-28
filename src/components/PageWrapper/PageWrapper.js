@@ -4,6 +4,7 @@
  * @Description:
  * 页面容器：
  *  1.状态栏颜色等样式控制
+ *  2.Navbar
  * @lastModificationBy:
  * @lastModification:
  * @lastModificationDate:
@@ -24,7 +25,7 @@ const PageWrapper = props => {
    */
   const isFocused = useIsFocused();
   React.useEffect(() => {
-    if (isFocused) {
+    if (isFocused && props.statusBarProps.barStyle) {
       StatusBar.setBarStyle(props.statusBarProps.barStyle);
     }
   });
@@ -53,7 +54,7 @@ safePageWrapper.defaultProps = {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    paddingTop: device.statusBarHeight,
+    // paddingTop: device.statusBarHeight,
   },
 });
 

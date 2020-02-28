@@ -43,6 +43,7 @@ import WalletDetails from '../pages/WalletDetails';
 import DealDetails from '../pages/DealDetails';
 import UsageAgreement from '../pages/UsageAgreement';
 import safePage from '../helpers/safePage';
+import device from '../helpers/utils/device';
 
 const AppNavigator = createStackNavigator(
   {
@@ -230,6 +231,10 @@ const AppNavigator = createStackNavigator(
               rightElement={headerRight && headerRight(nav)}
               // leftElement={headerLeft ? headerLeft(nav) : <Text style={{color: colors.textWhite}}>back</Text>}
               gobackImage={require('../images/backBtn.png')}
+              safeViewStyle={{
+                // borderWidth: 1,
+                // borderColor: 'red',
+              }}
             />
           );
         },

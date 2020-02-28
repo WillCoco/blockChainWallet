@@ -11,6 +11,7 @@ import Histories from './Histories';
 import NavBar from '../../components/NavBar';
 import PageWrapper from '../../components/PageWrapper';
 import DotsNet from '../../components/PageWrapper/PageBackgrounds/DotsNet';
+import device from '../../helpers/utils/device';
 
 const AssetDetail = props => {
   const {navigate} = useNavigation();
@@ -34,7 +35,7 @@ const AssetDetail = props => {
         title={tokenSymbol}
         absoluteViewStyle={{
           backgroundColor: 'transparent',
-          paddingTop: 0,
+          paddingTop: device.statusBarHeight,
         }}
       />
       <AssetCard asset={currentToken} />

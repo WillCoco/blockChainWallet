@@ -35,7 +35,7 @@ const Languages = props => {
   };
 
   return (
-    <PageWrapper>
+    <PageWrapper statusBarProps={{backgroundColor: colors.theme, barStyle: 'light-content'}}>
       {languageList.map((item, index) => {
         return (
           <TouchableOpacity

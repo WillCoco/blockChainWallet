@@ -79,7 +79,7 @@ export default () => {
   };
 
   return (
-    <PageWrapper statusBarProps={{backgroundColor: colors.theme}}>
+    <PageWrapper statusBarProps={{backgroundColor: colors.theme, barStyle: 'light-content'}}>
       <NavBar
         title={currentWallet && currentWallet.name}
         rightElement={
@@ -95,7 +95,7 @@ export default () => {
             params: {onBackCallback: refresh.current},
           })
         }
-        safeViewStyle={{paddingTop: 0}}
+        // safeViewStyle={{paddingTop: 0}}
       />
       <PagingList
         size={14}

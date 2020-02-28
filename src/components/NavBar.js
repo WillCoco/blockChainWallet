@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from 'react-native-pure-navigation-bar';
 import colors from '../helpers/colors';
+// import device from '../helpers/utils/device';
 import images from '../images';
 
 // 导航栏默认样式

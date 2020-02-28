@@ -21,6 +21,8 @@ import ExchangeHistories from './ExchangeHistories';
 import ExchangeContract from './ExchangeWithdraw';
 import PageWrapper from '../../components/PageWrapper';
 import DotsNet from '../../components/PageWrapper/PageBackgrounds/DotsNet';
+import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
+import device from '../../helpers/utils/device';
 
 const Exchange = () => {
   // const {navigate} = useNavigation();
@@ -42,13 +44,15 @@ const Exchange = () => {
         title={i18n.t('quickExchange')}
         absoluteViewStyle={{
           backgroundColor: 'transparent',
-          paddingTop: 0,
+          // paddingTop: device.statusBarHeight,
         }}
       />
       <Exchanger />
       <ExchangeContract />
       <ExchangeHistories />
-      <PrimaryText style={styles.noticeText}>{i18n.t('exchangeEndText')}</PrimaryText>
+      <PrimaryText style={styles.noticeText}>
+        {i18n.t('exchangeEndText')}
+      </PrimaryText>
     </PageWrapper>
   );
 };
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
   noticeText: {
     position: 'absolute',
     backgroundColor: colors.notice,
-    top: 36,
+    top: device.statusBarHeight + 36,
     left: 0,
     right: 0,
     textAlign: 'center',

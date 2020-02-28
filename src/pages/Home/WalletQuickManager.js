@@ -17,6 +17,7 @@ import {vh, vw, metrics} from '../../helpers/metric';
 import safePage from '../../helpers/safePage';
 import i18n from '../../helpers/i18n';
 import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
+import device from '../../helpers/utils/device';
 import {Overlay} from '../../components/Mask';
 import Iconscan from '../../components/Iconfont/Iconscan';
 // import images from '../../images';
@@ -43,7 +44,8 @@ const WalletQuickManager = props => {
   const {navigate} = useNavigation();
 
   const wrapperStyle = Platform.select({
-    // ios: isNotchScreen() ? {top: 44} : {top: 22},
+    ios: {top: device.statusBarHeight},
+    android: {top: device.statusBarHeight},
   });
 
   return (
