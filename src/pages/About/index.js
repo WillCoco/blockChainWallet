@@ -18,13 +18,14 @@ import packageInfo from '../../../package.json';
 import {Overlay, Loading} from '../../components/Mask';
 import {update} from '../../redux/actions';
 import {Toast} from '../../components/Toast';
+import PageWrapper from '../../components/PageWrapper';
 
 export default () => {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
 
   return (
-    <View style={styles.wrapper}>
+    <PageWrapper style={styles.wrapper}>
       <View style={styles.walletInfoWrapper}>
         <Image
           resizeMode="contain"
@@ -93,7 +94,7 @@ export default () => {
         chevron
       /> */}
       </View>
-    </View>
+    </PageWrapper>
   );
 };
 

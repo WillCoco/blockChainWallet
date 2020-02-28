@@ -16,6 +16,7 @@ import {vh, vw, metrics} from '../../helpers/metric';
 import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
 import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
 import NavBar from '../../components/NavBar';
+import PageWrapper from '../../components/PageWrapper';
 
 export default props => {
   const {navigate} = useNavigation();
@@ -36,10 +37,13 @@ export default props => {
   };
 
   return (
-    <View style={styles.wrapper}>
+    <PageWrapper style={styles.wrapper}>
       <NavBar
         title={i18n.t('walletManagement')}
-        safeViewStyle={{backgroundColor: colors.pageDarkBackground}}
+        safeViewStyle={{
+          backgroundColor: colors.pageDarkBackground,
+          paddingTop: 0,
+        }}
       />
       {/* 钱包列表 */}
       <PhoneShapeWrapper>
@@ -98,7 +102,7 @@ export default props => {
           />
         </View>
       </PhoneShapeWrapper>
-    </View>
+    </PageWrapper>
   );
 };
 

@@ -13,6 +13,7 @@ import {useNavigation} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import {appSettingAction} from '../../redux/actions';
 import colors from '../../helpers/colors';
+import PageWrapper from '../../components/PageWrapper';
 
 let languageList = [
   // {name: 'auto', lang: null},
@@ -33,17 +34,21 @@ const Languages = props => {
     navigate('Home');
   };
 
-  return languageList.map((item, index) => {
-    return (
-      <TouchableOpacity
-        style={styles.langItem}
-        key={item.name}
-        onPress={() => changeLanguage(item)}>
-        <PrimaryText>{i18n.t(item.name)}</PrimaryText>
-        {language === item.lang && <Icon name="check" color={colors.theme} />}
-      </TouchableOpacity>
-    );
-  });
+  return (
+    <PageWrapper>
+      {languageList.map((item, index) => {
+        return (
+          <TouchableOpacity
+            style={styles.langItem}
+            key={item.name}
+            onPress={() => changeLanguage(item)}>
+            <PrimaryText>{i18n.t(item.name)}</PrimaryText>
+            {language === item.lang && <Icon name="check" color={colors.theme} />}
+          </TouchableOpacity>
+        );
+      })}
+    </PageWrapper>
+  );
 };
 
 const styles = StyleSheet.create({

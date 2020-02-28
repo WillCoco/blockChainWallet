@@ -25,7 +25,6 @@ const PageWrapper = props => {
   const isFocused = useIsFocused();
   React.useEffect(() => {
     if (isFocused) {
-      console.log(props.statusBarProps.barStyle, '1111112')
       StatusBar.setBarStyle(props.statusBarProps.barStyle);
     }
   });

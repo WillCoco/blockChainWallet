@@ -16,6 +16,7 @@ import NavBar from '../../components/NavBar';
 import i18n from '../../helpers/i18n';
 import colors from '../../helpers/colors';
 import TxRow from '../../components/TxRow/TxRow';
+import PageWrapper from '../../components/PageWrapper';
 
 export default () => {
   const currentWallet = useSelector(
@@ -78,7 +79,7 @@ export default () => {
   };
 
   return (
-    <>
+    <PageWrapper statusBarProps={{backgroundColor: colors.theme}}>
       <NavBar
         title={currentWallet && currentWallet.name}
         rightElement={
@@ -94,6 +95,7 @@ export default () => {
             params: {onBackCallback: refresh.current},
           })
         }
+        safeViewStyle={{paddingTop: 0}}
       />
       <PagingList
         size={14}
@@ -107,7 +109,7 @@ export default () => {
         keyExtractor={(item, index) => 'index' + index + item}
         initialNumToRender={14}
       />
-    </>
+    </PageWrapper>
   );
 };
 
