@@ -176,4 +176,5 @@ export default {
   comingSoon: 'Coming soon',
   exchangeEndText: 'TC、UTC exchange active end at February 21, 2020',
   exchangeEnd: 'Exchange end',
+  actionBeforeCreate: 'No wallet found',
 };

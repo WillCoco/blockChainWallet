@@ -109,7 +109,7 @@ export default {
   scanText: '将二维码放入框内，即可自动扫描',
   scanFalied: '扫描失败，请将手机对准二维码重新尝试',
   error: '操作失败',
-  noSelectedWallet: '未选中钱包',
+  noSelectedWallet: '未选择钱包',
   invalidName: '请填写有效钱包名称',
   invalidPassword: '请填写有效密码',
   invalidMnemonic: '请检查输入的助记词是否正确',
@@ -174,4 +174,5 @@ export default {
   comingSoon: '敬请期待',
   exchangeEndText: 'TC兑换UTC活动已于2月21日20:30结束',
   exchangeEnd: '兑换活动已结束',
+  actionBeforeCreate: '请先创建或导入钱包',
 };

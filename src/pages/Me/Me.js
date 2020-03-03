@@ -6,7 +6,7 @@ import {useNavigation} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import _get from 'lodash/get';
 import colors from '../../helpers/colors';
-import {vh} from '../../helpers/metric';
+import {vh, metrics} from '../../helpers/metric';
 import PageWrapper from '../../components/PageWrapper';
 
 const menuList = [
@@ -15,6 +15,8 @@ const menuList = [
     icon: 'account-balance-wallet',
     route: 'WalletManagement',
     color: colors.theme,
+    bottomDivider: true,
+    marginTop: true,
   },
   {
     title: 'transactionHistory',
@@ -27,6 +29,8 @@ const menuList = [
     icon: 'language',
     route: 'Languages',
     color: colors.theme,
+    bottomDivider: true,
+    marginTop: true,
   },
   // {
   //   title: 'helpCenter',
@@ -39,6 +43,7 @@ const menuList = [
     icon: 'report',
     route: 'About',
     color: colors.success,
+    bottomDivider: true,
   },
 ];
 
@@ -55,9 +60,9 @@ const Me = () => {
               key={i}
               title={i18n.t(item.title)}
               leftIcon={{name: item.icon, color: item.color}}
-              bottomDivider={i === 2 || i === 0 || i === 3}
+              bottomDivider={item.bottomDivider}
               chevron
-              style={(i === 2 || i === 0) && {marginTop: vh(1.5)}}
+              style={item.marginTop && {marginTop: vh(1.5)}}
               onPress={() => navigate(item.route)}
               containerStyle={{borderColor: colors.divider}}
             />
@@ -71,6 +76,7 @@ const Me = () => {
 export default Me;
 const styles = StyleSheet.create({
   wrapper: {
+    marginTop: metrics.spaceS,
     // backgroundColor: colors.theme,
   },
   contentWrapper: {

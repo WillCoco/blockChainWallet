@@ -40,51 +40,25 @@ const Home = () => {
   const [refreshing, setRefreshingStatus] = React.useState(false);
 
   /**
-   * 快速切换和创建钱包的overlay
-   */
-  // const [overlayVisible, setOverlayVisible] = React.useState(false);
-
-  /**
    * 第一次进入
    */
   React.useEffect(() => {
     SplashScreen.hide();
 
-    // StatusBar.setBarStyle('light-content');
+    // 一直轮询
+    const assetsPoller = new Poller({
+      interval: 10 * 1000,
+      callback: () => {
+        getCurrentWalletAssets();
+        dispatch(asset.updateExchangeRate());
+      },
+    });
 
-    // // 检查更新
-    // dispatch(update.checkVersion()).then(async info => {
-    //   // console.log(info, 'checkUpdate_home');
-    //   if (!info) {
-    //     return;
-    //   }
-    //
-    //   if (info.expired) {
-    //     // 原生包过期
-    //     console.log('apk过期', 'checkUpdate_111');
-    //     Overlay.unshift(Overlay.contentTypes.UPDATER, {
-    //       customData: {info},
-    //     });
-    //   } else if (info.upToDate) {
-    //     // 您的应用版本已是最新
-    //     console.log('您的应用版本已是最新', 'checkUpdate_222');
-    //   } else {
-    //     console.log('有更新', 'checkUpdate_333');
-    //     // 这里因为是手动检查的，忽略静默属性
-    //     if (_get(info, ['metaInfo', 'silent'])) {
-    //       // 静默下载
-    //       const hash = await update.doDownload(info);
-    //
-    //       // 下次重启生效
-    //       update.doSwitch(hash, false);
-    //     } else {
-    //       // 非静默下载
-    //       Overlay.unshift(Overlay.contentTypes.UPDATER, {
-    //         customData: {info},
-    //       });
-    //     }
-    //   }
-    // });
+    assetsPoller.start();
+
+    return () => {
+      assetsPoller.stop();
+    };
   }, []);
 
   /**
@@ -99,36 +73,6 @@ const Home = () => {
       i18n.changeLanguage(language);
     }
   }, [language]);
-
-  /**
-   * 根据是否有钱包导航分流
-   */
-  const isFocused = useIsFocused();
-  // 钱包列表
-  const walletsList =
-    useSelector(state => _get(state, ['wallets', 'walletsList'])) || [];
-  React.useEffect(() => {
-    if (isFocused && walletsList.length === 0) {
-      // 无钱包，进入引导
-      setTimeout(() => {
-        replace('Guide');
-      }, 0);
-    } else {
-      // 直至轮询
-      const assetsPoller = new Poller({
-        interval: 10 * 1000,
-        callback: () => {
-          getCurrentWalletAssets();
-          dispatch(asset.updateExchangeRate());
-        },
-      });
-
-      assetsPoller.start();
-      return () => {
-        assetsPoller.stop();
-      };
-    }
-  });
 
   /**
    * 切到home时，轮询资产
@@ -155,7 +99,10 @@ const Home = () => {
   };
 
   return (
-    <PageWrapper style={styles.wrapper} pageBackgroundImg={<DotsNet />}>
+    <PageWrapper
+      style={styles.wrapper}
+      pageBackgroundImg={<DotsNet />}
+      statusBarProps={{barStyle: 'light-content'}}>
       <View style={{flex: 1}}>
         <Dashboard isLoaded={isLoaded} />
         <PhoneShapeWrapper>

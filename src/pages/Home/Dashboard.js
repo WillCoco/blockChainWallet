@@ -95,6 +95,46 @@ const Dashboard = () => {
     return new BigNumber(v).toFormat(2);
   }, [assetsList, getRate]);
 
+  /**
+   * 钱包列表、当前钱包
+   */
+  const walletsList =
+    useSelector(state => _get(state, ['wallets', 'walletsList'])) || [];
+
+  const currentWallet =
+    useSelector(state => _get(state, ['wallets', 'currentWallet'])) || [];
+
+  /**
+   * 是否可以钱包操作
+   */
+  const canWallet = React.useMemo(() => {
+    return walletsList.length > 0 && !!currentWallet;
+  }, [walletsList, currentWallet]);
+
+  /**
+   * 前往转账
+   */
+  const goTransfer = () => {
+    if (canWallet) {
+      navigate('Transfer');
+      return;
+    }
+
+    Toast.show({data: i18n.t('actionBeforeCreate')});
+  };
+
+  /**
+   * 前往收款
+   */
+  const goCollect = () => {
+    if (canWallet) {
+      navigate('Collect');
+      return;
+    }
+
+    Toast.show({data: i18n.t('actionBeforeCreate')});
+  };
+
   return (
     <View>
       <AssetCardWrapper>
@@ -120,14 +160,14 @@ const Dashboard = () => {
         <View style={styles.contentWrapper}>
           <TouchableOpacity
             style={styles.contentLeft}
-            onPress={() => navigate('Transfer')}>
+            onPress={goTransfer}>
             <Iconliaotianzhuanzhang size={scale(26)} style={{marginRight: 4}} />
             <H4 color="white" style={styles.alignCenter}>{i18n.t('transfer')}</H4>
           </TouchableOpacity>
           <View style={styles.divider} />
           <TouchableOpacity
             style={styles.contentRight}
-            onPress={() => navigate('Collect')}>
+            onPress={goCollect}>
             <Iconshoukuan size={scale(26)} style={{marginRight: 2}} />
             <H4 color="white" style={styles.alignCenter}>{i18n.t('collect')}</H4>
           </TouchableOpacity>
