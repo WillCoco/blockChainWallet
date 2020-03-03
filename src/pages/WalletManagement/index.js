@@ -42,7 +42,6 @@ export default props => {
         title={i18n.t('walletManagement')}
         safeViewStyle={{
           backgroundColor: colors.pageDarkBackground,
-          paddingTop: 0,
         }}
       />
       {/* 钱包列表 */}
