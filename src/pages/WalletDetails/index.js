@@ -14,7 +14,7 @@ import {metrics, vw, vh} from '../../helpers/metric';
 import colors from '../../helpers/colors';
 import FormRow from '../../components/FormRow';
 import {useNavigation} from 'react-navigation-hooks';
-import {NavigationActions} from 'react-navigation';
+// import {NavigationActions} from 'react-navigation';
 import _get from 'lodash/get';
 import {wallet} from '../../redux/actions';
 import {Toast} from '../../components/Toast';
@@ -40,11 +40,11 @@ const WalletDetails = props => {
   const deleteWallet = () => {
     const newWalletList = dispatch(wallet.removeAWallet(currentWallet)) || [];
     Toast.show({data: i18n.t('removeWalletSuccess')});
-    if (newWalletList.length > 0) {
-      goBack();
-    } else {
-      reset([NavigationActions.navigate({routeName: 'Guide'})], 0);
-    }
+    // if (newWalletList.length > 0) {
+    goBack();
+    // } else {
+    //   reset([NavigationActions.navigate({routeName: 'Guide'})], 0);
+    // }
   };
 
   /**
