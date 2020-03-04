@@ -8,27 +8,79 @@
  * @lastModification:
  * @lastModificationDate:
  */
-const urls = {
-  development: {
-    basicUrl: 'http://114.67.92.85:8801/',
-    serverUrl: 'http://114.67.92.85:3333/api/v1', // 额外服务
-    website: 'https://uniontea.io', // 官网
-    otcServerUrl: 'https://pre.otc.msn.best', // otc服务
-  },
+
+/**
+ * 区块链服务
+ */
+const networks = {
+  // 测试网
   testnet: {
-    basicUrl: 'https://testnet.utcpark.com:8801/', //正式
-    serverUrl: 'https://testnet.utcpark.com:3333/api/v1', // 额外服务
-    website: 'https://uniontea.io', // 官网
-    // otcServerUrl: 'https://pre.otc.msn.best', // otc服务
-    otcServerUrl: 'https://m.otcutc.com/', // otc服务
+    basicUrl: 'https://testnet.utcpark.com:8801/',
+    serverUrl: 'https://testnet.utcpark.com:3333/api/v1',
   },
+  // 正式网
   mainnet: {
-    // basicUrl: 'https://mainnet.utcpark.com/rpc',
-    basicUrl: 'https://mainnet.utcpark.com:8801/',
-    // serverUrl: 'https://mainnet.utcpark.com/api', // 额外服务
+    basicUrl: 'https://mainnet.utcpark.com:8801/', // rpc
     serverUrl: 'https://mainnet.utcpark.com:3333/api/v1', // 额外服务
-    website: 'https://uniontea.io', // 官网
-    otcServerUrl: 'https://m.otcutc.com/', // otc服务
+  },
+};
+
+/**
+ * otc服务
+ */
+const otcServerUrl = 'https://pre.otc.msn.best'; // utc汇率
+
+/**
+ * 官网
+ */
+const website = 'https://uniontea.io';
+
+/**
+ * h5 dapp
+ */
+const dapps = {
+  test: {
+    otc: {
+      name: 'otc',
+      url: 'http://120.79.1.142/otcweb/',
+    },
+  },
+  prod: {
+    otc: {
+      name: 'otc',
+      url: 'https://otcutc.com/otcWeb',
+    },
+  },
+};
+
+/**
+ * 组合
+ */
+const urls = {
+  // 开发
+  dev: {
+    basicUrl: networks.testnet.basicUrl,
+    serverUrl: networks.testnet.serverUrl,
+    website, // 官网
+    otcServerUrl, // otc服务
+    dapps: dapps.test,
+  },
+  // 测试
+  test: {
+    basicUrl: networks.testnet.basicUrl, // rpc
+    serverUrl: networks.testnet.serverUrl, // 额外服务
+    website, // 官网
+    otcServerUrl, // otc服务
+    dapps: dapps.prod,
+  },
+  // 生产
+  prod: {
+    ...networks.mainnet,
+    basicUrl: networks.mainnet.basicUrl, // rpc
+    serverUrl: networks.mainnet.serverUrl, // 额外服务
+    website, // 官网
+    otcServerUrl, // otc服务
+    dapps: dapps.prod,
   },
 };
 

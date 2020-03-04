@@ -115,8 +115,6 @@ const MaskOverlay = props => {
   /**
    * 添加到队列尾部
    */
-  console.log(options, 'options');
-
   const push = (item, opts) => {
     InteractionManager.runAfterInteractions(() => {
       mergeOptions(opts);

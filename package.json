@@ -12,8 +12,8 @@
     "test": "jest",
     "lint": "eslint .",
     "genLibs": "node scripts/genLibs.js",
-    "setProd": "node scripts/setEnv.js env=production network=mainnet",
-    "setTest": "node scripts/setEnv.js env=test network=$network"
+    "setProd": "node scripts/setEnv.js env=production",
+    "setTest": "node scripts/setEnv.js env=test"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.7.1",

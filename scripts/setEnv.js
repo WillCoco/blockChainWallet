@@ -16,7 +16,6 @@ const config = require('../src/config');
 // update配置
 const {
   updateConfig, // 热更配置
-  env: network, // 区块链网络
 } = config;
 
 const currentUpdateConfig = require('../update.json');
@@ -27,16 +26,10 @@ const networkPath = path.join(__dirname, '../src/config/env.json');
 // updateConfig路径
 const updateConfigPath = path.join(__dirname, '../update.json');
 
-// env参数
-const envs = {
+// updateEnvs参数
+const updateEnvs = {
   test: 'test',
   production: 'production',
-};
-
-// networks参数
-const networks = {
-  mainnet: 'mainnet',
-  testnet: 'testnet',
 };
 
 setEnv();
@@ -49,13 +42,8 @@ async function setEnv() {
     return;
   }
 
-  const {env, network} = getArgs();
-  console.log(chalk.green('\n目标环境：' + env + '\n'));
-
-  /**
-   * 设置netwrok
-   */
-  setNetwork(network);
+  const {env} = getArgs();
+  console.log(chalk.green('\n目标环境：' + env));
 
   /**
    * 检查pushy登录、切换两个(正式、测试)update信息
@@ -96,7 +84,7 @@ function checkConfigPath() {
 /**
  * 检查pushy登录
  */
-function checkLoggedPushy(env) {
+function checkLoggedPushy(updateEnv) {
   exec('pushy me', function(error, stdout) {
     if (error) {
       console.log('error', error);
@@ -117,21 +105,21 @@ function checkLoggedPushy(env) {
 
     if (loginProduction) {
       info = 'pushy当前登录production账户：\n' + stdout;
-      pushyAccountEnv = envs.production;
+      pushyAccountEnv = updateEnvs.production;
     } else if (loginTest) {
       info = 'pushy当前登录test账户：\n' + stdout;
-      pushyAccountEnv = envs.test;
+      pushyAccountEnv = updateEnvs.test;
     } else {
       info = 'pushy当前登录未知账户：\n' + stdout;
     }
 
     // pushy登录账号 与 目标环境不一致
-    if (env !== pushyAccountEnv) {
-      info = info + chalk.red(`\n请切换${env}账号后再试`);
+    if (updateEnv !== pushyAccountEnv) {
+      info = info + chalk.red(`\n请切换${updateEnv}账号后再试`);
       console.log(info);
     } else {
       console.log(info);
-      modifyPushyInfo(env);
+      modifyPushyInfo(updateEnv);
     }
   });
 }
@@ -139,8 +127,8 @@ function checkLoggedPushy(env) {
 /**
  * 拷贝信息到update配置文件
  */
-function modifyPushyInfo(env) {
-  const targetApp = updateConfig[env];
+function modifyPushyInfo(updateEnv) {
+  const targetApp = updateConfig[updateEnv];
   const needModify =
     targetApp.android.appId !== currentUpdateConfig.android.appId ||
     targetApp.ios.appId !== currentUpdateConfig.ios.appId;
@@ -166,21 +154,21 @@ function modifyPushyInfo(env) {
 /**
  * 设置网络
  */
-function setNetwork(net = network) {
-  if (!networks[net]) {
-    console.log(chalk.red(`不合法的network参数: ${net}\n`));
-    return;
-  }
-  const targetNetwork = {serverEnv: net};
-
-  const needModify = network !== net;
-
-  if (needModify) {
-    writeJSON(networkPath, targetNetwork);
-  } else {
-    console.log(`config/env信息一致，无需写入\n`);
-  }
-}
+// function setNetwork(appEnv = env) {
+//   if (!appEnvs[appEnv]) {
+//     console.log(chalk.red(`不合法的env参数: ${appEnv}\n`));
+//     return;
+//   }
+//   const targetNetwork = {serverEnv: appEnv};
+//
+//   const needModify = appEnv !== targetNetwork.serverEnv;
+//
+//   if (needModify) {
+//     writeJSON(networkPath, targetNetwork);
+//   } else {
+//     console.log(`config/env信息一致，无需写入\n`);
+//   }
+// }
 
 /**
  * 读取json

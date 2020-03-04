@@ -33,7 +33,8 @@ import {
   VIEW_STATUS,
   actionTypes,
 } from '../../components/DappsWebview';
-import {chainInfo, env, dapps} from '../../config';
+import {chainInfo, env, url} from '../../config';
+import '../../coins';
 
 const Dashboard = () => {
   const {navigate} = useNavigation();
@@ -198,7 +199,7 @@ const Dashboard = () => {
             // Toast.show({data: i18n.t('comingSoon')});
             dappDispatch({
               type: actionTypes.OPEN,
-              payload: {uri: dapps.otc.url},
+              payload: {uri: url.dapps.otc.url},
             });
           }}>
           <Image
