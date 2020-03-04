@@ -107,7 +107,7 @@ const Dashboard = () => {
   /**
    * 是否可以钱包操作
    */
-  const canWallet = React.useMemo(() => {
+  const canWalletAction = React.useMemo(() => {
     return walletsList.length > 0 && !!currentWallet;
   }, [walletsList, currentWallet]);
 
@@ -115,7 +115,7 @@ const Dashboard = () => {
    * 前往转账
    */
   const goTransfer = () => {
-    if (canWallet) {
+    if (canWalletAction) {
       navigate('Transfer');
       return;
     }
@@ -127,7 +127,7 @@ const Dashboard = () => {
    * 前往收款
    */
   const goCollect = () => {
-    if (canWallet) {
+    if (canWalletAction) {
       navigate('Collect');
       return;
     }
@@ -177,6 +177,7 @@ const Dashboard = () => {
         show={options =>
           Overlay.push(Overlay.contentTypes.WALLET_QUICK_MANAGER, options)
         }
+        canWalletAction={canWalletAction}
       />
       <View style={styles.entrancesWrapper}>
         <TouchableOpacity

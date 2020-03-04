@@ -17,22 +17,40 @@ import {
 } from 'react-native';
 import {useIsFocused} from 'react-navigation-hooks';
 import safePage from '../../helpers/safePage';
-import device from '../../helpers/utils/device';
+import {isAndroid} from '../../helpers/utils/isNotchScreen';
 
 const PageWrapper = props => {
+  const defaultStatusBarProps = {
+    translucent: true,
+    hidden: false,
+    barStyle: 'light-content',
+    backgroundColor: 'transparent',
+  };
+
+  const statusBarProps = {
+    ...defaultStatusBarProps,
+    ...props.statusBarProps,
+  };
+
   /**
    * tab这类不经常销毁的页面设置预期的状态栏颜色
    */
   const isFocused = useIsFocused();
   React.useEffect(() => {
-    if (isFocused && props.statusBarProps.barStyle) {
-      StatusBar.setBarStyle(props.statusBarProps.barStyle);
+    if (isFocused) {
+      if (statusBarProps.barStyle) {
+        StatusBar.setBarStyle(statusBarProps.barStyle);
+      }
+
+      if (isAndroid() && statusBarProps.backgroundColor) {
+        StatusBar.setBackgroundColor(statusBarProps.backgroundColor);
+      }
     }
-  });
+  }, [isFocused, statusBarProps]);
 
   return (
     <View style={StyleSheet.flatten([styles.wrapper, props.style])}>
-      <StatusBar {...props.statusBarProps} />
+      <StatusBar {...statusBarProps} />
       {props.pageBackgroundImg}
       <View style={{flex: 1}}>{props.children}</View>
     </View>

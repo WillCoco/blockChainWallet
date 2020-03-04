@@ -31,6 +31,11 @@ export function getAssetByAddress(address) {
     const finallyAddress =
       address || _get(getState(), ['wallets', 'currentWallet', 'address']);
 
+    if (!finallyAddress) {
+      console.log('getAssetByAddress, 无当前地址');
+      return;
+    }
+
     const r = (await getAddressAsset({address: finallyAddress})) || {};
 
     dispatch({

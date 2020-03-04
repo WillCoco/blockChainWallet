@@ -20,6 +20,7 @@ import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
 import device from '../../helpers/utils/device';
 import {Overlay} from '../../components/Mask';
 import Iconscan from '../../components/Iconfont/Iconscan';
+import {Toast} from '../../components/Toast';
 // import images from '../../images';
 // import {chainInfo, env, dapps} from '../../config';
 
@@ -36,7 +37,12 @@ const WalletQuickManager = props => {
 
   // 前往扫描
   const goScanPage = () => {
-    navigate('Scan');
+    if (props.canWalletAction) {
+      navigate('Scan');
+      return;
+    }
+
+    Toast.show({data: i18n.t('actionBeforeCreate')});
   };
 
   const [top, setTop] = React.useState();

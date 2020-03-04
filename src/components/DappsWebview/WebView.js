@@ -132,8 +132,8 @@ const DappsWebView = props => {
           'sms://*',
           'tel://*',
         ]}
-        // source={{uri: state.uri, headers: {'Cache-Control': 'no-cache'}}}
-        source={{uri: 'http://192.168.0.117:3001/utc/dapp.html'}}
+        source={{uri: state.uri, headers: {'Cache-Control': 'no-cache'}}}
+        // source={{uri: 'http://192.168.0.117:3001/utc/dapp.html'}}
         ref={c => (webView.current = c)}
         onMessage={webViewMessageHandler}
         style={styles.webview}

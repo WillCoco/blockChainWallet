@@ -73,7 +73,7 @@ export default props => {
               <Icon
                 name="wallet-outline"
                 type="material-community"
-                color={colors.textWhite}
+                color={colors.theme}
               />
             }
             title={i18n.t('createWallet')}

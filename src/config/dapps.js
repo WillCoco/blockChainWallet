@@ -8,8 +8,8 @@
  */
 const dapps = {
   otc: {
-    // url: 'https://otcutc.com/otcWeb', // otc正式
-    url: 'http://120.79.1.142/otcweb/', // otc测试
+    url: 'https://otcutc.com/otcWeb', // otc正式
+    // url: 'http://120.79.1.142/otcweb/', // otc测试
   },
 };
 
