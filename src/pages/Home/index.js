@@ -98,6 +98,15 @@ const Home = () => {
     setIsLoaded(true);
   };
 
+  /**
+   * 资产列表
+   */
+  const assetsList = useSelector(
+    state => _get(state, ['assets', 'assetsList']) || [],
+  );
+
+  const isShowEmpty = isLoaded && assetsList.length === 0;
+
   return (
     <PageWrapper
       style={styles.wrapper}
@@ -118,7 +127,10 @@ const Home = () => {
             }
             keyboardShouldPersistTaps="handled"
             // stickyHeaderIndices={[1]}
-            style={styles.scroll}
+            style={StyleSheet.flatten([
+              styles.scroll,
+              {backgroundColor: isShowEmpty ? '#fff' : 'transparent'},
+            ])}
             contentContainerStyle={{backgroundColor: colors.pageBackground}}>
             <AssetsList isLoaded={isLoaded} />
             <PasswordValid />

@@ -72,9 +72,15 @@ const AssetsList = props => {
     [rates],
   );
 
+  const isShowEmpty = props.isLoaded && assetsList.length === 0;
   return (
-    <View style={{minHeight: '80%', flex: 1}}>
-      {props.isLoaded && assetsList.length === 0 ? (
+    <View
+      style={{
+        minHeight: '80%',
+        flex: 1,
+        backgroundColor: isShowEmpty ? '#fff' : 'transparent',
+      }}>
+      {isShowEmpty ? (
         <Empty />
       ) : (
         <>

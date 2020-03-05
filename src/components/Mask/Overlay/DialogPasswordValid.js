@@ -123,7 +123,7 @@ const PasswordValid = props => {
       value={pwd}
       onCancelPress={() => {
         props.remove();
-        props.onCancel();
+        props.onCancel && props.onCancel();
       }}
       onOKPress={onOKPress}
       secureTextEntry={true}

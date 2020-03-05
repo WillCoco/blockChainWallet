@@ -52,10 +52,21 @@ const Exchanger = () => {
 
   const dispatch = useDispatch();
 
-  // 当前钱包
-  const currentWallet = useSelector(
-    state => _get(state.wallets, ['currentWallet']) || [],
-  );
+  /**
+   * 钱包列表、当前钱包
+   */
+  const walletsList =
+    useSelector(state => _get(state, ['wallets', 'walletsList'])) || [];
+
+  const currentWallet =
+    useSelector(state => _get(state, ['wallets', 'currentWallet'])) || [];
+
+  /**
+   * 是否可以钱包操作
+   */
+  const canWalletAction = React.useMemo(() => {
+    return walletsList.length > 0 && !!currentWallet;
+  }, [walletsList, currentWallet]);
 
   /**
    * 缓释价格
@@ -302,7 +313,11 @@ const Exchanger = () => {
           </PrimaryText>
           <TouchableOpacity
             onPress={() => {
-              navigate('Collect');
+              if (canWalletAction) {
+                navigate('Collect');
+                return;
+              }
+              Toast.show({data: i18n.t('actionBeforeCreate')});
             }}>
             <PrimaryText style={{color: colors.textSuccess}}>
               {i18n.t('recharge')}
