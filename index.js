@@ -19,4 +19,11 @@ if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+/**
+ * 全局错误补货
+ */
+global.ErrorUtils.setGlobalHandler((error) => {
+  console.log('全局错误补货：', error);
+});
+
 AppRegistry.registerComponent(appName, () => App);
