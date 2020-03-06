@@ -208,7 +208,7 @@ const AppNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'CreateWallet',
+    initialRouteName: 'Main',
     defaultNavigationOptions: ({navigation}) => {
       return {
         headerTitle: `默认标题`,
