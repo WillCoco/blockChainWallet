@@ -25,6 +25,9 @@ const PasswordValid = props => {
     state => _get(state, ['wallets', 'currentWallet']) || {},
   );
 
+  // 定时器
+  const timer = React.useRef();
+
   const dispatch = useDispatch();
 
   const [pwd, setPwd] = React.useState(null);
@@ -46,12 +49,14 @@ const PasswordValid = props => {
       // console.log(currentWallet.encryptedPrivateKey, 'encryptedPrivateKey');
       // console.log(currentWallet.passwordKey, 'passwordKey');
 
-      setTimeout(() => {
+      timer.current = setTimeout(() => {
         props.setPause(false);
+        props.onValidEnd(false);
       }, 1000);
 
       // 结果回调
-      props.onValidEnd(false);
+      // console.log(props.onValidEnd, 'props.onValidEnd')
+      // props.onValidEnd(false);
       return;
     }
 
@@ -111,6 +116,15 @@ const PasswordValid = props => {
       console.log('updateTempMneonic', err);
     });
   };
+
+  // 清除定时器
+  React.useEffect(() => {
+    return () => {
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+    };
+  }, []);
 
   return (
     <Dialog
