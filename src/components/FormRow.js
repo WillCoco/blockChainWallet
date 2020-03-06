@@ -41,6 +41,7 @@ const FormRow = props => {
 };
 
 FormRow.defaultProps = {
+  leftIcon: null,
   value: '',
   onChangeText: undefined,
   containerStyle: undefined,

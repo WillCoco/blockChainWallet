@@ -7,6 +7,7 @@ import {WebView} from 'react-native-webview';
 import {WVEvent, eventTypes} from '../../helpers/eventEmmiter';
 import {safeStringify, safeParse} from '../../helpers/utils/safetyFn';
 import {Toast} from '../../components/Toast';
+import {Loading} from '../../components/Mask';
 import i18n from '../../helpers/i18n';
 
 let callId = 0;
@@ -24,6 +25,8 @@ const WalletWebView = props => {
 
   React.useEffect(() => {
     function callback(data) {
+      Loading.set({visible: true});
+
       // 保存回调
       // console.log('Post WebView:', {...data.payload, callId});
       handlers[++callId] = data.callback;
@@ -58,6 +61,10 @@ const WalletWebView = props => {
         console.warn('调用错误:', data);
       }
       delete handlers[callbackId];
+    }
+
+    if (Object.keys(handlers).length === 0) {
+      Loading.set({visible: false});
     }
   };
 

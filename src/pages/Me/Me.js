@@ -46,7 +46,6 @@ const menuList = [
   },
 ];
 
-
 const Me = () => {
   const {navigate} = useNavigation();
   useSelector(state => _get(state, ['appSetting', 'language']));

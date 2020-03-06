@@ -7,12 +7,12 @@
  * @lastModificationDate:
  */
 import React from 'react';
-import {View, StyleSheet, TouchableHighlight} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import _filter from 'lodash/filter';
 import _times from 'lodash/times';
 import {PrimaryText} from 'react-native-normalization-text';
-import {vw} from '../../helpers/metric/index';
-import colors from '../../helpers/colors';
+// import {vw} from '../../helpers/metric/index';
+// import colors from '../../helpers/colors';
 import types from './mnemonicTypes';
 import Word from './Word';
 
@@ -70,15 +70,19 @@ const Mnemonic = props => {
   return (
     <View style={StyleSheet.flatten([styles.wrapper, props.wrapperStyle])}>
       {mnemonicArray.map((word, index) => {
-        const textStyle = props.mnemonicType === types.INPUT &&
+        const wordStyle = props.mnemonicType === types.INPUT &&
           wordsArray[index] && {backgroundColor: '#ccc'};
+        const textStyle = props.mnemonicType === types.INPUT &&
+          wordsArray[index] && {color: '#fff'};
 
         return (
           <Word
             key={`word_${index}`}
             isWordDisabled={wordsArray[index]}
             word={word}
-            style={StyleSheet.flatten([styles.wordWrapper, textStyle])}
+            // style={StyleSheet.flatten([styles.wordWrapper, textStyle])}
+            wordStyle={wordStyle}
+            textStyle={textStyle}
             onWordPress={() => onWordPress(word, index)}
           />
         );
@@ -101,12 +105,12 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   wordWrapper: {
-    paddingHorizontal: vw(4),
-    paddingVertical: vw(0.5),
-    marginHorizontal: vw(3),
-    marginVertical: vw(1.5),
-    backgroundColor: colors.theme,
-    borderRadius: vw(0.5),
+    // paddingHorizontal: vw(4),
+    // paddingVertical: vw(0.5),
+    // marginHorizontal: vw(3),
+    // marginVertical: vw(1.5),
+    // backgroundColor: colors.theme,
+    // borderRadius: vw(0.5),
   },
   input: {
     width: '100%',

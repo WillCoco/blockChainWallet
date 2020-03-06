@@ -2,12 +2,6 @@
 
 import React from 'react';
 
-import Icongengxin from './Icongengxin';
-import Iconfile from './Iconfile';
-import Iconicon from './Iconicon';
-import Icondaochu from './Icondaochu';
-import Iconyingwen from './Iconyingwen';
-import Iconzhongwen from './Iconzhongwen';
 import Iconshouxufei from './Iconshouxufei';
 import Icongouxuanzhong from './Icongouxuanzhong';
 import Icongou from './Icongou';
@@ -81,18 +75,6 @@ import Iconscan from './Iconscan';
 // And then regenerate icons by using cli command.
 export const Icon = ({ color, name, size, ...rest }) => {
   switch (name) {
-    case 'gengxin':
-      return <Icongengxin size={size} color={color} {...rest} />;
-    case 'file':
-      return <Iconfile size={size} color={color} {...rest} />;
-    case 'icon--':
-      return <Iconicon size={size} color={color} {...rest} />;
-    case 'daochu':
-      return <Icondaochu size={size} color={color} {...rest} />;
-    case 'yingwen':
-      return <Iconyingwen size={size} color={color} {...rest} />;
-    case 'zhongwen':
-      return <Iconzhongwen size={size} color={color} {...rest} />;
     case 'shouxufei':
       return <Iconshouxufei size={size} color={color} {...rest} />;
     case 'gouxuanzhong':
