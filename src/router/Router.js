@@ -155,7 +155,7 @@ const AppNavigator = createStackNavigator(
     DealDetails: {
       screen: props => safePage(DealDetails, props),
       navigationOptions: ({navigation}) => ({
-        headerShown: false,
+        // headerShown: false,
         headerTitle: `${i18n.t('dealDetails')}`,
       }),
     },
