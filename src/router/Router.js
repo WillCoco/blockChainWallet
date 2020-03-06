@@ -116,8 +116,8 @@ const AppNavigator = createStackNavigator(
     Transfer: {
       screen: props => safePage(Transfer, props),
       navigationOptions: ({navigation}) => ({
-        // headerTitle: `${i18n.t('transfer')}`,
-        header: null,
+        headerTitle: `${i18n.t('transfer')}`,
+        // header: null,
       }),
     },
     Collect: {
@@ -231,10 +231,7 @@ const AppNavigator = createStackNavigator(
               rightElement={headerRight && headerRight(nav)}
               // leftElement={headerLeft ? headerLeft(nav) : <Text style={{color: colors.textWhite}}>back</Text>}
               gobackImage={require('../images/backBtn.png')}
-              safeViewStyle={{
-                // borderWidth: 1,
-                // borderColor: 'red',
-              }}
+              safeViewStyle={{}}
             />
           );
         },

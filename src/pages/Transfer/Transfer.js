@@ -2,13 +2,12 @@ import React from 'react';
 import {
   ScrollView,
   StyleSheet,
-  StatusBar,
   Keyboard,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import Bignumber from 'bignumber.js';
 import {Button} from 'react-native-elements';
-import {TinyText} from 'react-native-normalization-text';
+import {TinyText, scale} from 'react-native-normalization-text';
 import _get from 'lodash/get';
 import _filter from 'lodash/filter';
 import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
@@ -22,7 +21,13 @@ import colors from '../../helpers/colors';
 import {isValidNumeric, lowerUnit} from '../../helpers/utils/numbers';
 import FormRow from '../../components/FormRow';
 import {Loading, Overlay} from '../../components/Mask';
-import NavBar from '../../components/NavBar';
+import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
+import PageWrapper from '../../components/PageWrapper';
+import Icontoken from '../../components/Iconfont/Icontoken';
+import Iconjine from '../../components/Iconfont/Iconjine';
+import Icondizhi from '../../components/Iconfont/Icondizhi';
+import Iconbeizhu from '../../components/Iconfont/Iconbeizhu';
+import Iconshouxufeishuai from '../../components/Iconfont/Iconshouxufeishuai';
 
 // console.log(chainInfo.symbol, 'chainInfochainInfochainInfo')
 const defaultFee = chainInfo.defaultFee;
@@ -293,83 +298,95 @@ export default props => {
     _get(transferForm, ['token', 'symbol']) || chainInfo.symbol;
 
   return (
-    <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="handled">
-      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-      <NavBar
-        lightTheme
-        title={i18n.t('transfer')}
-        safeViewStyle={{
-          backgroundColor: '#fff',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        titleStyle={{
-          color: colors.textTitle,
-        }}
-      />
-      <FormRow
-        title={i18n.t('transferToken')}
-        chevron={{size: 24}}
-        bottomDivider
-        containerStyle={{}}
-        onPress={goSelectToken}
-        value={unitSymbol}
-        editable={false}
-      />
-      <FormRow
-        title={i18n.t('transferAmount')}
-        placeholder={i18n.t('transferAmountPlaceholder')}
-        bottomDivider
-        value={_get(transferForm, 'amount')}
-        onChangeText={onChangeAmount}
-        attachment={
-          <TinyText style={styles.balance}>
-            {i18n.t('balance')}: {currentAsset.balanceFmt} {unitSymbol}
-          </TinyText>
-        }
-      />
-      <FormRow
-        title={i18n.t('transferAddress')}
-        placeholder={i18n.t('transferAddressPlaceholder')}
-        bottomDivider
-        value={_get(transferForm, 'address')}
-        onChangeText={onChangeAddress}
-      />
-      <FormRow
-        title={i18n.t('transferNote')}
-        bottomDivider
-        placeholder={i18n.t('transferNotePlaceholder')}
-        value={_get(transferForm, 'note')}
-        onChangeText={v => setTransferForm({...transferForm, note: v})}
-      />
-      <FormRow
-        title={i18n.t('transferFee')}
-        value={defaultFee + ' ' + chainInfo.symbol}
-        bottomDivider
-        editable={false}
-      />
-      <Button
-        iconRight
-        containerStyle={styles.btnContainerStyle}
-        title={i18n.t('next')}
-        onPress={onPressNext}
-      />
-    </ScrollView>
+    <PageWrapper style={styles.wrapper}>
+      <PhoneShapeWrapper>
+        <ScrollView
+          style={styles.contentWrapper}
+          keyboardShouldPersistTaps="handled">
+          <FormRow
+            title={i18n.t('transferToken')}
+            leftIcon={<Icontoken size={22} />}
+            chevron={{size: 24}}
+            // bottomDivider
+            onPress={goSelectToken}
+            value={unitSymbol}
+            editable={false}
+            containerStyle={styles.formRow}
+            inputStyle={{paddingLeft: scale(140)}}
+          />
+          <FormRow
+            title={i18n.t('transferAmount')}
+            placeholder={i18n.t('transferAmountPlaceholder')}
+            leftIcon={<Iconjine size={22} />}
+            value={_get(transferForm, 'amount')}
+            onChangeText={onChangeAmount}
+            attachment={
+              <TinyText style={styles.balance}>
+                {i18n.t('balance')}: {currentAsset.balanceFmt} {unitSymbol}
+              </TinyText>
+            }
+            containerStyle={styles.formRow}
+            inputStyle={{paddingLeft: scale(140)}}
+          />
+          <FormRow
+            title={i18n.t('transferAddress')}
+            placeholder={i18n.t('transferAddressPlaceholder')}
+            leftIcon={<Icondizhi size={22} />}
+            value={_get(transferForm, 'address')}
+            onChangeText={onChangeAddress}
+            containerStyle={styles.formRow}
+            inputStyle={{paddingLeft: scale(140)}}
+          />
+          <FormRow
+            title={i18n.t('transferNote')}
+            leftIcon={<Iconbeizhu size={22} />}
+            placeholder={i18n.t('transferNotePlaceholder')}
+            value={_get(transferForm, 'note')}
+            onChangeText={v => setTransferForm({...transferForm, note: v})}
+            containerStyle={styles.formRow}
+            inputStyle={{paddingLeft: scale(140)}}
+          />
+          <FormRow
+            title={i18n.t('transferFee')}
+            leftIcon={<Iconshouxufeishuai size={22} />}
+            value={defaultFee + ' ' + chainInfo.symbol}
+            editable={false}
+            containerStyle={styles.formRow}
+            inputStyle={{paddingLeft: scale(140)}}
+          />
+          <Button
+            iconRight
+            containerStyle={styles.btnContainerStyle}
+            title={i18n.t('next')}
+            onPress={onPressNext}
+          />
+        </ScrollView>
+      </PhoneShapeWrapper>
+    </PageWrapper>
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
+    flex: 1,
+    // paddingHorizontal: metrics.spaceS,
+    backgroundColor: colors.theme,
+  },
+  contentWrapper: {
     paddingHorizontal: metrics.spaceS,
   },
   btnContainerStyle: {
     width: '80%',
     marginTop: vw(10),
     alignSelf: 'center',
+    marginBottom: metrics.spaceN,
   },
   balance: {
     color: colors.theme,
     position: 'absolute',
     right: '6%',
-  }
+  },
+  formRow: {
+    height: scale(56),
+  },
 });
