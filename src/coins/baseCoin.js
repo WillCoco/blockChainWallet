@@ -11,6 +11,7 @@ import _get from 'lodash/get';
 import _filter from 'lodash/filter';
 import stores from '../redux/store';
 import {upperUnit} from '../helpers/utils/numbers';
+import bip44Constants from './bip44Constants';
 
 const {store} = stores;
 
@@ -19,6 +20,11 @@ class BaseCoin {
    * id
    */
   id;
+
+  /**
+   * bip44Constants
+   */
+  bip44Constants;
 
   /**
    * name
@@ -83,6 +89,8 @@ class BaseCoin {
     Object.keys(coinInfo).forEach(item => {
       this[item] = coinInfo[item];
     });
+
+    this.bip44Constants = bip44Constants[coinInfo.symbol];
   }
 
   /**

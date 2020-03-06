@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./chain33Wallet.js"></script>
+    <script src="./test/bitcoin.js"></script>
+    <script src="./bip39.js"></script>
+</head>
+<body>
+
+</body>
+<script>
+  const {newWalletFromMnemonic} = window.chain33Wallet.seed;
+  /**
+   * chain33wallet
+   */
+  const bip44Constants = {
+    "BTY": 0x80003333,
+    "BTC": 0x80000000,
+    "BCH": 0x80000091,
+    "BSV": 0x800000ec,
+  };
+
+  const mnemonic = 'enjoy juice vicious join animal joke bean basic tongue child acid learn silly outdoor stereo';
+
+  // UTC
+  const btyWalletObj = newWalletFromMnemonic(mnemonic);
+  const btyAccount1 = btyWalletObj.newAccount('钱包1');
+  console.log(btyWalletObj, 'btyWalletObj');
+  console.log(btyAccount1, 'bty');
+
+  /**
+   * BTC
+   */
+  // chain33wallet
+  const btcWalletObj = newWalletFromMnemonic(mnemonic, bip44Constants.BTC);
+  const btcAccount1 = btcWalletObj.newAccount('钱包1');
+//  console.log(btcWalletObj, 'btcWalletObj');
+  console.log(btcAccount1, 'btc');
+//  console.log(btcWalletObj.masterKey, 'btcWalletObj.masterKey');
+
+  // bitcoinjs
+  const {bip39, bitcoinjs} = window;
+  const {bip32} = bitcoinjs;
+  const seed = bip39.mnemonicToSeedSync(mnemonic); // btcWalletObj.rootSeed 一致
+  const root = bip32.fromSeed(seed); // btcWalletObj.masterKey 一致
+  const strng = root.toBase58();
+
+  console.log('btc总私钥一致：', btcWalletObj.masterKey.toBase58() === strng); // 总私钥一致
+
+//  // 方式1
+//  const path = "m/44'/0'/0'/0/0";
+//  const child1 = root.derivePath(path);
+
+//  // 方式2 chain33wallet中的
+//  var PURPOSE = 0x8000002C;
+//  let child1 = root.derive(PURPOSE);
+//  child1 = child1.derive(bip44Constants.BTC); // cointype
+//  child1 = child1.derive(bip44Constants.BTC); //
+//  child1 = child1.derive(0);
+//  child1 = child1.derive(0);
+
+  // 方式3
+  let btcChild = root
+    .deriveHardened(44)
+    .deriveHardened(0)
+    .deriveHardened(0)
+    .derive(0)
+    .derive(0);
+
+  let tbtcChild = root
+    .deriveHardened(44)
+    .deriveHardened(1)
+    .deriveHardened(0)
+    .derive(0)
+    .derive(0);
+
+  const testAddress = getAddress(tbtcChild, bitcoinjs.networks.testnet); // 测试
+  const address = getAddress(btcChild); // 正式测试
+//  console.log(testAddress, 'testAddress');
+  console.log('btc地址一致：', address === '1BQB8PgxTvRS7wLkZrqwPrck87Do1d3xbK', ); // 地址一致
+
+
+  // BCH
+  // chain33wallet
+  const bchWalletObj = newWalletFromMnemonic(mnemonic, bip44Constants.BCH);
+  const bchAccount1 = bchWalletObj.newAccount('钱包1');
+  console.log(bchAccount1, 'bch');
+
+  // bitcoinjs
+  const bchPath = "m/44'/145'/0'/0/0";
+  const bchChild = root.derivePath(bchPath);
+
+
+  const bchAddress = getAddress(bchChild);
+
+  console.log('bchAddress地址一致：', bchAddress === bchAccount1.address);
+  console.log('bchAddress是老格式的：', bchAddress, bchAccount1.address);
+
+  // BSV
+  const bsvWalletObj = newWalletFromMnemonic(mnemonic, bip44Constants.BSV);
+  const bsvAccount1 = bsvWalletObj.newAccount('钱包1');
+  console.log(bsvAccount1, 'bsv');
+
+  const bsvPath = "m/44'/236'/0'/0/0";
+  const bsvChild = root.derivePath(bsvPath);
+  const bsvAddress = getAddress(bsvChild);
+
+  console.log('bsvAddress地址一致：', bsvAddress === bsvAccount1.address);
+  console.log('bsvAddress：', bsvAddress, bsvAccount1.address);
+
+  function getAddress(node, network) {
+    return bitcoinjs.payments.p2pkh({ pubkey: node.publicKey, network }).address;
+  }
+
+</script>
+</html>

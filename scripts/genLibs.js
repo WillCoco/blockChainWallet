@@ -8,26 +8,27 @@
  */
 let fs = require('fs');
 let browserify = require('browserify');
+let path = require('path');
 
 const list = [
-  {
-    in: '../node_modules/core-js/index.js',
-    out: '../basicLibs/coreJs.js',
-  },
-  {
-    in: '../node_modules/regenerator-runtime/runtime',
-    out: '../basicLibs/regeneratorRuntime.js',
-  },
-  {
-    in: '../node_modules/bip39/src/index.js',
-    out: '../basicLibs/bip39.js',
-    name: 'bip39',
-  },
-  {
-    in: '../node_modules/@33cn/wallet-base/dist/index.js',
-    out: '../basicLibs/chain33Wallet.js',
-    name: 'chain33Wallet',
-  },
+  // {
+  //   in: '../node_modules/core-js/index.js',
+  //   out: '../basicLibs/coreJs.js',
+  // },
+  // {
+  //   in: '../node_modules/regenerator-runtime/runtime',
+  //   out: '../basicLibs/regeneratorRuntime.js',
+  // },
+  // {
+  //   in: '../node_modules/bip39/src/index.js',
+  //   out: '../basicLibs/bip39.js',
+  //   name: 'bip39',
+  // },
+  // {
+  //   in: '../node_modules/@33cn/wallet-base/dist/index.js',
+  //   out: '../basicLibs/chain33Wallet.js',
+  //   name: 'chain33Wallet',
+  // },
   {
     in: '../node_modules/crypto-js/index.js',
     out: '../basicLibs/cryptoJs.js',
@@ -50,7 +51,7 @@ function transformAll(list) {
  * 转换单个文件
  */
 function transform(opts) {
-  browserify(opts.input, {
+  browserify(path.join(__dirname, opts.input), {
     standalone: opts.name,
   })
     .transform('babelify', {
@@ -64,5 +65,5 @@ function transform(opts) {
       ],
     })
     .bundle()
-    .pipe(fs.createWriteStream(opts.output));
+    .pipe(fs.createWriteStream(path.join(__dirname, opts.output)));
 }
