@@ -80,4 +80,7 @@ module.exports = {
   get loading() {
     return require('./loading.png');
   },
+  get qrCodeBg() {
+    return require('./qrCodeBg.png');
+  },
 };

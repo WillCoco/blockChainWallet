@@ -38,14 +38,9 @@ export default props => {
 
   return (
     <PageWrapper style={styles.wrapper}>
-      <NavBar
-        title={i18n.t('walletManagement')}
-        safeViewStyle={{
-          backgroundColor: colors.pageDarkBackground,
-        }}
-      />
+      <NavBar title={i18n.t('walletManagement')} />
       {/* 钱包列表 */}
-      <PhoneShapeWrapper>
+      <PhoneShapeWrapper style={metrics.spaceN}>
         <ScrollView style={styles.content}>
           {walletsList.map((item, index) => {
             return (
@@ -107,7 +102,7 @@ export default props => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: colors.pageDarkBackground,
+    backgroundColor: colors.theme,
     height: '100%',
     flexDirection: 'column',
   },
@@ -115,7 +110,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 15,
     backgroundColor: colors.pageBackground,
-    marginTop: metrics.spaceS,
+    marginTop: metrics.spaceN,
     borderRadius: vw(2),
   },
   btns: {
@@ -126,7 +121,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: colors.theme,
-    borderRadius: vw(1),
+    borderRadius: vw(3),
     height: scale(60),
   },
   buttonText: {

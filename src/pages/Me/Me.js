@@ -1,36 +1,37 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {View, StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useNavigation} from 'react-navigation-hooks';
 import i18n from '../../helpers/i18n';
 import _get from 'lodash/get';
 import colors from '../../helpers/colors';
-import {vh, metrics} from '../../helpers/metric';
+import {vh, vw, metrics} from '../../helpers/metric';
 import PageWrapper from '../../components/PageWrapper';
+import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
+import NavBar from '../../components/NavBar';
+import {scale} from 'react-native-normalization-text';
+import Iconqianbao3 from '../../components/Iconfont/Iconqianbao3';
+import Iconjiaoyijilu from '../../components/Iconfont/Iconjiaoyijilu';
+import Iconyuyanshezhi from '../../components/Iconfont/Iconyuyanshezhi';
+import IconwodeGuanyuwomen from '../../components/Iconfont/IconwodeGuanyuwomen';
+import IconArrowDetail from '../../components/Iconfont/Iconarrowdetail';
 
 const menuList = [
   {
     title: 'walletManagement',
-    icon: 'account-balance-wallet',
+    icon: <Iconqianbao3 size={scale(22)} />,
     route: 'WalletManagement',
-    color: colors.theme,
-    bottomDivider: true,
-    marginTop: true,
   },
   {
     title: 'transactionHistory',
-    icon: 'assignment',
+    icon: <Iconjiaoyijilu size={scale(22)} />,
     route: 'TransactionHistory',
-    color: colors.theme,
   },
   {
     title: 'languages',
-    icon: 'language',
+    icon: <Iconyuyanshezhi size={scale(22)} />,
     route: 'Languages',
-    color: colors.theme,
-    bottomDivider: true,
-    marginTop: true,
   },
   // {
   //   title: 'helpCenter',
@@ -40,46 +41,52 @@ const menuList = [
   // },
   {
     title: 'about',
-    icon: 'report',
+    icon: <IconwodeGuanyuwomen size={scale(22)} />,
     route: 'About',
-    color: colors.success,
-    bottomDivider: true,
   },
 ];
+
 
 const Me = () => {
   const {navigate} = useNavigation();
   useSelector(state => _get(state, ['appSetting', 'language']));
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <PageWrapper style={styles.wrapper} statusBarProps={{barStyle: 'dark-content'}}>
-        <View style={styles.contentWrapper}>
-          {menuList.map((item, i) => (
-            <ListItem
-              key={i}
-              title={i18n.t(item.title)}
-              leftIcon={{name: item.icon, color: item.color}}
-              bottomDivider={item.bottomDivider}
-              chevron
-              style={item.marginTop && {marginTop: vh(1.5)}}
-              onPress={() => navigate(item.route)}
-              containerStyle={{borderColor: colors.divider}}
-            />
-          ))}
-        </View>
-      </PageWrapper>
-    </SafeAreaView>
+    <PageWrapper
+      style={styles.wrapper}
+      statusBarProps={{barStyle: 'dark-content'}}>
+      <NavBar title={i18n.t('me')} leftElement={null} />
+      <PhoneShapeWrapper
+        style={{marginTop: metrics.spaceN, backgroundColor: colors.cardBg}}>
+        {menuList.map((item, i) => (
+          <ListItem
+            key={i}
+            title={i18n.t(item.title)}
+            leftIcon={item.icon}
+            bottomDivider={item.bottomDivider}
+            chevron={<IconArrowDetail size={scale(32)} />}
+            style={styles.listItemStyle}
+            onPress={() => navigate(item.route)}
+            containerStyle={{borderColor: colors.divider}}
+          />
+        ))}
+      </PhoneShapeWrapper>
+    </PageWrapper>
   );
 };
 
 export default Me;
 const styles = StyleSheet.create({
   wrapper: {
-    marginTop: metrics.spaceS,
-    // backgroundColor: colors.theme,
+    backgroundColor: colors.theme,
   },
-  contentWrapper: {
-    backgroundColor: colors.pageBackground,
+  listItemStyle: {
+    fontWeight: '500',
+    fontSize: scale(30),
+    width: vw(100),
+    paddingHorizontal: vw(4),
+    height: vw(16),
+    borderRadius: 4,
+    marginTop: 10,
   },
 });

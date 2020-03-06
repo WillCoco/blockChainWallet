@@ -10,16 +10,16 @@ export default props => {
   return (
     <ListItem
       style={StyleSheet.flatten([styles.walletCard, props.style])}
+      containerStyle={styles.walletCardBg}
       title={props.walletName || ''}
       subtitle={props.walletAddress || ''}
       onPress={() => {
         navigate('WalletDetails', props.wallet);
       }}
-      titleStyle={{marginBottom: 6, color: colors.textTitle}}
+      titleStyle={{marginBottom: 6, color: colors.textTitle, fontWeight: '500'}}
       titleProps={{ellipsizeMode: 'middle', numberOfLines: 1}}
       subtitleProps={{ellipsizeMode: 'middle', numberOfLines: 1}}
       subtitleStyle={{color: colors.textSecondary}}
-      chevron
     />
   );
 };
@@ -27,5 +27,9 @@ export default props => {
 const styles = StyleSheet.create({
   walletCard: {
     marginBottom: 15,
+  },
+  walletCardBg: {
+    backgroundColor: colors.cardBg,
+    borderRadius: 16,
   },
 });

@@ -14,7 +14,7 @@ import safePage from '../../helpers/safePage';
 
 const PhoneShapeWrapper = props => {
   return (
-    <View style={styles.historyWrapper}>
+    <View style={StyleSheet.flatten([styles.historyWrapper, {...props.style}])}>
       <View style={styles.shape} />
       {props.children}
     </View>
