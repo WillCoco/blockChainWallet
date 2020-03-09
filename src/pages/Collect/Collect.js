@@ -103,17 +103,19 @@ const styles = StyleSheet.create({
   qrCodeWrapper: {
     backgroundColor: '#fff',
     height: vw(54),
-    minHeight: vh(30),
+    // minHeight: vh(30),
     // paddingTop: '8%',
     marginTop: vh(5),
     justifyContent: 'center',
     alignItems: 'center',
   },
   imageStyle: {
-    width: vw(54),
+    width: vw(56),
     height: vw(56),
     marginLeft: '50%',
-    translateX: -vw(26),
+    // translateX: -vw(26),
+    top: -vw(1.5),
+    transform: [{translateX: -vw(27)}],
   },
   amountWrapper: {
     marginTop: vh(3),

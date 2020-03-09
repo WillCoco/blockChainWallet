@@ -51,9 +51,7 @@ const Me = () => {
   useSelector(state => _get(state, ['appSetting', 'language']));
 
   return (
-    <PageWrapper
-      style={styles.wrapper}
-      statusBarProps={{barStyle: 'dark-content'}}>
+    <PageWrapper style={styles.wrapper}>
       <NavBar title={i18n.t('me')} leftElement={null} />
       <PhoneShapeWrapper
         style={{marginTop: metrics.spaceN, backgroundColor: colors.cardBg}}>
@@ -80,8 +78,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.theme,
   },
   listItemStyle: {
-    fontWeight: '500',
-    fontSize: scale(30),
+    // fontWeight: '500',
+    // fontSize: scale(30),
     width: vw(100),
     paddingHorizontal: vw(4),
     height: vw(16),
