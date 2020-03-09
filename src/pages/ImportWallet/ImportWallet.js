@@ -22,6 +22,11 @@ import {Toast} from '../../components/Toast';
 import {wallet} from '../../redux/actions';
 import {eventTypes, WVEvent} from '../../helpers/eventEmmiter';
 import {StackActions, NavigationActions} from 'react-navigation';
+import PageWrapper from '../../components/PageWrapper';
+import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
+import Iconqianbao3 from '../../components/Iconfont/Iconqianbao3';
+import Iconmima from '../../components/Iconfont/Iconmima';
+import Iconquerenmima from '../../components/Iconfont/Iconquerenmima';
 
 const ImportWallet = () => {
   const {dispatch: navDispatch} = useNavigation();
@@ -124,84 +129,98 @@ const ImportWallet = () => {
   };
 
   return (
-    <ScrollView keyboardShouldPersistTaps="handled" style={styles.wrapper}>
-      <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
-      <KeyboardAvoidingView style={{flex: 1}}>
-        <TouchableWithoutFeedback onPress={focus}>
-          <View style={styles.mnemonicInputWrapper}>
-            <TextInput
-              ref={v => (input = v)}
-              multiline
-              numberOfLines={4}
-              placeholder={i18n.t('mnemonicInputPlaceholder')}
-              value={mnemonicInput}
-              onChangeText={setMnemonicInput}
-              style={styles.mnemonicInput}
-            />
-          </View>
-        </TouchableWithoutFeedback>
+    <PageWrapper style={{backgroundColor: colors.theme}}>
+      <PhoneShapeWrapper style={metrics.spaceN}>
+        <ScrollView keyboardShouldPersistTaps="handled" style={styles.wrapper}>
+          <StatusBar backgroundColor={colors.theme} barStyle="light-content" />
+          <KeyboardAvoidingView style={{flex: 1}}>
+            <TouchableWithoutFeedback onPress={focus}>
+              <View style={styles.mnemonicInputWrapper}>
+                <TextInput
+                  ref={v => (input = v)}
+                  multiline
+                  numberOfLines={4}
+                  placeholder={i18n.t('mnemonicInputPlaceholder')}
+                  value={mnemonicInput}
+                  onChangeText={setMnemonicInput}
+                  style={styles.mnemonicInput}
+                />
+              </View>
+            </TouchableWithoutFeedback>
 
-        {/*<TextInput*/}
-          {/*multiline*/}
-          {/*numberOfLines={4}*/}
-          {/*placeholder={i18n.t('mnemonicInputPlaceholder')}*/}
-          {/*value={mnemonicInput}*/}
-          {/*onChangeText={setMnemonicInput}*/}
-          {/*style={styles.mnemonicInputWrapper}*/}
-          {/*textAlignVertical="middle"*/}
-         {/*/>*/}
-        <FormRow
-          title={i18n.t('createWalletName')}
-          placeholder={i18n.t('createWalletNamePlaceholder')}
-          bottomDivider
-          value={name}
-          onChangeText={setName}
-          maxLength={12}
-          inputStyle={{paddingLeft: '45%'}}
-         />
-        <FormRow
-          title={i18n.t('createWalletPassword')}
-          placeholder={i18n.t('createWalletPasswordPlaceholder')}
-          bottomDivider
-          value={password}
-          maxLength={20}
-          onChangeText={setPassword}
-          inputStyle={{paddingLeft: '45%'}}
-          secureTextEntry
-         />
-        <FormRow
-          title={i18n.t('createWalletConfirmPassword')}
-          placeholder={i18n.t('createWalletConfirmPasswordPlaceholder')}
-          bottomDivider
-          value={confirmPassword}
-          maxLength={20}
-          onChangeText={setConfirmPassword}
-          inputStyle={{paddingLeft: '45%'}}
-          secureTextEntry
-         />
-        {/*<FormRow*/}
-          {/*title={i18n.t('createWalletPrompt')}*/}
-          {/*bottomDivider*/}
-          {/*placeholder={i18n.t('createWalletPromptPlaceholder')}*/}
-          {/*value={prompt}*/}
-          {/*onChangeText={setPrompt}*/}
-          {/*inputStyle={{paddingLeft: '45%'}}*/}
-         {/*/>*/}
-        <Button
-          iconRight
-          containerStyle={styles.btnContainerStyle}
-          title={i18n.t('next')}
-          onPress={onButtonPress}
-        />
-      </KeyboardAvoidingView>
-    </ScrollView>
+            {/*<TextInput*/}
+              {/*multiline*/}
+              {/*numberOfLines={4}*/}
+              {/*placeholder={i18n.t('mnemonicInputPlaceholder')}*/}
+              {/*value={mnemonicInput}*/}
+              {/*onChangeText={setMnemonicInput}*/}
+              {/*style={styles.mnemonicInputWrapper}*/}
+              {/*textAlignVertical="middle"*/}
+            {/*/>*/}
+            <FormRow
+              title={i18n.t('createWalletName')}
+              placeholder={i18n.t('createWalletNamePlaceholder')}
+              bottomDivider
+              value={name}
+              onChangeText={setName}
+              maxLength={12}
+              inputStyle={{paddingLeft: '45%'}}
+              leftAvatar={<Iconqianbao3 size={scale(22)} />}
+            />
+            <FormRow
+              title={i18n.t('createWalletPassword')}
+              placeholder={i18n.t('createWalletPasswordPlaceholder')}
+              bottomDivider
+              value={password}
+              maxLength={20}
+              onChangeText={setPassword}
+              inputStyle={{paddingLeft: '45%'}}
+              leftAvatar={<Iconmima size={scale(22)} />}
+              secureTextEntry
+            />
+            <FormRow
+              title={i18n.t('createWalletConfirmPassword')}
+              placeholder={i18n.t('createWalletConfirmPasswordPlaceholder')}
+              bottomDivider
+              value={confirmPassword}
+              maxLength={20}
+              onChangeText={setConfirmPassword}
+              inputStyle={{paddingLeft: '45%'}}
+              leftAvatar={<Iconquerenmima size={scale(22)} />}
+              secureTextEntry
+            />
+            {/*<FormRow*/}
+              {/*title={i18n.t('createWalletPrompt')}*/}
+              {/*bottomDivider*/}
+              {/*placeholder={i18n.t('createWalletPromptPlaceholder')}*/}
+              {/*value={prompt}*/}
+              {/*onChangeText={setPrompt}*/}
+              {/*inputStyle={{paddingLeft: '45%'}}*/}
+            {/*/>*/}
+            <Button
+              iconRight
+              buttonStyle={styles.btnStyle}
+              containerStyle={styles.btnContainerStyle}
+              title={i18n.t('next')}
+              onPress={onButtonPress}
+            />
+          </KeyboardAvoidingView>
+        </ScrollView>
+      </PhoneShapeWrapper>
+    </PageWrapper>
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
-    // backgroundColor: colors.pageBackground,
+    backgroundColor: colors.backgroundColor,
     flex: 1,
+    flexDirection: 'column',
+  },
+  btnStyle: {
+    backgroundColor: colors.theme,
+    height: vw(15),
+    borderRadius: 10,
   },
   btnContainerStyle: {
     width: '80%',

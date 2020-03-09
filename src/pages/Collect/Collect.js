@@ -5,9 +5,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   Clipboard,
+  ImageBackground,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import {PrimaryText} from 'react-native-normalization-text';
+import {PrimaryText, H4} from 'react-native-normalization-text';
 import {useSelector} from 'react-redux';
 import {useNavigationParam} from 'react-navigation-hooks';
 import {Icon} from 'react-native-elements';
@@ -18,6 +19,10 @@ import i18n from '../../helpers/i18n/index';
 import chainInfo from '../../config/chainInfo';
 import {isValidNumeric} from '../../helpers/utils/numbers';
 import {Toast} from '../../components/Toast';
+import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
+import Iconshuliang from '../../components/Iconfont/Iconshuliang';
+import {scale} from 'react-native-normalization-text';
+import images from '../../images';
 
 const Collect = props => {
   const [amount, setAmount] = React.useState('');
@@ -48,35 +53,44 @@ const Collect = props => {
 
   return (
     <View style={styles.wrapper}>
-      <View style={styles.qrCodeWrapper}>
-        <QRCode
-          value={`${qrcodeValue}`}
-          size={vw(50)}
-          logoBackgroundColor="transparent"
-        />
-      </View>
-      <View style={styles.amountWrapper}>
-        <PrimaryText>{i18n.t('amount')}:</PrimaryText>
-        <TextInput
-          placeholder={i18n.t('transferAmountPlaceholder')}
-          style={styles.input}
-          value={amount}
-          onChangeText={onChangeText}
-          keyboardType="numeric"
-        />
-        <PrimaryText>{currentToken.symbol}</PrimaryText>
-      </View>
-      <View style={styles.addressWrapper}>
-        <PrimaryText style={styles.address}>{currentWalletAddress}</PrimaryText>
-        <TouchableOpacity onPress={onPressCopy}>
-          <Icon
-            type="material-community"
-            name="content-copy"
-            color={colors.theme}
-            size={vw(4)}
+      <PhoneShapeWrapper style={metrics.spaceN}>
+        <ImageBackground
+          resizeMode="center"
+          imageStyle={styles.imageStyle}
+          style={styles.qrCodeWrapper}
+          source={images.qrCodeBg}>
+          <QRCode
+            value={`${qrcodeValue}`}
+            size={vw(45)}
+            logoBackgroundColor="transparent"
           />
-        </TouchableOpacity>
-      </View>
+        </ImageBackground>
+        <View style={styles.amountWrapper}>
+          <Iconshuliang size={scale(26)} style={styles.iconStyle} />
+          <H4>{i18n.t('amount')}:</H4>
+          <TextInput
+            placeholder={i18n.t('transferAmountPlaceholder')}
+            style={styles.input}
+            value={amount}
+            onChangeText={onChangeText}
+            keyboardType="numeric"
+          />
+          <PrimaryText>{currentToken.symbol}</PrimaryText>
+        </View>
+        <View style={styles.addressWrapper}>
+          <PrimaryText style={styles.address}>
+            {currentWalletAddress}
+          </PrimaryText>
+          <TouchableOpacity onPress={onPressCopy}>
+            <Icon
+              type="material-community"
+              name="content-copy"
+              color={colors.theme}
+              size={vw(4)}
+            />
+          </TouchableOpacity>
+        </View>
+      </PhoneShapeWrapper>
     </View>
   );
 };
@@ -84,23 +98,38 @@ const Collect = props => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: colors.pageBackground,
+    backgroundColor: colors.theme,
   },
   qrCodeWrapper: {
     backgroundColor: '#fff',
-    height: '44%',
-    minHeight: vh(30),
-    paddingTop: '8%',
+    height: vw(54),
+    // minHeight: vh(30),
+    // paddingTop: '8%',
+    marginTop: vh(5),
     justifyContent: 'center',
     alignItems: 'center',
   },
+  imageStyle: {
+    width: vw(56),
+    height: vw(56),
+    marginLeft: '50%',
+    // translateX: -vw(26),
+    top: -vw(1.5),
+    transform: [{translateX: -vw(27)}],
+  },
   amountWrapper: {
+    marginTop: vh(3),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-end',
     backgroundColor: '#fff',
     paddingBottom: metrics.spaceS,
     paddingHorizontal: metrics.spaceL,
+  },
+  iconStyle: {
+    position: 'relative',
+    top: 2,
+    marginRight: metrics.spaceS,
   },
   input: {
     borderBottomWidth: StyleSheet.hairlineWidth * 2,
@@ -115,10 +144,12 @@ const styles = StyleSheet.create({
   addressWrapper: {
     flexDirection: 'row',
     marginTop: metrics.spaceS,
-    backgroundColor: '#fff',
+    backgroundColor: colors.cardBg,
     paddingVertical: metrics.spaceS,
-    paddingHorizontal: metrics.spaceL,
+    paddingHorizontal: metrics.spaceS,
+    marginHorizontal: metrics.spaceS,
     alignItems: 'center',
+    borderRadius: 8,
   },
   address: {
     flex: 1,

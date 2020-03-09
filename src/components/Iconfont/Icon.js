@@ -2,6 +2,33 @@
 
 import React from 'react';
 
+import Iconshouxufei from './Iconshouxufei';
+import Icongouxuanzhong from './Icongouxuanzhong';
+import Icongou from './Icongou';
+import Iconshuliang from './Iconshuliang';
+import IconwodeGuanyuwomen from './IconwodeGuanyuwomen';
+import Iconjiaoyijilu from './Iconjiaoyijilu';
+import IconTokens from './IconTokens';
+import Iconyuyanshezhi from './Iconyuyanshezhi';
+import Icontoken from './Icontoken';
+import Iconbeizhu from './Iconbeizhu';
+import Iconmima from './Iconmima';
+import Iconquerenmima from './Iconquerenmima';
+import Iconqukuai from './Iconqukuai';
+import Icongou1 from './Icongou1';
+import Icongouxuanzhong1 from './Icongouxuanzhong1';
+import Iconqianbao3 from './Iconqianbao3';
+import Iconjine from './Iconjine';
+import Icondizhi from './Icondizhi';
+import Iconshouxufeishuai from './Iconshouxufeishuai';
+import Iconku from './Iconku';
+import IconSmile from './IconSmile';
+import Iconku1 from './Iconku1';
+import Iconku2 from './Iconku2';
+import Iconfabuguanggao from './Iconfabuguanggao';
+import Iconzhangfu1 from './Iconzhangfu1';
+import Iconchengjiaoliang1 from './Iconchengjiaoliang1';
+import Iconjiage4 from './Iconjiage4';
 import Iconnew from './Iconnew';
 import Iconjiazai from './Iconjiazai';
 import Iconbrowser from './Iconbrowser';
@@ -20,6 +47,7 @@ import Iconwode from './Iconwode';
 import Iconquestion from './Iconquestion';
 import IconquestionCopy from './IconquestionCopy';
 import IconquestionRedCopy from './IconquestionRedCopy';
+import IconwalletblueCopy from './IconwalletblueCopy';
 import Iconzichanbaoguanli from './Iconzichanbaoguanli';
 import Iconsuo from './Iconsuo';
 import Iconqianbao from './Iconqianbao';
@@ -47,6 +75,60 @@ import Iconscan from './Iconscan';
 // And then regenerate icons by using cli command.
 export const Icon = ({ color, name, size, ...rest }) => {
   switch (name) {
+    case 'shouxufei':
+      return <Iconshouxufei size={size} color={color} {...rest} />;
+    case 'gouxuanzhong':
+      return <Icongouxuanzhong size={size} color={color} {...rest} />;
+    case 'gou':
+      return <Icongou size={size} color={color} {...rest} />;
+    case 'shuliang':
+      return <Iconshuliang size={size} color={color} {...rest} />;
+    case 'wode-guanyuwomen':
+      return <IconwodeGuanyuwomen size={size} color={color} {...rest} />;
+    case 'jiaoyijilu':
+      return <Iconjiaoyijilu size={size} color={color} {...rest} />;
+    case 'Tokens':
+      return <IconTokens size={size} color={color} {...rest} />;
+    case 'yuyanshezhi':
+      return <Iconyuyanshezhi size={size} color={color} {...rest} />;
+    case 'token':
+      return <Icontoken size={size} color={color} {...rest} />;
+    case 'beizhu':
+      return <Iconbeizhu size={size} color={color} {...rest} />;
+    case 'mima':
+      return <Iconmima size={size} color={color} {...rest} />;
+    case 'querenmima':
+      return <Iconquerenmima size={size} color={color} {...rest} />;
+    case 'qukuai':
+      return <Iconqukuai size={size} color={color} {...rest} />;
+    case 'gou1':
+      return <Icongou1 size={size} color={color} {...rest} />;
+    case 'gouxuanzhong1':
+      return <Icongouxuanzhong1 size={size} color={color} {...rest} />;
+    case 'qianbao3':
+      return <Iconqianbao3 size={size} color={color} {...rest} />;
+    case 'jine':
+      return <Iconjine size={size} color={color} {...rest} />;
+    case 'dizhi':
+      return <Icondizhi size={size} color={color} {...rest} />;
+    case 'shouxufeishuai':
+      return <Iconshouxufeishuai size={size} color={color} {...rest} />;
+    case 'ku':
+      return <Iconku size={size} color={color} {...rest} />;
+    case 'smile':
+      return <IconSmile size={size} color={color} {...rest} />;
+    case 'ku1':
+      return <Iconku1 size={size} color={color} {...rest} />;
+    case 'ku2':
+      return <Iconku2 size={size} color={color} {...rest} />;
+    case 'fabuguanggao':
+      return <Iconfabuguanggao size={size} color={color} {...rest} />;
+    case 'zhangfu1':
+      return <Iconzhangfu1 size={size} color={color} {...rest} />;
+    case 'chengjiaoliang1':
+      return <Iconchengjiaoliang1 size={size} color={color} {...rest} />;
+    case 'jiage4':
+      return <Iconjiage4 size={size} color={color} {...rest} />;
     case 'new':
       return <Iconnew size={size} color={color} {...rest} />;
     case 'jiazai':
@@ -83,6 +165,8 @@ export const Icon = ({ color, name, size, ...rest }) => {
       return <IconquestionCopy size={size} color={color} {...rest} />;
     case 'question-red-copy':
       return <IconquestionRedCopy size={size} color={color} {...rest} />;
+    case 'walletblue-copy':
+      return <IconwalletblueCopy size={size} color={color} {...rest} />;
     case 'zichanbaoguanli':
       return <Iconzichanbaoguanli size={size} color={color} {...rest} />;
     case 'suo':

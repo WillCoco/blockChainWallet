@@ -10,7 +10,7 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import _filter from 'lodash/filter';
 import {PrimaryText} from 'react-native-normalization-text';
-import {vw} from '../../helpers/metric/index';
+import {vw, metrics} from '../../helpers/metric/index';
 import colors from '../../helpers/colors';
 import Word from './Word';
 
@@ -56,16 +56,9 @@ const styles = StyleSheet.create({
     flex: -1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingVertical: vw(2),
+    paddingHorizontal: '2%',
   },
-  wordWrapper: {
-    paddingHorizontal: vw(4),
-    paddingVertical: vw(0.5),
-    marginHorizontal: vw(3),
-    marginVertical: vw(1.5),
-    backgroundColor: colors.theme,
-    borderRadius: vw(0.5),
-  },
+  wordWrapper: {},
   input: {
     width: '100%',
     position: 'absolute',

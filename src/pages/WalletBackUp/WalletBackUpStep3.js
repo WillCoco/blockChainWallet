@@ -13,6 +13,7 @@ import i18n from '../../helpers/i18n';
 import {MnemonicInput, MnemonicPrint} from '../../components/mnemonic';
 import mnemonicTypes from '../../components/mnemonic/mnemonicTypes';
 import {Toast} from '../../components/Toast';
+import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
 import {wallet} from '../../redux/actions/';
 
 export default () => {
@@ -73,48 +74,57 @@ export default () => {
   };
 
   return (
-    <ScrollView style={styles.wrapper}>
-      <MnemonicPrint
-        data={wordsInput || ''}
-        wrapperStyle={styles.mnemonicPrintWrapper}
-      />
-      <View>
-        <PrimaryText style={styles.title}>
-          {i18n.t('backupGuideText')}
-        </PrimaryText>
-      </View>
+    <View style={styles.wrapper}>
+      <PhoneShapeWrapper>
+        <ScrollView style={styles.contentWrapper}>
+          <MnemonicPrint
+            data={wordsInput || ''}
+            wrapperStyle={styles.mnemonicPrintWrapper}
+          />
+          <View>
+            <PrimaryText style={styles.title}>
+              {i18n.t('backupGuideText')}
+            </PrimaryText>
+          </View>
 
-      <MnemonicInput
-        data={unorderedMnemonic.current || ''}
-        wrapperStyle={styles.mnemonicInputWrapper}
-        onWordPress={onWordPress}
-        mnemonicType={mnemonicTypes.INPUT}
-        restTimes={restTimes}
-      />
-      <View style={styles.buttonsWrapper}>
-        <Button
-          containerStyle={styles.btnContainerStyle}
-          title={i18n.t('complete')}
-          onPress={complete}
-        />
-        <Button
-          type="outline"
-          containerStyle={styles.btnContainerStyle}
-          title={i18n.t('reset')}
-          onPress={reset}
-        />
-      </View>
-    </ScrollView>
+          <MnemonicInput
+            data={unorderedMnemonic.current || ''}
+            wrapperStyle={styles.mnemonicInputWrapper}
+            onWordPress={onWordPress}
+            mnemonicType={mnemonicTypes.INPUT}
+            restTimes={restTimes}
+          />
+          <View style={styles.buttonsWrapper}>
+            <Button
+              containerStyle={styles.btnContainerStyle}
+              buttonStyle={styles.btnStyle}
+              title={i18n.t('complete')}
+              onPress={complete}
+            />
+            <Button
+              type="outline"
+              containerStyle={styles.btnContainerStyle}
+              title={i18n.t('reset')}
+              onPress={reset}
+            />
+          </View>
+        </ScrollView>
+      </PhoneShapeWrapper>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
+    flex: 1,
+    backgroundColor: colors.theme,
+  },
+  contentWrapper: {
     backgroundColor: '#fff',
     paddingHorizontal: metrics.spaceS,
   },
   mnemonicPrintWrapper: {
-    marginHorizontal: '2%',
+    // marginHorizontal: '2%',
     marginTop: metrics.spaceN,
     backgroundColor: colors.pageBackground,
   },
@@ -135,4 +145,9 @@ const styles = StyleSheet.create({
     width: '44%',
     alignSelf: 'center',
   },
+  btnStyle: {
+    backgroundColor: colors.theme,
+    // height: scale(58),
+    // borderRadius: vw(2),
+  }
 });

@@ -4,7 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   InteractionManager,
-  Clipboard
+  Clipboard,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {Icon, Button} from 'react-native-elements';
@@ -21,6 +21,11 @@ import {Toast} from '../../components/Toast';
 import NavBar from '../../components/NavBar';
 // import Dialog from '../../components/Dialog';
 import {Overlay} from '../../components/Mask';
+import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
+import PageWrapper from '../../components/PageWrapper';
+import Iconqianbao3 from '../../components/Iconfont/Iconqianbao3';
+import Icondaochu from '../../components/Iconfont/Icondaochu';
+import {scale} from 'react-native-normalization-text';
 
 const WalletDetails = props => {
   // const [password, setPassword] = useState('');
@@ -159,7 +164,7 @@ const WalletDetails = props => {
   };
 
   return (
-    <>
+    <PageWrapper style={{backgroundColor: colors.theme}}>
       <NavBar
         title={currentWalletName}
         rightElement={
@@ -169,78 +174,84 @@ const WalletDetails = props => {
         }
         onRight={saveWallet}
       />
-      <View style={styles.addressCard}>
-        <PrimaryText style={styles.addressText}>
-          {_get(currentWallet, 'address')}
-        </PrimaryText>
-        <TouchableOpacity onPress={() => copy(_get(currentWallet, 'address'))}>
-          <Icon
-            type="material-community"
-            name="content-copy"
-            color="white"
-            size={vw(4)}
+      <PhoneShapeWrapper style={{marginTop: metrics.spaceN}}>
+        <View style={styles.addressCard}>
+          <PrimaryText style={styles.addressText}>
+            {_get(currentWallet, 'address')}
+          </PrimaryText>
+          <TouchableOpacity
+            onPress={() => copy(_get(currentWallet, 'address'))}>
+            <Icon
+              type="material-community"
+              name="content-copy"
+              color="blue"
+              size={vw(4)}
+            />
+          </TouchableOpacity>
+        </View>
+        <View>
+          {/* 钱包名称 */}
+          <FormRow
+            title={i18n.t('walletName')}
+            placeholder={
+              _get(currentWallet, 'name') || i18n.t('createWalletNamePlaceholder')
+            }
+            bottomDivider
+            value={_get(currentWallet, 'name')}
+            onChangeText={v => setCurrentWallet({...currentWallet, name: v})}
+            maxLength={12}
+            inputStyle={{paddingLeft: '35%'}}
+            leftAvatar={<Iconqianbao3 size={scale(26)} />}
           />
-        </TouchableOpacity>
-      </View>
-      <View>
-        {/* 钱包名称 */}
-        <FormRow
-          title={i18n.t('walletName')}
-          placeholder={
-            _get(currentWallet, 'name') || i18n.t('createWalletNamePlaceholder')
-          }
-          bottomDivider
-          value={_get(currentWallet, 'name')}
-          onChangeText={v => setCurrentWallet({...currentWallet, name: v})}
-          maxLength={12}
-          inputStyle={{paddingLeft: '35%'}}
+          {/* 修改密码 */}
+          {/* <FormRow
+            title={i18n.t('changePassword')}
+            chevron={{size: 24}}
+            bottomDivider
+            containerStyle={{}}
+            onPress={navigate('ChangePassword')}
+            editable={false}
+          /> */}
+          {/* todo:导出私钥 */}
+          {/*<FormRow*/}
+            {/*title={i18n.t('exportPrivateKey')}*/}
+            {/*chevron={{size: 24}}*/}
+            {/*bottomDivider*/}
+            {/*containerStyle={{paddingTop: metrics.spaceN}}*/}
+            {/*onPress={onPressExportPrivateKey}*/}
+            {/*editable={false}*/}
+          {/*/>*/}
+          <FormRow
+            title={i18n.t('exportMnemonic')}
+            chevron={{size: 36}}
+            bottomDivider
+            containerStyle={{paddingTop: metrics.spaceN}}
+            onPress={onPressExportMnemonic}
+            editable={false}
+            leftAvatar={<Icondaochu size={scale(26)} />}
+          />
+        </View>
+        {/* 删除钱包 */}
+        <Button
+          iconRight
+          buttonStyle={styles.btnContainer}
+          title={i18n.t('deleteWallet')}
+          onPress={onPressDelete}
         />
-        {/* 修改密码 */}
-        {/* <FormRow
-          title={i18n.t('changePassword')}
-          chevron={{size: 24}}
-          bottomDivider
-          containerStyle={{}}
-          onPress={navigate('ChangePassword')}
-          editable={false}
-        /> */}
-        {/* todo:导出私钥 */}
-        {/*<FormRow*/}
-          {/*title={i18n.t('exportPrivateKey')}*/}
-          {/*chevron={{size: 24}}*/}
-          {/*bottomDivider*/}
-          {/*containerStyle={{paddingTop: metrics.spaceN}}*/}
-          {/*onPress={onPressExportPrivateKey}*/}
-          {/*editable={false}*/}
-        {/*/>*/}
-        <FormRow
-          title={i18n.t('exportMnemonic')}
-          chevron={{size: 24}}
-          bottomDivider
-          containerStyle={{paddingTop: metrics.spaceN}}
-          onPress={onPressExportMnemonic}
-          editable={false}
-        />
-      </View>
-      {/* 删除钱包 */}
-      <Button
-        iconRight
-        buttonStyle={styles.btnContainer}
-        title={i18n.t('deleteWallet')}
-        onPress={onPressDelete}
-      />
-    </>
+      </PhoneShapeWrapper>
+    </PageWrapper>
   );
 };
 
 const styles = StyleSheet.create({
   walletCard: {
     marginBottom: 15,
+
   },
   addressCard: {
     maxWidth: '100%',
     height: vh(20),
-    backgroundColor: colors.theme,
+    backgroundColor: colors.cardBg,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -248,15 +259,17 @@ const styles = StyleSheet.create({
   },
   addressText: {
     maxWidth: '80%',
-    color: '#fff',
+    color: '#999',
     textAlign: 'center',
     marginRight: metrics.spaceS,
   },
   btnContainer: {
     width: '90%',
+    height: vw(15),
     marginTop: vw(10),
     alignSelf: 'center',
-    backgroundColor: colors.warn,
+    backgroundColor: colors.btnWarn,
+    borderRadius: 10,
   },
 });
 

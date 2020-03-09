@@ -17,6 +17,7 @@ import i18n from '../../helpers/i18n';
 import colors from '../../helpers/colors';
 import TxRow from '../../components/TxRow/TxRow';
 import PageWrapper from '../../components/PageWrapper';
+import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
 
 export default () => {
   const currentWallet = useSelector(
@@ -79,7 +80,14 @@ export default () => {
   };
 
   return (
-    <PageWrapper statusBarProps={{backgroundColor: colors.theme, barStyle: 'light-content'}}>
+    <PageWrapper
+      style={{
+        backgroundColor: colors.theme,
+      }}
+      statusBarProps={{
+        backgroundColor: colors.theme,
+        barStyle: 'light-content',
+      }}>
       <NavBar
         title={currentWallet && currentWallet.name}
         rightElement={
@@ -97,18 +105,20 @@ export default () => {
         }
         // safeViewStyle={{paddingTop: 0}}
       />
-      <PagingList
-        size={14}
-        //item显示的布局
-        renderItem={({item}) => renderItem(item)}
-        //下拉刷新相关
-        onRefresh={v => onRefresh.current(v)}
-        //加载更多
-        onEndReached={onEndReached}
-        // ItemSeparatorComponent={separator}
-        keyExtractor={(item, index) => 'index' + index + item}
-        initialNumToRender={14}
-      />
+      <PhoneShapeWrapper styles={{marginTop: metrics.spaceN}}>
+        <PagingList
+          size={14}
+          //item显示的布局
+          renderItem={({item}) => renderItem(item)}
+          //下拉刷新相关
+          onRefresh={v => onRefresh.current(v)}
+          //加载更多
+          onEndReached={onEndReached}
+          // ItemSeparatorComponent={separator}
+          keyExtractor={(item, index) => 'index' + index + item}
+          initialNumToRender={14}
+        />
+      </PhoneShapeWrapper>
     </PageWrapper>
   );
 };

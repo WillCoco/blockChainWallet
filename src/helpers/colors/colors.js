@@ -37,6 +37,7 @@ const colors = {
   otcTheme: '#2698FB',
   success: '#00CC96',
   warn: '#ff0000',
+  btnWarn: '#FF4855',
   pageBackground: '#fbfbfb',
   pageDarkBackground: '#051C3F', // 管理钱包
   disable: '#cccccc',
@@ -50,6 +51,7 @@ const colors = {
   iconBg4: '#C9F0EE',
   greyShadow: '#ccc',
   notice: '#FFCC01',
+  cardBg: '#F6F7FB',
 };
 
 module.exports = colors;

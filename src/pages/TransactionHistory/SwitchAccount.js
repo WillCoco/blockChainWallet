@@ -12,6 +12,8 @@ import colors from '../../helpers/colors';
 import {metrics} from '../../helpers/metric';
 import {useSelector, useDispatch} from 'react-redux';
 import {wallet} from '../../redux/actions';
+import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
+import PageWrapper from '../../components/PageWrapper';
 
 export default () => {
   const walletsList = useSelector(
@@ -30,25 +32,36 @@ export default () => {
     });
   };
 
-  return walletsList.map((item, index) => {
-    return (
-      <View style={styles.wrapper} key={item.address}>
-        {index !== 0 && <Divider style={{backgroundColor: colors.divider}} />}
-        <TouchableOpacity
-          style={styles.accountItem}
-          onPress={() => checkWallet(item.address)}>
-          <PrimaryText>{item.name}</PrimaryText>
-          {item.address === currentWallet.address && (
-            <Icon name="check" color={colors.theme} />
-          )}
-        </TouchableOpacity>
-      </View>
-    );
-  });
+  return (
+    <PageWrapper style={{backgroundColor: colors.theme}}>
+      <PhoneShapeWrapper style={{marginTop: metrics.spaceN}}>
+        {walletsList.map((item, index) => {
+          return (
+            <View style={styles.walletItem} key={item.address}>
+              {index !== 0 && (
+                <Divider style={{backgroundColor: colors.divider}} />
+              )}
+              <TouchableOpacity
+                style={styles.accountItem}
+                onPress={() => checkWallet(item.address)}>
+                <PrimaryText>{item.name}</PrimaryText>
+                {item.address === currentWallet.address && (
+                  <Icon name="check" color={colors.theme} />
+                )}
+              </TouchableOpacity>
+            </View>
+          );
+        })}
+      </PhoneShapeWrapper>
+    </PageWrapper>
+  );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
+    backgroundColor: colors.theme,
+  },
+  walletItem: {
     paddingHorizontal: metrics.spaceS,
   },
   accountItem: {
