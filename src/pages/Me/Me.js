@@ -60,11 +60,11 @@ const Me = () => {
             key={i}
             title={i18n.t(item.title)}
             leftIcon={item.icon}
-            bottomDivider={item.bottomDivider}
+            // bottomDivider={item.bottomDivider}
             chevron={<IconArrowDetail size={scale(32)} />}
             style={styles.listItemStyle}
             onPress={() => navigate(item.route)}
-            containerStyle={{borderColor: colors.divider}}
+            containerStyle={{borderColor: colors.divider, height: '100%'}}
           />
         ))}
       </PhoneShapeWrapper>
@@ -78,12 +78,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.theme,
   },
   listItemStyle: {
-    // fontWeight: '500',
-    // fontSize: scale(30),
-    width: vw(100),
-    paddingHorizontal: vw(4),
+    marginHorizontal: vw(4),
     height: vw(16),
     borderRadius: 4,
     marginTop: 10,
+    overflow: 'hidden',
   },
 });

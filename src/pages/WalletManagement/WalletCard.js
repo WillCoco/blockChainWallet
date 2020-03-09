@@ -27,9 +27,10 @@ export default props => {
 const styles = StyleSheet.create({
   walletCard: {
     marginBottom: 15,
+    overflow: 'hidden',
+    borderRadius: 16,
   },
   walletCardBg: {
     backgroundColor: colors.cardBg,
-    borderRadius: 16,
   },
 });
