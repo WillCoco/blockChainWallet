@@ -17,6 +17,7 @@
    */
   const bip44Constants = {
     "BTY": 0x80003333,
+    "TBTC": 0x80000001,
     "BTC": 0x80000000,
     "BCH": 0x80000091,
     "BSV": 0x800000ec,
@@ -30,6 +31,27 @@
   console.log(btyWalletObj, 'btyWalletObj');
   console.log(btyAccount1, 'bty');
 
+
+  const {bip39, bitcoinjs} = window;
+  const {bip32} = bitcoinjs;
+  const seed = bip39.mnemonicToSeedSync(mnemonic); // btcWalletObj.rootSeed 一致
+  const root = bip32.fromSeed(seed); // btcWalletObj.masterKey 一致
+  const strng = root.toBase58();
+
+  /**
+   * TBTC
+   */
+  const tbtcWalletObj = newWalletFromMnemonic(mnemonic, bip44Constants.TBTC);
+  const tbtcAccount1 = tbtcWalletObj.newAccount('钱包1');
+
+  const tbtcPath = "m/44'/1'/0'/0/0";
+  const tbtcChild = root.derivePath(tbtcPath);
+  console.log(tbtcAccount1, 'xxxxx');
+
+  console.log(tbtcAccount1.address, 123123);
+  console.log(getAddress(tbtcChild, bitcoinjs.networks.testnet), '测试网地址')
+
+
   /**
    * BTC
    */
@@ -41,12 +63,10 @@
 //  console.log(btcWalletObj.masterKey, 'btcWalletObj.masterKey');
 
   // bitcoinjs
-  const {bip39, bitcoinjs} = window;
-  const {bip32} = bitcoinjs;
-  const seed = bip39.mnemonicToSeedSync(mnemonic); // btcWalletObj.rootSeed 一致
-  const root = bip32.fromSeed(seed); // btcWalletObj.masterKey 一致
-  const strng = root.toBase58();
 
+
+
+  console.log('btc总私钥：', btcWalletObj.masterKey.toBase58()); // 总私钥
   console.log('btc总私钥一致：', btcWalletObj.masterKey.toBase58() === strng); // 总私钥一致
 
 //  // 方式1
@@ -69,15 +89,15 @@
     .derive(0)
     .derive(0);
 
-  let tbtcChild = root
-    .deriveHardened(44)
-    .deriveHardened(1)
-    .deriveHardened(0)
-    .derive(0)
-    .derive(0);
+//  let tbtcChild1 = root
+//    .deriveHardened(44)
+//    .deriveHardened(1)
+//    .deriveHardened(0)
+//    .derive(0)
+//    .derive(0);
 
-  const testAddress = getAddress(tbtcChild, bitcoinjs.networks.testnet); // 测试
-  const address = getAddress(btcChild); // 正式测试
+//  const testAddress = getAddress(tbtcChild1, bitcoinjs.networks.testnet); // 测试
+  const address = getAddress(btcChild); // 正式
 //  console.log(testAddress, 'testAddress');
   console.log('btc地址一致：', address === '1BQB8PgxTvRS7wLkZrqwPrck87Do1d3xbK', ); // 地址一致
 
@@ -87,6 +107,7 @@
   const bchWalletObj = newWalletFromMnemonic(mnemonic, bip44Constants.BCH);
   const bchAccount1 = bchWalletObj.newAccount('钱包1');
   console.log(bchAccount1, 'bch');
+  console.log('bch总私钥：', bchWalletObj.masterKey.toBase58()); // 总私钥
 
   // bitcoinjs
   const bchPath = "m/44'/145'/0'/0/0";
@@ -113,6 +134,56 @@
   function getAddress(node, network) {
     return bitcoinjs.payments.p2pkh({ pubkey: node.publicKey, network }).address;
   }
+
+  const p = {
+    name: '123123',
+    mnemonic: 'enjoy juice vicious join animal joke bean basic tongue child acid learn silly outdoor stereo',
+    password: '123123123',
+    coins: {
+      BTC: {
+        symbol: 'BTC',
+        name: 'BTC',
+        bip44Constant: 0x80000000,
+        order: 2,
+        satoshiDigit: 8,
+        showDigit: 8,
+        defaultFee: 400,
+        explorerUrl: 'https://www.utcpark.com',
+        explorerTestUrl: 'https://www.utcpark.com',
+        // 内置节点
+        nodes: {
+          testnet: [
+            'https://testnet.utcpark.com:8801/',
+          ],
+          mainnet: [
+            'https://testnet.utcpark.com:8801/',
+          ],
+        },
+      },
+      TBTC: {
+        symbol: 'TBTC',
+        name: 'TBTC',
+        bip44Constant: 0x80000001,
+        order: 0,
+        satoshiDigit: 8,
+        showDigit: 8,
+        defaultFee: 400,
+        explorerUrl: 'https://www.utcpark.com',
+        explorerTestUrl: 'https://www.utcpark.com',
+        // 内置节点
+        nodes: {
+          testnet: [
+            'https://testnet.utcpark.com:8801/',
+          ],
+          mainnet: [
+            'https://testnet.utcpark.com:8801/',
+          ],
+        },
+      },
+    },
+  }
+
+  window.walletBase.recoverWalletFromMnemonic(p)
 
 </script>
 </html>
