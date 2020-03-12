@@ -8,10 +8,13 @@ import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
 import AssetCard from './AssetCard';
 import Histories from './Histories';
+import UTCHistories from './UTCHistories';
 import NavBar from '../../components/NavBar';
 import PageWrapper from '../../components/PageWrapper';
 import DotsNet from '../../components/PageWrapper/PageBackgrounds/DotsNet';
 import device from '../../helpers/utils/device';
+import {coins} from '../../config';
+import BaseCoin from '../../coins/baseCoin';
 
 const AssetDetail = props => {
   const {navigate} = useNavigation();
@@ -19,9 +22,9 @@ const AssetDetail = props => {
     _get(state, ['assets', 'assetsList']),
   );
 
-  const token = useNavigationParam('token') || {};
+  const asset = useNavigationParam('token') || {};
 
-  const tokenSymbol = token.symbol;
+  const tokenSymbol = asset.symbol;
 
   const findTokenBySymbol = symbol => {
     const tokenIndex = _findIndex(assetsList, o => symbol === o.symbol);
@@ -30,6 +33,9 @@ const AssetDetail = props => {
 
   // 当前币种
   const currentToken = findTokenBySymbol(tokenSymbol);
+
+  // 是否UTC和其附属token
+  const isUTCHomogeneous = BaseCoin.isHomogeneous(asset, coins.UTC.symbol);
 
   return (
     <PageWrapper style={styles.wrapper} pageBackgroundImg={<DotsNet />}>
@@ -42,7 +48,7 @@ const AssetDetail = props => {
         }}
       />
       <AssetCard asset={currentToken} />
-      <Histories />
+      {isUTCHomogeneous ? <UTCHistories /> : <Histories />}
     </PageWrapper>
   );
 };

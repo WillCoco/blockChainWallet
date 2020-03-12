@@ -13,13 +13,13 @@ import {upperUnit} from '../../helpers/utils/numbers';
 import {Toast} from '../../components/Toast';
 import AssetCardWrapper from '../../components/AssetCardWrapper';
 import IconHelp from '../../components/Iconfont/Iconquestion';
-import {chainInfo} from '../../config';
+import {coins} from '../../config';
 
 const AssetCard = props => {
   /**
    * 是否主币
    */
-  const isMainCoin = _get(props.asset, 'symbol') === chainInfo.symbol;
+  const isUTC = _get(props.asset, 'symbol') === coins.UTC.symbol;
 
   /**
    * 汇率
@@ -60,7 +60,7 @@ const AssetCard = props => {
   let bottomRightValue = _get(props, ['asset', 'frozenFmt']);
   let toastText;
 
-  if (isMainCoin) {
+  if (isUTC) {
     balanceFmt = _get(props, ['asset', 'show', 'balanceTotalFmt']);
     assetsValue = getAssetsValue(
       +_get(props, ['asset', 'show', 'balanceTotal']),

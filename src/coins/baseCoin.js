@@ -110,6 +110,15 @@ class BaseCoin {
   }
 
   /**
+   * 资产对象是否属于该币种活着该币种下的token
+   */
+  static isHomogeneous(asset, symbol) {
+    return (
+      _get(asset, 'symbol') === symbol || _get(asset, 'attachSymbol') === symbol
+    );
+  }
+
+  /**
    * 获取节点
    * 内置节点经用户、算法加工过的
    */
@@ -132,15 +141,6 @@ class BaseCoin {
   get recommendFee() {
     const recommendFee = 0;
     return recommendFee || this.defaultFee;
-  }
-
-  /**
-   * 获取价格汇率
-   */
-  get priceRate() {
-    const {getState} = store;
-    const rate = _get(getState(), ['assets', 'exchangeRate', this.symbol]);
-    return rate;
   }
 
   /**
@@ -207,14 +207,27 @@ class BaseCoin {
   }
 
   /**
-   * 获取人民币价格
+   * 获取某个资产价格汇率
    */
-  get priceCNY() {
-    const balance = upperUnit(_get(this.asset, 'balance'), {
+  getPriceRate(symbol = this.symbol) {
+    const {getState} = store;
+    const rate = _get(getState(), ['assets', 'exchangeRate', symbol]);
+    return rate || 0;
+  }
+
+  /**
+   * 获取账户该币种以及token的人民币价值方法
+   */
+  getPriceCNY(asset) {
+    const defaultValue = '0.00';
+    if (!asset) {
+      return defaultValue;
+    }
+    const balance = upperUnit(_get(asset, 'balance'), {
       pretty: false,
       scale: this.satoshiDigit,
     });
-    const CNY = (balance * this.priceRate).toFixed(2) || '0.00';
+    const CNY = balance * this.getPriceRate(asset.symbol).toFixed(2) || defaultValue;
 
     return CNY;
   }

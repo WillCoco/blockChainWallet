@@ -48,10 +48,10 @@ class TBTC extends BaseCoin {
    * 网络获取余额
    */
   async getAsset() {
-    const r = await btcServer.get(`${this.node.serverUrl}/GetUnspentTxInfo`, {});
-
+    // const r = await btcServer.get(`${this.node.serverUrl}/GetUnspentTxInfo`, {});
+    //
     return Promise.resolve({
-      r,
+      // r,
       symbol: this.symbol,
     });
   }

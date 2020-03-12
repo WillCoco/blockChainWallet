@@ -20,7 +20,7 @@ import {appSettingAction} from '../../redux/actions/';
 import safePage from '../../helpers/safePage/';
 import {Overlay} from '../../components/Mask';
 import AssetCardWrapper from '../../components/AssetCardWrapper';
-import {upperUnit} from '../../helpers/utils/numbers';
+// import {upperUnit} from '../../helpers/utils/numbers';
 import Iconshoukuan from '../../components/Iconfont/Iconshoukuan2';
 import images from '../../images';
 import Iconliaotianzhuanzhang from '../../components/Iconfont/Iconzhuanzhang';
@@ -34,7 +34,7 @@ import {
   actionTypes,
 } from '../../components/DappsWebview';
 import {chainInfo, env, url} from '../../config';
-import '../../coins';
+import coinsModal from '../../coins';
 
 const Dashboard = () => {
   const {navigate} = useNavigation();
@@ -61,17 +61,6 @@ const Dashboard = () => {
     state => _get(state, ['assets', 'exchangeRate']) || {},
   );
 
-  const getRate = React.useCallback(
-    symbol => {
-      if (!symbol) {
-        console.warn('not fount symbol:', symbol);
-        return 0;
-      }
-      return _get(rate, symbol) || 0;
-    },
-    [rate],
-  );
-
   /**
    * 计算资产总价值
    */
@@ -79,22 +68,12 @@ const Dashboard = () => {
     let total = 0;
 
     assetsList.forEach((asset = {}) => {
-      // 是否主币
-      const isMainCoin = asset.symbol === chainInfo.symbol;
-
-      const coinsQuantity = isMainCoin
-        ? +_get(asset, ['show', 'balanceTotal'])
-        : +asset.balance;
-
-      const newValue = getRate(asset.symbol) * coinsQuantity;
-      total += newValue ? newValue : 0;
+      const assetValue = coinsModal[(asset.attachSymbol || asset.symbol)].getPriceCNY(asset);
+      total += +assetValue ? +assetValue : 0;
     });
 
-    // console.log(total, 'total asset');
-    // total = total.toFixed(2);
-    const v = upperUnit(total, {pretty: false});
-    return new BigNumber(v).toFormat(2);
-  }, [assetsList, getRate]);
+    return new BigNumber(total).toFormat(2);
+  }, [assetsList, rate]);
 
   /**
    * 钱包列表、当前钱包

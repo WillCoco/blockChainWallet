@@ -1,3 +1,12 @@
+/**
+ * @author: Xu Ke
+ * @date: 2020/3/12 5:54 PM
+ * @Description:
+ *  UTC专属的资产详情交易，参杂许多utc特定业务逻辑
+ * @lastModificationBy:
+ * @lastModification:
+ * @lastModificationDate:
+ */
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
@@ -15,7 +24,7 @@ import TxRow from '../../components/TxRow/TxRow';
 import {getHistory, getAllHistory} from '../../helpers/chain33';
 import safePage from '../../helpers/safePage';
 import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
-import {chainInfo} from '../../config';
+import {coins} from '../../config';
 
 const PAGE_SIZE = 14;
 const INITIAL_PAGE_SIZE = 14;
@@ -26,9 +35,9 @@ const Histories = props => {
     _get(state, ['assets', 'assetsList']),
   );
 
-  const asset = useNavigationParam('token') || {};
+  const coin = useNavigationParam('token') || {};
 
-  const tokenSymbol = asset.symbol;
+  const tokenSymbol = coin.symbol;
 
   const findTokenBySymbol = symbol => {
     const tokenIndex = _findIndex(assetsList, o => symbol === o.symbol);
@@ -44,7 +53,7 @@ const Histories = props => {
   );
 
   // 是否token
-  const isToken = asset.isToken;
+  const isToken = coin.isToken;
 
   // token地址
   const coinAddress = isToken
@@ -101,7 +110,7 @@ const Histories = props => {
   const allOnRefresh = () => {
     return getAllHistory({
       addr: coinAddress,
-      symbol: isToken ? currentToken.symbol : chainInfo.symbol,
+      symbol: isToken ? currentToken.symbol : coins.UTC.symbol,
       start: 0,
       size: PAGE_SIZE,
     });
@@ -109,7 +118,7 @@ const Histories = props => {
   const allOnEndReached = (page, size) => {
     return getAllHistory({
       addr: coinAddress,
-      symbol: isToken ? currentToken.symbol : chainInfo.symbol,
+      symbol: isToken ? currentToken.symbol : coins.UTC.symbol,
       start: page.current * size,
       size,
     });
@@ -165,9 +174,110 @@ const Histories = props => {
   };
 
   /**
-   * tabs数据
+   * token页兑换记录
    */
-  let tabs = [allHistories, inHistories, outHistories];
+  // 是查单个token兑换 还是查所有token兑换
+  // const exchangeExecutor = isToken ? '' : 'exchange';
+  // const exchangeSymbol = isToken ? currentToken.symbol : '';
+  const exchangeHistories = {
+    key: '4',
+    getTitle: () => i18n.t('exchangeHistories'),
+    size: PAGE_SIZE,
+    initialNumToRender: INITIAL_PAGE_SIZE,
+    renderItem: item => {
+      return renderItem(item, {
+        leftMainText: i18n.t('exchangeUTC'),
+      });
+    },
+    onRefresh: () =>
+      onRefresh({
+        sender: coinAddress,
+        executor: 'exchange',
+        action: 'ExchangeOp',
+        symbol: currentToken.symbol,
+      }),
+    onEndReached: (page, size) =>
+      onEndReached(page, size, {
+        sender: coinAddress,
+        executor: 'exchange',
+        action: 'ExchangeOp',
+        symbol: currentToken.symbol,
+      }),
+  };
+  /**
+   * 主币页记录
+   */
+  const withdrawHistories = {
+    key: 'withdrawHistories',
+    getTitle: () => i18n.t('withdraw'),
+    size: PAGE_SIZE,
+    initialNumToRender: INITIAL_PAGE_SIZE,
+    renderItem: item => {
+      return renderItem(item, {
+        leftMainText: i18n.t('withdraw'),
+      });
+    },
+    onRefresh: () =>
+      onRefresh({
+        sender: coinAddress,
+        // executor: 'withdraw',
+        action: 'withdraw',
+        symbol: coins.UTC.symbol,
+      }),
+    onEndReached: (page, size) =>
+      onEndReached(page, size, {
+        sender: coinAddress,
+        // executor: 'withdraw',
+        action: 'withdraw',
+        symbol: coins.UTC.symbol,
+      }),
+  };
+
+  /**
+   * 释放记录
+   */
+  const unlockHistories = {
+    key: '5',
+    getTitle: () => i18n.t('unlockHistories'),
+    size: PAGE_SIZE,
+    initialNumToRender: INITIAL_PAGE_SIZE,
+    renderItem: item => {
+      return renderItem(item, {
+        leftMainText: i18n.t('unlocked'),
+      });
+    },
+    onRefresh: () =>
+      onRefresh({
+        sender: coinAddress,
+        executor: 'exchange',
+        action: 'ExchangeActiveOp',
+        symbol: '',
+      }),
+    onEndReached: (page, size) =>
+      onEndReached(page, size, {
+        sender: coinAddress,
+        executor: 'exchange',
+        action: 'ExchangeActiveOp',
+        symbol: 'TC',
+      }),
+  };
+
+  /**
+   * tabs数据
+   * utc显示兑换和解锁
+   * tc显示解锁
+   * 其他代币只显示转账
+   * todo: utc显示的兑换锁仓应该是所有代币的，不能和tc的一套数据
+   */
+  let tabs;
+
+  if (currentToken.symbol === 'UTC') {
+    tabs = [allHistories, inHistories, outHistories, withdrawHistories, unlockHistories];
+  } else if (currentToken.symbol === 'TC') {
+    tabs = [allHistories, inHistories, outHistories, exchangeHistories];
+  } else {
+    tabs = [allHistories, inHistories, outHistories];
+  }
 
   return (
     <PhoneShapeWrapper>
@@ -182,7 +292,7 @@ const Histories = props => {
             styles.leftBtnStyle,
           ])}
           // icon={<Icon name="exit-to-app" color={colors.textWhite} />}
-          onPress={() => navigate({routeName: 'Transfer', params: {token: asset}})}
+          onPress={() => navigate({routeName: 'Transfer', params: {token}})}
         />
         <Button
           title={i18n.t('collect')}
