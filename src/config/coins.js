@@ -16,6 +16,12 @@ const bip44Constants = {
   BSV: 0x800000ec,
 };
 
+const testBasicUrl = 'https://testnet.utcpark.com:8801/';
+const testServerUrl = 'https://testnet.utcpark.com:3333/api/v1';
+
+const prodBasicUrl = 'https://mainnet.utcpark.com:8801/'; // rpc
+const prodServerUrl = 'https://mainnet.utcpark.com:3333/api/v1'; // 额外服务
+
 const coins = {
   UTC: {
     symbol: 'UTC',
@@ -33,10 +39,16 @@ const coins = {
     // 内置节点
     nodes: {
       testnet: [
-        'https://testnet.utcpark.com',
+        {
+          basicUrl: testBasicUrl,
+          serverUrl: testServerUrl,
+        },
       ],
       mainnet: [
-        'https://mainnet.utcpark.com',
+        {
+          basicUrl: prodBasicUrl,
+          serverUrl: prodServerUrl,
+        },
       ],
     },
   },
@@ -52,11 +64,11 @@ const coins = {
     explorerTestUrl: 'https://www.utcpark.com',
     // 内置节点
     nodes: {
-      testnet: [
-        'https://rest.bitcoin.com/v2/',
-      ],
       mainnet: [
-        'https://rest.bitcoin.com/v2/',
+        {
+          basicUrl: testBasicUrl,
+          serverUrl: testServerUrl,
+        },
       ],
     },
   },
@@ -72,11 +84,11 @@ const coins = {
     explorerTestUrl: 'https://www.utcpark.com',
     // 内置节点
     nodes: {
-      testnet: [
-        'https://testnet.utcpark.com:8801/',
-      ],
       mainnet: [
-        'https://testnet.utcpark.com:8801/',
+        {
+          basicUrl: prodBasicUrl,
+          serverUrl: prodServerUrl,
+        },
       ],
     },
   },
@@ -92,11 +104,11 @@ const coins = {
     explorerTestUrl: 'https://www.utcpark.com',
     // 内置节点
     nodes: {
-      testnet: [
-        'https://testnet.utcpark.com:8801/',
-      ],
       mainnet: [
-        'https://testnet.utcpark.com:8801/',
+        {
+          basicUrl: prodBasicUrl,
+          serverUrl: prodServerUrl,
+        },
       ],
     },
   },
@@ -112,11 +124,11 @@ const coins = {
     explorerTestUrl: 'https://www.utcpark.com',
     // 内置节点
     nodes: {
-      testnet: [
-        'https://testnet.utcpark.com:8801/',
-      ],
       mainnet: [
-        'https://testnet.utcpark.com:8801/',
+        {
+          basicUrl: prodBasicUrl,
+          serverUrl: prodServerUrl,
+        },
       ],
     },
   },

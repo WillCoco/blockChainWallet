@@ -238,6 +238,7 @@ export function getHistory(params) {
  * 获取主币、指定token全部类型分页交易历史
  */
 export function getAllHistory(params) {
+  console.log(params, 'paramsparams');
   return extraServer
     .get(`${url.serverUrl}/allTokenTransferiInfo`, {
       params: {

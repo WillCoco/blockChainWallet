@@ -113,14 +113,16 @@ class BaseCoin {
    * 获取节点
    * 内置节点经用户、算法加工过的
    */
-  get nodes() {
-    return this.nodes;
-  }
+  nodes;
 
   /**
    * 获取当前使用的节点
    */
-  get currentNode() {
+  get testNode() {
+    return this.nodes.testnet[0];
+  }
+
+  get node() {
     return this.nodes.mainnet[0];
   }
 

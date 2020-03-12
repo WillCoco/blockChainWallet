@@ -27,10 +27,10 @@ const Histories = props => {
     _get(state, ['assets', 'assetsList']),
   );
 
-  const token = useNavigationParam('token') || {};
-  console.log(token, 'token123123')
+  const coin = useNavigationParam('token') || {};
+  console.log(coin, 'token123123')
 
-  const tokenSymbol = token.symbol;
+  const tokenSymbol = coin.symbol;
 
   const findTokenBySymbol = symbol => {
     const tokenIndex = _findIndex(assetsList, o => symbol === o.symbol);
@@ -46,7 +46,12 @@ const Histories = props => {
   );
 
   // 是否token
-  const isToken = currentToken.symbol !== chainInfo.symbol;
+  const isToken = coin.isToken;
+
+  // token地址
+  const coinAddress = isToken
+    ? _get(currentWallet, ['coins', currentToken.attachSymbol, 'address'])
+    : _get(currentWallet, ['coins', currentToken.symbol, 'address']);
   /**
    * 渲染行
    */
@@ -97,7 +102,7 @@ const Histories = props => {
    */
   const allOnRefresh = () => {
     return getAllHistory({
-      addr: currentWallet.address,
+      addr: coinAddress,
       symbol: isToken ? currentToken.symbol : chainInfo.symbol,
       start: 0,
       size: PAGE_SIZE,
@@ -105,7 +110,7 @@ const Histories = props => {
   };
   const allOnEndReached = (page, size) => {
     return getAllHistory({
-      addr: currentWallet.address,
+      addr: coinAddress,
       symbol: isToken ? currentToken.symbol : chainInfo.symbol,
       start: page.current * size,
       size,

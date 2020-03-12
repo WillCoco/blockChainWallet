@@ -22,7 +22,7 @@ const coins = {
 };
 
 // setTimeout(() => {
-//   coins.BTC.getAsset();
+//   console.log(coins.TBTC.node(), 222);
 // }, 4000);
 
 module.exports = coins;

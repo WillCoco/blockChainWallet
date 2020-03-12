@@ -78,7 +78,7 @@ const Dashboard = () => {
   const assetsValue = React.useMemo(() => {
     let total = 0;
 
-    assetsList.forEach(asset => {
+    assetsList.forEach((asset = {}) => {
       // 是否主币
       const isMainCoin = asset.symbol === chainInfo.symbol;
 
