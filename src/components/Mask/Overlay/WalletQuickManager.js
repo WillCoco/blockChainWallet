@@ -36,9 +36,9 @@ const WalletQuickManager = props => {
   };
 
   // 切换钱包
-  const checkWallet = address => {
+  const checkWallet = id => {
     // checkWallet
-    dispatch(wallet.updateCurrentWallet(address));
+    dispatch(wallet.updateCurrentWallet(id));
     closeOverlay();
   };
 
@@ -60,7 +60,7 @@ const WalletQuickManager = props => {
                 return (
                   <TouchableWithoutFeedback
                     key={`wallet_${index}`}
-                    onPress={() => checkWallet(_get(wallet, 'address'))}>
+                    onPress={() => checkWallet(_get(wallet, 'id'))}>
                     <View style={styles.walletRow}>
                       <PrimaryText>{props.walletFormat(wallet)}</PrimaryText>
                     </View>

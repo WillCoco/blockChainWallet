@@ -37,7 +37,7 @@ server.interceptors.request.use(config => {
 server.interceptors.response.use(
   (res = {}) => {
     const {url} = res.config || {};
-    // console.log(res, 'response_server')
+    console.log(res, 'response_server')
     // const list = _filter(responseIgnoreList, (u) => url.match(u)) || [];
     // if (list.length !== 0) {
     //   return res;
@@ -45,7 +45,7 @@ server.interceptors.response.use(
 
     // 使用拦截器统一状态码处理
     const {message, result, error} = _get(res, 'data') || {};
-    
+
     // 1.token过期 退出
     // if (code === '13000') {
     //   server.resInterceptorsCallback['13000'] &&

@@ -17,6 +17,7 @@ import {vh, vw, metrics} from '../../helpers/metric/index';
 import colors from '../../helpers/colors/index';
 import i18n from '../../helpers/i18n/index';
 import chainInfo from '../../config/chainInfo';
+import {coins} from '../../config';
 import {isValidNumeric} from '../../helpers/utils/numbers';
 import {Toast} from '../../components/Toast';
 import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
@@ -27,17 +28,31 @@ import images from '../../images';
 const Collect = props => {
   const [amount, setAmount] = React.useState('');
 
-  // 获取当前钱包地址
-  const currentWalletAddress = useSelector(
-    state => _get(state, ['wallets', 'currentWallet', 'address']) || '',
-  );
-
   // 当前转账币种，默认主币种
-  const currentToken = useNavigationParam('currentToken') || chainInfo.symbol;
-  // console.log(currentToken, 'currentToken')
+  const currentCoinSymbol =
+    _get(useNavigationParam('currentToken'), 'symbol') || coins.UTC.symbol;
+
+  // 如果是token，币种模型使用主币种的
+  const attachSymbol = _get(useNavigationParam('currentToken'), 'attachSymbol');
+
+  // 获取当前钱包地址
+  const currentWalletAddress = useSelector(state => {
+    const finallySymbol = attachSymbol || currentCoinSymbol;
+    return (
+      _get(state, [
+        'wallets',
+        'currentWallet',
+        'coins',
+        finallySymbol,
+        'address',
+      ]) || ''
+    );
+  });
+
+  // console.log(currentCoinSymbol, currentWalletAddress, 'currentWalletAddress')
   let qrcodeValue = `${
     chainInfo.chainName
-  }:${currentWalletAddress}?amount=${amount}&token=${currentToken.symbol}`;
+  }:${currentWalletAddress}?amount=${amount}&token=${currentCoinSymbol}`;
 
   // 复制
   const onPressCopy = () => {
@@ -75,7 +90,7 @@ const Collect = props => {
             onChangeText={onChangeText}
             keyboardType="numeric"
           />
-          <PrimaryText>{currentToken.symbol}</PrimaryText>
+          <PrimaryText>{currentCoinSymbol}</PrimaryText>
         </View>
         <View style={styles.addressWrapper}>
           <PrimaryText style={styles.address}>

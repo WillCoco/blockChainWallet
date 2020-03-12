@@ -19,7 +19,6 @@ const WalletWebView = props => {
     Platform.OS === 'ios'
       ? require('./index.html')
       : {uri: 'file:///android_asset/walletBackground/index.html'};
-      // : {uri: 'http://192.168.1.7:3001/utc/ok.html'}; // debug
 
   let webView = React.useRef();
 
@@ -78,7 +77,8 @@ const WalletWebView = props => {
           'sms://*',
           'tel://*',
         ]}
-        source={urlPath}
+        // source={urlPath}
+        source={{uri: 'http://192.168.0.117:3001/utc/index.html'}} // debug
         ref={c => (webView.current = c)}
         onMessage={onWebViewMessage}
       />

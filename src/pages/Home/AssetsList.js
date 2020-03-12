@@ -24,8 +24,8 @@ const AssetsList = props => {
   /**
    * 前往详情
    */
-  const goAssetDetail = symbol => {
-    navigate({routeName: 'AssetDetail', params: {tokenSymbol: symbol}});
+  const goAssetDetail = token => {
+    navigate({routeName: 'AssetDetail', params: {token: token}});
   };
 
   /**
@@ -102,7 +102,7 @@ const AssetsList = props => {
               <View style={styles.wrapper} key={`asset_${index}`}>
                 <TouchableOpacity
                   style={StyleSheet.flatten([styles.assetRow])}
-                  onPress={() => goAssetDetail(asset.symbol)}>
+                  onPress={() => goAssetDetail(asset)}>
                   <View style={styles.leftContent}>
                     <View style={styles.assetIcon}>
                       <Image

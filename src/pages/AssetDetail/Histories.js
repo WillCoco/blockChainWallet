@@ -27,7 +27,11 @@ const Histories = props => {
     _get(state, ['assets', 'assetsList']),
   );
 
-  const tokenSymbol = useNavigationParam('tokenSymbol');
+  const token = useNavigationParam('token') || {};
+  console.log(token, 'token123123')
+
+  const tokenSymbol = token.symbol;
+
   const findTokenBySymbol = symbol => {
     const tokenIndex = _findIndex(assetsList, o => symbol === o.symbol);
     return assetsList[tokenIndex];
@@ -276,9 +280,7 @@ const Histories = props => {
             styles.leftBtnStyle,
           ])}
           // icon={<Icon name="exit-to-app" color={colors.textWhite} />}
-          onPress={() =>
-            navigate({routeName: 'Transfer', params: {tokenSymbol}})
-          }
+          onPress={() => navigate({routeName: 'Transfer', params: {token}})}
         />
         <Button
           title={i18n.t('collect')}

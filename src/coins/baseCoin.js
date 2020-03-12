@@ -12,6 +12,8 @@ import _filter from 'lodash/filter';
 import stores from '../redux/store';
 import {upperUnit} from '../helpers/utils/numbers';
 import bip44Constants from './bip44Constants';
+import {createTransaction, sendTransaction} from '../helpers/chain33';
+import {WVEvent, eventTypes} from '../helpers/eventEmmiter';
 
 const {store} = stores;
 
@@ -94,20 +96,32 @@ class BaseCoin {
   }
 
   /**
+   * 获取当前钱包该币种地址
+   */
+  get address() {
+    const {getState} = store;
+    return _get(getState(), [
+      'wallets',
+      'currentWallet',
+      'coins',
+      this.symbol,
+      'address',
+    ]);
+  }
+
+  /**
    * 获取节点
    * 内置节点经用户、算法加工过的
    */
   get nodes() {
-    return [];
+    return this.nodes;
   }
 
   /**
    * 获取当前使用的节点
    */
   get currentNode() {
-    const {getState} = store;
-    const rate = _get(getState(), ['wallets', 'currentWallet']);
-    return rate;
+    return this.nodes.mainnet[0];
   }
 
   /**
@@ -128,7 +142,7 @@ class BaseCoin {
   }
 
   /**
-   * 获取余额
+   * 过滤余额
    */
   get asset() {
     const {getState} = store;
@@ -137,6 +151,57 @@ class BaseCoin {
     const assets = _filter(assetsList, o => o.symbol === this.symbol);
 
     return _get(assets, '0');
+  }
+
+  /**
+   * 网络获取余额
+   */
+  getAsset() {
+    return Promise.resolve([
+      {
+        balance: undefined,
+        balanceFmt: undefined,
+        frozen: undefined,
+        frozenFmt: undefined,
+        symbol: this.symbol,
+      },
+    ]);
+  }
+
+  /**
+   * 创建交易
+   */
+  createTransaction(...p) {
+    return createTransaction(p);
+  }
+
+  /**
+   * 签名
+   */
+  sign(params) {
+    return new Promise((resolve, reject) => {
+      WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
+        {
+          payload: {
+            action: eventTypes.SIGN_TX,
+            data: params.data,
+            privateKey: params.privateKey,
+          },
+          callback: v => {
+            resolve(v);
+          },
+        },
+      ]);
+    }).catch(err => {
+      console.log('signTx', err);
+    });
+  }
+
+  /**
+   * 发送交易
+   */
+  sendTransaction(...p) {
+    return sendTransaction(...p);
   }
 
   /**

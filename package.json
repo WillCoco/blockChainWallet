@@ -58,10 +58,10 @@
     "wolfy87-eventemitter": "^5.2.8"
   },
   "devDependencies": {
-    "@33cn/wallet-base": "^1.0.12",
     "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.8.4",
     "@babel/runtime": "^7.7.7",
+    "@hicks/wallet-base": "git+https://github.com/WillCoco/walletBase.git",
     "@react-native-community/eslint-config": "^0.0.5",
     "babel-jest": "^24.9.0",
     "babel-plugin-transform-remove-console": "^6.9.4",

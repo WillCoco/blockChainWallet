@@ -1,15 +1,15 @@
 import {getAddressAsset} from '../helpers/chain33';
 import BaseCoin from './baseCoin';
 
-class UTC extends BaseCoin {
+class BTC extends BaseCoin {
   /**
    * 网络获取余额
    */
-  async getAsset() {
-    const r = (await getAddressAsset({address: this.address})) || {};
-
-    return Promise.resolve(r);
-  }
+  // async getAsset() {
+  //   return Promise.resolve([{
+  //     symbol:
+  //   }]);
+  // }
 }
 
-module.exports = UTC;
+module.exports = BTC;

@@ -24,8 +24,6 @@ const TokensList = props => {
     state => _get(state, ['assets', 'assetsList']) || [],
   );
 
-  console.log(tokenslist, 'tokenslist');
-
   return (
     <>
       <ScrollView>

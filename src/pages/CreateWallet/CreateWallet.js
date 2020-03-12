@@ -15,7 +15,7 @@ import i18n from '../../helpers/i18n';
 import {metrics, vw} from '../../helpers/metric';
 import {eventTypes, WVEvent} from '../../helpers/eventEmmiter';
 import colors from '../../helpers/colors';
-import {chainInfo} from '../../config/';
+import {chainInfo, coins} from '../../config/';
 import FormRow from '../../components/FormRow';
 import {Toast} from '../../components/Toast';
 import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
@@ -101,9 +101,11 @@ const CreateWallet = props => {
           action: eventTypes.CREATE_WALLET,
           name,
           password,
+          coins,
         },
         callback: v => {
           if (v) {
+            console.log(v, 'vvvvvvvvvvv')
             dispatch(wallet.addOrUpdateAWallet(v));
             dispatch(wallet.updateTempMnemonic(v.tempMnemonic));
             navigate('WalletBackUpStep1');

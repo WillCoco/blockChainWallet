@@ -65,7 +65,16 @@ const ScannerScreen = () => {
           transferData['address'] = result;
         }
 
-        replace('Transfer', transferData);
+        // todo 扫码区分币种地址
+        replace({
+          routeName: 'Transfer',
+          params: {
+            token: 'UTC',// 判断
+            transferData,
+          },
+        });
+
+        // replace('Transfer', transferData);
       } else {
         Alert.alert(
           '',

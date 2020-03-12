@@ -25,8 +25,9 @@ export default () => {
   const {goBack} = useNavigation();
 
   // 切换钱包
-  const checkWallet = address => {
-    dispatch(wallet.updateCurrentWallet(address));
+  const checkWallet = id => {
+    // console.log(id, 'idddddd')
+    dispatch(wallet.updateCurrentWallet(id));
     requestAnimationFrame(() => {
       goBack();
     });
@@ -37,15 +38,15 @@ export default () => {
       <PhoneShapeWrapper style={{marginTop: metrics.spaceN}}>
         {walletsList.map((item, index) => {
           return (
-            <View style={styles.walletItem} key={item.address}>
+            <View style={styles.walletItem} key={`${item.id}_wl`}>
               {index !== 0 && (
                 <Divider style={{backgroundColor: colors.divider}} />
               )}
               <TouchableOpacity
                 style={styles.accountItem}
-                onPress={() => checkWallet(item.address)}>
+                onPress={() => checkWallet(item.id)}>
                 <PrimaryText>{item.name}</PrimaryText>
-                {item.address === currentWallet.address && (
+                {item.id === currentWallet.id && (
                   <Icon name="check" color={colors.theme} />
                 )}
               </TouchableOpacity>

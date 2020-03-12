@@ -12,6 +12,7 @@ import {useDispatch} from 'react-redux';
 import {Button} from 'react-native-elements';
 import {scale} from 'react-native-normalization-text';
 import {useNavigation} from 'react-navigation-hooks';
+import {StackActions, NavigationActions} from 'react-navigation';
 import i18n from '../../helpers/i18n';
 // import _get from 'lodash/get';
 import colors from '../../helpers/colors';
@@ -21,12 +22,12 @@ import FormRow from '../../components/FormRow';
 import {Toast} from '../../components/Toast';
 import {wallet} from '../../redux/actions';
 import {eventTypes, WVEvent} from '../../helpers/eventEmmiter';
-import {StackActions, NavigationActions} from 'react-navigation';
 import PageWrapper from '../../components/PageWrapper';
 import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
 import Iconqianbao3 from '../../components/Iconfont/Iconqianbao3';
 import Iconmima from '../../components/Iconfont/Iconmima';
 import Iconquerenmima from '../../components/Iconfont/Iconquerenmima';
+import {coins} from '../../config';
 
 const ImportWallet = () => {
   const {dispatch: navDispatch} = useNavigation();
@@ -96,6 +97,7 @@ const ImportWallet = () => {
       Toast.show({data: i18n.t('invalidMnemonic')});
       return;
     }
+    console.log(coins, 123123)
 
     // 恢复钱包
     WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
@@ -106,6 +108,7 @@ const ImportWallet = () => {
           mnemonic: formattedMnemonicString,
           password,
           prompt,
+          coins,
         },
         callback: v => {
           if (v) {

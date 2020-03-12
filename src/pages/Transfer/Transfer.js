@@ -12,14 +12,14 @@ import _get from 'lodash/get';
 import _filter from 'lodash/filter';
 import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import {metrics, vw} from '../../helpers/metric';
-import {createTransaction, sendTransaction} from '../../helpers/chain33';
 import {Toast} from '../../components/Toast';
 import {wallet, asset} from '../../redux/actions';
 import {chainInfo} from '../../config/';
 import i18n from '../../helpers/i18n';
 import colors from '../../helpers/colors';
-import {isValidNumeric, lowerUnit} from '../../helpers/utils/numbers';
+import {isValidNumeric, lowerUnit, upperUnit} from '../../helpers/utils/numbers';
 import FormRow from '../../components/FormRow';
+import coinsModal from '../../coins';
 import {Loading, Overlay} from '../../components/Mask';
 import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
 import PageWrapper from '../../components/PageWrapper';
@@ -28,9 +28,6 @@ import Iconjine from '../../components/Iconfont/Iconjine';
 import Icondizhi from '../../components/Iconfont/Icondizhi';
 import Iconbeizhu from '../../components/Iconfont/Iconbeizhu';
 import Iconshouxufeishuai from '../../components/Iconfont/Iconshouxufeishuai';
-
-// console.log(chainInfo.symbol, 'chainInfochainInfochainInfo')
-const defaultFee = chainInfo.defaultFee;
 
 export default props => {
   // 当前钱包
@@ -47,40 +44,58 @@ export default props => {
   const unsignedTx = React.useRef();
   const {navigate} = useNavigation();
 
-  // 扫地址，token详情进入带入参数
-  const defaultTransferForm =
-    _get(props, ['props', 'navigation', 'state', 'params']) || {};
+  /**
+   * 扫地址，token详情进入带入参数
+   */
+  const defaultTransferForm = useNavigationParam('transferData') || {};
 
   // token symbol
-  const tokenSymbol = useNavigationParam('tokenSymbol');
+  const token = useNavigationParam('token') || {};
+
+  const tokenSymbol = token.symbol;
+
   defaultTransferForm.token = {
-    symbol: tokenSymbol || chainInfo.symbol, // 默认主币种
+    symbol: tokenSymbol || coinsModal.UTC.symbol, // 默认币种
   };
+  defaultTransferForm.isToken = !!token.isToken;
+
+  // 主币种symbol：主币种指向自己，代码指向主币
+  defaultTransferForm.attachSymbol = !!token.isToken ? token.attachSymbol : defaultTransferForm.token.symbol;
 
   // 是否token转账
-  // console.log(chainInfo.symbol, 'chainInfo.symbol')
-  // console.log(tokenSymbol, 'tokenSymbol')
-
   const [transferForm, setTransferForm] = React.useState(defaultTransferForm);
 
-  // console.log(transferForm, 'transferForm')
+  const isToken = transferForm.isToken;
 
-  const isToken = _get(transferForm, ['token', 'symbol']) !== chainInfo.symbol;
+  const mainCoin = coinsModal[transferForm.attachSymbol || transferForm.token.symbol] || {};
+  // console.log(mainCoin, 'mainCoin');
 
   // 选择token
   const goSelectToken = () => {
     navigate('SelectToken', {
       onSelectToken: token => {
         setTransferForm(transferForm => {
-          // console.log(token, 'tokensss')
+          console.log(token, 'tokensss');
           return {
             ...transferForm,
             token,
+            isToken: !!token.isToken,
+            attachSymbol: token.attachSymbol,
           };
         });
       },
     });
   };
+
+  /**
+   * 币种模型属性
+   */
+  const {
+    defaultFee, // 默认手续费
+    createTransaction, // 创建交易
+    sign, // 签名交易
+    sendTransaction, // 发送交易
+  } = mainCoin || {};
 
   /**
    * 输入金额
@@ -109,7 +124,7 @@ export default props => {
       o => o.symbol === _get(transferForm, ['token', 'symbol']),
     );
 
-    return assets && assets[0];
+    return (assets && assets[0]) || {};
   });
 
   /**
@@ -157,7 +172,7 @@ export default props => {
       if (
         new Bignumber(currentAsset.balance).isLessThan(
           new Bignumber(lowerUnit(safeTransferForm.amount)).plus(
-            lowerUnit(defaultFee),
+            defaultFee,
           ),
         )
       ) {
@@ -176,7 +191,7 @@ export default props => {
       }
 
       // 手续费不足
-      if (new Bignumber(mainAsset.balance).isLessThan(lowerUnit(defaultFee))) {
+      if (new Bignumber(mainAsset.balance).isLessThan(defaultFee)) {
         Toast.show({data: i18n.t('notEnoughFee')});
         return;
       }
@@ -190,7 +205,7 @@ export default props => {
     const params = {
       to: _get(transferForm, 'address'),
       amount: lowerUnit(_get(transferForm, 'amount')),
-      fee: lowerUnit(defaultFee, {needInteger: false}),
+      fee: +defaultFee,
       note: _get(transferForm, 'note'),
       isToken: isToken,
       isWithdraw: false,
@@ -214,7 +229,7 @@ export default props => {
           customData: {
             transferForm: {
               ...transferForm,
-              fee: defaultFee,
+              fee: upperUnit(defaultFee),
             },
             confirmPress: () => {
               Overlay.remove();
@@ -237,14 +252,13 @@ export default props => {
   };
 
   // 签名交易
-  const signTx = async (pwd) => {
+  const signTx = async pwd => {
     Loading.set({visible: true});
 
     // 拿私钥
     const privateKey = await dispatch(
       wallet.aesDecrypt({
         data: currentWallet.encryptedPrivateKey,
-        // password: '11',
         password: pwd,
       }),
     );
@@ -252,9 +266,7 @@ export default props => {
     // console.log(privateKey, 'privateKey');
 
     // 签名交易
-    signedTx.current = await dispatch(
-      wallet.signTx({data: unsignedTx.current, privateKey}),
-    );
+    signedTx.current = await sign({data: unsignedTx.current, privateKey});
 
     if (!signedTx.current) {
       Loading.set({visible: false});
@@ -294,8 +306,15 @@ export default props => {
   /**
    * 单位
    */
-  const unitSymbol =
-    _get(transferForm, ['token', 'symbol']) || chainInfo.symbol;
+  // 金额单位
+  const amountUnit = transferForm.token.symbol;
+  console.log(transferForm, 'transferForm')
+
+  // 手续费单位
+  const feeUnit = transferForm.isToken
+    ? transferForm.attachSymbol
+    : transferForm.token.symbol;
+  console.log(feeUnit, 'feeUnit');
 
   return (
     <PageWrapper style={styles.wrapper}>
@@ -309,7 +328,7 @@ export default props => {
             chevron={{size: 24}}
             // bottomDivider
             onPress={goSelectToken}
-            value={unitSymbol}
+            value={amountUnit}
             editable={false}
             containerStyle={styles.formRow}
             inputStyle={{paddingLeft: scale(140)}}
@@ -322,7 +341,7 @@ export default props => {
             onChangeText={onChangeAmount}
             attachment={
               <TinyText style={styles.balance}>
-                {i18n.t('balance')}: {currentAsset.balanceFmt} {unitSymbol}
+                {i18n.t('balance')}: {currentAsset.balanceFmt} {amountUnit}
               </TinyText>
             }
             containerStyle={styles.formRow}
@@ -349,7 +368,7 @@ export default props => {
           <FormRow
             title={i18n.t('transferFee')}
             leftIcon={<Iconshouxufeishuai size={22} />}
-            value={defaultFee + ' ' + chainInfo.symbol}
+            value={upperUnit(defaultFee) + ' ' + feeUnit}
             editable={false}
             containerStyle={styles.formRow}
             inputStyle={{paddingLeft: scale(140)}}

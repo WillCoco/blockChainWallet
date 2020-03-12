@@ -19,7 +19,10 @@ const AssetDetail = props => {
     _get(state, ['assets', 'assetsList']),
   );
 
-  const tokenSymbol = useNavigationParam('tokenSymbol');
+  const token = useNavigationParam('token') || {};
+
+  const tokenSymbol = token.symbol;
+
   const findTokenBySymbol = symbol => {
     const tokenIndex = _findIndex(assetsList, o => symbol === o.symbol);
     return assetsList[tokenIndex];

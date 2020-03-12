@@ -7,20 +7,22 @@
  * @lastModificationDate:
  */
 import {coins as coinsInfo} from '../config';
-import BaseCoin from './baseCoin';
+import UTC from './UTC';
+import TBTC from './TBTC';
+import BTC from './BTC';
+import BCH from './BCH';
+import BSV from './BSV';
 
-const coins = {};
-Object.keys(coinsInfo).forEach(coinSymbol => {
-  console.log(coinsInfo[coinSymbol], 'coinsInfo[coinSymbol]')
-  coins[coinSymbol] = new BaseCoin(coinsInfo[coinSymbol]);
-});
+const coins = {
+  UTC: new UTC(coinsInfo.UTC),
+  BTC: new BTC(coinsInfo.BTC),
+  TBTC: new TBTC(coinsInfo.TBTC),
+  BCH: new BCH(coinsInfo.BCH),
+  BSV: new BSV(coinsInfo.BSV),
+};
 
-setInterval(() => {
-  console.log(coins.UTC, 'coin1');
-  // console.log(coins.UTC.asset, 'asset');
-  // console.log(coins.UTC.priceCNY, 'asset');
-  // console.log(coins.UTC.symbol, 'symbol');
-}, 4000)
+// setTimeout(() => {
+//   coins.BTC.getAsset();
+// }, 4000);
 
-
-module.exports = BaseCoin;
+module.exports = coins;

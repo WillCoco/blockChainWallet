@@ -8,7 +8,7 @@
  */
 import _get from 'lodash/get';
 import {BigNumber} from 'bignumber.js';
-import {chainInfo} from '../../config';
+import {chainInfo, coins} from '../../config';
 import {upperUnit, lowerUnit} from '../utils/numbers';
 import images from '../../images/index';
 
@@ -90,11 +90,20 @@ export function getAddressAsset(response) {
   }
 
   const {result: accountResult} = accountRes || {};
-  const {result: tokensArray} = tokensRes || [];
+  let {result: tokensArray} = tokensRes || [];
 
   // 主币种symbol
-  accountResult.symbol = chainInfo.coinName;
+  accountResult.symbol = coins.UTC.symbol;
   accountResult.icon = getIcon(accountResult.symbol);
+
+  // token资产添加attachSymbol
+  tokensArray = tokensArray.map(token => {
+    return {
+      ...token,
+      isToken: true,
+      attachSymbol: coins.UTC.symbol,
+    };
+  });
   // console.log(
   //   {result: [accountResult, ...tokensArray]},
   //   'format_getAddressAsset',

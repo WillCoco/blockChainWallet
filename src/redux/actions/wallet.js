@@ -17,6 +17,7 @@ import _findIndex from 'lodash/findIndex';
 import {safeStringify} from '../../helpers/utils/safetyFn';
 import {getAssetByAddress} from './asset';
 import {WVEvent, eventTypes} from '../../helpers/eventEmmiter';
+import {coins} from '../../config';
 
 // import {getAddressAsset} from '../../helpers/chain33/';
 
@@ -47,18 +48,24 @@ export function addOrUpdateAWallet(wallet, shouldFocus = true) {
   return (dispatch, getState) => {
     const walletsList = _get(getState(), ['wallets', 'walletsList']) || [];
 
-    const {walletIndex} = dispatch(findWalletByAddress(wallet.address));
+    // utc地址作为id
+    const walletId = _get(wallet, ['coins', coins.UTC.symbol, 'address']);
+    const {walletIndex} = dispatch(findWalletByAddress(walletId));
 
     let newWalletsList = [...walletsList];
 
     const walletPure = {
+      ...wallet,
+      id: walletId,
       name: wallet.name,
-      address: wallet.address,
+      // address: wallet.address, // to remove
       encryptedMnemonic: wallet.encryptedMnemonic,
       encryptedPrivateKey: wallet.encryptedPrivateKey,
       passwordKey: wallet.passwordKey,
-      backupCompleted: wallet.backupCompleted, // 是否已备份
+      backupCompleted: !!wallet.backupCompleted, // 是否已备份
     };
+
+    console.log(walletPure, 'wallet');
 
     if (walletIndex === -1) {
       // 列表中不存在该钱包 => 新增
@@ -68,17 +75,14 @@ export function addOrUpdateAWallet(wallet, shouldFocus = true) {
       newWalletsList[walletIndex] = walletPure;
     }
 
-    console.log(newWalletsList, 'newWalletsList');
+    // console.log(newWalletsList, 'newWalletsList');
 
     // 更新钱包列表
     dispatch(updateWalletsList(newWalletsList));
 
     // 更新当前钱包
     if (shouldFocus) {
-      dispatch(updateCurrentWallet(wallet.address));
-
-      // 更新钱包数据
-
+      dispatch(updateCurrentWallet(walletId));
     }
   };
 }
@@ -88,12 +92,11 @@ export function addOrUpdateAWallet(wallet, shouldFocus = true) {
  */
 export function removeAWallet(wallet) {
   return (dispatch, getState) => {
-    // console.log(wallet, 1111)
     const walletsList = _get(getState(), ['wallets', 'walletsList']) || [];
     const currentWallet = _get(getState(), ['wallets', 'currentWallet']) || {};
 
     let newWalletsList = [...walletsList];
-    const {walletIndex} = dispatch(findWalletByAddress(wallet.address));
+    const {walletIndex} = dispatch(findWalletByAddress(wallet.id));
 
     if (walletIndex === -1) {
       // 列表中不存在该钱包 => 终止
@@ -108,21 +111,21 @@ export function removeAWallet(wallet) {
     // 更新当前钱包
     if (newWalletsList.length > 0) {
       // 删除后还有钱包，切换到列表中第一个
-      if (wallet.address === currentWallet.address) {
+      if (wallet.id === currentWallet.id) {
         // 删除的是当前钱包，切换到列表中第一个
-        dispatch(updateCurrentWallet(newWalletsList[0].address));
+        dispatch(updateCurrentWallet(newWalletsList[0].id));
       }
     } else {
       // 清空当前钱包
       dispatch(updateCurrentWallet());
     }
-    console.log(newWalletsList, 'newWalletsListnewWalletsListnewWalletsList')
+    // console.log(newWalletsList, 'newWalletsListnewWalletsListnewWalletsList')
     return newWalletsList;
   };
 }
 
 /**
- * 更新钱包列表设置
+ * 更新钱包列表
  */
 export function updateWalletsList(walletsList) {
   return (dispatch, getState) => {
@@ -132,20 +135,21 @@ export function updateWalletsList(walletsList) {
 
 /**
  * 切换当前钱包
- * @param: {string|number} currentWallet - 当前钱包序号
+ * @param: {string} id - 当前钱包id
  */
-export function updateCurrentWallet(address) {
+export function updateCurrentWallet(id) {
   return (dispatch, getState) => {
-    const {wallet} = dispatch(findWalletByAddress(address));
+    const {wallet} = dispatch(findWalletByAddress(id));
     dispatch({
       type: UPDATE_CURRENT_WALLET,
       payload: {currentWallet: wallet},
     });
-    // 先清空资产
+
+    // 先清空资产 todo：恢复成初始模版
     dispatch({type: UPDATE_CURRENT_ASSET, payload: {assetsList: []}});
 
-    // todo: 请求新钱包数据
-    if (wallet && wallet.address) {
+    // todo: 请求新钱包数据（多币种数据）
+    if (wallet) {
       dispatch(getAssetByAddress(wallet.address));
     }
   };
@@ -155,13 +159,13 @@ export function updateCurrentWallet(address) {
  * 根据地址从钱包列表中找钱包
  * @param: {string} address - 寻找的钱包地址
  */
-function findWalletByAddress(address) {
+function findWalletByAddress(id) {
   return (dispatch, getState) => {
     const walletsList = _get(getState(), ['wallets', 'walletsList']) || [];
 
     let newWalletsList = [...walletsList];
 
-    const walletIndex = _findIndex(newWalletsList, o => o.address === address);
+    const walletIndex = _findIndex(newWalletsList, o => o.id === id);
 
     return {
       walletIndex,
@@ -188,7 +192,7 @@ export function validTempMnemonic(mnemonicInput) {
   return (dispatch, getState) => {
     const currentWallet = _get(getState(), ['wallets', 'currentWallet']) || {};
     const tempMnemonic = _get(getState(), ['wallets', 'tempMnemonic']);
-    console.log(tempMnemonic, mnemonicInput, 123123);
+    // console.log(tempMnemonic, mnemonicInput, 123123);
 
     if (tempMnemonic === mnemonicInput) {
       // 验证成功

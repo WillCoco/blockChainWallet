@@ -11,6 +11,7 @@ import {
   UPDATE_EXCHANGE_RATE,
 } from './actionTypes';
 import _get from 'lodash/get';
+import _flatten from 'lodash/flatten';
 import _findIndex from 'lodash/findIndex';
 import {safeStringify} from '../../helpers/utils/safetyFn';
 import {
@@ -21,29 +22,70 @@ import {
   sendTransaction,
   getUTCExchangeRate,
 } from '../../helpers/chain33';
+import coinModals from '../../coins';
+import {coins as coinsInfo} from '../../config';
+
+// /**
+//  * 获取钱包主币和tokens资产
+//  * @param: {string} [address] - 查询地址，默认当前钱包
+//  */
+// export function getAssetByAddress(address) {
+//   return async (dispatch, getState) => {
+//     const finallyAddress =
+//       address || _get(getState(), ['wallets', 'currentWallet', 'address']);
+//
+//     if (!finallyAddress) {
+//       console.log('getAssetByAddress, 无当前地址');
+//       return;
+//     }
+//
+//     const r = (await getAddressAsset({address: finallyAddress})) || {};
+//
+//     dispatch({
+//       type: UPDATE_CURRENT_ASSET,
+//       payload: {assetsList: r.result || []},
+//     });
+//
+//     return r;
+//   };
+// }
 
 /**
  * 获取钱包主币和tokens资产
- * @param: {string} [address] - 查询地址，默认当前钱包
+ * @param: {object} [wallet] - 查询钱包，默认当前钱包
  */
-export function getAssetByAddress(address) {
+export function getAssetByAddress(wallet) {
   return async (dispatch, getState) => {
-    const finallyAddress =
-      address || _get(getState(), ['wallets', 'currentWallet', 'address']);
+    // const finallyWallet =
+    //   wallet || _get(getState(), ['wallets', 'currentWallet']);
+    //
+    // if (!finallyWallet) {
+    //   console.log('getAssetByAddress, 未选择钱包');
+    //   return;
+    // }
 
-    if (!finallyAddress) {
-      console.log('getAssetByAddress, 无当前地址');
-      return;
-    }
+    // const {coins} = finallyWallet;
+    // console.log(coins, 'coinscoinscoinscoins');
 
-    const r = (await getAddressAsset({address: finallyAddress})) || {};
+    const coinKeys = Object.keys(coinsInfo);
+
+    // console.log(coinKeys, 'coinKeyscoinKeyscoinKeys');
+
+    // 所有币种资产数据请求
+    const result = await Promise.all(
+      coinKeys.map(coinKey => coinModals[coinKey].getAsset()),
+    );
+
+    const assetsList = _flatten(result) || [];
+
+    // console.log(assetsList, 'resultttttttttttt');
 
     dispatch({
       type: UPDATE_CURRENT_ASSET,
-      payload: {assetsList: r.result || []},
+      payload: {assetsList: assetsList},
     });
 
-    return r;
+    return assetsList;
   };
 }
 
@@ -80,7 +122,6 @@ export function createTx(params) {
     };
 
     const r = (await createTransaction(finallyParams)) || {};
-    console.log(r, 22222);
 
     if (r.result) {
       dispatch({type: UPDATE_CURRENT_ASSET, payload: {assetsList: r.result}});
