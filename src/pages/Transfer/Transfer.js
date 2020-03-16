@@ -133,7 +133,7 @@ export default props => {
   const mainAsset = useSelector(state => {
     const assets = _filter(
       _get(state, ['assets', 'assetsList']) || [],
-      o => o.symbol === chainInfo.symbol,
+      o => o.symbol === (currentAsset.attachSymbol || currentAsset.symbol),
     );
 
     return assets && assets[0];
@@ -190,6 +190,8 @@ export default props => {
         return;
       }
 
+      console.log(mainAsset.balance, defaultFee, 9999999)
+
       // 手续费不足
       if (new Bignumber(mainAsset.balance).isLessThan(defaultFee)) {
         Toast.show({data: i18n.t('notEnoughFee')});
@@ -219,36 +221,47 @@ export default props => {
     console.log(params, '构造交易params-------');
 
     // 构造交易
-    const tx = await createTransaction(params);
+    const tx = (await createTransaction(params)) || {};
+
+    if (tx.errorMessage) {
+      Toast.show({data: tx.errorMessage});
+      return;
+    }
+
+    // if (!tx.result) {
+    //   Toast.show({
+    //     data: i18n.t('createTxFailed'),
+    //   });
+    //   return;
+    // }
 
     console.log(tx, '构造交易完成-------');
-    if (tx.result) {
-      unsignedTx.current = tx.result;
-      requestAnimationFrame(() => {
-        Overlay.push(Overlay.contentTypes.TX_CONFIRM, {
-          customData: {
-            transferForm: {
-              ...transferForm,
-              fee: upperUnit(defaultFee),
-            },
-            confirmPress: () => {
-              Overlay.remove();
-              Overlay.push(Overlay.contentTypes.DIALOG_PASSWORD_VALID, {
-                dialog: {
-                  canCancel: true,
-                  onValidEnd: (isValid, pwd) => {
-                    if (isValid) {
-                      // 签名发送
-                      signTx(pwd);
-                    }
-                  },
-                },
-              });
-            },
+
+    unsignedTx.current = tx.result;
+    requestAnimationFrame(() => {
+      Overlay.push(Overlay.contentTypes.TX_CONFIRM, {
+        customData: {
+          transferForm: {
+            ...transferForm,
+            fee: upperUnit(defaultFee),
           },
-        });
+          confirmPress: () => {
+            Overlay.remove();
+            Overlay.push(Overlay.contentTypes.DIALOG_PASSWORD_VALID, {
+              dialog: {
+                canCancel: true,
+                onValidEnd: (isValid, pwd) => {
+                  if (isValid) {
+                    // 签名发送
+                    signTx(pwd);
+                  }
+                },
+              },
+            });
+          },
+        },
       });
-    }
+    });
   };
 
   // 签名交易
@@ -263,10 +276,11 @@ export default props => {
       }),
     );
 
-    // console.log(privateKey, 'privateKey');
+    console.log(unsignedTx.current, 'unsignedTx.current');
+    console.log(privateKey, 'privateKey');
 
     // 签名交易
-    signedTx.current = await sign({data: unsignedTx.current, privateKey});
+    signedTx.current = await sign({data: unsignedTx.current, privateKey, cointype: mainAsset.symbol});
 
     if (!signedTx.current) {
       Loading.set({visible: false});

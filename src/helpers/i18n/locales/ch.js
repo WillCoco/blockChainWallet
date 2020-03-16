@@ -175,4 +175,5 @@ export default {
   exchangeEndText: 'TC兑换UTC活动已于2月21日20:30结束',
   exchangeEnd: '兑换活动已结束',
   actionBeforeCreate: '请先创建或导入钱包',
+  createTxFailed: '构建交易失败',
 };

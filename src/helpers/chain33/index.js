@@ -8,7 +8,7 @@
  */
 import _get from 'lodash/get';
 import {url, chainInfo} from '../../config';
-import {server, extraServer} from '../axios';
+import {server, extraServer, btcServer} from '../axios';
 import * as format from './format';
 import {upperUnit} from '../utils/numbers';
 
@@ -146,6 +146,7 @@ export function getAddressAsset(params) {
  * 构造未签名交易
  */
 export function createTransaction(params) {
+  console.log(params, 'paramsparamsparamsparams')
   return server
     .post(url.basicUrl, {
       jsonrpc,
@@ -368,4 +369,108 @@ export function getUTCExchangeRate() {
   return extraServer.post(`${url.otcServerUrl}/transfer/getUtcCny`).then(r => {
     return Promise.resolve(r || {});
   });
+}
+
+/**
+ * BTC getBTCBalance
+ */
+export function getBTCBalance(params) {
+  // if (!params.addr || !params.symbol || !params.url) {
+  //   console.error('getUTXO_缺少必要参数:', params);
+  // }
+
+  console.log(params.addr, 'params.addr')
+  return btcServer
+    .get(`${params.url}/GetUnspentTxInfo`, {
+      params: {
+        addr: params.addr,
+        nettype: 'testnet',
+      },
+    })
+    .then(res => {
+      console.log(res, 'getUTXOrrrrrgetUTXOrrrrrgetUTXOrrrrr')
+      const r = format.btcAssetsBalance(res, params.symbol) || {};
+      console.log(r, 'getUTXOrrrrr')
+      return Promise.resolve(r || {});
+    });
+}
+
+/**
+ * BTC utxo
+ */
+export function getUTXO(params) {
+  if (!params.addr || !params.symbol || !params.url) {
+    console.error('getUTXO_缺少必要参数:', params);
+  }
+  return btcServer
+    .get(`${params.url}/GetUnspentTxInfo`, {
+      params: {
+        addr: params.addr,
+        nettype: 'testnet',
+      },
+    })
+    .then(res => {
+      const r = format.btcUTXO(res) || {};
+      console.log(r, 'getUTXOrrrrr')
+      return Promise.resolve(r || {});
+    });
+}
+
+/**
+ * BTC构造交易
+ */
+export function BTCCreateRawTransaction(params) {
+  const {inputs, outputs} = params || {};
+
+  console.log(inputs, 'inputs')
+  console.log(outputs, 'outputs')
+  return btcServer
+    .post(
+      'http://27.102.114.230:18332',
+      {
+        jsonrpc: '1.0',
+        id: ++callId,
+        method: 'createrawtransaction',
+        params: [inputs, outputs],
+      },
+      {
+        auth: {
+          username: 'lyn',
+          password: '12340987zxl',
+        },
+      },
+    )
+    .then(r => {
+      console.log(r, 'BTCCreateRawTransaction');
+      return Promise.resolve(r || {});
+    });
+}
+
+/**
+ * BTC广播交易
+ */
+export function BTCSendTransaction(params) {
+  const {inputs, outputs} = params || {};
+  return btcServer
+    .post(
+      'http://27.102.114.230:18332',
+      {
+        jsonrpc: '1.0',
+        id: ++callId,
+        method: 'createrawtransaction',
+        params: [inputs, outputs],
+      },
+      {
+        auth: {
+          username: 'lyn',
+          password: '12340987zxl',
+        },
+      },
+    )
+    .then(r => {
+      console.log(r, 'BTCSendTransaction');
+    })
+    .catch(r => {
+      console.log(r, 111111111111111)
+    });
 }

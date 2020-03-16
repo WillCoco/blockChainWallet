@@ -1,7 +1,14 @@
 // import {getAddressAsset} from '../helpers/chain33';
 import _get from 'lodash/get';
 import BaseCoin from './baseCoin';
-import {btcServer} from '../helpers/axios';
+import {
+  BTCCreateRawTransaction,
+  getUTXO as getBTCUTXO,
+  getBTCBalance,
+  BTCSendTransaction,
+} from '../helpers/chain33';
+import * as format from '../helpers/chain33/format';
+import {upperUnit} from '../helpers/utils/numbers';
 
 class TBTC extends BaseCoin {
   /**
@@ -16,78 +23,88 @@ class TBTC extends BaseCoin {
   /**
    * 网络获取utxo
    */
-  getUTXO() {
-    return btcServer.get(`${this.node.serverUrl}/GetUnspentTxInfo`, {
-      params: {
-        addr: '1MUz4VMYui5qY1mxUiG8BQ1Luv6tqkvaiL' || this.address,
-        page: 1,
-        pagesize: 100, // transfer/exchange/coins
-      },
+  async getUTXO() {
+    // console.log(`${this.node.serverUrl}/GetUnspentTxInfo`, 1111)
+    const r = await getBTCUTXO({
+      addr: this.address,
+      symbol: this.symbol,
+      url: this.node.serverUrl,
     });
-    // .then(r => console.log(r, 11111));
+
+    return r && r.result;
   }
 
   /**
    * 选择使用的UTXO
    */
   pickUTXO(amount, UTXOList) {
-    const picked = [];
-    let value = 0;
+    const pickedUTXOList = [];
+    let pickedValue = 0;
     for (let i = 0; i < UTXOList.length; i++) {
-      value += _get(UTXOList, [i, 'value']);
-      picked.push(_get(UTXOList, i));
-      if (value >= amount) {
+      pickedValue += _get(UTXOList, [i, 'value']);
+      pickedUTXOList.push(_get(UTXOList, i));
+      if (pickedValue >= amount) {
         break;
       }
     }
 
-    return value >= amount && picked;
+    return (
+      pickedValue >= amount && {
+        pickedUTXOList: format.btcInputs(pickedUTXOList),
+        pickedValue,
+      }
+    );
   }
 
   /**
    * 网络获取余额
    */
   async getAsset() {
-    // const r = await btcServer.get(`${this.node.serverUrl}/GetUnspentTxInfo`, {});
-    //
-    return Promise.resolve({
-      // r,
+    const r = await getBTCBalance({
+      addr: this.address,
       symbol: this.symbol,
+      url: this.node.serverUrl,
     });
+    return Promise.resolve(r && r.result);
   }
 
   /**
    * 构造交易
    */
-  createTransaction(p) {
-    const {amount, fee} = p || {};
+  createTransaction = async p => {
+    const {amount, fee, to} = p || {};
     const totalAmount = amount + fee;
 
     // 获取utxo
-    const UTXOList = [];
+    // console.log(this.getUTXO, 'this.getUTXO()');
+    const UTXOList = (await this.getUTXO()) || [];
 
-    // 计算使用的utxo
-    const pickedUTXO = this.pickUTXO(totalAmount, UTXOList);
+    const {
+      pickedUTXOList, // 将要使用的utxo
+      pickedValue, // 这些utxo总值
+    } = this.pickUTXO(totalAmount, UTXOList) || {};
 
-    if (!pickedUTXO) {
+    if (!pickedUTXOList) {
       return;
     }
 
     // 调用创建
-    return {};
-  }
+    const r = await BTCCreateRawTransaction({
+      inputs: pickedUTXOList,
+      outputs: [
+        {[to]: upperUnit(amount, {pretty: false})}, // 对方地址和数量
+        {[this.address]: upperUnit(pickedValue - amount, {pretty: false})}, // 剩余找零
+      ],
+    });
+
+    return r && r.result;
+  };
 
   /**
    * 发送交易
    */
-  sendTransaction(...p) {
-    const url = this.currentNode + '';
-
-    btcServer.get(url)
-      .then(r => {
-        console.log(r, 123123)
-      });
-    return {};
+  async sendTransaction(...p) {
+    return await BTCSendTransaction(p);
   }
 }
 

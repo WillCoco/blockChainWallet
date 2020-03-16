@@ -4878,8 +4878,6 @@ var js_sha256_1 = require("js-sha256");
 
 var bitcoinjs_lib_1 = __importDefault(require("bitcoinjs-lib"));
 
-console.log(bitcoinjs_lib_1, 'bitcoinjs_lib_1')
-
 var transaction_json_1 = __importDefault(require("./transaction.json"));
 
 var bip66 = require('bip66');

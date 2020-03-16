@@ -1,6 +1,5 @@
 import _get from 'lodash/get';
 import {createAxios} from './baseServer';
-// import {server} from './server';
 // import {extraServer} from './extraServer';
 
 module.exports = {
@@ -23,13 +22,18 @@ module.exports = {
   btcServer: createAxios({
     responseHandler: function(res) {
       const {status, data, error} = res || {};
+
+      console.log(res, 101001010);
       const resultFormatted = {};
-      resultFormatted.result = _get(data, 'data');
+      resultFormatted.result = data;
       resultFormatted.code = status;
       if (error) {
         resultFormatted.error = error;
       }
       return resultFormatted;
+    },
+    requestHandler: function(config) {
+      console.log(config, '====111');
     },
   }),
 };

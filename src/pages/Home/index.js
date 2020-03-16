@@ -47,7 +47,7 @@ const Home = () => {
 
     // 一直轮询
     const assetsPoller = new Poller({
-      interval: 10 * 1000,
+      interval: 10 * 100000,
       callback: () => {
         getCurrentWalletAssets();
         dispatch(asset.updateExchangeRate());

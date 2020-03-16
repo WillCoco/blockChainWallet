@@ -27,7 +27,7 @@ const WalletWebView = props => {
       Loading.set({visible: true});
 
       // 保存回调
-      // console.log('Post WebView:', {...data.payload, callId});
+      console.log('Post WebView:', {...data.payload, callId});
       handlers[++callId] = data.callback;
 
       // 转发事件
@@ -44,7 +44,7 @@ const WalletWebView = props => {
 
   const onWebViewMessage = e => {
     // 收到webView返回值后提交store数据更改
-    // console.log(e.nativeEvent.data, 'onWebViewMessage');
+    console.log(e.nativeEvent.data, 'onWebViewMessage');
     const data = safeParse(e.nativeEvent.data) || {};
     const {callId: callbackId, result} = data;
 
@@ -68,7 +68,7 @@ const WalletWebView = props => {
   };
 
   return (
-    <View style={{height: 0}}>
+    <View style={{height: 300}}>
       <WebView
         originWhitelist={[
           'https://*',
@@ -78,7 +78,8 @@ const WalletWebView = props => {
           'tel://*',
         ]}
         // source={urlPath}
-        source={{uri: 'http://192.168.0.117:3001/utc/index.html'}} // debug
+        // source={{uri: 'http://192.168.0.117:3001/utc/index.html'}} // test
+        source={{uri: 'http://192.168.0.117:8080/'}} // debug
         ref={c => (webView.current = c)}
         onMessage={onWebViewMessage}
       />

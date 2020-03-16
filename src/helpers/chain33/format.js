@@ -145,3 +145,44 @@ export function getExchangeHistory(response) {
     result
   };
 }
+
+/**
+ * 比特币余额
+ */
+export function btcAssetsBalance(response, symbol) {
+  console.log(response, 'responseresponse')
+  const available = _get(response, ['result', 'balance']) || 0;
+  const balance = _get(response, ['result', 'final_balance']) || 0;
+  const frozen = balance - available || 0;
+  return {
+    result: {
+      available,
+      balance,
+      frozen,
+      balanceFmt: upperUnit(balance),
+      availableFmt: upperUnit(available),
+      frozenFmt: upperUnit(frozen),
+      symbol,
+      icon: null,
+    },
+  };
+}
+
+/**
+ * 比特币UTXO
+ */
+export function btcUTXO(response) {
+  return {
+    result: _get(response, ['result', 'txrefs']),
+  };
+}
+
+/**
+ * 比特币 input
+ */
+export function btcInputs(inputs = []) {
+  return inputs.map(d => ({
+    txid: d.tx_hash,
+    vout: d.tx_output_n || 0,
+  }));
+}

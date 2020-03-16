@@ -21,8 +21,8 @@ const coins = {
   BSV: new BSV(coinsInfo.BSV),
 };
 
-// setTimeout(() => {
-//   console.log(coins.TBTC.node(), 222);
-// }, 4000);
+setTimeout(async () => {
+  // console.log(await coins.TBTC.createTransaction(), 222);
+}, 4000);
 
 module.exports = coins;

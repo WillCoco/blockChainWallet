@@ -9,9 +9,13 @@
 require('core-js');
 require('regenerator-runtime/runtime.js');
 const bitcoinjs = require('bitcoinjs-lib');
+bitcoinjs.default = bitcoinjs;
 const chain33wallet = require('@hicks/wallet-base');
 const {seed, sign} = chain33wallet;
 const cryptoJs = require('crypto-js');
+console.log(cryptoJs, 'cryptoJs')
+console.log(chain33wallet, 'chain33wallet')
+console.log(bitcoinjs.ECPair, 'bitcoinjs')
 
 /**
  * 创建新钱包
@@ -254,11 +258,15 @@ function sha256(params) {
  * @return: {string} object.result - 加密结果
  */
 function signTx(params) {
-  var signed = sign.signRawTransaction(params.data, params.privateKey);
-  return {
-    callId: params.callId,
-    result: signed,
-  };
+  try {
+    var signed = sign.signRawTransaction(params.data, params.privateKey);
+    return {
+      callId: params.callId,
+      result: signed,
+    };
+  } catch (err) {
+    console.log(err, 'rrr')
+  }
 }
 
 // const e = encrypt({data: 'a12345', password: '123'});

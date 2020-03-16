@@ -177,4 +177,5 @@ export default {
   exchangeEndText: 'TC、UTC exchange active end at February 21, 2020',
   exchangeEnd: 'Exchange end',
   actionBeforeCreate: 'No wallet found',
+  createTxFailed: 'Create raw transaction failed',
 };

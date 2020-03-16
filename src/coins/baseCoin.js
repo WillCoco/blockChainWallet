@@ -174,7 +174,7 @@ class BaseCoin {
    * 创建交易
    */
   createTransaction(...p) {
-    return createTransaction(p);
+    return createTransaction(...p);
   }
 
   /**
@@ -203,7 +203,7 @@ class BaseCoin {
    * 发送交易
    */
   sendTransaction(...p) {
-    return sendTransaction(...p);
+    return sendTransaction(p);
   }
 
   /**

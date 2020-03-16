@@ -32,8 +32,8 @@ TransformStream.prototype._flush = function(cb) {
     <head>
         <meta charset="UTF-8">
         <title>Title</title>
-        <!--<script src="http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.3.0"></script>-->
-        <!--<script>new VConsole()</script>-->
+        <script src="http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.3.0"></script>
+        <script>new VConsole()</script>
     </head>
     <body>
         <p>WebView Wallet Helper</p>
@@ -108,7 +108,7 @@ function transform(opts) {
   browserify(path.join(__dirname, opts.input), {
     standalone: opts.name,
   })
-    .require(path.join(__dirname, '../node_modules', opts.require), {expose: 'bitcoinjs-lib'}) // 剥离依赖
+    // .require(path.join(__dirname, '../node_modules', opts.require), {expose: 'bitcoinjs-lib'}) // 剥离依赖 todo module. default
     .transform('babelify', {
       global: opts.global, // node_modules 也转换
       presets: [

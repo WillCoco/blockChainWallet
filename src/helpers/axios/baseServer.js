@@ -12,7 +12,10 @@ import {Toast} from '../../components/Toast';
 import i18n from '../i18n';
 // import _filter from 'lodash/filter';
 
-function createAxios({responseHandler = defaultResponseHandler} = {}) {
+function createAxios({
+  responseHandler = defaultResponseHandler,
+  requestHandler,
+} = {}) {
   const server = axios.create({
     headers: {
       ['Content-Type']: 'application/json',
@@ -26,7 +29,11 @@ function createAxios({responseHandler = defaultResponseHandler} = {}) {
    * 请求拦截
    */
   server.interceptors.request.use(config => {
-    return config;
+    let finallyConfig;
+    if (requestHandler) {
+      finallyConfig = requestHandler(config);
+    }
+    return finallyConfig || config;
   });
 
   /**
@@ -36,8 +43,11 @@ function createAxios({responseHandler = defaultResponseHandler} = {}) {
     if (String(err).match('Network Error')) {
       Toast.show({data: i18n.t('networkErr')});
     }
-    console.log('server error:', err);
-    return Promise.resolve(err);
+
+    return Promise.resolve({
+      errorMessage: _get(err, ['response', 'data', 'error', 'message']),
+      code: _get(err, ['response', 'status']),
+    });
   });
 
   return server;
