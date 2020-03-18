@@ -38,7 +38,7 @@
   const root = bip32.fromSeed(seed); // btcWalletObj.masterKey 一致
   const strng = root.toBase58();
 
-  /**
+   /**
    * TBTC
    */
   const tbtcWalletObj = newWalletFromMnemonic(mnemonic, bip44Constants.TBTC);
@@ -49,8 +49,7 @@
   console.log(tbtcAccount1, 'xxxxx');
 
   console.log(tbtcAccount1.address, 123123);
-  console.log(getAddress(tbtcChild, bitcoinjs.networks.testnet), '测试网地址')
-
+  console.log(getAddress(tbtcChild, bitcoinjs.networks.testnet), '测试网地址');
 
   /**
    * BTC

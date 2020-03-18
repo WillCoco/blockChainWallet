@@ -182,7 +182,7 @@ export function btcUTXO(response) {
  */
 export function btcInputs(inputs = []) {
   return inputs.map(d => ({
-    txid: d.tx_hash,
-    vout: d.tx_output_n || 0,
+    prev_hash: d.prev_hash,
+    output_index: d.output_index || 0,
   }));
 }

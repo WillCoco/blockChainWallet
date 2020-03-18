@@ -2,10 +2,10 @@
 import _get from 'lodash/get';
 import BaseCoin from './baseCoin';
 import {
-  BTCCreateRawTransaction,
+  BTCCreateTransaction,
   getUTXO as getBTCUTXO,
   getBTCBalance,
-  BTCSendTransaction,
+  BTCPushTransaction,
 } from '../helpers/chain33';
 import * as format from '../helpers/chain33/format';
 import {upperUnit} from '../helpers/utils/numbers';
@@ -70,42 +70,55 @@ class TBTC extends BaseCoin {
 
   /**
    * 构造交易
+   * @params p
+   * @param {number} p.amount 金额
+   * @param {to} p.amount 发送目的地址
    */
   createTransaction = async p => {
-    const {amount, fee, to} = p || {};
-    const totalAmount = amount + fee;
-
-    // 获取utxo
-    // console.log(this.getUTXO, 'this.getUTXO()');
-    const UTXOList = (await this.getUTXO()) || [];
-
-    const {
-      pickedUTXOList, // 将要使用的utxo
-      pickedValue, // 这些utxo总值
-    } = this.pickUTXO(totalAmount, UTXOList) || {};
-
-    if (!pickedUTXOList) {
-      return;
-    }
+    const {amount, to} = p || {};
 
     // 调用创建
-    const r = await BTCCreateRawTransaction({
-      inputs: pickedUTXOList,
+    const r = await BTCCreateTransaction({
+      url: this.node.serverUrl,
+      symbol: this.symbol,
+      inputs: [{addresses: [this.address]}],
       outputs: [
-        {[to]: upperUnit(amount, {pretty: false})}, // 对方地址和数量
-        {[this.address]: upperUnit(pickedValue - amount, {pretty: false})}, // 剩余找零
+        {addresses: [to], value: amount}, // 对方地址和数量
+        // {[this.address]: upperUnit(pickedValue - amount, {pretty: false})}, // 剩余找零
       ],
     });
 
-    return r && r.result;
+    // 交易对象
+    const inputs = format.btcInputs(_get(r, ['result', 'tx', 'inputs']));
+    const outputs = _get(r, ['result', 'tx', 'outputs']);
+    const fees = _get(r, ['result', 'tx', 'fees']);
+
+    if (!inputs || !outputs || !fees) {
+      return;
+    }
+
+    return {
+      result: {
+        inputs,
+        outputs,
+        fees,
+      },
+    };
   };
 
   /**
    * 发送交易
    */
-  async sendTransaction(...p) {
-    return await BTCSendTransaction(p);
-  }
+  sendTransaction = async (params, ...p) => {
+    return await BTCPushTransaction(
+      {
+        ...params,
+        url: this.node.serverUrl,
+      },
+      ...p,
+    );
+  };
+
 }
 
 module.exports = TBTC;

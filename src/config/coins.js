@@ -36,6 +36,7 @@ const coins = {
     explorerTestUrl: 'https://www.utcpark.com',
     exchangeAccount: '1AwEALqRjxFCDNWn4M91riDgL9Dc8mHipM',
     minTC2UTCExchangeValue: '1',
+    canTxNote: true,
     // 内置节点
     nodes: {
       testnet: [
@@ -59,9 +60,10 @@ const coins = {
     order: 0,
     satoshiDigit: 8,
     showDigit: 8,
-    defaultFee: 400,
+    defaultFee: null,
     explorerUrl: 'https://www.utcpark.com',
     explorerTestUrl: 'https://www.utcpark.com',
+    canTxNote: false,
     // 内置节点
     nodes: {
       mainnet: [
@@ -79,9 +81,10 @@ const coins = {
     order: 2,
     satoshiDigit: 8,
     showDigit: 8,
-    defaultFee: 400,
+    defaultFee: null,
     explorerUrl: 'https://www.utcpark.com',
     explorerTestUrl: 'https://www.utcpark.com',
+    canTxNote: false,
     // 内置节点
     nodes: {
       mainnet: [
@@ -99,9 +102,10 @@ const coins = {
     order: 3,
     satoshiDigit: 18,
     showDigit: 8,
-    defaultFee: 1000000,
+    defaultFee: null,
     explorerUrl: 'https://www.utcpark.com',
     explorerTestUrl: 'https://www.utcpark.com',
+    canTxNote: false,
     // 内置节点
     nodes: {
       mainnet: [
@@ -119,7 +123,7 @@ const coins = {
     order: 4,
     satoshiDigit: 8,
     showDigit: 8,
-    defaultFee: 400,
+    defaultFee: null,
     explorerUrl: 'https://www.utcpark.com',
     explorerTestUrl: 'https://www.utcpark.com',
     // 内置节点

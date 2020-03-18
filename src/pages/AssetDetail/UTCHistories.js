@@ -292,7 +292,7 @@ const Histories = props => {
             styles.leftBtnStyle,
           ])}
           // icon={<Icon name="exit-to-app" color={colors.textWhite} />}
-          onPress={() => navigate({routeName: 'Transfer', params: {token}})}
+          onPress={() => navigate({routeName: 'Transfer', params: {token: currentToken}})}
         />
         <Button
           title={i18n.t('collect')}

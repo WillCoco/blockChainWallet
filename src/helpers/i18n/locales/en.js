@@ -178,4 +178,5 @@ export default {
   exchangeEnd: 'Exchange end',
   actionBeforeCreate: 'No wallet found',
   createTxFailed: 'Create raw transaction failed',
+  autoTxFee: 'Auto',
 };

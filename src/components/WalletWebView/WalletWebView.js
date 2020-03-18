@@ -30,6 +30,8 @@ const WalletWebView = props => {
       console.log('Post WebView:', {...data.payload, callId});
       handlers[++callId] = data.callback;
 
+      // console.log({...data.payload, callId}, 199191991919)
+
       // 转发事件
       webView.current.postMessage(safeStringify({...data.payload, callId}));
     }
@@ -46,6 +48,12 @@ const WalletWebView = props => {
     // 收到webView返回值后提交store数据更改
     console.log(e.nativeEvent.data, 'onWebViewMessage');
     const data = safeParse(e.nativeEvent.data) || {};
+
+    if (!data) {
+      Toast.show({data: i18n.t('error')});
+      console.warn('调用错误:', data);
+    }
+
     const {callId: callbackId, result} = data;
 
     // console.log(handlers[callbackId], 'handlers[callbackId]');
@@ -59,16 +67,19 @@ const WalletWebView = props => {
         Toast.show({data: i18n.t('error')});
         console.warn('调用错误:', data);
       }
+      console.log(Object.keys(handlers), '1=length');
       delete handlers[callbackId];
+      console.log(Object.keys(handlers), '2=length');
     }
 
-    if (Object.keys(handlers).length === 0) {
+    console.log(Object.keys(handlers), '3=length')
+    // if (Object.keys(handlers).length === 0) {
       Loading.set({visible: false});
-    }
+    // }
   };
 
   return (
-    <View style={{height: 300}}>
+    <View style={{height: 0}}>
       <WebView
         originWhitelist={[
           'https://*',

@@ -22,7 +22,7 @@ const coins = {
 };
 
 setTimeout(async () => {
-  // console.log(await coins.TBTC.createTransaction(), 222);
+  // console.log(await coins.TBTC.sendTransaction({}), 222);
 }, 4000);
 
 module.exports = coins;

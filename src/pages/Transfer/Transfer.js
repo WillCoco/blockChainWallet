@@ -14,7 +14,7 @@ import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import {metrics, vw} from '../../helpers/metric';
 import {Toast} from '../../components/Toast';
 import {wallet, asset} from '../../redux/actions';
-import {chainInfo} from '../../config/';
+import {chainInfo, coins} from '../../config/';
 import i18n from '../../helpers/i18n';
 import colors from '../../helpers/colors';
 import {isValidNumeric, lowerUnit, upperUnit} from '../../helpers/utils/numbers';
@@ -28,6 +28,14 @@ import Iconjine from '../../components/Iconfont/Iconjine';
 import Icondizhi from '../../components/Iconfont/Icondizhi';
 import Iconbeizhu from '../../components/Iconfont/Iconbeizhu';
 import Iconshouxufeishuai from '../../components/Iconfont/Iconshouxufeishuai';
+
+/**
+ * 主页进入默认币种
+ */
+const defaultCoin = {
+  isToken: false,
+  symbol: coins.UTC.symbol,
+};
 
 export default props => {
   // 当前钱包
@@ -55,19 +63,21 @@ export default props => {
   const tokenSymbol = token.symbol;
 
   defaultTransferForm.token = {
-    symbol: tokenSymbol || coinsModal.UTC.symbol, // 默认币种
+    symbol: tokenSymbol || defaultCoin.symbol, // 默认币种
   };
-  defaultTransferForm.isToken = !!token.isToken;
+  defaultTransferForm.isToken = token.isToken || defaultCoin.isToken;
 
   // 主币种symbol：主币种指向自己，代码指向主币
-  defaultTransferForm.attachSymbol = !!token.isToken ? token.attachSymbol : defaultTransferForm.token.symbol;
+  defaultTransferForm.mainSymbol = (token.isToken ? token.attachSymbol : token.symbol) || defaultCoin.symbol;
 
   // 是否token转账
   const [transferForm, setTransferForm] = React.useState(defaultTransferForm);
 
   const isToken = transferForm.isToken;
 
-  const mainCoin = coinsModal[transferForm.attachSymbol || transferForm.token.symbol] || {};
+  // console.log(transferForm, 'transferForm')
+
+  const mainCoin = coinsModal[transferForm.mainSymbol] || {};
   // console.log(mainCoin, 'mainCoin');
 
   // 选择token
@@ -80,12 +90,16 @@ export default props => {
             ...transferForm,
             token,
             isToken: !!token.isToken,
-            attachSymbol: token.attachSymbol,
+            mainSymbol: token.isToken ? token.attachSymbol : token.symbol,
           };
         });
       },
     });
   };
+
+  React.useEffect(() => {
+    console.log(transferForm, 'transferForm====')
+  }, [transferForm])
 
   /**
    * 币种模型属性
@@ -96,6 +110,13 @@ export default props => {
     sign, // 签名交易
     sendTransaction, // 发送交易
   } = mainCoin || {};
+
+  /**
+   * 展示的手续费
+   */
+  // 手续费单位
+  const feeUnit = transferForm.mainSymbol;
+  const txFeeShow = !!mainCoin.defaultFee ? upperUnit(defaultFee) + ' ' + feeUnit : i18n.t('autoTxFee');
 
   /**
    * 输入金额
@@ -190,7 +211,7 @@ export default props => {
         return;
       }
 
-      console.log(mainAsset.balance, defaultFee, 9999999)
+      // console.log(mainAsset.balance, defaultFee, 9999999)
 
       // 手续费不足
       if (new Bignumber(mainAsset.balance).isLessThan(defaultFee)) {
@@ -228,12 +249,12 @@ export default props => {
       return;
     }
 
-    // if (!tx.result) {
-    //   Toast.show({
-    //     data: i18n.t('createTxFailed'),
-    //   });
-    //   return;
-    // }
+    if (!tx.result) {
+      Toast.show({
+        data: i18n.t('createTxFailed'),
+      });
+      return;
+    }
 
     console.log(tx, '构造交易完成-------');
 
@@ -243,7 +264,7 @@ export default props => {
         customData: {
           transferForm: {
             ...transferForm,
-            fee: upperUnit(defaultFee),
+            fee: txFeeShow,
           },
           confirmPress: () => {
             Overlay.remove();
@@ -271,7 +292,7 @@ export default props => {
     // 拿私钥
     const privateKey = await dispatch(
       wallet.aesDecrypt({
-        data: currentWallet.encryptedPrivateKey,
+        data: _get(currentWallet, ['coins', transferForm.mainSymbol, 'encryptedPrivateKey']),
         password: pwd,
       }),
     );
@@ -280,7 +301,13 @@ export default props => {
     console.log(privateKey, 'privateKey');
 
     // 签名交易
-    signedTx.current = await sign({data: unsignedTx.current, privateKey, cointype: mainAsset.symbol});
+    signedTx.current = await sign({
+      data: unsignedTx.current,
+      privateKey,
+      symbol: mainAsset.symbol,
+    });
+
+    console.log(signedTx.current, 'signedTx.current');
 
     if (!signedTx.current) {
       Loading.set({visible: false});
@@ -289,8 +316,8 @@ export default props => {
       return;
     }
 
-    console.log(signedTx.current, 'signedTx.currentsignedTx.current')
-    sendTx({tx: signedTx.current});
+    return
+    sendTx({tx: signedTx.current, symbol: mainAsset.symbol});
   };
 
   // 发送交易
@@ -322,13 +349,8 @@ export default props => {
    */
   // 金额单位
   const amountUnit = transferForm.token.symbol;
-  console.log(transferForm, 'transferForm')
-
-  // 手续费单位
-  const feeUnit = transferForm.isToken
-    ? transferForm.attachSymbol
-    : transferForm.token.symbol;
-  console.log(feeUnit, 'feeUnit');
+  console.log(transferForm, 'transferForm');
+  console.log(mainCoin, 'canTxNote');
 
   return (
     <PageWrapper style={styles.wrapper}>
@@ -369,20 +391,23 @@ export default props => {
             onChangeText={onChangeAddress}
             containerStyle={styles.formRow}
             inputStyle={{paddingLeft: scale(140)}}
+            // attachment={<>}
           />
-          <FormRow
-            title={i18n.t('transferNote')}
-            leftIcon={<Iconbeizhu size={22} />}
-            placeholder={i18n.t('transferNotePlaceholder')}
-            value={_get(transferForm, 'note')}
-            onChangeText={v => setTransferForm({...transferForm, note: v})}
-            containerStyle={styles.formRow}
-            inputStyle={{paddingLeft: scale(140)}}
-          />
+          {mainCoin.canTxNote ? (
+            <FormRow
+              title={i18n.t('transferNote')}
+              leftIcon={<Iconbeizhu size={22} />}
+              placeholder={i18n.t('transferNotePlaceholder')}
+              value={_get(transferForm, 'note')}
+              onChangeText={v => setTransferForm({...transferForm, note: v})}
+              containerStyle={styles.formRow}
+              inputStyle={{paddingLeft: scale(140)}}
+            />
+          ) : null}
           <FormRow
             title={i18n.t('transferFee')}
             leftIcon={<Iconshouxufeishuai size={22} />}
-            value={upperUnit(defaultFee) + ' ' + feeUnit}
+            value={txFeeShow}
             editable={false}
             containerStyle={styles.formRow}
             inputStyle={{paddingLeft: scale(140)}}

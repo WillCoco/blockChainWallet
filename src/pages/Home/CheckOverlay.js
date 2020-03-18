@@ -43,9 +43,7 @@ const CheckOverlay = props => {
     if (isFocused && walletsList.length !== 0) {
       // 有钱包，不进入引导，检查在主页需要的弹窗
 
-      // 钱包未备份不弹出
-      if (currentWallet.backupCompleted) {
-      }
+      // todo 当前钱包不含多币种的，执行一次导入升级成多币种的，（处理未备份的）
     }
   }, []);
 

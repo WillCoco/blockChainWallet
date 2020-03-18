@@ -83,6 +83,11 @@ class BaseCoin {
    */
   defaultFee;
 
+  /**
+   * 是否支持交易备注
+   */
+  canTxNote;
+
   constructor(coinInfo) {
     if (!coinInfo) {
       throw new Error('缺少币种信息');
@@ -188,6 +193,7 @@ class BaseCoin {
             action: eventTypes.SIGN_TX,
             data: params.data,
             privateKey: params.privateKey,
+            symbol: params.symbol,
           },
           callback: v => {
             resolve(v);
@@ -203,7 +209,7 @@ class BaseCoin {
    * 发送交易
    */
   sendTransaction(...p) {
-    return sendTransaction(p);
+    return sendTransaction(...p);
   }
 
   /**
