@@ -13,16 +13,18 @@ import {
   Platform,
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
-import {useNavigation} from 'react-navigation-hooks';
+import {useNavigation, useNavigationParam} from 'react-navigation-hooks';
 import _split from 'lodash/split';
 import i18n from '../../helpers/i18n';
 
 let isClosing = false;
 
 const ScannerScreen = () => {
-  const {navigate, replace} = useNavigation();
+  const {goBack, replace} = useNavigation();
   const [show, setShow] = useState(true);
   const [animation, setAnimation] = useState(new Animated.Value(0));
+
+  const onScaned = useNavigationParam('onScaned') || {};
 
   const startAnimation = () => {
     if (isClosing) {
@@ -49,6 +51,15 @@ const ScannerScreen = () => {
     }
   });
 
+  /**
+   * 扫描结束
+   */
+  const scanEnd = r => {
+    console.log(r, '444444')
+    onScaned && onScaned(r);
+    goBack();
+  };
+
   // todo：参数解析根据键值
   const barcodeReceived = (e) => {
     if (show) {
@@ -66,13 +77,7 @@ const ScannerScreen = () => {
         }
 
         // todo 扫码区分币种地址
-        replace({
-          routeName: 'Transfer',
-          params: {
-            token: 'UTC',// 判断
-            transferData,
-          },
-        });
+        scanEnd(transferData);
 
         // replace('Transfer', transferData);
       } else {

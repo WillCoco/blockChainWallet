@@ -140,17 +140,16 @@ export function getExchangeHistory(response) {
       day: `${M}/${D}`,
       time: `${h}:${m}`,
     };
-  })
-  return {
-    result
-  };
+  });
+
+  return {result};
 }
 
 /**
  * 比特币余额
  */
 export function btcAssetsBalance(response, symbol) {
-  console.log(response, 'responseresponse')
+  // console.log(response, 'responseresponse')
   const available = _get(response, ['result', 'balance']) || 0;
   const balance = _get(response, ['result', 'final_balance']) || 0;
   const frozen = balance - available || 0;

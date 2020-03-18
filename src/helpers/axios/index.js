@@ -23,7 +23,7 @@ module.exports = {
     responseHandler: function(res) {
       const {status, data, error} = res || {};
 
-      console.log(res, 101001010);
+      // console.log(res, 'btcServer');
       const resultFormatted = {};
       resultFormatted.result = data;
       resultFormatted.code = status;
@@ -33,7 +33,8 @@ module.exports = {
       return resultFormatted;
     },
     requestHandler: function(config) {
-      console.log(config, '====111');
+      // console.log(config, '====111');
+      return config;
     },
   }),
 };

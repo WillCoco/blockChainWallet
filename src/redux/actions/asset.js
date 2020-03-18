@@ -67,7 +67,7 @@ export function getAssetByAddress(wallet) {
     // const {coins} = finallyWallet;
     const coinKeys = Object.keys(coinsInfo);
 
-    console.log(coinKeys, 'coinKeyscoinKeyscoinKeys');
+    // console.log(coinKeys, 'coinKeyscoinKeyscoinKeys');
 
     // 所有币种资产数据请求 todo: 第一次升级，本地账户没有·coins·字段
     const result = await Promise.all(

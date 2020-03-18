@@ -3,6 +3,7 @@ import {
   ScrollView,
   StyleSheet,
   Keyboard,
+  TouchableOpacity,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import Bignumber from 'bignumber.js';
@@ -28,6 +29,7 @@ import Iconjine from '../../components/Iconfont/Iconjine';
 import Icondizhi from '../../components/Iconfont/Icondizhi';
 import Iconbeizhu from '../../components/Iconfont/Iconbeizhu';
 import Iconshouxufeishuai from '../../components/Iconfont/Iconshouxufeishuai';
+import Iconscan from '../../components/Iconfont/IconscanBlue';
 
 /**
  * 主页进入默认币种
@@ -50,7 +52,7 @@ export default props => {
 
   // tx构造
   const unsignedTx = React.useRef();
-  const {navigate} = useNavigation();
+  const {navigate, goBack} = useNavigation();
 
   /**
    * 扫地址，token详情进入带入参数
@@ -272,6 +274,7 @@ export default props => {
               dialog: {
                 canCancel: true,
                 onValidEnd: (isValid, pwd) => {
+                  console.log(111111)
                   if (isValid) {
                     // 签名发送
                     signTx(pwd);
@@ -316,7 +319,6 @@ export default props => {
       return;
     }
 
-    return
     sendTx({tx: signedTx.current, symbol: mainAsset.symbol});
   };
 
@@ -351,6 +353,17 @@ export default props => {
   const amountUnit = transferForm.token.symbol;
   console.log(transferForm, 'transferForm');
   console.log(mainCoin, 'canTxNote');
+
+  /**
+   * 前往扫描
+   */
+  const goScan = () => {
+    navigate('Scan', {
+      onScaned: result => {
+        setTransferForm({...transferForm, address: _get(result, 'address')});
+      },
+    });
+  };
 
   return (
     <PageWrapper style={styles.wrapper}>
@@ -390,8 +403,12 @@ export default props => {
             value={_get(transferForm, 'address')}
             onChangeText={onChangeAddress}
             containerStyle={styles.formRow}
-            inputStyle={{paddingLeft: scale(140)}}
-            // attachment={<>}
+            inputStyle={{paddingLeft: scale(140), paddingRight: scale(22)}}
+            attachment={
+              <TouchableOpacity style={styles.scan} onPress={goScan}>
+                <Iconscan size={20} />
+              </TouchableOpacity>
+            }
           />
           {mainCoin.canTxNote ? (
             <FormRow
@@ -446,5 +463,10 @@ const styles = StyleSheet.create({
   },
   formRow: {
     height: scale(56),
+  },
+  scan: {
+    position: 'absolute',
+    right: '6%',
+    zIndex: 100,
   },
 });

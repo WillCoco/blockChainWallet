@@ -4,14 +4,14 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
-  Image,
-  Linking,
+  // Image,
+  // Linking,
 } from 'react-native';
 import {PrimaryText, scale} from 'react-native-normalization-text';
 import {Icon} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import _get from 'lodash/get';
-import {useNavigation} from 'react-navigation-hooks';
+// import {useNavigation} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
 import {vh, vw, metrics} from '../../helpers/metric';
 import safePage from '../../helpers/safePage';
@@ -19,8 +19,8 @@ import i18n from '../../helpers/i18n';
 import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
 import device from '../../helpers/utils/device';
 import {Overlay} from '../../components/Mask';
-import Iconscan from '../../components/Iconfont/Iconscan';
-import {Toast} from '../../components/Toast';
+// import Iconscan from '../../components/Iconfont/Iconscan';
+// import {Toast} from '../../components/Toast';
 // import images from '../../images';
 // import {chainInfo, env, dapps} from '../../config';
 
@@ -36,18 +36,18 @@ const WalletQuickManager = props => {
   };
 
   // 前往扫描
-  const goScanPage = () => {
-    if (props.canWalletAction) {
-      navigate('Scan');
-      return;
-    }
-
-    Toast.show({data: i18n.t('actionBeforeCreate')});
-  };
+  // const goScanPage = () => {
+  //   if (props.canWalletAction) {
+  //     navigate('Scan');
+  //     return;
+  //   }
+  //
+  //   Toast.show({data: i18n.t('actionBeforeCreate')});
+  // };
 
   const [top, setTop] = React.useState();
 
-  const {navigate} = useNavigation();
+  // const {navigate} = useNavigation();
 
   const wrapperStyle = Platform.select({
     ios: {top: device.statusBarHeight},
@@ -90,9 +90,9 @@ const WalletQuickManager = props => {
         )}
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={goScanPage}>
-        <Iconscan size={scale(20)} />
-      </TouchableOpacity>
+      {/*<TouchableOpacity onPress={goScanPage}>*/}
+        {/*<Iconscan size={scale(20)} />*/}
+      {/*</TouchableOpacity>*/}
     </View>
   );
 };

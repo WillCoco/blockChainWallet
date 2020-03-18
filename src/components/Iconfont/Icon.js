@@ -2,6 +2,12 @@
 
 import React from 'react';
 
+import Icongengxin from './Icongengxin';
+import Iconfile from './Iconfile';
+import Iconicon from './Iconicon';
+import Icondaochu from './Icondaochu';
+import Iconyingwen from './Iconyingwen';
+import Iconzhongwen from './Iconzhongwen';
 import Iconshouxufei from './Iconshouxufei';
 import Icongouxuanzhong from './Icongouxuanzhong';
 import Icongou from './Icongou';
@@ -47,6 +53,7 @@ import Iconwode from './Iconwode';
 import Iconquestion from './Iconquestion';
 import IconquestionCopy from './IconquestionCopy';
 import IconquestionRedCopy from './IconquestionRedCopy';
+import IconscanBlue from './IconscanBlue';
 import IconwalletblueCopy from './IconwalletblueCopy';
 import Iconzichanbaoguanli from './Iconzichanbaoguanli';
 import Iconsuo from './Iconsuo';
@@ -75,6 +82,18 @@ import Iconscan from './Iconscan';
 // And then regenerate icons by using cli command.
 export const Icon = ({ color, name, size, ...rest }) => {
   switch (name) {
+    case 'gengxin':
+      return <Icongengxin size={size} color={color} {...rest} />;
+    case 'file':
+      return <Iconfile size={size} color={color} {...rest} />;
+    case 'icon--':
+      return <Iconicon size={size} color={color} {...rest} />;
+    case 'daochu':
+      return <Icondaochu size={size} color={color} {...rest} />;
+    case 'yingwen':
+      return <Iconyingwen size={size} color={color} {...rest} />;
+    case 'zhongwen':
+      return <Iconzhongwen size={size} color={color} {...rest} />;
     case 'shouxufei':
       return <Iconshouxufei size={size} color={color} {...rest} />;
     case 'gouxuanzhong':
@@ -165,6 +184,8 @@ export const Icon = ({ color, name, size, ...rest }) => {
       return <IconquestionCopy size={size} color={color} {...rest} />;
     case 'question-red-copy':
       return <IconquestionRedCopy size={size} color={color} {...rest} />;
+    case 'scan-blue':
+      return <IconscanBlue size={size} color={color} {...rest} />;
     case 'walletblue-copy':
       return <IconwalletblueCopy size={size} color={color} {...rest} />;
     case 'zichanbaoguanli':

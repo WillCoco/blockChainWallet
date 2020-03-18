@@ -7,7 +7,7 @@ import {WebView} from 'react-native-webview';
 import {WVEvent, eventTypes} from '../../helpers/eventEmmiter';
 import {safeStringify, safeParse} from '../../helpers/utils/safetyFn';
 import {Toast} from '../../components/Toast';
-import {Loading} from '../../components/Mask';
+import {Loading, Overlay} from '../../components/Mask';
 import i18n from '../../helpers/i18n';
 
 let callId = 0;
@@ -47,11 +47,14 @@ const WalletWebView = props => {
   const onWebViewMessage = e => {
     // 收到webView返回值后提交store数据更改
     console.log(e.nativeEvent.data, 'onWebViewMessage');
-    const data = safeParse(e.nativeEvent.data) || {};
+    const data = safeParse(e.nativeEvent.data);
 
+    // console.log(data, 111);
     if (!data) {
+      Loading.set({visible: false});
       Toast.show({data: i18n.t('error')});
       console.warn('调用错误:', data);
+      return;
     }
 
     const {callId: callbackId, result} = data;

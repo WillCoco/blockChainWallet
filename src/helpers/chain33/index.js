@@ -375,22 +375,20 @@ export function getUTCExchangeRate() {
  * BTC getBTCBalance
  */
 export function getBTCBalance(params) {
-  // if (!params.addr || !params.symbol || !params.url) {
-  //   console.error('getUTXO_缺少必要参数:', params);
-  // }
+  if (!params.addr || !params.symbol || !params.url) {
+    console.error('getUTXO_缺少必要参数:', params);
+  }
 
-  console.log(params.addr, 'params.addr')
+  // console.log(params.addr, 'params.addr')
   return btcServer
     .get(`${params.url}/GetUnspentTxInfo`, {
       params: {
         addr: params.addr,
-        nettype: 'testnet',
+        nettype: params.symbol === coins.TBTC.symbol ? 'testnet' : 'mainnet',
       },
     })
     .then(res => {
-      console.log(res, 'getUTXOrrrrrgetUTXOrrrrrgetUTXOrrrrr')
       const r = format.btcAssetsBalance(res, params.symbol) || {};
-      console.log(r, 'getUTXOrrrrr')
       return Promise.resolve(r || {});
     });
 }
@@ -428,30 +426,6 @@ export function getUTXO(params) {
 /**
  * BTC构造交易
  */
-// export function BTCCreateRawTransaction(params) {
-//   const {inputs, outputs} = params || {};
-//
-//   console.log(inputs, 'inputs');
-//   console.log(outputs, 'outputs');
-//   return btcServer
-//     .post(
-//       'http://27.102.114.230:18332',
-//       {
-//         jsonrpc,
-//         id: ++callId,
-//         method: 'createrawtransaction',
-//         params: [inputs, outputs],
-//       },
-//       {
-//         auth,
-//       },
-//     )
-//     .then(r => {
-//       console.log(r, 'BTCCreateRawTransaction');
-//       return Promise.resolve(r || {});
-//     });
-// }
-
 export function BTCCreateTransaction(params) {
   const {inputs, outputs, url, symbol} = params || {};
   const finallyUrl =
@@ -475,7 +449,6 @@ export function BTCCreateTransaction(params) {
         ...res,
         output_index: _get(res, 'output_index') || 0,
       };
-      console.log(r, 'BTCCreateTransaction');
       return Promise.resolve(r || {});
     });
 }
@@ -490,7 +463,6 @@ export function BTCPushTransaction(params) {
       ? `${url}/PublishNewTransaction?nettype=testnet`
       : `${url}/PublishNewTransaction?nettype=mainnet`;
 
-  console.log(url, 123123123);
   return btcServer
     .post(
       finallyUrl,
@@ -502,41 +474,11 @@ export function BTCPushTransaction(params) {
     .then(r => {
       console.log(r, 'BTCSendTransaction');
       return Promise.resolve({
-        result: _get(r, ['result', 'data']),
+        result: _get(r, ['result', 'tx', 'hash']),
         error: _get(r, ['result', 'error']),
       });
     })
     .catch(r => {
-      console.log(r, 111111111111111);
+      console.log('BTCPushTransaction err:', r);
     });
 }
-
-// export function BTCSendTransaction(params) {
-//   const {
-//     tx = '01000000011935b41d12936df99d322ac8972b74ecff7b79408bbccaf1b2eb8015228beac8000000006b483045022100921fc36b911094280f07d8504a80fbab9b823a25f102e2bc69b14bcd369dfc7902200d07067d47f040e724b556e5bc3061af132d5a47bd96e901429d53c41e0f8cca012102152e2bb5b273561ece7bbe8b1df51a4c44f5ab0bc940c105045e2cc77e618044ffffffff0240420f00000000001976a9145fb1af31edd2aa5a2bbaa24f6043d6ec31f7e63288ac20da3c00000000001976a914efec6de6c253e657a9d5506a78ee48d89762fb3188ac00000000'
-//   } = params || {};
-//   return btcServer
-//     .post(
-//       'http://27.102.114.230:18332',
-//       {
-//         jsonrpc,
-//         id: ++callId,
-//         method: 'sendrawtransaction',
-//         params: {
-//           tx
-//         }
-//       },
-//       {
-//         auth: {
-//           username: 'lyn',
-//           password: '12340987zxl',
-//         },
-//       },
-//     )
-//     .then(r => {
-//       console.log(r, 'BTCSendTransaction');
-//     })
-//     .catch(r => {
-//       console.log(r, 111111111111111)
-//     });
-// }
