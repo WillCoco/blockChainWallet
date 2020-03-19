@@ -100,8 +100,8 @@ export default props => {
   };
 
   React.useEffect(() => {
-    console.log(transferForm, 'transferForm====')
-  }, [transferForm])
+    // console.log(transferForm, 'transferForm====')
+  }, [transferForm]);
 
   /**
    * 币种模型属性
@@ -351,8 +351,8 @@ export default props => {
    */
   // 金额单位
   const amountUnit = transferForm.token.symbol;
-  console.log(transferForm, 'transferForm');
-  console.log(mainCoin, 'canTxNote');
+  // console.log(transferForm, 'transferForm');
+  // console.log(mainCoin, 'canTxNote');
 
   /**
    * 前往扫描
@@ -360,7 +360,18 @@ export default props => {
   const goScan = () => {
     navigate('Scan', {
       onScaned: result => {
-        setTransferForm({...transferForm, address: _get(result, 'address')});
+        // console.log(result, 'rrrrrrrr')
+        const t = {...transferForm};
+        const address = _get(result, 'address');
+        if (address) {
+          t.address = address;
+        }
+        const amount = _get(result, 'amount');
+        if (amount !== undefined) {
+          t.amount = amount;
+        }
+
+        setTransferForm(t);
       },
     });
   };

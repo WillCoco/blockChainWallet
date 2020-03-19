@@ -55,7 +55,6 @@ const ScannerScreen = () => {
    * 扫描结束
    */
   const scanEnd = r => {
-    console.log(r, '444444')
     onScaned && onScaned(r);
     goBack();
   };
