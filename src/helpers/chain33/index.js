@@ -482,3 +482,38 @@ export function BTCPushTransaction(params) {
       console.log('BTCPushTransaction err:', r);
     });
 }
+
+/**
+ * 获取BTC历史交易
+ */
+export function getBTCHistories(params) {
+  // console.log(params, 'getBTCHistoriesgetBTCHistories');
+  const {symbol, url, address, start, size} = params || {};
+  const finallyUrl =
+    symbol === coins.TBTC.symbol
+      ? `${url}/btcGetTransactionByAddr`
+      : `${url}/PublishNewTransaction`;
+  return btcServer
+    .get(
+      finallyUrl,
+      {
+        params: {
+          addr: address,
+          nettype: symbol === coins.TBTC.symbol ? 'testnet' : 'mainnet',
+          limit: size,
+          offset: start,
+        },
+      },
+      {
+        auth,
+      },
+    )
+    .then(res => {
+      // console.log(res, 'getBTCHistories');
+      const r = format.btcHistories(res, address);
+      return Promise.resolve(r);
+    })
+    .catch(r => {
+      console.log('BTCPushTransaction err:', r);
+    });
+}

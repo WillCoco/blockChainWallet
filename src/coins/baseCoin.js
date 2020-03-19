@@ -12,7 +12,11 @@ import _filter from 'lodash/filter';
 import stores from '../redux/store';
 import {upperUnit} from '../helpers/utils/numbers';
 import bip44Constants from './bip44Constants';
-import {createTransaction, sendTransaction} from '../helpers/chain33';
+import {
+  createTransaction,
+  sendTransaction,
+  getBTCHistories,
+} from '../helpers/chain33';
 import {WVEvent, eventTypes} from '../helpers/eventEmmiter';
 
 const {store} = stores;
@@ -47,16 +51,6 @@ class BaseCoin {
    * 排序
    */
   order;
-
-  /**
-   * 是否token
-   */
-  isToken;
-
-  /**
-   * 如是token，隶属于哪个coin
-   */
-  attachTo;
 
   /**
    * 浏览器地址
@@ -233,9 +227,16 @@ class BaseCoin {
       pretty: false,
       scale: this.satoshiDigit,
     });
-    const CNY = balance * this.getPriceRate(asset.symbol).toFixed(2) || defaultValue;
+    return balance * this.getPriceRate(asset.symbol).toFixed(2) || defaultValue;
+  }
 
-    return CNY;
+  /**
+   * 获取账户历史账单
+   */
+  getHistories() {
+    return Promise.resolve({
+      result: [],
+    });
   }
 }
 

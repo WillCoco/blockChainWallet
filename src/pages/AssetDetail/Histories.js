@@ -11,11 +11,13 @@ import {metrics, vw, vh} from '../../helpers/metric';
 import i18n from '../../helpers/i18n';
 import TabviewList from '../../components/TabviewList';
 import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
-import TxRow from '../../components/TxRow/TxRow';
-import {getHistory, getAllHistory} from '../../helpers/chain33';
+import TxRow from '../../components/TxRow/BasicTxRow';
 import safePage from '../../helpers/safePage';
+import {shorten} from '../../helpers/utils/strings';
 import {isNotchScreen} from '../../helpers/utils/isNotchScreen';
-import {chainInfo} from '../../config';
+import coinsModal from '../../coins';
+import IconIn from '../../components/Iconfont/Iconin';
+import IconOut from '../../components/Iconfont/Iconout';
 
 const PAGE_SIZE = 14;
 const INITIAL_PAGE_SIZE = 14;
@@ -38,6 +40,11 @@ const Histories = props => {
   // 当前币种
   const currentToken = findTokenBySymbol(tokenSymbol) || {};
 
+  // 主币种
+  const mainCoin = coinsModal[currentToken.attachSymbol || currentToken.symbol];
+
+  console.log(mainCoin, 'currentToken')
+
   // 当前钱包
   const currentWallet = useSelector(
     state => _get(state.wallets, ['currentWallet']) || [],
@@ -50,16 +57,33 @@ const Histories = props => {
   const coinAddress = isToken
     ? _get(currentWallet, ['coins', currentToken.attachSymbol, 'address'])
     : _get(currentWallet, ['coins', currentToken.symbol, 'address']);
+
   /**
    * 渲染行
    */
+  const dataAdapter = data => {
+    const amount = _get(data, 'balance_change');
+    const amountStr = (amount + '').replace(/[-+]/, '');
+    const isOut = amount < 0;
+    return {
+      LTText: shorten(data.hash),
+      LBText: _get(data, 'time'),
+      RTText: amountStr,
+      RTSign: isOut ? '-' : '+',
+      RTSymbol: mainCoin.symbol,
+      RTTextColor: isOut ? colors.textWarn : colors.textSuccess,
+      Icon: isOut ? IconOut : IconIn,
+      iconBg: isOut ? colors.iconBg2 : colors.iconBg1,
+      hasDetail: true,
+    };
+  };
+
   const renderItem = ({item}, option) => {
     const opt = option || {};
-
     return (
       <TxRow
-        {...item}
-        leftMainText={opt.leftMainText}
+        data={item}
+        dataAdapter={dataAdapter}
         onPress={() =>
           navigate({routeName: 'DealDetails', params: {txInfo: item}})
         }
@@ -68,52 +92,27 @@ const Histories = props => {
   };
 
   /**
-   * 下拉刷新
+   * 全部记录
    */
-  const onRefresh = params => {
-    return getHistory({
+  const allOnRefresh = () => {
+    return mainCoin.getHistories({
       symbol: currentToken.symbol,
-      // address: coinAddress,
       start: 0,
       size: PAGE_SIZE,
-      executor: isToken ? 'token' : 'coins',
-      ...params,
     });
   };
 
   /**
    * 加载更多
    */
-  const onEndReached = (page, size, params) => {
-    return getHistory({
+  const allOnEndReached = (page, size, params) => {
+    return mainCoin.getHistories({
       symbol: currentToken.symbol,
-      // address: coinAddress,
       start: page.current * size,
-      executor: isToken ? 'token' : 'coins',
       size,
-      ...params,
     });
   };
 
-  /**
-   * 全部记录
-   */
-  const allOnRefresh = () => {
-    return getAllHistory({
-      addr: coinAddress,
-      symbol: isToken ? currentToken.symbol : chainInfo.symbol,
-      start: 0,
-      size: PAGE_SIZE,
-    });
-  };
-  const allOnEndReached = (page, size) => {
-    return getAllHistory({
-      addr: coinAddress,
-      symbol: isToken ? currentToken.symbol : chainInfo.symbol,
-      start: page.current * size,
-      size,
-    });
-  };
   const allHistories = {
     key: 'allHistories',
     getTitle: () => i18n.t('allHistories'),
@@ -125,54 +124,14 @@ const Histories = props => {
   };
 
   /**
-   * 转入记录
-   */
-  const inHistories = {
-    key: '2',
-    getTitle: () => i18n.t('inHistories'),
-    size: PAGE_SIZE,
-    initialNumToRender: INITIAL_PAGE_SIZE,
-    renderItem: renderItem,
-    onRefresh: () =>
-      onRefresh({
-        receiver: coinAddress,
-        action: 'transfer',
-      }),
-    onEndReached: (page, size) =>
-      onEndReached(page, size, {
-        receiver: coinAddress,
-      }),
-  };
-
-  /**
-   * 转出记录
-   */
-  const outHistories = {
-    key: '3',
-    getTitle: () => i18n.t('outHistories'),
-    size: PAGE_SIZE,
-    initialNumToRender: INITIAL_PAGE_SIZE,
-    renderItem: renderItem,
-    onRefresh: () =>
-      onRefresh({
-        sender: coinAddress,
-        action: 'transfer',
-      }),
-    onEndReached: (page, size) =>
-      onEndReached(page, size, {
-        sender: coinAddress,
-      }),
-  };
-
-  /**
    * tabs数据
    */
-  let tabs = [allHistories, inHistories, outHistories];
+  let tabs = [allHistories];
 
   return (
     <PhoneShapeWrapper>
       <H4 style={styles.transactionTitle}>{i18n.t('txHistories')}</H4>
-      <TabviewList tabs={tabs} />
+      <TabviewList tabs={tabs} tabBarWidth="25%" />
       <View style={styles.buttonsWrapper}>
         <Button
           title={i18n.t('transfer')}

@@ -6,6 +6,7 @@ import {
   getUTXO as getBTCUTXO,
   getBTCBalance,
   BTCPushTransaction,
+  getBTCHistories,
 } from '../helpers/chain33';
 import * as format from '../helpers/chain33/format';
 import {upperUnit} from '../helpers/utils/numbers';
@@ -119,6 +120,20 @@ class TBTC extends BaseCoin {
     );
   };
 
+  /**
+   * 获取账户历史账单
+   */
+  getHistories(params, ...p) {
+    params.url = this.node.serverUrl;
+    return getBTCHistories(
+      {
+        ...params,
+        url: this.node.serverUrl,
+        address: this.address,
+      },
+      ...p,
+    );
+  }
 }
 
 module.exports = TBTC;

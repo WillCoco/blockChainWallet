@@ -79,9 +79,9 @@ const TabviewList = props => {
         initialLayout={{width: DEVICE_WIDTH}}
         style={{}}
         lazy
-        renderTabBar={props => (
+        renderTabBar={data => (
           <TabBar
-            {...props}
+            {...data}
             style={StyleSheet.flatten([
               {
                 backgroundColor: 'white',

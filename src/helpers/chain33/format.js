@@ -7,9 +7,9 @@
  * @lastModificationDate:
  */
 import _get from 'lodash/get';
-import {BigNumber} from 'bignumber.js';
-import {chainInfo, coins} from '../../config';
-import {upperUnit, lowerUnit} from '../utils/numbers';
+import {coins} from '../../config';
+import {upperUnit} from '../utils/numbers';
+import {safeParse} from '../utils/safetyFn';
 import images from '../../images/index';
 
 export function getAddressOverview(response) {
@@ -184,4 +184,19 @@ export function btcInputs(inputs = []) {
     prev_hash: d.prev_hash,
     output_index: d.output_index || 0,
   }));
+}
+
+/**
+ * 比特币 交易
+ */
+export function btcHistories(response, address) {
+  const txsString = _get(response, 'result');
+  const txs = safeParse(txsString);
+  const result = _get(txs, ['data', address, 'transactions']);
+  console.log(txs, 'txstxstxs');
+  console.log(result, 'resultresultresult');
+  return {
+    result,
+    error: !result,
+  };
 }

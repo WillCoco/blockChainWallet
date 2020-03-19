@@ -72,7 +72,7 @@ export function checkVersion() {
 
       resolve({...info, metaInfo});
     }).catch(err => {
-      console.warn('checkVersionErr:', err);
+      console.log('checkVersionErr:', err);
     });
   };
 }
