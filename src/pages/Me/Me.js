@@ -12,7 +12,7 @@ import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
 import NavBar from '../../components/NavBar';
 import {scale} from 'react-native-normalization-text';
 import Iconqianbao3 from '../../components/Iconfont/Iconqianbao3';
-import Iconjiaoyijilu from '../../components/Iconfont/Iconjiaoyijilu';
+// import Iconjiaoyijilu from '../../components/Iconfont/Iconjiaoyijilu';
 import Iconyuyanshezhi from '../../components/Iconfont/Iconyuyanshezhi';
 import IconwodeGuanyuwomen from '../../components/Iconfont/IconwodeGuanyuwomen';
 import IconArrowDetail from '../../components/Iconfont/Iconarrowdetail';
@@ -23,11 +23,11 @@ const menuList = [
     icon: <Iconqianbao3 size={scale(22)} />,
     route: 'WalletManagement',
   },
-  {
-    title: 'transactionHistory',
-    icon: <Iconjiaoyijilu size={scale(22)} />,
-    route: 'TransactionHistory',
-  },
+  // {
+  //   title: 'transactionHistory',
+  //   icon: <Iconjiaoyijilu size={scale(22)} />,
+  //   route: 'TransactionHistory',
+  // },
   {
     title: 'languages',
     icon: <Iconyuyanshezhi size={scale(22)} />,
