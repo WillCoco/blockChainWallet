@@ -179,4 +179,5 @@ export default {
   actionBeforeCreate: 'No wallet found',
   createTxFailed: 'Create raw transaction failed',
   autoTxFee: 'Auto',
+  getTxDetailFailed: 'Got error',
 };

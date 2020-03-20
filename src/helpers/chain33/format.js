@@ -7,6 +7,7 @@
  * @lastModificationDate:
  */
 import _get from 'lodash/get';
+import _flatten from 'lodash/flatten';
 import {coins} from '../../config';
 import {upperUnit} from '../utils/numbers';
 import {safeParse} from '../utils/safetyFn';
@@ -191,12 +192,53 @@ export function btcInputs(inputs = []) {
  */
 export function btcHistories(response, address) {
   const txsString = _get(response, 'result');
-  const txs = safeParse(txsString);
-  const result = _get(txs, ['data', address, 'transactions']);
-  console.log(txs, 'txstxstxs');
-  console.log(result, 'resultresultresult');
+  const txsObj = safeParse(txsString);
+  const txs = _get(txsObj, ['data', address, 'transactions']);
+  const result = txs.map(tx => ({
+    amount: _get(tx, 'balance_change'),
+    blockheight: _get(tx, 'block_id'),
+    txid: _get(tx, 'hash'),
+    time: _get(tx, 'time'),
+  }));
+
   return {
     result,
     error: !result,
+  };
+}
+
+/**
+ * 比特币 交易详情
+ * @params
+ * @return
+ */
+export function btcHistoryDetail(response, address) {
+  console.log(response, 'responseresponse');
+  const data = _get(response, 'data');
+  const inputs = _get(data, 'inputs') || [];
+  const outputs = _get(data, 'outputs') || [];
+  const addressInputs = _flatten(
+    inputs.map(input => {
+      return {address: input.addresses[0], value: input.output_value};
+    })
+  );
+  const addressOutputs = _flatten(
+    outputs.map(outs => {
+      return {address: outs.addresses[0], value: outs.value};
+    })
+  );
+console.log(addressInputs, addressOutputs, 'addressOutputsaddressOutputs')
+  return {
+    result: {
+      time: _get(data, 'confirmed'),
+      txid: _get(data, 'hash'),
+      amount: '',
+      sender: addressInputs,
+      receiver: addressOutputs,
+      blockheight: _get(data, 'block_height'),
+      errinfo: '',
+      tyname: 'ExecOk',
+    },
+    error: !data,
   };
 }

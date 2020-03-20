@@ -177,4 +177,5 @@ export default {
   actionBeforeCreate: '请先创建或导入钱包',
   createTxFailed: '构建交易失败',
   autoTxFee: '自动',
+  getTxDetailFailed: '获取信息失败',
 };

@@ -4,7 +4,22 @@ import {createAxios} from './baseServer';
 
 module.exports = {
   // rpc服务
-  server: createAxios(),
+  basicServer: createAxios(),
+  server: createAxios({
+    responseHandler: function(res) {
+      const {url} = res.config || {};
+      // 使用拦截器统一状态码处理
+      const {message, result, error} = _get(res, 'data') || {};
+
+      const resultFormatted = {};
+      resultFormatted.result = result;
+
+      if (error) {
+        resultFormatted.error = error;
+      }
+      return resultFormatted;
+    },
+  }),
   // 交易等冗余服务
   extraServer: createAxios({
     responseHandler: function(res) {
@@ -23,7 +38,7 @@ module.exports = {
     responseHandler: function(res) {
       const {status, data, error} = res || {};
 
-      // console.log(res, 'btcServer');
+      console.log(res, 'btcServer');
       const resultFormatted = {};
       resultFormatted.result = data;
       resultFormatted.code = status;
@@ -33,7 +48,7 @@ module.exports = {
       return resultFormatted;
     },
     requestHandler: function(config) {
-      // console.log(config, '====111');
+      console.log(config, '====111');
       return config;
     },
   }),

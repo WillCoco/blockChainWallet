@@ -8,7 +8,7 @@
  */
 import _get from 'lodash/get';
 import {url, chainInfo, coins} from '../../config';
-import {server, extraServer, btcServer} from '../axios';
+import {server, extraServer, btcServer, basicServer} from '../axios';
 import * as format from './format';
 import {upperUnit} from '../utils/numbers';
 
@@ -146,7 +146,7 @@ export function getAddressAsset(params) {
  * 构造未签名交易
  */
 export function createTransaction(params) {
-  console.log(params, 'paramsparamsparamsparams')
+  // console.log(params, 'paramsparamsparamsparams')
   return server
     .post(url.basicUrl, {
       jsonrpc,
@@ -166,7 +166,6 @@ export function createTransaction(params) {
       ],
     })
     .then(r => {
-      console.log(r, '====');
       return Promise.resolve(r);
     });
 }
@@ -489,13 +488,9 @@ export function BTCPushTransaction(params) {
 export function getBTCHistories(params) {
   // console.log(params, 'getBTCHistoriesgetBTCHistories');
   const {symbol, url, address, start, size} = params || {};
-  const finallyUrl =
-    symbol === coins.TBTC.symbol
-      ? `${url}/btcGetTransactionByAddr`
-      : `${url}/PublishNewTransaction`;
   return btcServer
     .get(
-      finallyUrl,
+      `${url}/btcGetTransactionByAddr`,
       {
         params: {
           addr: address,
@@ -511,6 +506,34 @@ export function getBTCHistories(params) {
     .then(res => {
       // console.log(res, 'getBTCHistories');
       const r = format.btcHistories(res, address);
+      return Promise.resolve(r);
+    })
+    .catch(r => {
+      console.log('BTCPushTransaction err:', r);
+    });
+}
+
+/**
+ * 获取BTC历史交易详情
+ */
+export function getBTCHistoryDetail(params) {
+  // console.log(params, 'getBTCHistoriesgetBTCHistories');
+  const {symbol, txId, address, url} = params || {};
+  return basicServer
+    .get(
+      `${url}/GetTransactionInfo`,
+      {
+        params: {
+          txhash: txId,
+          nettype: symbol === coins.TBTC.symbol ? 'testnet' : 'mainnet',
+        },
+      },
+      {
+        auth,
+      },
+    )
+    .then(res => {
+      const r = format.btcHistoryDetail(res, address);
       return Promise.resolve(r);
     })
     .catch(r => {

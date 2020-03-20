@@ -13,7 +13,7 @@ import i18n from '../i18n';
 // import _filter from 'lodash/filter';
 
 function createAxios({
-  responseHandler = defaultResponseHandler,
+  responseHandler,
   requestHandler,
 } = {}) {
   const server = axios.create({
@@ -39,46 +39,20 @@ function createAxios({
   /**
    * 响应拦截
    */
-  server.interceptors.response.use(responseHandler, err => {
-    if (String(err).match('Network Error')) {
-      Toast.show({data: i18n.t('networkErr')});
-    }
+  if (responseHandler) {
+    server.interceptors.response.use(responseHandler, err => {
+      if (String(err).match('Network Error')) {
+        Toast.show({data: i18n.t('networkErr')});
+      }
 
-    return Promise.resolve({
-      errorMessage: _get(err, ['response', 'data', 'error', 'message']),
-      code: _get(err, ['response', 'status']),
+      return Promise.resolve({
+        errorMessage: _get(err, ['response', 'data', 'error', 'message']),
+        code: _get(err, ['response', 'status']),
+      });
     });
-  });
+  }
 
   return server;
-}
-
-/**
- * 响应结果处理
- */
-function defaultResponseHandler(res) {
-  const {url} = res.config || {};
-  // console.log(res, 'response_server');
-  // const list = _filter(responseIgnoreList, (u) => url.match(u)) || [];
-  // if (list.length !== 0) {
-  //   return res;
-  // }
-
-  // 使用拦截器统一状态码处理
-  const {message, result, error} = _get(res, 'data') || {};
-
-  // 非200的显示服务器返回错误码
-  if (error) {
-    // todo toast
-  }
-
-  const resultFormatted = {};
-  resultFormatted.result = result;
-
-  if (error) {
-    resultFormatted.error = error;
-  }
-  return resultFormatted;
 }
 
 module.exports = {

@@ -62,11 +62,11 @@ const Histories = props => {
    * 渲染行
    */
   const dataAdapter = data => {
-    const amount = _get(data, 'balance_change');
+    const amount = _get(data, 'amount');
     const amountStr = (amount + '').replace(/[-+]/, '');
     const isOut = amount < 0;
     return {
-      LTText: shorten(data.hash),
+      LTText: shorten(data.txid),
       LBText: _get(data, 'time'),
       RTText: amountStr,
       RTSign: isOut ? '-' : '+',
@@ -80,12 +80,30 @@ const Histories = props => {
 
   const renderItem = ({item}, option) => {
     const opt = option || {};
+    const {RTText, RTSign} = dataAdapter(item);
     return (
       <TxRow
         data={item}
         dataAdapter={dataAdapter}
         onPress={() =>
-          navigate({routeName: 'DealDetails', params: {txInfo: item}})
+          navigate({
+            routeName: 'DealDetails',
+            params: {
+              txInfo: item,
+              asset,
+              getTx: async function() {
+                const t = await mainCoin.getTxDetail({txId: item.txid, symbol: asset.symbol}) || {};
+                if (t.result) {
+                  return {
+                    ...t.result,
+                    amount: RTText,
+                    sign: RTSign,
+                    symbol: asset.symbol,
+                  };
+                }
+              },
+            },
+          })
         }
       />
     );
@@ -141,7 +159,12 @@ const Histories = props => {
             styles.leftBtnStyle,
           ])}
           // icon={<Icon name="exit-to-app" color={colors.textWhite} />}
-          onPress={() => navigate({routeName: 'Transfer', params: {token: asset}})}
+          onPress={() =>
+            navigate({
+              routeName: 'Transfer',
+              params: {token: asset},
+            })
+          }
         />
         <Button
           title={i18n.t('collect')}
@@ -152,7 +175,10 @@ const Histories = props => {
           ])}
           // icon={<Icon name="swap-horiz" color={colors.textWhite} />}
           onPress={() =>
-            navigate({routeName: 'Collect', params: {currentToken}})
+            navigate({
+              routeName: 'Collect',
+              params: {currentToken},
+            })
           }
         />
         <Button

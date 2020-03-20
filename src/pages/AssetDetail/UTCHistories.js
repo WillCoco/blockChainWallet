@@ -70,7 +70,16 @@ const Histories = props => {
         {...item}
         leftMainText={opt.leftMainText}
         onPress={() =>
-          navigate({routeName: 'DealDetails', params: {txInfo: item}})
+          navigate({
+            routeName: 'DealDetails',
+            params: {
+              txInfo: {
+                ...item,
+                sign: item.direction === 'out' ? '-' : '+',
+              },
+              asset: coin,
+            },
+          })
         }
       />
     );

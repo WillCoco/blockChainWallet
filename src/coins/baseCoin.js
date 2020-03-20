@@ -238,6 +238,11 @@ class BaseCoin {
       result: [],
     });
   }
+
+  /**
+   * 获取交易详情，如getHistories的数据已足够展示getTxDetail,则不用实现
+   */
+  getTxDetail = null;
 }
 
 module.exports = BaseCoin;

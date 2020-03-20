@@ -3,60 +3,15 @@ import _get from 'lodash/get';
 import BaseCoin from './baseCoin';
 import {
   BTCCreateTransaction,
-  getUTXO as getBTCUTXO,
   getBTCBalance,
   BTCPushTransaction,
   getBTCHistories,
+  getBTCHistoryDetail,
 } from '../helpers/chain33';
 import * as format from '../helpers/chain33/format';
 import {upperUnit} from '../helpers/utils/numbers';
 
 class TBTC extends BaseCoin {
-  /**
-   * 网络获取余额
-   */
-  // async getAsset() {
-  //   return Promise.resolve([{
-  //     symbol:
-  //   }]);
-  // }
-
-  /**
-   * 网络获取utxo
-   */
-  async getUTXO() {
-    // console.log(`${this.node.serverUrl}/GetUnspentTxInfo`, 1111)
-    const r = await getBTCUTXO({
-      addr: this.address,
-      symbol: this.symbol,
-      url: this.node.serverUrl,
-    });
-
-    return r && r.result;
-  }
-
-  /**
-   * 选择使用的UTXO
-   */
-  pickUTXO(amount, UTXOList) {
-    const pickedUTXOList = [];
-    let pickedValue = 0;
-    for (let i = 0; i < UTXOList.length; i++) {
-      pickedValue += _get(UTXOList, [i, 'value']);
-      pickedUTXOList.push(_get(UTXOList, i));
-      if (pickedValue >= amount) {
-        break;
-      }
-    }
-
-    return (
-      pickedValue >= amount && {
-        pickedUTXOList: format.btcInputs(pickedUTXOList),
-        pickedValue,
-      }
-    );
-  }
-
   /**
    * 网络获取余额
    */
@@ -130,6 +85,19 @@ class TBTC extends BaseCoin {
         ...params,
         url: this.node.serverUrl,
         address: this.address,
+      },
+      ...p,
+    );
+  }
+
+  /**
+   * 获取账户详情
+   */
+  getTxDetail = async (params, ...p) => {
+    return getBTCHistoryDetail(
+      {
+        ...params,
+        url: this.node.serverUrl,
       },
       ...p,
     );

@@ -2,7 +2,7 @@
 import React from 'react';
 import {ScrollView, View, StyleSheet, Clipboard, Linking} from 'react-native';
 import {Icon} from 'react-native-elements';
-// import _get from 'lodash/get';
+import _get from 'lodash/get';
 import {useNavigationParam} from 'react-navigation-hooks';
 import colors from '../../helpers/colors';
 import {H4, PrimaryText, scale} from 'react-native-normalization-text';
@@ -12,26 +12,69 @@ import {upperUnit} from '../../helpers/utils/numbers';
 import {chainInfo, env} from '../../config';
 import {Toast} from '../../components/Toast';
 import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
+import {Loading} from '../../components/Mask';
+import coinModals from '../../coins';
 
 const DealDetails = () => {
+  /**
+   * 接收参数-交易信息
+   */
+  const txFromNavParam = useNavigationParam('txInfo') || {};
+
+  /**
+   * 接收参数-币种
+   */
+  const asset = useNavigationParam('asset') || {};
+  // console.log(asset, 'asset')
+
+  /**
+   * 接收参数-获取tx信息方法
+   */
+  const getTx = useNavigationParam('getTx');
+
+  /**
+   * 主币种
+   */
+  const mainCoin = coinModals[asset.attachSymbol || asset.symbol];
+  // console.log(mainCoin, 'mainCoin')
+
+  /**
+   * 该币种的交易详情是否需要网络请求
+   */
+  const isNeedFetch = !!getTx;
+
+  /**
+   * 交易数据
+   */
+  const defaultTx = isNeedFetch ? {} : txFromNavParam;
+  const [tx, setTx] = React.useState(defaultTx);
+
+  /**
+   * 详情需要发起请求的情况
+   */
+  React.useEffect(() => {
+    if (getTx) {
+      Loading.set({visible: true});
+      getTx()
+        .then(r => {
+          if (r) {
+            setTx(r);
+            return;
+          }
+          Toast.show({data: i18n.t('getTxDetailFailed')});
+        })
+        .finally(() => {
+          Loading.set({visible: false});
+        });
+    }
+  }, []);
+
   /**
    * 复制
    */
   const copy = v => {
     Clipboard.setString(v);
     Toast.show({data: i18n.t('copySuccess')});
-  };
-
-  /**
-   * 接收参数
-   */
-  const tx = useNavigationParam('txInfo') || {};
-
-  /**
-   * 缩短字符串
-   */
-  const shorten = (v, l = 8) => {
-    return typeof v === 'string' ? `${v.slice(0, l)}...${v.slice(-l)}` : '';
   };
 
   /**
@@ -43,14 +86,75 @@ const DealDetails = () => {
   };
 
   /**
-   * + -符号
-   */
-  const sign = tx.direction === 'out' ? '-' : '+';
-
-  /**
    * 成功失败
    */
-  const isOk = tx.tyname === 'ExecOk';
+  const isOk = !tx.tyname || tx.tyname === 'ExecOk';
+
+  /**
+   * 发送栏
+   */
+  const renderSender = sender => {
+    return (
+      <View style={styles.detailsItem}>
+        <PrimaryText style={styles.itemLeft}>From:</PrimaryText>
+        <View style={{flex: 8}}>
+          {Array.isArray(sender) ? (
+            sender.map((s, i) => (
+              <View key={`sender_${i}`}>
+                <PrimaryText
+                  style={{flex: 1}}
+                  onPress={() => copy(_get(s, 'address'))}>
+                  {_get(s, 'address')}
+                </PrimaryText>
+                <PrimaryText>
+                  {upperUnit(_get(s, 'value'))} {asset.symbol}
+                </PrimaryText>
+              </View>
+            ))
+          ) : (
+            <PrimaryText
+              style={styles.itemRight}
+              onPress={() => copy(tx.sender)}>
+              {tx.sender}
+            </PrimaryText>
+          )}
+        </View>
+      </View>
+    );
+  };
+
+  /**
+   * 接收栏
+   */
+  const renderReceiver = sender => {
+    return (
+      <View style={styles.detailsItem}>
+        <PrimaryText style={styles.itemLeft}>To:</PrimaryText>
+        <View style={{flex: 8}}>
+          {Array.isArray(sender) ? (
+            sender.map((s, i) => (
+              <View key={`receiver_${i}`}>
+                <PrimaryText
+                  style={{flex: 1}}
+                  onPress={() => copy(_get(s, 'address'))}>
+                  {_get(s, 'address')}
+                </PrimaryText>
+                <PrimaryText style={{flex: -1}}>
+                  {upperUnit(_get(s, 'value'))} {asset.symbol}
+                </PrimaryText>
+              </View>
+            ))
+          ) : (
+            <PrimaryText
+              style={styles.itemRight}
+              onPress={() => copy(tx.sender)}>
+              {tx.sender}
+            </PrimaryText>
+          )}
+        </View>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.wrapper}>
@@ -58,59 +162,38 @@ const DealDetails = () => {
         <ScrollView>
           <View style={styles.contentWrapper}>
             <View style={styles.dealType}>
-              {isOk ? (
+              {!isOk ? (
+                <Icon name="error" color={colors.warn} size={48} />
+              ) : (
                 <Icon
                   type="antdesign"
                   name="checkcircle"
                   color={colors.success}
                   size={40}
                 />
-              ) : (
-                <Icon name="error" color={colors.warn} size={48} />
               )}
               <H4 style={{marginTop: metrics.spaceS}}>
-                {isOk ? i18n.t('succeed') : i18n.t('failed')}
+                {!isOk ? i18n.t('failed') : i18n.t('succeed')}
               </H4>
               <PrimaryText>
                 {tx.day} {tx.time}
               </PrimaryText>
             </View>
             <View style={styles.boxWrapper}>
-              <View style={styles.detailsItem}>
-                <PrimaryText style={styles.itemLeft}>
-                  {i18n.t('amount') + ':'}
-                </PrimaryText>
-                <PrimaryText
-                  style={styles.itemRight}
-                  onPress={() => copy(tx.amount)}>
-                  {sign} {upperUnit(tx.amount)} {tx.symbol}
-                </PrimaryText>
-              </View>
-              <View style={styles.detailsItem}>
-                <PrimaryText style={styles.itemLeft}>To:</PrimaryText>
-                <PrimaryText
-                  style={styles.itemRight}
-                  onPress={() => copy(tx.receiver)}>
-                  {tx.receiver}
-                  {/* <Icon
-                    name='copy1'
-                    type='antdesign'
-                    size={16}
-                    color={colors.textDark2}
-                    onPress={() => copy('234')}
-                  /> */}
-                </PrimaryText>
-              </View>
-              <View style={styles.detailsItem}>
-                <PrimaryText style={styles.itemLeft}>
-                  From:
-                </PrimaryText>
-                <PrimaryText
-                  style={styles.itemRight}
-                  onPress={() => copy(tx.sender)}>
-                  {tx.sender}
-                </PrimaryText>
-              </View>
+              {tx.amount ? (
+                <View style={styles.detailsItem}>
+                  <PrimaryText style={styles.itemLeft}>
+                    {i18n.t('amount') + ':'}
+                  </PrimaryText>
+                  <PrimaryText
+                    style={styles.itemRight}
+                    onPress={() => copy(tx.amount)}>
+                    {tx.sign} {upperUnit(tx.amount)} {tx.symbol}
+                  </PrimaryText>
+                </View>
+              ) : null}
+              {renderSender(tx.sender)}
+              {renderReceiver(tx.receiver)}
               {tx.note && (
                 <View style={styles.detailsItem}>
                   <PrimaryText style={styles.itemLeft}>
@@ -143,7 +226,7 @@ const DealDetails = () => {
                   {tx.blockheight}
                 </PrimaryText>
               </View>
-              {tx.errinfo && (
+              {!!tx.errinfo ? (
                 <View style={styles.detailsItem}>
                   <PrimaryText style={styles.itemLeft}>
                     {i18n.t('txErrorInfo') + ':'}
@@ -154,7 +237,7 @@ const DealDetails = () => {
                     {tx.errinfo}
                   </PrimaryText>
                 </View>
-              )}
+              ) : null}
             </View>
           </View>
           <PrimaryText style={styles.link} onPress={onPressLink}>
@@ -198,7 +281,7 @@ const styles = StyleSheet.create({
     paddingVertical: vw(3),
   },
   itemLeft: {
-    flex: 1.5,
+    flex: 1.4,
     minWidth: 24,
     maxWidth: scale(64),
     color: colors.textSecondary,
@@ -207,15 +290,30 @@ const styles = StyleSheet.create({
     flex: 8,
     flexDirection: 'row',
   },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   link: {
     textAlign: 'center',
     color: colors.theme,
-    marginTop: metrics.spaceN,
+    marginVertical: metrics.spaceN,
   },
 });
 
 DealDetails.defaultProps = {
   time: '2020年01月07日18:52:25',
+  txid: '',
+  sign: '',
+  amount: '',
+  symbol: '',
+  sender: '',
+  receiver: '',
+  note: '',
+  blockheight: '',
+  errinfo: '',
+  direction: '',
+  tyname: 'ok',
 };
 
 export default DealDetails;
