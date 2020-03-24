@@ -6,6 +6,8 @@ import _get from 'lodash/get';
 import React from 'react';
 import {Overlay} from '../components/Mask';
 import {wallet} from '../redux/actions';
+import {Toast} from '../components/Toast';
+import i18n from '../helpers/i18n';
 
 const defaultCurrentWallet = {};
 
@@ -32,9 +34,16 @@ function useUpdateCurrentWallet() {
       },
     });
 
-    function onValidEnd(isValid, pwd) {
+    async function onValidEnd(isValid, pwd) {
       if (isValid) {
-        dispatch(wallet.updateWalletVersion(currentWallet, pwd));
+        const success = await dispatch(
+          wallet.updateWalletVersion(currentWallet, pwd)
+        );
+        if (success) {
+          Toast.show({data: i18n.t('walletUpdateSucceed')});
+        } else {
+          Toast.show({data: i18n.t('walletUpdateFailed')});
+        }
       }
     }
   }, [currentWallet, dispatch]);

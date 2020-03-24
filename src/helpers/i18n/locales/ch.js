@@ -178,4 +178,6 @@ export default {
   createTxFailed: '构建交易失败',
   autoTxFee: '自动',
   getTxDetailFailed: '获取信息失败',
+  walletUpdateSucceed: '钱包账户升级完成',
+  walletUpdateFailed: '钱包账户升级失败',
 };

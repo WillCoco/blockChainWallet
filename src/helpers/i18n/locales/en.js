@@ -180,4 +180,6 @@ export default {
   createTxFailed: 'Create raw transaction failed',
   autoTxFee: 'Auto',
   getTxDetailFailed: 'Got error',
+  walletUpdateSucceed: 'Account update succeed',
+  walletUpdateFailed: 'Account update failed',
 };

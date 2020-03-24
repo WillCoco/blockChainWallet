@@ -60,7 +60,9 @@ const WalletQuickManager = props => {
                 return (
                   <TouchableWithoutFeedback
                     key={`wallet_${index}`}
-                    onPress={() => checkWallet(_get(wallet, 'id'))}>
+                    onPress={() =>
+                      checkWallet(_get(wallet, 'address') || _get(wallet, 'id'))
+                    }>
                     <View style={styles.walletRow}>
                       <PrimaryText>{props.walletFormat(wallet)}</PrimaryText>
                     </View>
