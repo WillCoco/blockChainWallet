@@ -97,7 +97,7 @@ const ImportWallet = () => {
       Toast.show({data: i18n.t('invalidMnemonic')});
       return;
     }
-    console.log(coins, 123123)
+    // console.log(coins, 123123)
 
     // 恢复钱包
     WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [

@@ -16,7 +16,7 @@ import colors from '../../helpers/colors';
 import i18n from '../../helpers/i18n';
 import safePage from '../../helpers/safePage';
 import {upperUnit} from '../../helpers/utils/numbers';
-import {chainInfo} from '../../config';
+import {coins} from '../../config';
 
 const AssetsList = props => {
   const {navigate} = useNavigation();
@@ -41,6 +41,8 @@ const AssetsList = props => {
   const assetsList = useSelector(
     state => _get(state, ['assets', 'assetsList']) || [],
   );
+
+  console.log(assetsList, 'assetsListassetsList');
 
   /**
    * 汇率
@@ -90,11 +92,11 @@ const AssetsList = props => {
              * 余额显示
              */
             // 主币种
-            const isMainCoin = asset.symbol === chainInfo.symbol;
+            const isUTC = asset.symbol === coins.UTC.symbol;
 
             // 右侧余额
             let balanceRight =
-              (isMainCoin
+              (isUTC
                 ? _get(asset, ['show', 'balanceTotalFmt'])
                 : asset.balanceFmt) || '0';
 
@@ -116,12 +118,12 @@ const AssetsList = props => {
                       <PrimaryText color="title" style={{fontWeight: '500'}}>
                         {asset.symbol}
                       </PrimaryText>
-                      {isMainCoin ? (
+                      {isUTC ? (
                         <SmallText color="" style={styles.tinyText}>
                           {i18n.t('contractAccount')} {isShowAssets ? _get(asset, ['exchange', 'balanceFmt']) : '****'}
                         </SmallText>
                       ) : null}
-                      {isMainCoin ? (
+                      {isUTC ? (
                         <SmallText color="" style={styles.tinyText}>
                           {i18n.t('availableAsset')} {isShowAssets ? `${asset.balanceFmt}` : '****'}
                         </SmallText>
@@ -133,7 +135,7 @@ const AssetsList = props => {
                       {isShowAssets ? balanceRight : '****'}
                     </PrimaryText>
                     <SmallText color="" style={styles.value}>
-                      {isShowAssets ? `¥${getValue(asset, isMainCoin)}` : '****'}
+                      {isShowAssets ? `¥${getValue(asset, isUTC)}` : '****'}
                     </SmallText>
                   </View>
                 </TouchableOpacity>

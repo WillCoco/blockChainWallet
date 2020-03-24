@@ -18,6 +18,8 @@ import {safeStringify} from '../../helpers/utils/safetyFn';
 import {getAssetByAddress} from './asset';
 import {WVEvent, eventTypes} from '../../helpers/eventEmmiter';
 import {coins} from '../../config';
+import {Toast} from '../../components/Toast';
+import i18n from '../../helpers/i18n';
 
 // import {getAddressAsset} from '../../helpers/chain33/';
 
@@ -156,8 +158,39 @@ export function updateCurrentWallet(id) {
 }
 
 /**
+ * todo: 老版本时候不兼容
  * 根据地址从钱包列表中找钱包
  * @param: {string} address - 寻找的钱包地址
+ * @description:
+ *  1.3.0以下的wallet格式：
+ *  {
+ *    name: string,
+ *    address: string,
+ *    passwordKey: string,
+ *    encryptedMnemonic: string,
+ *    encryptedPrivateKey: string,
+ *    backupCompleted: boolean,
+ *  }
+ *
+ *  1.3.0以上的wallet格式：
+ *  {
+ *    name: string,
+ *    id: string, // 原address
+ *    passwordKey: string,
+ *    encryptedMnemonic: string,
+ *    encryptedPrivateKey: string,
+ *    backupCompleted: boolean,
+ *    coins: {
+ *      UTC: {
+ *        address: string,
+ *        encryptedPrivateKey: string
+ *      },
+ *      BTC: {
+ *        address: string,
+ *        encryptedPrivateKey: string
+ *      }
+ *    }
+ *  }
  */
 function findWalletByAddress(id) {
   return (dispatch, getState) => {
@@ -165,7 +198,10 @@ function findWalletByAddress(id) {
 
     let newWalletsList = [...walletsList];
 
-    const walletIndex = _findIndex(newWalletsList, o => o.id === id);
+    const walletIndex = _findIndex(newWalletsList, o => {
+      // 升级过程兼容老钱包格式
+      return o.id === id || o.address === id;
+    });
 
     return {
       walletIndex,
@@ -320,5 +356,76 @@ export function validMnemonic(mnemonic) {
     }).catch(err => {
       console.log('validMnemonic', err);
     });
+  };
+}
+
+/**
+ * 恢复钱包:
+ * @param: {string} params.name - mnemonic
+ * @param: {string} params.mnemonic - mnemonic
+ * @param: {string} params.password - password
+ * @param: {object} params.coins - coins
+ */
+export function recoverWallet(params) {
+  return (dispatch, getState) => {
+    const {name, mnemonic, password} = params;
+    return new Promise((resolve, reject) => {
+      WVEvent.emitEvent(eventTypes.POST_WEB_VIEW, [
+        {
+          payload: {
+            action: eventTypes.RECOVER_WALLET_FROM_MNEMONIC,
+            name,
+            mnemonic,
+            password,
+            coins,
+          },
+          callback: v => {
+            console.log(v, 'vvvv');
+            if (v) {
+              dispatch(addOrUpdateAWallet(v));
+              // Toast.show({data: i18n.t('importSuccess')});
+
+              resolve(true);
+            } else {
+              resolve(false);
+              // Toast.show({data: i18n.t('importFailed')});
+            }
+          },
+        },
+      ]);
+    }).catch(err => {
+      console.log('validMnemonic', err);
+    });
+  };
+}
+
+/**
+ * 升级钱包:
+ * @param: {string} params.mnemonic - mnemonic
+ */
+export function updateWalletVersion(wallet, password) {
+  return async (dispatch, getState) => {
+    // console.log('updateWalletVersion');
+    const {name, encryptedMnemonic} = wallet;
+    // 密码解密助记词
+
+    const mnemonic = await dispatch(
+      aesDecrypt({data: encryptedMnemonic, password}),
+    );
+    // console.log(mnemonic, 'mnemonic123');
+
+    // 助记词、密码恢复钱包
+    const recoverResult = await dispatch(
+      recoverWallet({
+        name,
+        mnemonic,
+        password,
+        coins,
+      }),
+    );
+
+    console.log(recoverResult, 'recoverResult');
+
+    return Promise.resolve(recoverResult);
   };
 }

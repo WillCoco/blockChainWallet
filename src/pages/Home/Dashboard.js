@@ -68,7 +68,8 @@ const Dashboard = () => {
     let total = 0;
 
     assetsList.forEach((asset = {}) => {
-      const assetValue = coinsModal[(asset.attachSymbol || asset.symbol)].getPriceCNY(asset);
+      const coin = coinsModal[(asset.attachSymbol || asset.symbol)];
+      const assetValue = coin ? coin.getPriceCNY(asset) : 0;
       total += +assetValue ? +assetValue : 0;
     });
 

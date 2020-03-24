@@ -375,7 +375,8 @@ export function getUTCExchangeRate() {
  */
 export function getBTCBalance(params) {
   if (!params.addr || !params.symbol || !params.url) {
-    console.error('getUTXO_缺少必要参数:', params);
+    console.warn('getUTXO_缺少必要参数:', params);
+    return Promise.resolve({});
   }
 
   // console.log(params.addr, 'params.addr')

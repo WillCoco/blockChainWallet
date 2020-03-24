@@ -57,27 +57,19 @@ const WalletDetails = props => {
    * todo: 导出masterKey
    */
   const exportPrivateKeyConfirm = async password => {
-    if (!password) {
-      return;
-    }
-
-    // 验证密码
-    const isValidPassword = await dispatch(wallet.validPassword(password));
-    // setPasswordValidVisible(false);
-    if (!isValidPassword) {
-      Toast.show({data: i18n.t('passwordValidFailed')});
-      return;
-    }
     // 解密
     dispatch(
       wallet.aesDecrypt({data: currentWallet.encryptedPrivateKey, password}),
     ).then(v => {
-      // setPasswordValidVisible(false);
-      // requestAnimationFrame(() => {
-      // setTimeout(() => {
-      // }, 500);
-      // });
-      // setPassword('');
+      InteractionManager.runAfterInteractions(() => {
+        Overlay.push(Overlay.contentTypes.SECRET_EXPORT, {
+          customData: {
+            subTitle: i18n.t('exportPrivateKeyWarning'),
+            copyText: i18n.t('fuzhisiyao'),
+            exportString: v,
+          },
+        });
+      });
     });
   };
 
@@ -113,7 +105,20 @@ const WalletDetails = props => {
    * 点击导出私钥
    */
   const onPressExportPrivateKey = () => {
-    // setPasswordValidVisible(true);
+    Overlay.setPause(false);
+    Overlay.push(Overlay.contentTypes.DIALOG_PASSWORD_VALID, {
+      dialog: {
+        canCancel: true,
+        onValidEnd: (isValid, pwd) => {
+          console.log(pwd, 'pwd')
+          if (isValid) {
+            exportPrivateKeyConfirm(pwd);
+          } else {
+            Overlay.remove();
+          }
+        },
+      },
+    });
   };
 
   /**

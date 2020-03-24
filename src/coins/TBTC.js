@@ -16,12 +16,17 @@ class TBTC extends BaseCoin {
    * 网络获取余额
    */
   async getAsset() {
-    const r = await getBTCBalance({
-      addr: this.address,
+    const res =
+      (await getBTCBalance({
+        addr: this.address,
+        symbol: this.symbol,
+        url: this.node.serverUrl,
+      })) || {};
+    const r = {
+      ...res.result,
       symbol: this.symbol,
-      url: this.node.serverUrl,
-    });
-    return Promise.resolve(r && r.result);
+    };
+    return Promise.resolve(r);
   }
 
   /**

@@ -23,6 +23,7 @@ import PhoneShapeWrapper from '../../components/PhoneShapeWrapper';
 // import NavBar from '../../components/NavBar';
 import PageWrapper from '../../components/PageWrapper';
 import DotsNet from '../../components/PageWrapper/PageBackgrounds/DotsNet';
+import useUpdateCurrentWallet from '../../hooks/useUpdateCurrentWallet';
 
 // import {Toast} from '../../components/Toast';
 // Toast.loading();
@@ -73,6 +74,14 @@ const Home = () => {
       i18n.changeLanguage(language);
     }
   }, [language]);
+
+  /**
+   * 检查账户是否需要升级
+   */
+  const walletChangedCallback = React.useRef(wallet => {
+    console.log(wallet, 'toggle_ii');
+  });
+  useUpdateCurrentWallet(walletChangedCallback.current);
 
   /**
    * 切到home时，轮询资产
