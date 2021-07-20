@@ -25,7 +25,7 @@
     "i18next": "^19.0.2",
     "lodash": "^4.17.15",
     "react": "16.9.0",
-    "react-native": "0.61.5",
+    "react-native": "0.62.3",
     "react-native-camera": "^3.15.0",
     "react-native-dialog": "^5.6.0",
     "react-native-elements": "^1.2.7",
